@@ -15,16 +15,12 @@ iris
 getdata(iris)
 
 
-is_string <- function(x) {
-  is.character(x) && length(x) == 1
-}
-
 resource <- function(name, path, title = NULL, description = NULL, data = NULL, ...) {
-  stopifnot(is_string(name))
+  stopifnot(isstring(name))
   stopifnot(!missing(path) || !missing(data))
-  stopifnot(missing(path) || is_string(path))
-  stopifnot(missing(title) || is_string(title))
-  stopifnot(missing(description) || is_string(description))
+  stopifnot(missing(path) || isstring(path))
+  stopifnot(missing(title) || isstring(title))
+  stopifnot(missing(description) || isstring(description))
   # Build object
   res <- list(name = name, title = title, description = description, path = path, 
     data = data)
