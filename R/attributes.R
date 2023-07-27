@@ -1,39 +1,54 @@
 
-
+# ==============================================================================
+# GENERAL ATTRIBUTES
+dpattr <- function(x, attribute) {
+  UseMethod("dpattr")
+}
+dpattr.datapackage <- function(x, attribute) {
+  x[[attribute]]
+}
+dpattr.dataresource <- function(x, attribute) {
+  x[[attribute]]
+}
+`dpattr<-` <- function(x, attribute, value) {
+  UseMethod("dpattr<-")
+}
+`dpattr<-.datapackage` <- function(x, attribute, value) {
+  x[[attribute]] <- value
+  x
+}
+`dpattr<-.dataresource` <- function(x, attribute, value) {
+  x[[attribute]] <- value
+  x
+}
 
 # ==============================================================================
 # NAME
-name <- function(x) {
-  UseMethod("name")
+dpname <- function(x) {
+  UseMethod("dpname")
 }
-name.datapackage <- function(x) {
+dpname.datapackage <- function(x) {
   # Name is optional for data package
   x[["name"]]
 }
-name.resource <- function(x) {
+dpname.dataresource <- function(x) {
   # Name is optional for data resource
   x[["name"]]
 }
 
-`name<-` <- function(x, value) {
-  UseMethod("name<-")
+`dpname<-` <- function(x, value) {
+  UseMethod("dpname<-")
 }
-`name<-.datapackage` <- function(x, value) {
+`dpname<-.datapackage` <- function(x, value) {
   value <- paste0(value)
-  if (!is.character(value) || length(value) != 1)
-    stop("value should be a character of length 1.")
-  if (!grepl("^[a-z0-9_.-]+$", value))
-    stop("name should consists only of lower case letters, ",
+  if (!isname(value)) stop("name should consists only of lower case letters, ",
       "numbers, '-', '.' or '_'.")
   x[["name"]] <- value
   x
 }
-`name<-.resource` <- function(x, value) {
+`dpname<-.dataresource` <- function(x, value) {
   value <- paste0(value)
-  if (!is.character(value) || length(value) != 1)
-    stop("value should be a character of length 1.")
-  if (!grepl("^[a-z0-9_.-]+$", value))
-    stop("name should consists only of lower case letters, ",
+  if (!isname(value)) stop("name should consists only of lower case letters, ",
       "numbers, '-', '.' or '_'.")
   x[["name"]] <- value
   x
@@ -41,32 +56,30 @@ name.resource <- function(x) {
 
 # ==============================================================================
 # TITLE
-title <- function(x) {
-  UseMethod("title")
+dptitle <- function(x) {
+  UseMethod("dptitle")
 }
-title.datapackage <- function(x) {
+dptitle.datapackage <- function(x) {
   # Title is optional for data package
   x[["title"]]
 }
-title.resource <- function(x) {
+dptitle.dataresource <- function(x) {
   # Title is optional for data resource
   x[["title"]]
 }
 
-`title<-` <- function(x, value) {
-  UseMethod("title<-")
+`dptitle<-` <- function(x, value) {
+  UseMethod("dptitle<-")
 }
-`title<-.datapackage` <- function(x, value) {
+`dptitle<-.datapackage` <- function(x, value) {
   value <- paste0(value)
-  if (!is.character(value) || length(value) != 1)
-    stop("value should be a character of length 1.")
+  if (!isstring(value)) stop("value should be a character of length 1.")
   x[["title"]] <- value
   x
 }
-`title<-.resource` <- function(x, value) {
+`dptitle<-.dataresource` <- function(x, value) {
   value <- paste0(value)
-  if (!is.character(value) || length(value) != 1)
-    stop("value should be a character of length 1.")
+  if (!isstring(value)) stop("value should be a character of length 1.")
   x[["title"]] <- value
   x
 }
@@ -81,7 +94,7 @@ description.datapackage <- function(x, firstparagraph = FALSE, dots = FALSE) {
   res <- x[["description"]]
   if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
 }
-description.resource <- function(x, firstparagraph = FALSE, dots = FALSE) {
+description.dataresource <- function(x, firstparagraph = FALSE, dots = FALSE) {
   # Description is optional for data resource
   x[["description"]]
   if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
@@ -95,8 +108,8 @@ description.resource <- function(x, firstparagraph = FALSE, dots = FALSE) {
   x[["description"]] <- value
   x
 }
-`description<-.resource` <- function(x, value) {
-  value <- paste0(value)
+`description<-.dataresource` <- function(x, value) {
+  value <- paste0(value, collapse = "\n")
   x[["description"]] <- value
   x
 }

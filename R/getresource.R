@@ -4,7 +4,7 @@ getresource <- function(dp, resourcename) {
     r <- dp$resources[[i]]
     if (exists("name", r)) {
       if (r$name == resourcename) {
-        return(structure(r, class="resource", path=attr(dp, "path")))
+        return(structure(r, class="dataresource", path=attr(dp, "path")))
       }
     } else {
       warning("Resource without name.")

@@ -17,7 +17,7 @@ getdata <- function(x, ...) {
   UseMethod("getdata")
 }
 
-getdata.resource <- function(x, reader = "guess", ...) {
+getdata.dataresource <- function(x, reader = "guess", ...) {
   # Check if resource includes data; ifso return that
   if (exists("data", x)) return(x$data)
   # Determine path to data

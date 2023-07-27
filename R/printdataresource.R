@@ -1,5 +1,5 @@
 
-print.resource <- function(x, fields = c("path", "data", "format"), ...) {
+print.dataresource <- function(x, fields = c("path", "data", "format"), ...) {
   printdescription(x)
   if (length(fields) == 1 && is.na(fields)) fields <- names(x)
   fields  <- setdiff(fields, c("name", "title", "description"))

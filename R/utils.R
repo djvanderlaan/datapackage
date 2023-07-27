@@ -9,3 +9,7 @@ isabsolutepath <- function(path) {
 isstring <- function(x) {
   is.character(x) && length(x) == 1
 }
+
+isname <- function(x) {
+  isstring(x) && !grepl("^[a-z0-9_.-]+$", x)
+}

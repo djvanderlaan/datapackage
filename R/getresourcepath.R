@@ -2,7 +2,7 @@ getresourcepath <- function(x, ...) {
   UseMethod("getresourcepath")
 }
 
-getresourcepath.resource <- function(x, fullpath = TRUE) {
+getresourcepath.dataresource <- function(x, fullpath = TRUE) {
   # Determine path to data
   if (!exists("path", x)) stop("Resource has no path defined")
   filename <- x$path
@@ -19,7 +19,7 @@ getresourcepath.resource <- function(x, fullpath = TRUE) {
 }
 
 getresourcepath.datapackage <- function(x, resourcename, fullpath = TRUE) {
-  resource <- getresource(x, resourcename, fullpath = fullpath)
+  resource <- getdataresource(x, resourcename, fullpath = fullpath)
   getresourcepath(resource, ...)
 }
 
