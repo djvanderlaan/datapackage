@@ -105,11 +105,13 @@ description.dataresource <- function(x, firstparagraph = FALSE, dots = FALSE) {
 }
 `description<-.datapackage` <- function(x, value) {
   value <- paste0(value, collapse = "\n")
+  # Because of the paste0 above value will always be a string
   x[["description"]] <- value
   x
 }
 `description<-.dataresource` <- function(x, value) {
   value <- paste0(value, collapse = "\n")
+  # Because of the paste0 above value will always be a string
   x[["description"]] <- value
   x
 }
