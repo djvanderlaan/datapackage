@@ -4,8 +4,8 @@ print.datapackage <- function(x, fields = character(0), ...) {
   cat("\nLocation: <", attr(x, "path"), ">", sep="")
   if (nresources(x) > 0) {
     cat("\nResources:\n")
-    for (i in seq_along(dp$resources)) {
-      printdescription(dp$resources[[i]], description = FALSE)
+    for (i in seq_along(x$resources)) {
+      printdescription(x$resources[[i]], description = FALSE)
     }
   } else {
     cat("<NO RESOURCES>\n")
