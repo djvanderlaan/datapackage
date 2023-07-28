@@ -15,7 +15,7 @@ iris
 getdata(iris)
 
 
-resource <- function(name, path, title = NULL, description = NULL, data = NULL, ...) {
+dataresource <- function(name, path, title = NULL, description = NULL, data = NULL, ...) {
   stopifnot(isstring(name))
   stopifnot(!missing(path) || !missing(data))
   stopifnot(missing(path) || isstring(path))
@@ -28,5 +28,10 @@ resource <- function(name, path, title = NULL, description = NULL, data = NULL, 
   structure(res, class = "resource")
 }
 
-resource(name = "foo", path = "foo.csv" ) |> str()
+dataresource(name = "foo", path = "foo.csv" ) |> str()
+
+
+
+
+
 
