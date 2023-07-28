@@ -1,14 +1,33 @@
 
+
+dpattributes <- function(x) {
+  UseMethod("dpattributes")
+}
+dpattributes.readonlydatapackage <- function(x) {
+  names(x)
+}
+dpattributes.editabledatapackage <- function(x) {
+  dp <- readdatapackage(x$path, x$filename)
+  dpattributes(dp)
+}
+dpattributes.dataresource <- function(x) {
+  names(x)
+}
+
 # ==============================================================================
 # GENERAL ATTRIBUTES
 dpattr <- function(x, attribute) {
   UseMethod("dpattr")
 }
-dpattr.datapackage <- function(x, attribute) {
+dpattr.readonlydatapackage <- function(x, attribute) {
   x[[attribute]]
 }
 dpattr.dataresource <- function(x, attribute) {
   x[[attribute]]
+}
+dpattr.editabledatapackage <- function(x, attribute) {
+  dp <- readdatapackage(x$path, x$filename)
+  dpattr(dp, attribute)
 }
 `dpattr<-` <- function(x, attribute, value) {
   UseMethod("dpattr<-")
@@ -29,11 +48,11 @@ dpname <- function(x) {
 }
 dpname.datapackage <- function(x) {
   # Name is optional for data package
-  x[["name"]]
+  dpattr(x, "name")
 }
 dpname.dataresource <- function(x) {
   # Name is optional for data resource
-  x[["name"]]
+  dpattr(x, "name")
 }
 
 `dpname<-` <- function(x, value) {
@@ -61,11 +80,11 @@ dptitle <- function(x) {
 }
 dptitle.datapackage <- function(x) {
   # Title is optional for data package
-  x[["title"]]
+  dpattr(x, "title")
 }
 dptitle.dataresource <- function(x) {
   # Title is optional for data resource
-  x[["title"]]
+  dpattr(x, "title")
 }
 
 `dptitle<-` <- function(x, value) {
@@ -86,30 +105,30 @@ dptitle.dataresource <- function(x) {
 
 # ==============================================================================
 # DESCRIPTION
-description <- function(x, firstparagraph = FALSE, dots = FALSE) {
+dpdescription <- function(x, firstparagraph = FALSE, dots = FALSE) {
   UseMethod("description")
 }
-description.datapackage <- function(x, firstparagraph = FALSE, dots = FALSE) {
+dpdescription.datapackage <- function(x, firstparagraph = FALSE, dots = FALSE) {
   # Description is optional for data package
-  res <- x[["description"]]
+  res <- dpattr(x, "description")
   if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
 }
-description.dataresource <- function(x, firstparagraph = FALSE, dots = FALSE) {
+dpdescription.dataresource <- function(x, firstparagraph = FALSE, dots = FALSE) {
   # Description is optional for data resource
-  x[["description"]]
+  res <- dpattr(x, "description")
   if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
 }
 
-`description<-` <- function(x, value) {
+`dpdescription<-` <- function(x, value) {
   UseMethod("description<-")
 }
-`description<-.datapackage` <- function(x, value) {
+`dpdescription<-.datapackage` <- function(x, value) {
   value <- paste0(value, collapse = "\n")
   # Because of the paste0 above value will always be a string
   x[["description"]] <- value
   x
 }
-`description<-.dataresource` <- function(x, value) {
+`dpdescription<-.dataresource` <- function(x, value) {
   value <- paste0(value, collapse = "\n")
   # Because of the paste0 above value will always be a string
   x[["description"]] <- value

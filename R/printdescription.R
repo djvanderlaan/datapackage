@@ -1,13 +1,16 @@
 
 printdescription <- function(x, description = TRUE, all = FALSE, ...) {
-  if (exists("name", x)) {
-    cat("[", x$name, "] ", sep = "")
+  name <- dpname(x)
+  if (!is.null(name)) {
+    cat("[", name, "] ", sep = "")
   } else {
     cat("<NAME MISSING> ", sep = "")
   }
-  if (exists("title", x)) cat(x$title, "\n", sep = "")
-  if (description && exists("description", x)) {
+  title <- dptitle(x)
+  if (!is.null(title)) cat(title, "\n", sep = "")
+  descr <- dpdescription(x, firstparagraph = TRUE, dots = TRUE)
+  if (description && !is.null(descr)) {
     cat("\n", sep = "")
-    cat(getfirstparagraph(x$description), "\n", sep="")
+    cat(descr, "\n", sep="")
   }
 }

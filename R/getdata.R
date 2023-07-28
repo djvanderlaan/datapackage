@@ -32,6 +32,7 @@ getdata.dataresource <- function(x, reader = "guess", ...) {
 
 getdata.datapackage <- function(x, resourcename, reader = "guess", ...) {
   resource <- getresource(x, resourcename)
+  if (is.null(resource)) stop("Resource '", resourcename, "' not found.")
   getdata(resource, reader = "guess", ...)
 }
 

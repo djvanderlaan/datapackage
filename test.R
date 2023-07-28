@@ -3,7 +3,7 @@ library(jsonlite)
 for (file in list.files("R", pattern = "*.R", full.names = TRUE))
   source(file)
 
-dp <- opendatapackage("examples/iris")
+dp <- opendatapackage("examples/iris", readonly = FALSE)
 
 dp
 

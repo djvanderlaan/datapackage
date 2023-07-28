@@ -6,9 +6,9 @@ getfirstparagraph <- function(x, dots = FALSE) {
   first_empty_line <- head(empty_lines[empty_lines > 1], 1)
   if (length(first_empty_line) && first_empty_line > 1) {
     x <- x[seq(1, first_empty_line-1)]
+    if (dots) x <- c(x, "...")
   }
-  x <- paste0(x, collapse = "\n")
-  if (dots) paste0(x, "\n...") else x
+  paste0(x, collapse = "\n")
 }
 
 
