@@ -21,7 +21,7 @@ getdata.dataresource <- function(x, reader = "guess", ...) {
   # Check if resource includes data; ifso return that
   if (exists("data", x)) return(x$data)
   # Determine path to data
-  filename <- getresourcepath(x)
+  filename <- path(x, fullpath = TRUE)
   # Determine reader
   if (is.character(reader) && reader[1] == "guess") 
     reader <- guessreader(x$format, x$mediatype)
@@ -31,7 +31,7 @@ getdata.dataresource <- function(x, reader = "guess", ...) {
 }
 
 getdata.datapackage <- function(x, resourcename, reader = "guess", ...) {
-  resource <- getresource(x, resourcename)
+  resource <- resource(x, resourcename)
   if (is.null(resource)) stop("Resource '", resourcename, "' not found.")
   getdata(resource, reader = "guess", ...)
 }

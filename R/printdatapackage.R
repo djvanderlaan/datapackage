@@ -6,7 +6,7 @@ print.datapackage <- function(x, fields = character(0), ...) {
     cat("\nResources:\n")
     resources <- resourcenames(x)
     for (resource in resources) {
-      printdescription(getresource(x, resource), description = FALSE)
+      printdescription(resource(x, resource), description = FALSE)
     }
   } else {
     cat("\n<NO RESOURCES>\n")

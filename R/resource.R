@@ -16,8 +16,17 @@ resource.datapackage <- function(x, resourcename) {
 }
 
 `resource<-.readonlydatapackage` <- function(x, resourcename, value) {
-  index <- getresourceindex(x, resourcename)
+  index <- getresourceindex(x, resourcename, stop = FALSE)
+  # If not found add a new resource
+  if (is.null(index)) {
+    index <- nresources(x)+1L
+  }
   # TODO: check if valid resource
+  if (name(value) != resourcename) {
+    warning("Name of data resource does not match the value of the ", 
+      "resourcename argument. Updating the name of the data resource.")
+    name(value) <- resourcename
+  }
   # Remove all attributes from the dataresource
   attr(value, "path") <- NULL
   attr(value, "class") <- NULL
@@ -30,21 +39,6 @@ resource.datapackage <- function(x, resourcename) {
   resource(dp, resourcename) <- value
   writedatapackage(dp) 
   x
-}
-
-getresource <- function(dp, resourcename) {
-  resources <- property(dp, "resources")
-  for (i in seq_len(nresources(dp))) {
-    r <- resources[[i]]
-    if (exists("name", r)) {
-      if (r$name == resourcename) {
-        return(structure(r, class="dataresource", path=attr(dp, "path")))
-      }
-    } else {
-      warning("Resource without name.")
-    }
-  }
-  NULL
 }
 
 getresourceindex <- function(dp, resourcename, resources = NULL, stop = TRUE) {
