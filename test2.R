@@ -3,13 +3,18 @@
 # time.
 
 library(jsonlite)
-
 for (file in list.files("R", pattern = "*.R", full.names = TRUE))
   source(file)
 
+dir <- tempdir()
+file.copy("examples/iris", dir, recursive = TRUE)
+cat("Dir '", dir, "'\n", sep ="")
 
-dp <- opendatapackage("examples/iris", readonly = FALSE) 
+dp <- opendatapackage(file.path(dir, "iris"), readonly = FALSE) 
+
 dp
+
+property(dp, "name") <- "iris2"
 
 getdata(dp, "inline")
 
@@ -19,18 +24,14 @@ iris
 getdata(iris)
 
 
-resource <- function(name, path, title = NULL, description = NULL, data = NULL, ...) {
-  stopifnot(isstring(name))
-  stopifnot(!missing(path) || !missing(data))
-  stopifnot(missing(path) || isstring(path))
-  stopifnot(missing(title) || isstring(title))
-  stopifnot(missing(description) || isstring(description))
-  # Build object
-  res <- list(name = name, title = title, description = description, path = path, 
-    data = data)
-  res <- Filter(\(x) !is.null(x), res)
-  structure(res, class = "resource")
-}
+new <- newdatapackage("tmp/foo", name = "foo", title = "Dit is een test")
 
-resource(name = "foo", path = "foo.csv" ) |> str()
+name(new) <- "foo-bar"
+
+readLines("tmp/foo/datapackage.json") |> writeLines()
+
+
+
+value <- path(iris, fullpath = TRUE)
+dppath <- attr(iris, "path")
 

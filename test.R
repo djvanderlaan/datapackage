@@ -30,8 +30,3 @@ dataresource <- function(name, path, title = NULL, description = NULL, data = NU
 
 dataresource(name = "foo", path = "foo.csv" ) |> str()
 
-
-
-
-
-

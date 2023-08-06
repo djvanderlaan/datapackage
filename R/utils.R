@@ -21,5 +21,5 @@ isstring <- function(x) {
 }
 
 isname <- function(x) {
-  isstring(x) && !grepl("^[a-z0-9_.-]+$", x)
+  isstring(x) && grepl("^[a-z0-9_.-]+$", x)
 }

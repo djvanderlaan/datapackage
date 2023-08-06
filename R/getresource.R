@@ -1,6 +1,6 @@
 
 getresource <- function(dp, resourcename) {
-  resources <- dpattr(dp, "resources")
+  resources <- property(dp, "resources")
   for (i in seq_len(nresources(dp))) {
     r <- resources[[i]]
     if (exists("name", r)) {
