@@ -37,6 +37,7 @@ name.datapackage <- function(x) {
   if (!isname(value)) stop("name should consists only of lower case letters, ",
       "numbers, '-', '.' or '_'.")
   property(x, "name") <- value
+  x
 }
 
 # ==============================================================================
@@ -67,6 +68,7 @@ title.datapackage <- function(x) {
   value <- paste0(value)
   if (!isstring(value)) stop("value should be a character of length 1.")
   property(x, "title") <- value
+  x
 }
 
 # ==============================================================================
@@ -99,5 +101,10 @@ description.datapackage <- function(x, ..., firstparagraph = FALSE,
   value <- paste0(value, collapse = "\n")
   # Because of the paste0 above value will always be a string
   property(x, "description") <- value
+  x
 }
+
+# ==============================================================================
+# RESOURCE (look up a single resource)
+
 

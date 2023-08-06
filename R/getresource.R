@@ -1,4 +1,37 @@
 
+
+resource <- function(x, resourcename) {
+  UseMethod("resource")
+}
+
+resource.datapackage <- function(x, resourcename) {
+  resources <- property(x, "resources")
+  index <- getresourceindex(x, resourcename, resources = resources)
+  r <- resources[[index]]
+  structure(r, class="dataresource", path=attr(dp, "path"))
+}
+
+`resource<-` <- function(x, resourcename, value) {
+  UseMethod("resource<-")
+}
+
+`resource<-.readonlydatapackage` <- function(x, resourcename, value) {
+  index <- getresourceindex(x, resourcename)
+  # TODO: check if valid resource
+  # Remove all attributes from the dataresource
+  attr(value, "path") <- NULL
+  attr(value, "class") <- NULL
+  x$resources[[index]] <- value
+  x
+}
+
+`resource<-.editabledatapackage` <- function(x, resourcename, value) {
+  dp <- readdatapackage(attr(x, "path"), attr(x, "filename"))
+  resource(dp, resourcename) <- value
+  writedatapackage(dp) 
+  x
+}
+
 getresource <- function(dp, resourcename) {
   resources <- property(dp, "resources")
   for (i in seq_len(nresources(dp))) {
