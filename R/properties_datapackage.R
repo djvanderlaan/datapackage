@@ -26,13 +26,6 @@ name.datapackage <- function(x) {
 
 #' @export
 #' @rdname attributes_datapackage
-name.dataresource <- function(x) {
-  # Name is optional for data resource
-  property(x, "name")
-}
-
-#' @export
-#' @rdname attributes_datapackage
 `name<-` <- function(x, value) {
   UseMethod("name<-")
 }
@@ -40,15 +33,6 @@ name.dataresource <- function(x) {
 #' @export
 #' @rdname attributes_datapackage
 `name<-.datapackage` <- function(x, value) {
-  value <- paste0(value)
-  if (!isname(value)) stop("name should consists only of lower case letters, ",
-      "numbers, '-', '.' or '_'.")
-  property(x, "name") <- value
-}
-
-#' @export
-#' @rdname attributes_datapackage
-`name<-.dataresource` <- function(x, value) {
   value <- paste0(value)
   if (!isname(value)) stop("name should consists only of lower case letters, ",
       "numbers, '-', '.' or '_'.")

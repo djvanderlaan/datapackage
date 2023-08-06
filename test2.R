@@ -35,3 +35,46 @@ readLines("tmp/foo/datapackage.json") |> writeLines()
 value <- path(iris, fullpath = TRUE)
 dppath <- attr(iris, "path")
 
+
+dp <- opendatapackage("examples/iris") 
+dp
+
+nm <- function(x, ...) {
+  UseMethod("nm")
+}
+nm.datapackage <- function(x, resourcename, ...) {
+  if (missing(resourcename)) {
+    x$name
+  } else {
+    for (i in seq_along(x$resources)) {
+      if (x$resources[[i]]$name == resourcename) {
+        return (x$resources[[i]]$name)
+      }
+    }
+    stop("Resource'", resource, "' not found.")
+  }
+}
+`nm<-` <- function(x, value, ...) {
+  UseMethod("nm<-")
+}
+`nm<-.datapackage` <- function(x, value, ..., resource) {
+  if (!missing(resource)) {
+    for (i in seq_along(x$resources)) {
+      if (x$resources[[i]]$name == resource) {
+        x$resources[[i]]$name <- value
+        return(x)
+      }
+    }
+    stop("Resource'", resource, "' not found.")
+  } else {
+    x$name <- value
+    x
+  }
+}
+
+nm(dp)
+nm(dp) <- "foo"
+
+
+nm(dp, resource = "iris") <- "foo"
+
