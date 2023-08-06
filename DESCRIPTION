@@ -1,0 +1,24 @@
+Package: datapackage
+Type: Package
+Title: Creating and Reading Data Packages
+Version: 0.0.1
+Authors@R: 
+    person(given = "Jan",
+           family = "van der Laan",
+           role = c("aut", "cre"),
+           email = "r@eoos.dds.nl",
+           comment = c(ORCID = "0000-0002-0693-1514"))
+Description: Functions to open and modify Data Packages.
+BugReports: https://github.com/djvanderlaan/datapackage-test/issues
+URL: https://github.com/djvanderlaan/datapackage-test
+Depends:
+    R (>= 3.6.0)
+Imports:
+    jsonlite,
+    utils
+Suggests:
+    simplermarkdown
+VignetteBuilder: simplermarkdown
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.2.3

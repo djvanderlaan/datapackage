@@ -1,0 +1,7 @@
+LICENSE
+work/
+Makefile
+.git/
+.gitignore
+specs/
+work/
