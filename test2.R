@@ -18,63 +18,31 @@ property(dp, "name") <- "iris2"
 
 getdata(dp, "inline")
 
-iris <- getresource(dp, "iris")
+iris <- resource(dp, "iris")
 iris
 
 getdata(iris)
 
 
+file.remove("tmp/foo/datapackage.json")
 new <- newdatapackage("tmp/foo", name = "foo", title = "Dit is een test")
 
 name(new) <- "foo-bar"
 
+r <- newdataresource(name = "test", title = "Dit is een titel")
+property(r, "data") <- 1:4
+resource(new, "test") <- r
+
+
 readLines("tmp/foo/datapackage.json") |> writeLines()
 
+getdata(new, "test")
+
+resource(new, "test") |> getdata()
 
 
-value <- path(iris, fullpath = TRUE)
-dppath <- attr(iris, "path")
 
 
 dp <- opendatapackage("examples/iris") 
 dp
-
-nm <- function(x, ...) {
-  UseMethod("nm")
-}
-nm.datapackage <- function(x, resourcename, ...) {
-  if (missing(resourcename)) {
-    x$name
-  } else {
-    for (i in seq_along(x$resources)) {
-      if (x$resources[[i]]$name == resourcename) {
-        return (x$resources[[i]]$name)
-      }
-    }
-    stop("Resource'", resource, "' not found.")
-  }
-}
-`nm<-` <- function(x, value, ...) {
-  UseMethod("nm<-")
-}
-`nm<-.datapackage` <- function(x, value, ..., resource) {
-  if (!missing(resource)) {
-    for (i in seq_along(x$resources)) {
-      if (x$resources[[i]]$name == resource) {
-        x$resources[[i]]$name <- value
-        return(x)
-      }
-    }
-    stop("Resource'", resource, "' not found.")
-  } else {
-    x$name <- value
-    x
-  }
-}
-
-nm(dp)
-nm(dp) <- "foo"
-
-
-nm(dp, resource = "iris") <- "foo"
 
