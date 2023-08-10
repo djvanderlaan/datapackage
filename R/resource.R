@@ -1,9 +1,13 @@
 
 
+#' @rdname resource
+#' @export
 resource <- function(x, resourcename) {
   UseMethod("resource")
 }
 
+#' @rdname resource
+#' @export
 resource.datapackage <- function(x, resourcename) {
   resources <- property(x, "resources")
   index <- getresourceindex(x, resourcename, resources = resources)
@@ -11,10 +15,14 @@ resource.datapackage <- function(x, resourcename) {
   structure(r, class="dataresource", path=attr(dp, "path"))
 }
 
+#' @rdname resource
+#' @export
 `resource<-` <- function(x, resourcename, value) {
   UseMethod("resource<-")
 }
 
+#' @rdname resource
+#' @export
 `resource<-.readonlydatapackage` <- function(x, resourcename, value) {
   index <- getresourceindex(x, resourcename, stop = FALSE)
   # If not found add a new resource
@@ -34,6 +42,8 @@ resource.datapackage <- function(x, resourcename) {
   x
 }
 
+#' @rdname resource
+#' @export
 `resource<-.editabledatapackage` <- function(x, resourcename, value) {
   dp <- readdatapackage(attr(x, "path"), attr(x, "filename"))
   resource(dp, resourcename) <- value

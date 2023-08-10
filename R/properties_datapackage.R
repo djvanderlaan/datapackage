@@ -12,26 +12,26 @@
 # Optional (should); string; onl lower case alnum and _/-/.
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 name <- function(x) {
   UseMethod("name")
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 name.datapackage <- function(x) {
   # Name is optional for data package
   property(x, "name")
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 `name<-` <- function(x, value) {
   UseMethod("name<-")
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 `name<-.datapackage` <- function(x, value) {
   value <- paste0(value)
   if (!isname(value)) stop("name should consists only of lower case letters, ",
@@ -45,25 +45,25 @@ name.datapackage <- function(x) {
 # Optional; string
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 title <- function(x) {
   UseMethod("title")
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 title.datapackage <- function(x) {
   property(x, "title")
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 `title<-` <- function(x, value) {
   UseMethod("title<-")
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 `title<-.datapackage` <- function(x, value) {
   value <- paste0(value)
   if (!isstring(value)) stop("value should be a character of length 1.")
@@ -76,13 +76,13 @@ title.datapackage <- function(x) {
 # Optional; string
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 description <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
   UseMethod("description")
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 description.datapackage <- function(x, ..., firstparagraph = FALSE, 
     dots = FALSE) {
   res <- property(x, "description")
@@ -90,13 +90,13 @@ description.datapackage <- function(x, ..., firstparagraph = FALSE,
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 `description<-` <- function(x, value) {
   UseMethod("description<-")
 }
 
 #' @export
-#' @rdname attributes_datapackage
+#' @rdname properties_datapackage
 `description<-.datapackage` <- function(x, value) {
   value <- paste0(value, collapse = "\n")
   # Because of the paste0 above value will always be a string

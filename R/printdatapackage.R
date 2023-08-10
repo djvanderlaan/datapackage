@@ -1,5 +1,6 @@
 
-print.datapackage <- function(x, fields = character(0), ...) {
+#' @export
+print.datapackage <- function(x, properties = character(0), ...) {
   printdescription(x)
   cat("\nLocation: <", attr(x, "path"), ">", sep="")
   if (nresources(x) > 0) {
@@ -12,9 +13,9 @@ print.datapackage <- function(x, fields = character(0), ...) {
     cat("\n<NO RESOURCES>\n")
   }
   attributes <- properties(x)
-  if (length(fields) == 1 && is.na(fields)) fields <- attributes
-  fields  <- setdiff(fields, c("name", "title", "description", "resources"))
-  toprint <- intersect(attributes, fields)
+  if (length(properties) == 1 && is.na(properties)) properties <- attributes
+  properties  <- setdiff(properties, c("name", "title", "description", "resources"))
+  toprint <- intersect(attributes, properties)
   if (length(toprint)) {
     cat("\nSelected properties:\n")
     str(property(x, toprint), max.level=1, give.attr=FALSE, no.list = TRUE, 

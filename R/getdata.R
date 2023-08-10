@@ -1,22 +1,10 @@
 
-guessreader <- function(format, mediatype) {
-  if (missing(format) || is.null(format)) format <- ""
-  if (missing(mediatype) || is.null(mediatype)) format <- ""
-  stopifnot(is.character(format) && length(format) == 1)
-  stopifnot(is.character(mediatype) && length(mediatype) == 1)
-  format <- tolower(format)
-  mediatype <- tolower(mediatype)
-  # Try to find the correct reader for the given format/mediatype
-  if (format == "csv") return(csv_reader)
-  if (mediatype == "text/csv") return(csv_reader)
-  # default reader = csv
-  csv_reader
-}
-
+#' @export
 getdata <- function(x, ...) {
   UseMethod("getdata")
 }
 
+#' @export
 getdata.dataresource <- function(x, reader = "guess", ...) {
   # Check if resource includes data; ifso return that
   if (exists("data", x)) return(x$data)
@@ -30,9 +18,24 @@ getdata.dataresource <- function(x, reader = "guess", ...) {
   reader(filename, x)
 }
 
+#' @export
 getdata.datapackage <- function(x, resourcename, reader = "guess", ...) {
   resource <- resource(x, resourcename)
   if (is.null(resource)) stop("Resource '", resourcename, "' not found.")
   getdata(resource, reader = "guess", ...)
+}
+
+guessreader <- function(format, mediatype) {
+  if (missing(format) || is.null(format)) format <- ""
+  if (missing(mediatype) || is.null(mediatype)) format <- ""
+  stopifnot(is.character(format) && length(format) == 1)
+  stopifnot(is.character(mediatype) && length(mediatype) == 1)
+  format <- tolower(format)
+  mediatype <- tolower(mediatype)
+  # Try to find the correct reader for the given format/mediatype
+  if (format == "csv") return(csv_reader)
+  if (mediatype == "text/csv") return(csv_reader)
+  # default reader = csv
+  csv_reader
 }
 

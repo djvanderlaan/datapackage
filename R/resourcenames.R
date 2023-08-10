@@ -1,4 +1,5 @@
 
+#' @export
 resourcenames <- function(dp, resourcename) {
   resources <- sapply(property(dp, "resources"), function(r) {
     if (!exists("name", r)) stop("Resource without name.")

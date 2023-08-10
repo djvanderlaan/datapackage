@@ -5,7 +5,7 @@
 # Required; string; onl lower case alnum and _/-/.
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 name.dataresource <- function(x) {
   res <- property(x, "name")
   # Name is required for data resource
@@ -15,7 +15,7 @@ name.dataresource <- function(x) {
 }
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 `name<-.dataresource` <- function(x, value) {
   value <- paste0(value)
   if (!isname(value)) stop("name should consists only of lower case letters, ",
@@ -29,13 +29,13 @@ name.dataresource <- function(x) {
 # Optional; string
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 title.dataresource <- function(x) {
   property(x, "title")
 }
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 `title<-.dataresource` <- function(x, value) {
   if (!is.null(value)) {
     value <- paste0(value)
@@ -50,7 +50,7 @@ title.dataresource <- function(x) {
 # Optional; string
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 description.dataresource <- function(x, ..., firstparagraph = FALSE, 
     dots = FALSE) {
   res <- property(x, "description")
@@ -58,7 +58,7 @@ description.dataresource <- function(x, ..., firstparagraph = FALSE,
 }
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 `description<-.dataresource` <- function(x, value) {
   if (!is.null(value)) {
     value <- paste0(value, collapse = "\n")
@@ -77,19 +77,19 @@ description.dataresource <- function(x, ..., firstparagraph = FALSE,
 # second when one wants to read the data from the path
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 path <- function(x, ...) {
   UseMethod("path")
 }
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 `path<-` <- function(x, value, ...) {
   UseMethod("path<-")
 }
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 path.dataresource <- function(x, fullpath = FALSE, ...) {
   # Determine path to data
   filename <- property(x, "path")
@@ -115,7 +115,7 @@ path.dataresource <- function(x, fullpath = FALSE, ...) {
 }
 
 #' @export
-#' @rdname attributes_dataresource
+#' @rdname properties_dataresource
 `path<-.dataresource` <- function(x, value) {
   stopifnot(is.null(value) || (is.character(value) & length(value) > 0))
   if (!is.null(value)) {
