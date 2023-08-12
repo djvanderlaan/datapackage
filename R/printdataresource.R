@@ -1,6 +1,6 @@
 
 #' @export
-print.dataresource <- function(x, properties = c("path", "data", "format"), ...) {
+print.dataresource <- function(x, properties = NA, ...) {
   printdescription(x)
   if (length(properties) == 1 && is.na(properties)) properties <- names(x)
   properties  <- setdiff(properties, c("name", "title", "description"))

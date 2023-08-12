@@ -1,6 +1,6 @@
 
 #' @export
-print.datapackage <- function(x, properties = character(0), ...) {
+print.datapackage <- function(x, properties = NA, ...) {
   printdescription(x)
   cat("\nLocation: <", attr(x, "path"), ">", sep="")
   if (nresources(x) > 0) {
@@ -17,8 +17,10 @@ print.datapackage <- function(x, properties = character(0), ...) {
   properties  <- setdiff(properties, c("name", "title", "description", "resources"))
   toprint <- intersect(attributes, properties)
   if (length(toprint)) {
+    tmp <- lapply(toprint, \(property) property(x, property))
+    names(tmp) <- toprint
     cat("\nSelected properties:\n")
-    str(property(x, toprint), max.level=1, give.attr=FALSE, no.list = TRUE, 
+    str(tmp, max.level=1, give.attr=FALSE, no.list = TRUE, 
       comp.str="", indent.str="", give.head = FALSE)
   }
 }
