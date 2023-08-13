@@ -28,3 +28,10 @@ isinteger <- function(x) {
   is.numeric(x) && (length(x) == 1) && (round(x) == x)
 }
 
+stripattributes <- function(x, keep = c("names")) {
+  attr <- attributes(x)
+  to_keep <- intersect(names(attr), keep)
+  attr <- attr[to_keep]
+  attributes(x) <- attr
+  x
+}

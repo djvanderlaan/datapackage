@@ -25,10 +25,39 @@ contributors.datapackage <- function(x, ...) {
       !all(sapply(value, iscontributor))) {
     stop("value should be an unnamed list of contributors.")
   }
-  property(x, "contributors") <- value
+  value <- lapply(value, stripattributes)
+  property(x, "contributors") <- stripattributes(value, keep = character(0L))
   x
 }
 
+#' Creating and Adding Contributors to a Data Package
+#' 
+#' @param title A length 1 character vector with the full nam of the
+#' contributor.
+#'
+#' @param role The role of the contributor
+#' 
+#' @param path A URL to e.g. a home page of the contributor
+#' 
+#' @param email The email address of the contributor
+#'
+#' @param organisation The orgination the contributor belongs to.
+#'
+#' @param x The Data Package to which the contributor has to be added.
+#'
+#' @return
+#' \code{newcontributor} returns a list with the given properties. This function
+#' is meant to assist in creating valid contributors. 
+#'
+#' @examples
+#' dp <- opendatapackage(system.file(package = "datapackage", "examples/iris")) 
+#' contributors(dp)
+#' contributors(dp) <- list(
+#'   newcontributor("John Doe", email = "j.doe@somewhere.org"),
+#'   list(title = "Jane Doe", role = "maintainer")
+#' )
+#' addcontributor(dp) <- newcontributor("Janet Doe")
+#'
 #' @export
 #' @rdname contributor
 newcontributor <- function(title, 
@@ -44,7 +73,7 @@ newcontributor <- function(title,
   if (!missing(path) && !is.null(path)) res$path <- path
   if (!missing(email) && !is.null(email)) res$email <- email
   if (!missing(organisation) && !is.null(organisation)) res$organisation <- organisation
-  structure(res, class="contributor")
+  res
 }
 
 iscontributor <- function(x) {
@@ -55,7 +84,6 @@ iscontributor <- function(x) {
 }
 
 #' @export
-#' @rdname contributor
 print.contributor <- function(x, ...) {
   cat(x$title, "\n")
   toprint <- setdiff(names(x), "title")
@@ -67,13 +95,11 @@ print.contributor <- function(x, ...) {
 }
 
 #' @export
-#' @rdname contributor
 print.contributors <- function(x, ...) {
-  for (i in x) print(i)
+  for (i in x) print.contributor(i)
 }
 
 #' @export
-#' @rdname contributor
 str.contributors <- function(x, ...) {
   c <- sapply(x, \(x) x$title)
   c <- if (length(c) == 1) {
