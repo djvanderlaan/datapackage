@@ -23,3 +23,8 @@ isstring <- function(x) {
 isname <- function(x) {
   isstring(x) && grepl("^[a-z0-9_.-]+$", x)
 }
+
+isinteger <- function(x) {
+  is.numeric(x) && (length(x) == 1) && (round(x) == x)
+}
+

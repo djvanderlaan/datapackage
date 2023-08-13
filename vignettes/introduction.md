@@ -147,6 +147,10 @@ For `datapackage` objects there are currently defined the following methods:
 - `name`
 - `title`
 - `description`
+- `keywords`
+- `created`
+- `id`
+- `contributors`
 
 For `dataresource` objects there are currently defined the following methods
 (this list can be obtained using `?properties_dataresource`)
@@ -155,6 +159,12 @@ For `dataresource` objects there are currently defined the following methods
 - `title`
 - `description`
 - `path`
+- `format`
+- `mediatype`
+- `encoding`
+- `bytes`
+- `hash`
+
 
 The last method has a `fullpath` argument that, when used, returns the full
 path to the Data Resources data and not just the path relative to the Data
@@ -198,4 +208,8 @@ description(dp) <- readLines("description.md")
 ```
 Note that anytime the Data Resoure is modified the file on disk is also
 
+
+```{.R echo=FALSE results=FALSE}
+file.remove(file.path(dir, "datapackage.json"))
+```
 

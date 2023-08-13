@@ -137,4 +137,163 @@ path.dataresource <- function(x, fullpath = FALSE, ...) {
   x
 }
 
+# ==============================================================================
+# FORMAT
+# Optional; string
+
+#' @export
+#' @rdname properties_dataresource
+format <- function(x, ...) {
+  UseMethod("format")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`format<-` <- function(x, value) {
+  UseMethod("format<-")
+}
+
+#' @export
+#' @rdname properties_dataresource
+format.dataresource <- function(x, ...) {
+  property(x, "format")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`format<-.dataresource` <- function(x, value) {
+  if (!is.null(value) && !isstring(value))
+    stop("value should be length 1 character vector or NULL.")
+  property(x, "format") <- value
+  x
+}
+
+# ==============================================================================
+# MEDIATYPE
+# Optional; string
+
+#' @export
+#' @rdname properties_dataresource
+mediatype <- function(x, ...) {
+  UseMethod("mediatype")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`mediatype<-` <- function(x, value) {
+  UseMethod("mediatype<-")
+}
+
+#' @export
+#' @rdname properties_dataresource
+mediatype.dataresource <- function(x, ...) {
+  property(x, "mediatype")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`mediatype<-.dataresource` <- function(x, value) {
+  if (!is.null(value) && !isstring(value))
+    stop("value should be length 1 character vector or NULL.")
+  property(x, "mediatype") <- value
+  x
+}
+
+# ==============================================================================
+# ENCODING
+# Optional; string
+
+#' @export
+#' @rdname properties_dataresource
+encoding <- function(x, ...) {
+  UseMethod("encoding")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`encoding<-` <- function(x, value) {
+  UseMethod("encoding<-")
+}
+
+#' @export
+#' @rdname properties_dataresource
+encoding.dataresource <- function(x, ...) {
+  property(x, "encoding")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`encoding<-.dataresource` <- function(x, value) {
+  if (!is.null(value) && !isstring(value))
+    stop("value should be length 1 character vector or NULL.")
+  property(x, "encoding") <- value
+  x
+}
+
+# ==============================================================================
+# BYTES
+# Optional; integer
+
+#' @export
+#' @rdname properties_dataresource
+bytes <- function(x, ...) {
+  UseMethod("bytes")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`bytes<-` <- function(x, value) {
+  UseMethod("bytes<-")
+}
+
+#' @export
+#' @rdname properties_dataresource
+bytes.dataresource <- function(x, ...) {
+  property(x, "bytes")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`bytes<-.dataresource` <- function(x, value) {
+  if (!is.null(value) && !isinteger(value))
+    stop("value should be length 1 integer vector or NULL.")
+  property(x, "bytes") <- value
+  x
+}
+
+# ==============================================================================
+# HASH
+# Optional; string
+
+#' @export
+#' @rdname properties_dataresource
+hash <- function(x, ...) {
+  UseMethod("hash")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`hash<-` <- function(x, value) {
+  UseMethod("hash<-")
+}
+
+#' @export
+#' @rdname properties_dataresource
+hash.dataresource <- function(x, ...) {
+  property(x, "hash")
+}
+
+#' @export
+#' @rdname properties_dataresource
+`hash<-.dataresource` <- function(x, value) {
+  if (!is.null(value) && !isstring(value))
+    stop("value should be length 1 character vector or NULL.")
+  property(x, "hash") <- value
+  x
+}
+
+
+# TODO:
+# - sources
+# - licences
 
