@@ -1,35 +1,3 @@
-
-#' @export
-#' @rdname properties_datapackage
-contributors <- function(x, ...) {
-  UseMethod("contributors")
-}
-
-#' @export
-#' @rdname properties_datapackage
-`contributors<-` <- function(x, ...) {
-  UseMethod("contributors<-")
-}
-
-#' @export
-#' @rdname properties_datapackage
-contributors.datapackage <- function(x, ...) {
-  res <- property(x, "contributors")
-  if (is.null(res)) res else structure(res, class = "contributors")
-}
-
-#' @export
-#' @rdname properties_datapackage
-`contributors<-.datapackage` <- function(x, value, ...) {
-  if (!is.list(value) || !is.null(names(value)) || 
-      !all(sapply(value, iscontributor))) {
-    stop("value should be an unnamed list of contributors.")
-  }
-  value <- lapply(value, stripattributes)
-  property(x, "contributors") <- stripattributes(value, keep = character(0L))
-  x
-}
-
 #' Creating and Adding Contributors to a Data Package
 #' 
 #' @param title A length 1 character vector with the full nam of the
@@ -130,5 +98,37 @@ addcontributor <- function(x, contributor, ...) {
 #' @rdname contributor
 `addcontributor<-` <- function(x, value) {
   addcontributor(x, value)
+}
+
+
+#' @export
+#' @rdname properties_datapackage
+contributors <- function(x, ...) {
+  UseMethod("contributors")
+}
+
+#' @export
+#' @rdname properties_datapackage
+`contributors<-` <- function(x, ...) {
+  UseMethod("contributors<-")
+}
+
+#' @export
+#' @rdname properties_datapackage
+contributors.datapackage <- function(x, ...) {
+  res <- property(x, "contributors")
+  if (is.null(res)) res else structure(res, class = "contributors")
+}
+
+#' @export
+#' @rdname properties_datapackage
+`contributors<-.datapackage` <- function(x, value, ...) {
+  if (!is.list(value) || !is.null(names(value)) || 
+      !all(sapply(value, iscontributor))) {
+    stop("value should be an unnamed list of contributors.")
+  }
+  value <- lapply(value, stripattributes)
+  property(x, "contributors") <- stripattributes(value, keep = character(0L))
+  x
 }
 

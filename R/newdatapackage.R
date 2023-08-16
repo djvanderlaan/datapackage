@@ -1,4 +1,26 @@
 
+
+#' Create a new Data Package
+#'
+#' @param path The directory which will contain the Data Package or the filename
+#' in which to write the Data Package. 
+#'
+#' @param name The name of the Data Package.
+#'
+#' @param title The title of the Data Package.
+#'
+#' @param description The description of the Data Package.
+#'
+#' @param ... Ignored for now.
+#'
+#' @details
+#'
+#' @return
+#' The directory of \code{path}, or the directory containing \code{path} if path
+#' is a file name, is created and the file with the Data Package information is
+#' created. When \code{path} is a directory a file \code{datapackage.json} is
+#' created. The function returns an editable \code{datapackage} object. 
+#' 
 #' @export
 newdatapackage <- function(path, name = NULL, title = NULL, description = NULL, ...) {
   stopifnot(missing(name) || isname(name))
