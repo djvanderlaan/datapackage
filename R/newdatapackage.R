@@ -1,5 +1,3 @@
-
-
 #' Create a new Data Package
 #'
 #' @param path The directory which will contain the Data Package or the filename
@@ -13,13 +11,23 @@
 #'
 #' @param ... Ignored for now.
 #'
-#' @details
-#'
 #' @return
 #' The directory of \code{path}, or the directory containing \code{path} if path
 #' is a file name, is created and the file with the Data Package information is
 #' created. When \code{path} is a directory a file \code{datapackage.json} is
 #' created. The function returns an editable \code{datapackage} object. 
+#'
+#' @examples
+#' dir <- tempdir()
+#' dp <- newdatapackage(dir, name = "test-package")
+#' 
+#' title(dp) <- "A Test Data Package"
+#' addcontributor(dp) <- newcontributor(title = "John Doe")
+#' 
+#' \dontshow{
+#' file.remove(file.path(dir, "datapackage.json"))
+#' file.remove(dir)
+#' }
 #' 
 #' @export
 newdatapackage <- function(path, name = NULL, title = NULL, description = NULL, ...) {
