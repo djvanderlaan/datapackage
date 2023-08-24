@@ -1,9 +1,28 @@
 
+#' Get the data belonging to a Data Resource
+#'
+#' @param x a \code{dataresource} or \code{datapackage} object.
+#'
+#' @param resourcename the name of the \code{dataresource}.
+#'
+#' @param reader the reader to use to read the data. This should be either a
+#' function accepting the path to the data set (a character vector with possibly
+#' multitple filenames) and the Data Resource as second argument, or the
+#' character string \code{"guess"}.
+#'
+#' @param ... passed on to the \code{reader}
+#'
+#' @return
+#' Will return the data. This will generally be a \code{data.frame} but
+#' depending on the file type can also be other types of R-objects.
+#
+#' @rdname getdata
 #' @export
 getdata <- function(x, ...) {
   UseMethod("getdata")
 }
 
+#' @rdname getdata
 #' @export
 getdata.dataresource <- function(x, reader = "guess", ...) {
   # Check if resource includes data; ifso return that
@@ -15,9 +34,10 @@ getdata.dataresource <- function(x, reader = "guess", ...) {
     reader <- guessreader(x$format, x$mediatype)
   stopifnot(is.function(reader))
   # Read
-  reader(filename, x)
+  reader(filename, x, ...)
 }
 
+#' @rdname getdata
 #' @export
 getdata.datapackage <- function(x, resourcename, reader = "guess", ...) {
   resource <- resource(x, resourcename)
