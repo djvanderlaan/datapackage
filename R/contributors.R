@@ -13,6 +13,10 @@
 #'
 #' @param x The Data Package to which the contributor has to be added.
 #'
+#' @param contributor a contributor object
+#'
+#' @param value a contributor object
+#'
 #' @return
 #' \code{newcontributor} returns a list with the given properties. This function
 #' is meant to assist in creating valid contributors. 
@@ -57,7 +61,7 @@ print.contributor <- function(x, ...) {
   toprint <- setdiff(names(x), "title")
   toprint <- x[toprint]
   if (length(toprint)) {
-    str(toprint, max.level=1, give.attr=FALSE, no.list = TRUE, 
+    utils::str(toprint, max.level=1, give.attr=FALSE, no.list = TRUE, 
       comp.str="", indent.str="  ", give.head = FALSE)
   }
 }
@@ -82,7 +86,7 @@ str.contributors <- function(x, ...) {
 
 #' @export
 #' @rdname contributor
-addcontributor <- function(x, contributor, ...) {
+addcontributor <- function(x, contributor) {
   if (!iscontributor(contributor)) stop("Invalid contributor.")
   contributors <- contributors(x)
   if (is.null(contributors)) {
@@ -109,7 +113,7 @@ contributors <- function(x, ...) {
 
 #' @export
 #' @rdname properties_datapackage
-`contributors<-` <- function(x, ...) {
+`contributors<-` <- function(x, value) {
   UseMethod("contributors<-")
 }
 
@@ -122,7 +126,7 @@ contributors.datapackage <- function(x, ...) {
 
 #' @export
 #' @rdname properties_datapackage
-`contributors<-.datapackage` <- function(x, value, ...) {
+`contributors<-.datapackage` <- function(x, value) {
   if (!is.list(value) || !is.null(names(value)) || 
       !all(sapply(value, iscontributor))) {
     stop("value should be an unnamed list of contributors.")

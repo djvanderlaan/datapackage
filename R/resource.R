@@ -1,5 +1,19 @@
-
-
+#' Modifying the resources of a Data Package
+#'
+#' @param x a \code{datapackage} object.
+#'
+#' @param resourcename the name of a resource.
+#'
+#' @param value a \code{dataresource} object.
+#'
+#' @details
+#' When a resource with the name already exists this resource is
+#' overwritten. Therefore, the assignment operator can also be used to modify
+#' existing resources.
+#'
+#' @return 
+#' Either returns a Data Resource object or modifies the Data Package.
+#'
 #' @rdname resource
 #' @export
 resource <- function(x, resourcename) {
@@ -12,7 +26,7 @@ resource.datapackage <- function(x, resourcename) {
   resources <- property(x, "resources")
   index <- getresourceindex(x, resourcename, resources = resources)
   r <- resources[[index]]
-  structure(r, class="dataresource", path=attr(dp, "path"))
+  structure(r, class="dataresource", path=attr(x, "path"))
 }
 
 #' @rdname resource

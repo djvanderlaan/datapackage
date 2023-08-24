@@ -11,6 +11,21 @@
 # NAME
 # Optional (should); string; onl lower case alnum and _/-/.
 
+#' Getting and setting properties of Data Packages
+#'
+#' @param x a \code{datapackage} object.
+#' 
+#' @param value the new value of the property.
+#'
+#' @param ... used to pass additional arguments to other methods.
+#'
+#' @seealso
+#' See \code{\link{resource}} for methods for getting and setting the resources
+#' of a Data Package.
+#' 
+#' @return
+#' Either returns the property or modifies the object.
+#'
 #' @export
 #' @rdname properties_datapackage
 name <- function(x) {
@@ -82,6 +97,11 @@ description <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
   UseMethod("description")
 }
 
+#' @param firstparagraph Only return the first paragraph of the description.
+#' 
+#' @param dots When returning only the first paragraph indicate missing
+#' paragraphs with \code{...}.
+#'
 #' @export
 #' @rdname properties_datapackage
 description.datapackage <- function(x, ..., firstparagraph = FALSE, 
@@ -162,7 +182,7 @@ created.datapackage <- function(x, ...) {
 #' @export
 #' @rdname properties_datapackage
 `created<-.datapackage` <- function(x, value) {
-  if (!is.null(value) && !(is(value, "Date") && length(value) == 1) )
+  if (!is.null(value) && !(methods::is(value, "Date") && length(value) == 1) )
     stop("value should be a Date vector of length 1.")
   property(x, "created") <- value
   x

@@ -8,7 +8,7 @@ print.dataresource <- function(x, properties = NA, ...) {
   toprint <- x[toprint]
   if (length(toprint)) {
     cat("\nSelected properties:\n")
-    str(toprint, max.level=1, give.attr=FALSE, no.list = TRUE, 
+    utils::str(toprint, max.level=1, give.attr=FALSE, no.list = TRUE, 
       comp.str="", indent.str="", give.head = FALSE)
   }
 }

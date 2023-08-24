@@ -14,8 +14,9 @@ URL: https://github.com/djvanderlaan/datapackage-test
 Depends:
     R (>= 3.6.0)
 Imports:
-    jsonlite,
-    utils
+    jsonlite, 
+    utils,
+    methods
 Suggests:
     simplermarkdown
 VignetteBuilder: simplermarkdown

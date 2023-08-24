@@ -20,7 +20,7 @@ print.datapackage <- function(x, properties = NA, ...) {
     tmp <- lapply(toprint, \(property) property(x, property))
     names(tmp) <- toprint
     cat("\nSelected properties:\n")
-    str(tmp, max.level=1, give.attr=FALSE, no.list = TRUE, 
+    utils::str(tmp, max.level=1, give.attr=FALSE, no.list = TRUE, 
       comp.str="", indent.str="", give.head = FALSE)
   }
 }

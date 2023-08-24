@@ -4,6 +4,17 @@
 # NAME
 # Required; string; onl lower case alnum and _/-/.
 
+#' Getting and setting properties of Data Resources
+#'
+#' @param x a \code{dataresource} object.
+#' 
+#' @param value the new value of the property.
+#'
+#' @param ... used to pass additional arguments to other methods.
+#'
+#' @return
+#' Either returns the property or modifies the object.
+#' 
 #' @export
 #' @rdname properties_dataresource
 name.dataresource <- function(x) {
@@ -49,6 +60,11 @@ title.dataresource <- function(x) {
 # DESCRIPTION
 # Optional; string
 
+#' @param firstparagraph Only return the first paragraph of the description.
+#' 
+#' @param dots When returning only the first paragraph indicate missing
+#' paragraphs with \code{...}.
+#'
 #' @export
 #' @rdname properties_dataresource
 description.dataresource <- function(x, ..., firstparagraph = FALSE, 
@@ -84,10 +100,14 @@ path <- function(x, ...) {
 
 #' @export
 #' @rdname properties_dataresource
-`path<-` <- function(x, value, ...) {
+`path<-` <- function(x, value) {
   UseMethod("path<-")
 }
 
+#' @param fullpath Return the full path including the path to the Data Package
+#' and not only the path relative to the Data Package. This is only relevant for
+#' relative paths.
+#' 
 #' @export
 #' @rdname properties_dataresource
 path.dataresource <- function(x, fullpath = FALSE, ...) {
@@ -120,8 +140,8 @@ path.dataresource <- function(x, fullpath = FALSE, ...) {
   stopifnot(is.null(value) || (is.character(value) & length(value) > 0))
   if (!is.null(value)) {
     # Check if path is valid; note path may be a vector of paths
-    rel <- isrelativepath(filename)
-    url <- isurl(filename)
+    rel <- isrelativepath(value)
+    url <- isurl(value)
     # They should either be all relative paths or all urls
     if (!(all(rel) || all(url))) 
       stop("Invalid path field. Paths should either be all relative paths or all URL's.")
