@@ -71,8 +71,10 @@ A description of the iris data set
 ...
 
 Selected properties:
-path  :"iris.csv"
-format:"csv"
+path     :"iris.csv"
+format   :"csv"
+mediatype:"text/csv"
+encoding :"utf-8"
 ```
 
 The `print` statement again shows the name, title and description. It
@@ -88,8 +90,10 @@ A description of the iris data set
 ...
 
 Selected properties:
-path  :"iris.csv"
-format:"csv"
+path     :"iris.csv"
+format   :"csv"
+mediatype:"text/csv"
+encoding :"utf-8"
 ```
 
 Using this information it should be possible to open the dataset. The
@@ -229,6 +233,10 @@ methods: (this list can be obtained using `?properties_datapackage`)
   - `name`
   - `title`
   - `description`
+  - `keywords`
+  - `created`
+  - `id`
+  - `contributors`
 
 For `dataresource` objects there are currently defined the following
 methods (this list can be obtained using `?properties_dataresource`)
@@ -237,6 +245,11 @@ methods (this list can be obtained using `?properties_dataresource`)
   - `title`
   - `description`
   - `path`
+  - `format`
+  - `mediatype`
+  - `encoding`
+  - `bytes`
+  - `hash`
 
 The last method has a `fullpath` argument that, when used, returns the
 full path to the Data Resources data and not just the path relative to
@@ -267,13 +280,13 @@ mentioned above using the `property` method:
 > print(dp)
 [example] An Example Data Package
 
-Location: </tmp/Rtmp2blLkn>
+Location: </tmp/Rtmp4shz7d>
 <NO RESOURCES>
 ```
 
 ``` R
 > list.files(dir)
-[1] "datapackage.json"      "file4c3a205e87c4.json"
+[1] "datapackage.json"     "file80262659bf4.json"
 ```
 
 ``` R

@@ -20,3 +20,6 @@ install: build
 	R CMD INSTALL `ls work/datapackage*.tar.gz | sort | tail -n 1` 
 
 
+readme:
+	Rscript -e 'simplermarkdown::mdweave("vignettes/introduction.md", "work/tmp.md")' && \
+	  pandoc "work/tmp.md" -t gfm -o README.md
