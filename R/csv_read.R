@@ -51,7 +51,11 @@
 csv_read <- function(filename, 
     schema = paste0(tools::file_path_sans_ext(filename), ".schema.json"), 
     delimiter = ",", decimalChar = c(".", ","),
+    #quoteChar = "\"", doubleQuote = TRUE, 
+    #header = TRUE, commentChar  = "",
+    #lineTerminator = "\r\n",
     use_fread = FALSE, to_factor = TRUE, ...) {
+  # TODO: hangle quoteChar, doubleQuote, header, commentChar, lineTerminator
   if (is.character(schema)) schema <- read_schema(schema)
   decimalChar <- match.arg(decimalChar)
   # Determine how we need to read each of the columns
