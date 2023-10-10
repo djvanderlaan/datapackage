@@ -12,6 +12,53 @@
       "mediatype": "text/csv",
       "encoding": "utf-8"
     }, {
+      "name": "complex",
+      "path": "complex.csv",
+      "title": "A complex example dataset",
+      "description": "An example dataset with columns of various types and non-standard CSV-format",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields" : [ 
+          {
+            "name" : "string1",
+            "type" : "string"
+          }, {
+            "name" : "integer1",
+            "type" : "integer"
+          }, {
+            "name" : "boolean1",
+            "type" : "boolean"
+          }, {
+            "name" : "number1",
+            "type" : "number"
+          }, {
+            "name" : "number2",
+            "type" : "number",
+            "decimalChar" : "$",
+            "groupChar" : " "
+          }, {
+            "name" : "boolean2",
+            "type" : "boolean",
+            "trueValues" : ["TRUE"],
+            "falseValues" : ["FALSE"]
+          }, {
+            "name" : "date1",
+            "type" : "date"
+          }, {
+            "name" : "factor1",
+            "type" : "integer",
+            "categories" : [
+              {"value": 1, "label": "Female"},
+              {"value": 2, "label": "Male"},
+              {"value": 3, "label": "Other"},
+              {"value": 0, "label": "Not given"}
+            ]
+          }
+        ]
+      }
+    }, {
       "name": "inline",
       "title": "An inline data set",
       "description": "A description of the inline set",

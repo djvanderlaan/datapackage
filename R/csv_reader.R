@@ -13,8 +13,13 @@
 #'
 #' @export
 csv_reader <- function(path, resource) {
-  # TODO: do something with the meta
-  dta <- lapply(path, utils::read.csv)
+  tableschema <- property(resource, "schema")
+  # TODO: do something with the CSV-description
+  if (is.null(tableschema)) {
+    dta <- lapply(path, utils::read.csv)
+  } else {
+    dta <- lapply(path, csv_read, schema = tableschema)
+  }
   dta <- do.call(rbind, dta)
   structure(dta, resource = resource)
 }
