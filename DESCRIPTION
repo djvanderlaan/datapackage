@@ -19,7 +19,8 @@ Imports:
     methods
 Suggests:
     simplermarkdown,
-    data.table
+    data.table,
+    LaF
 VignetteBuilder: simplermarkdown
 License: GPL-3
 Encoding: UTF-8

@@ -67,6 +67,36 @@
         {"field1": 20, "field2": "21"},
         {"field1": 30, "field2": "22"}
       ]
+    }, {
+      "name": "fixed-width",
+      "path": "fixedwidth.asc",
+      "title": "A Fixed Width Example",
+      "encoding": "UTF-8",
+      "mediatype": "text/x-fixedwidth",
+      "fwfspec": [
+        {"name": "foo", "length": 1},
+        {"name": "bar", "length": 5},
+        {"name": "date", "length": 10},
+        {"name": "name", "length": 8}
+      ],
+      "schema": {
+        "fields" : [
+          { 
+            "name": "foo",
+            "type": "integer"
+          }, {
+            "name": "bar",
+            "type": "number",
+            "decimalChar": "."
+          }, {
+            "name": "date",
+            "type": "date"
+          }, {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
     }
   ]
 }

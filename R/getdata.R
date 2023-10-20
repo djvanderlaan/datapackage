@@ -61,6 +61,8 @@ guessreader <- function(format, mediatype) {
   # Try to find the correct reader for the given format/mediatype
   if (format == "csv") return(csv_reader)
   if (mediatype == "text/csv") return(csv_reader)
+  if (format == "asc") return(fwf_reader)
+  if (mediatype == "text/x-fixedwidth") return(fwf_reader)
   # default reader = csv
   csv_reader
 }
