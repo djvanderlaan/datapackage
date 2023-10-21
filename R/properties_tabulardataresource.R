@@ -29,34 +29,10 @@ dpschema.dataresource <- function(x) {
           "No base path is defined in resource. Returning relative path.")
       schema <- file.path(basepath, schema) 
       # TODO: read schema
-      schema <- readschema(schema)
+      schema <- read_schema(schema)
     } 
   } 
   schema
 }
-
-
-
-
-readschema <- function(filename, type = c("detect", "json", "yaml")) {
-  type <- match.arg(type)
-  if (type == "detect") {
-    ext <- tools::file_ext(filename) |> tolower()
-    if (ext %in% c("yaml", "yml")) {
-      type <- "yaml" 
-    } else {
-      type <- "json"
-    }
-  }
-  if (type == "json") {
-    jsonlite::read_json(filename, simplifyVector = TRUE, 
-      simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
-    # TODO: some properties are probably read incorrectly;
-    # see e.g. table-schema::read_schema
-  } else if (type == "yaml") {
-    yaml::read_yaml(filename)
-  }
-}
-
 
 
