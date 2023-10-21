@@ -1,4 +1,4 @@
-#' What type to use when reading this column form a CSV-file
+#' What type to use when reading this column from a CSV-file
 #'
 #' @param schema the field schema
 #' @param ... passed on to other methods.
