@@ -38,25 +38,23 @@
 #' 10*2,30-12-1971
 #' -10*2,01-01-2000"
 #' 
-#' json <- '{
-#'   "fields" : [
-#'     {"name": "col1", "type": "number", "decimalChar": "*"},
-#'     {"name": "col2", "type": "date", "format": "%d-%m-%Y"}
-#'   ]
-#' } '
+#' meta <- list(
+#'   "fields" = list(
+#'     list("name": "col1", "type": "number", "decimalChar": "*"),
+#'     list("name": "col2", "type": "date", "format": "%d-%m-%Y")
+#'   )
+#' )'
 #' 
-#' csv_read(textConnection(csv), json)
+#' csv_read(textConnection(csv), meta)
 #' 
 #' @export
-csv_read <- function(filename, 
-    schema = paste0(tools::file_path_sans_ext(filename), ".schema.json"), 
+csv_read <- function(filename, schema,
     delimiter = ",", decimalChar = c(".", ","),
     #quoteChar = "\"", doubleQuote = TRUE, 
     #header = TRUE, commentChar  = "",
     #lineTerminator = "\r\n",
     use_fread = FALSE, to_factor = TRUE, ...) {
   # TODO: hangle quoteChar, doubleQuote, header, commentChar, lineTerminator
-  if (is.character(schema)) schema <- read_schema(schema)
   decimalChar <- match.arg(decimalChar)
   # Determine how we need to read each of the columns
   colclasses <- sapply(schema$fields, csv_colclass, decimalChar = decimalChar)
