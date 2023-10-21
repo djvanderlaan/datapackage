@@ -6,7 +6,7 @@
 #' @export
 #' @rdname properties_dataresource
 dpschema <- function(x) {
-  UseMethod("schema")
+  UseMethod("dpschema")
 }
 
 #' @export
