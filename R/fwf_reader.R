@@ -13,26 +13,32 @@
 #' @export
 fwf_reader <- function(path, resource) {
   # Read fwfspec
-  if (!exists("fwfspec", resource)) {
-    stop("Required fwfspec is missing from resource meta.")
+  fwfspec <- property(resource, "fwfspec")
+  if (is.null(fwfspec)) stop("Required fwfspec is missing from resource meta.")
+  lengths <- sapply(fwfspec, \(x) x$length)
+  names   <- sapply(fwfspec, \(x) x$name)
+  # Get schema
+  schema  <- dpschema(resource)
+  # 
+  dec <- "."
+  column_types <- rep("string", length(lengths))
+  if (!is.null(schema)) {
+    # Determine decimalChar
+    dec <- determine_decimalchar(resource$schema$fields)
+    # Determine column types; for that we need dec as numeric
+    # columns with another decimalChar than dec have to be
+    # read as character
+    column_types <- sapply(resource$schema$fields, function(x, dec) {
+        if (x$type == "integer") {
+          "integer"
+        } else if (x$type == "number") {
+          decimalChar <- if (exists("decimalChar", x)) x$decimalChar else "."
+          if (dec == decimalChar) "double" else "string"
+        } else {
+          "string"
+        }
+      }, dec = dec)
   }
-  lengths <- sapply(resource$fwfspec, \(x) x$length)
-  names   <- sapply(resource$fwfspec, \(x) x$name)
-  # Determine decimalChar
-  dec <- determine_decimalchar(resource$schema$fields)
-  # Determine column types; for that we need dec as numeric
-  # columns with another decimalChar than dec have to be
-  # read as character
-  column_types <- sapply(resource$schema$fields, function(x, dec) {
-      if (x$type == "integer") {
-        "integer"
-      } else if (x$type == "number") {
-        decimalChar <- if (exists("decimalChar", x)) x$decimalChar else "."
-        if (dec == decimalChar) "double" else "string"
-      } else {
-        "string"
-      }
-    }, dec = dec)
   # Read data
   if (!requireNamespace("LaF"))
     stop("The package LaF is needed to read fixed width files.")
@@ -41,9 +47,10 @@ fwf_reader <- function(path, resource) {
   #on.exit(close(con))
   dta <- con[,]
   # handle encoding
-  encoding <- if (exists("encoding", resource)) resource$encoding else "latin1"
+  encoding <- property(resource, "encoding")
+  if (is.null(encoding)) encoding <- "latin1"
   if (encoding == "cp1252") {
-    warning("Encoding CP-1252 not supported by R. Using latin1, which is often ", 
+    warning("Encoding CP-1252 not supported. Using latin1, which is often ", 
       "the same. See ?Encoding.")
     encoding <- "latin1"
   }
@@ -52,10 +59,16 @@ fwf_reader <- function(path, resource) {
   for (col in names(dta)) 
     if (is.character(dta[[col]])) Encoding(dta[[col]]) <- encoding
   # apply schema
-  dta <- convert_using_schema(dta, resource$schema, to_factor = TRUE, 
-    decimalChar = dec)
+  if (!is.null(schema)) {
+    dta <- convert_using_schema(dta, resource$schema, to_factor = TRUE, 
+      decimalChar = dec)
+  }
   structure(dta, resource = resource)
 }
+
+
+
+# === UTILITY FUNCTIONS
 
 determine_decimalchar <- function(fields, default = ".") {
   dec <- sapply(fields, function(x, default = default) {

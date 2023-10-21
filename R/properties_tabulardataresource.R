@@ -29,7 +29,7 @@ dpschema.dataresource <- function(x) {
           "No base path is defined in resource. Returning relative path.")
       schema <- file.path(basepath, schema) 
       # TODO: read schema
-      stop("TODO: Reading schema not yet implemented")
+      schema <- readschema(schema)
     } 
   } 
   schema
@@ -51,6 +51,8 @@ readschema <- function(filename, type = c("detect", "json", "yaml")) {
   if (type == "json") {
     jsonlite::read_json(filename, simplifyVector = TRUE, 
       simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
+    # TODO: some properties are probably read incorrectly;
+    # see e.g. table-schema::read_schema
   } else if (type == "yaml") {
     yaml::read_yaml(filename)
   }

@@ -72,7 +72,7 @@ print.contributors <- function(x, ...) {
 }
 
 #' @export
-str.contributors <- function(x, ...) {
+str.contributors <- function(object, ...) {
   c <- sapply(x, \(x) x$title)
   c <- if (length(c) == 1) {
     c

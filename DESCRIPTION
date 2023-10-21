@@ -15,7 +15,9 @@ Depends:
     R (>= 3.6.0)
 Imports:
     jsonlite, 
+    yaml,
     utils,
+    tools,
     methods
 Suggests:
     simplermarkdown,
