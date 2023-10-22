@@ -24,11 +24,11 @@ fwf_reader <- function(path, resource) {
   column_types <- rep("string", length(lengths))
   if (!is.null(schema)) {
     # Determine decimalChar
-    dec <- determine_decimalchar(resource$schema$fields)
+    dec <- determine_decimalchar(schema$fields)
     # Determine column types; for that we need dec as numeric
     # columns with another decimalChar than dec have to be
     # read as character
-    column_types <- sapply(resource$schema$fields, function(x, dec) {
+    column_types <- sapply(schema$fields, function(x, dec) {
         if (x$type == "integer") {
           "integer"
         } else if (x$type == "number") {
@@ -60,7 +60,7 @@ fwf_reader <- function(path, resource) {
     if (is.character(dta[[col]])) Encoding(dta[[col]]) <- encoding
   # apply schema
   if (!is.null(schema)) {
-    dta <- convert_using_schema(dta, resource$schema, to_factor = TRUE, 
+    dta <- convert_using_schema(dta, schema, to_factor = TRUE, 
       decimalChar = dec)
   }
   structure(dta, resource = resource)
@@ -71,6 +71,7 @@ fwf_reader <- function(path, resource) {
 # === UTILITY FUNCTIONS
 
 determine_decimalchar <- function(fields, default = ".") {
+  if (is.null(fields)) return(default)
   dec <- sapply(fields, function(x, default = default) {
       if (x$type == "number") {
         if (exists("decimalChar", x)) x$decimalChar else default

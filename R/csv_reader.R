@@ -4,6 +4,14 @@
 #' @param path path to the data set. 
 #' 
 #' @param resource a Data Resource.
+#' @param use_fread use the \code{\link[data.table]{fread}} function instead of
+#'   \code{\link[utils]{read.csv}} and return a \code{data.table}.
+#' @param to_factor convert columns to factor if the schema has a categories
+#'   field for the column.
+#' @param ... additional arguments are passed on to \code{\link{read.csv}} or
+#'   \code{\link[data.table]{fread}}. Note that some arguments are already set
+#'   by \code{csv_reader}, so not all arguments are available to use as 
+#'   additional arguments.
 #'
 #' @seealso
 #' Generally used by calling \code{\link{getdata}}.
@@ -12,21 +20,22 @@
 #' Returns a \code{data.frame} with the data.
 #'
 #' @export
-csv_reader <- function(path, resource) {
+csv_reader <- function(path, resource, use_fread = FALSE, to_factor = TRUE, ...) {
   schema <- dpschema(resource)
-  # TODO: do something with the CSV-description
-  # TODO: merge csv_read and csv_reader
   if (is.null(schema)) {
-    dta <- lapply(path, utils::read.csv)
+    dta <- csv_read_base(path, use_fread = use_fread, ...)
   } else {
-    # Read
-    dta <- lapply(path, csv_read, schema = schema)
+    dec <- determine_decimalchar(schema$fields)
+    colclasses <- sapply(schema$fields, csv_colclass, decimalChar = dec)
+    dialect <- property(resource, "dialect")
+    if (is.null(dialect)) dialect <- list()
+    # TODO: missing values/na.strings
+    dta <- csv_read_base(path, decimalChar = dec, colClasses = colclasses, 
+      use_fread = use_fread, csv_dialect = dialect, ...)
+    dta <- convert_using_schema(dta, schema, to_factor = to_factor, decimalChar = dec)
   }
-  dta <- do.call(rbind, dta)
   structure(dta, resource = resource)
 }
-
-
 
 
 # Wrapper around read.table and data.table::fread that accepts options are
@@ -45,7 +54,7 @@ csv_read_base <- function(filename,
     skipInitialSpace = FALSE, colClasses = character(), 
     na.strings = character(0), use_fread = FALSE, csv_dialect, ...) {
   # Handle input of the arguments through a named list
-  if (!missing(csv_dialect)) {
+  if (!missing(csv_dialect) && !is.null(csv_dialect)) {
     stopifnot(is.list(csv_dialect))
     keep <- c("delimiter", "lineTerminator", "quoteChar", "doubleQuote", 
       "skipInitialSpace", "header", "commentChar", 
@@ -60,8 +69,8 @@ csv_read_base <- function(filename,
     if (!missing(commentChar)) csv_dialect$commentChar <- commentChar
     if (!missing(caseSensitiveHeader)) csv_dialect$caseSensitiveHeader <- caseSensitiveHeader
     if (!missing(nullSequence)) csv_dialect$nullSequence <- nullSequence
-    args <- c(csv_dialect, filename = filename, colClasses = colClasses, na.strings = na.strings,
-      use_fread = use_fread, ...)
+    args <- c(csv_dialect, list(filename = filename, colClasses = colClasses, na.strings = na.strings,
+      use_fread = use_fread, decimalChar = decimalChar), list(...))
     return(do.call(csv_read_base, args))
   }
   # Check and process aguments
