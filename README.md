@@ -27,7 +27,7 @@ show how we can create a Data Package for our own data.
 
 Below we open an example Data Package that comes with the package:
 
-``` R
+``` r
 > library(datapackage, warn.conflicts = FALSE)
 > dir <- system.file("examples/iris", package = "datapackage")
 > dp <- opendatapackage(dir)
@@ -37,10 +37,12 @@ Below we open an example Data Package that comes with the package:
 A description
 ...
 
-Location: </home/eoos/R/x86_64-pc-linux-gnu-library/4.3/datapackage/examples/iris>
+Location: </home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iris>
 Resources:
 [iris] The iris data set
+[complex] A complex example dataset
 [inline] An inline data set
+[fixed-width] A Fixed Width Example
 ```
 
 The print statement shows the name of the package, `iris-example`, the
@@ -48,22 +50,22 @@ title, the first paragraph of the description, the location of the Data
 Package and the Data Resources in the package. In this case there are
 two Data Resources:
 
-``` R
-> nresources(dp)
-[1] 2
+``` r
+> dpnresources(dp)
+[1] 4
 ```
 
 The names are
 
-``` R
-> resourcenames(dp)
-[1] "iris"   "inline"
+``` r
+> dpresourcenames(dp)
+[1] "iris"        "complex"     "inline"      "fixed-width"
 ```
 
 Using the `resource` methode on can obtain the Data Resource
 
-``` R
-> iris <- resource(dp, "iris")
+``` r
+> iris <- dpresource(dp, "iris")
 > print(iris)
 [iris] The iris data set
 
@@ -82,7 +84,7 @@ also shows that the data is in a CSV-file anmes `iris.csv`. Standard the
 `print` shows only a few properties of the Data Resource. To show all
 properties:
 
-``` R
+``` r
 > print(iris, properties = NA)
 [iris] The iris data set
 
@@ -97,14 +99,14 @@ encoding :"utf-8"
 ```
 
 Using this information it should be possible to open the dataset. The
-data can be opened in R using the `getdata` method. Based on the
+data can be opened in R using the `dpgetdata` method. Based on the
 information in the Data Resource this function will try to open the
 dataset using the correct functions in R (in this case `read.csv`):
 
-``` R
-> dta <- getdata(iris)
+``` r
+> dta <- dpgetdata(iris)
 > head(dta)
-  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+  sepal.length sepal.width petal.length petal.width species
 1          5.1         3.5          1.4         0.2  setosa
 2          4.9         3.0          1.4         0.2  setosa
 3          4.7         3.2          1.3         0.2  setosa
@@ -117,18 +119,18 @@ It is also possible to import the data directly from the Data Package
 object by specifying the resource for which the data needs to be
 imported.
 
-``` R
-> dta <- getdata(dp, "iris")
+``` r
+> dta <- dpgetdata(dp, "iris")
 ```
 
-The `getdata` method only supports a limited set of data formats. It is
-possible to also provide a custum function to read the data using the
-`reader` argument of `getdata`. However, it is also possible to import
+The `dpgetdata` method only supports a limited set of data formats. It
+is possible to also provide a custum function to read the data using the
+`reader` argument of `dpgetdata`. However, it is also possible to import
 the data ‘manually’ using the information in the Data Package. The path
 of the file in a Data Resource can be obtained using the `path` method:
 
-``` R
-> path(iris)
+``` r
+> dppath(iris)
 [1] "iris.csv"
 ```
 
@@ -138,23 +140,23 @@ is located or a URL. To open a file inside the Data Package one also
 needs the location of the Data Package. This is stored in the `path`
 attribute of the Data Package and Resource:
 
-``` R
+``` r
 > attr(dp, "path")
-[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.3/datapackage/examples/iris"
+[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iris"
 > attr(iris, "path")
-[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.3/datapackage/examples/iris"
+[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iris"
 ```
 
 Using the `fullpath = TRUE` argument, `path` will return the full path
 to the file:
 
-``` R
-> fn <- path(iris, fullpath = TRUE)
+``` r
+> fn <- dppath(iris, fullpath = TRUE)
 ```
 
 This path can be used to open the file manually:
 
-``` R
+``` r
 > dta <- read.csv(fn)
 > head(dta)
   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
@@ -175,8 +177,8 @@ Below an alternative way of importing the data belonging to a Data
 Resource. In this case we open the other Data Resource. In the Data
 Resource the data is stored inside the Data Package:
 
-``` R
-> dta <- resource(dp, "inline") |> getdata()
+``` r
+> dta <- dpresource(dp, "inline") |> dpgetdata()
 > head(dta)
 [[1]]
 [[1]]$field1
@@ -207,90 +209,90 @@ Resource the data is stored inside the Data Package:
 For many of the standard fields of a Data Packages, methods are defined
 to obtain the values of these fields:
 
-``` R
-> name(dp)
+``` r
+> dpname(dp)
 [1] "iris-example"
-> description(dp)
+> dpdescription(dp)
 [1] "A description\n\nThe second paragraph of the description"
-> description(dp, firstparagraph = TRUE)
+> dpdescription(dp, firstparagraph = TRUE)
 [1] "A description"
-> title(dp)
+> dptitle(dp)
 [1] "An example data package with the iris data set"
 ```
 
 The same holds for Data Resources:
 
-``` R
-> title(iris)
+``` r
+> dptitle(iris)
 [1] "The iris data set"
-> resource(dp, "inline") |> title()
+> dpresource(dp, "inline") |> dptitle()
 [1] "An inline data set"
 ```
 
 For `datapackage` objects there are currently defined the following
 methods: (this list can be obtained using `?properties_datapackage`)
 
-  - `name`
-  - `title`
-  - `description`
-  - `keywords`
-  - `created`
-  - `id`
-  - `contributors`
+-   `dpname`
+-   `dptitle`
+-   `dpdescription`
+-   `dpkeywords`
+-   `dpcreated`
+-   `dpid`
+-   `dpcontributors`
 
 For `dataresource` objects there are currently defined the following
 methods (this list can be obtained using `?properties_dataresource`)
 
-  - `name`
-  - `title`
-  - `description`
-  - `path`
-  - `format`
-  - `mediatype`
-  - `encoding`
-  - `bytes`
-  - `hash`
+-   `dpname`
+-   `dptitle`
+-   `dpdescription`
+-   `dppath`
+-   `dpformat`
+-   `dpmediatype`
+-   `dpencoding`
+-   `dpbytes`
+-   `dphash`
 
 The last method has a `fullpath` argument that, when used, returns the
 full path to the Data Resources data and not just the path relative to
 the Data Package. The full path is needed when one wants to use the path
 to read the data.
 
-``` R
-> path(iris)
+``` r
+> dppath(iris)
 [1] "iris.csv"
-> path(iris, fullpath = TRUE)
-[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.3/datapackage/examples/iris/iris.csv"
+> dppath(iris, fullpath = TRUE)
+[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iris/iris.csv"
 ```
 
 It is also possible to get other properties than the ones explicitly
-mentioned above using the `property` method:
+mentioned above using the `dpproperty` method:
 
-``` R
-> property(iris, "encoding")
+``` r
+> dpproperty(iris, "encoding")
 [1] "utf-8"
 ```
 
 ## Creating a Data Package
 
-``` R
+``` r
 > dir <- tempdir()
 > dp <- newdatapackage(dir, name = "example", 
 +   title = "An Example Data Package")
 > print(dp)
 [example] An Example Data Package
 
-Location: </tmp/Rtmp4shz7d>
+Location: </tmp/RtmpBT8nFI>
 <NO RESOURCES>
 ```
 
-``` R
+``` r
 > list.files(dir)
-[1] "datapackage.json"     "file80262659bf4.json"
+[1] "datapackage.json"     "file685970576bb.json"
 ```
 
-``` R
-> description(dp) <- "This is a description of the Data Package"
+``` r
+> dpdescription(dp) <- "This is a description of the Data Package"
 ```
 
 The `description<-` also accepts a character vector of length \> 1. This
@@ -298,8 +300,8 @@ makes it easy to read the contents of the description from file as it
 can be difficult to write long descriptions directly from R-code. It is
 possible to use markdown in the description.
 
-``` R
-description(dp) <- readLines("description.md")
+``` r
+dpdescription(dp) <- readLines("description.md")
 ```
 
 Note that anytime the Data Resoure is modified the file on disk is also
