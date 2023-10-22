@@ -173,9 +173,10 @@ paths in case a single data set is stored in a set of files. It is
 assumed then that the files have the same format. Therefore, `rbind`
 should work on these files.
 
-Below an alternative way of importing the data belonging to a Data
-Resource. In this case we open the other Data Resource. In the Data
-Resource the data is stored inside the Data Package:
+Below is an alternative way of importing the data belonging to a Data
+Resource. Here we use the pipe operator to chain the various commands to
+import the ‘inline’ data set. In this example data set the data is
+stored inside the Data Package.
 
 ``` r
 > dta <- dpresource(dp, "inline") |> dpgetdata()
@@ -282,13 +283,13 @@ mentioned above using the `dpproperty` method:
 > print(dp)
 [example] An Example Data Package
 
-Location: </tmp/RtmpBT8nFI>
+Location: </tmp/RtmpCgL5ya>
 <NO RESOURCES>
 ```
 
 ``` r
 > list.files(dir)
-[1] "datapackage.json"     "file685970576bb.json"
+[1] "datapackage.json"      "file6b14725100ea.json"
 ```
 
 ``` r

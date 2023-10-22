@@ -113,9 +113,10 @@ Note that the `path` property of a Data Resource can be a vector of paths in
 case a single data set is stored in a set of files. It is assumed then that the
 files have the same format. Therefore, `rbind` should work on these files.
 
-Below an alternative way of importing the data belonging to a Data Resource. In
-this case we open the other Data Resource. In the Data Resource the data is
-stored inside the Data Package:
+Below is an alternative way of importing the data belonging to a Data Resource.
+Here we use the pipe operator to chain the various commands to import the
+'inline' data set. In this example data set the data is stored inside the Data
+Package.
 
 ```{.R}
 dta <- dpresource(dp, "inline") |> dpgetdata()
