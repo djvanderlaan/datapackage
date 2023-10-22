@@ -2,7 +2,7 @@
 #' @export
 print.dataresource <- function(x, properties = NA, ...) {
   printdescription(x)
-  if (length(properties) == 1 && is.na(properties)) properties <- names(x)
+  if (length(properties) == 1 && is.na(properties)) properties <- dpproperties(x)
   properties  <- setdiff(properties, c("name", "title", "description"))
   toprint <- intersect(names(x), properties)
   toprint <- x[toprint]

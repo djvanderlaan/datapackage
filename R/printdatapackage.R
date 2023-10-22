@@ -3,21 +3,21 @@
 print.datapackage <- function(x, properties = NA, ...) {
   printdescription(x)
   cat("\nLocation: <", attr(x, "path"), ">", sep="")
-  if (nresources(x) > 0) {
+  if (dpnresources(x) > 0) {
     cat("\nResources:\n")
-    resources <- resourcenames(x)
+    resources <- dpresourcenames(x)
     for (resource in resources) {
-      printdescription(resource(x, resource), description = FALSE)
+      printdescription(dpresource(x, resource), description = FALSE)
     }
   } else {
     cat("\n<NO RESOURCES>\n")
   }
-  attributes <- properties(x)
+  attributes <- dpproperties(x)
   if (length(properties) == 1 && is.na(properties)) properties <- attributes
   properties  <- setdiff(properties, c("name", "title", "description", "resources"))
   toprint <- intersect(attributes, properties)
   if (length(toprint)) {
-    tmp <- lapply(toprint, \(property) property(x, property))
+    tmp <- lapply(toprint, \(property) dpproperty(x, property))
     names(tmp) <- toprint
     cat("\nSelected properties:\n")
     utils::str(tmp, max.level=1, give.attr=FALSE, no.list = TRUE, 

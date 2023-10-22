@@ -1,18 +1,18 @@
-#' Try guess the best variable meta data for a variable
-#'
-#' @param x the variable for which the meta data has to be generated.
-#' @param name the name of the variable.
-#' @param ... passed on to other methods.
-#' 
-#' @details
-#' When \code{x} has a 'schema' attribute, that is used. 
-#' 
-#' @export
+# Try guess the best variable meta data for a variable
+#
+# @param x the variable for which the meta data has to be generated.
+# @param name the name of the variable.
+# @param ... passed on to other methods.
+# 
+# @details
+# When \code{x} has a 'schema' attribute, that is used. 
+# 
+# @export
 generate_schema <- function(x, name = NULL, ...) {
   UseMethod("generate_schema")
 }
 
-#' @export
+# @export
 generate_schema.numeric <- function(x, name = NULL, ...) {
   res <- attr(x, "schema")
   if (!is.null(res)) {
@@ -26,7 +26,7 @@ generate_schema.numeric <- function(x, name = NULL, ...) {
   res
 }
 
-#' @export
+# @export
 generate_schema.integer <- function(x, name = NULL, ...) {
   res <- attr(x, "schema")
   if (!is.null(res)) {
@@ -40,7 +40,7 @@ generate_schema.integer <- function(x, name = NULL, ...) {
   res
 }
 
-#' @export
+# @export
 generate_schema.logical <- function(x, name = NULL, ...) {
   res <- attr(x, "schema")
   if (!is.null(res)) {
@@ -56,7 +56,7 @@ generate_schema.logical <- function(x, name = NULL, ...) {
   res
 }
 
-#' @export
+# @export
 generate_schema.character <- function(x, name = NULL, ...) {
   res <- attr(x, "schema")
   if (!is.null(res)) {
@@ -70,7 +70,7 @@ generate_schema.character <- function(x, name = NULL, ...) {
   res
 }
 
-#' @export
+# @export
 generate_schema.factor <- function(x, name = NULL, as_integer = TRUE, ...) {
   res <- attr(x, "schema")
   if (!is.null(res)) {
@@ -96,7 +96,7 @@ generate_schema.factor <- function(x, name = NULL, as_integer = TRUE, ...) {
   res
 }
 
-#' @export
+# @export
 generate_schema.Date <- function(x, name = NULL, ...) {
   res <- attr(x, "schema")
   if (!is.null(res)) {
@@ -108,7 +108,7 @@ generate_schema.Date <- function(x, name = NULL, ...) {
   res
 }
 
-#' @export
+# @export
 generate_schema.default <- function(x, name = NULL, ...) {
   res <- attr(x, "schema")
   if (!is.null(res)) {
@@ -122,7 +122,7 @@ generate_schema.default <- function(x, name = NULL, ...) {
   res
 }
 
-#' @export
+# @export
 generate_schema.data.frame <- function(x, name = NULL, ...) {
   schema <- attr(x, "schema")
   if (is.null(schema)) schema <- list(name = name)

@@ -12,7 +12,7 @@ dpschema <- function(x) {
 #' @export
 #' @rdname properties_dataresource
 dpschema.dataresource <- function(x) {
-  schema <- property(x, "schema")
+  schema <- dpproperty(x, "schema")
   # Handle the case that schema is a string e.g. a path
   if (is.character(schema)) {
     # Check if path is valid; note path may be a vector of paths

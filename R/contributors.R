@@ -23,12 +23,12 @@
 #'
 #' @examples
 #' dp <- opendatapackage(system.file(package = "datapackage", "examples/iris")) 
-#' contributors(dp)
-#' contributors(dp) <- list(
+#' dpcontributors(dp)
+#' dpcontributors(dp) <- list(
 #'   newcontributor("John Doe", email = "j.doe@somewhere.org"),
 #'   list(title = "Jane Doe", role = "maintainer")
 #' )
-#' addcontributor(dp) <- newcontributor("Janet Doe")
+#' dpaddcontributor(dp) <- newcontributor("Janet Doe")
 #'
 #' @export
 #' @rdname contributor
@@ -86,53 +86,53 @@ str.contributors <- function(object, ...) {
 
 #' @export
 #' @rdname contributor
-addcontributor <- function(x, contributor) {
+dpaddcontributor <- function(x, contributor) {
   if (!iscontributor(contributor)) stop("Invalid contributor.")
-  contributors <- contributors(x)
+  contributors <- dpcontributors(x)
   if (is.null(contributors)) {
     contributors <- list(contributor)
   } else {
     contributors[[length(contributors)+1]] <- contributor
   }
-  property(x, "contributors") <- contributors
+  dpproperty(x, "contributors") <- contributors
   x
 }
 
 #' @export
 #' @rdname contributor
-`addcontributor<-` <- function(x, value) {
-  addcontributor(x, value)
+`dpaddcontributor<-` <- function(x, value) {
+  dpaddcontributor(x, value)
 }
 
 
 #' @export
 #' @rdname properties_datapackage
-contributors <- function(x, ...) {
-  UseMethod("contributors")
+dpcontributors <- function(x, ...) {
+  UseMethod("dpcontributors")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`contributors<-` <- function(x, value) {
-  UseMethod("contributors<-")
+`dpcontributors<-` <- function(x, value) {
+  UseMethod("dpcontributors<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-contributors.datapackage <- function(x, ...) {
-  res <- property(x, "contributors")
+dpcontributors.datapackage <- function(x, ...) {
+  res <- dpproperty(x, "contributors")
   if (is.null(res)) res else structure(res, class = "contributors")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`contributors<-.datapackage` <- function(x, value) {
+`dpcontributors<-.datapackage` <- function(x, value) {
   if (!is.list(value) || !is.null(names(value)) || 
       !all(sapply(value, iscontributor))) {
     stop("value should be an unnamed list of contributors.")
   }
   value <- lapply(value, stripattributes)
-  property(x, "contributors") <- stripattributes(value, keep = character(0L))
+  dpproperty(x, "contributors") <- stripattributes(value, keep = character(0L))
   x
 }
 

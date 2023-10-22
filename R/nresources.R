@@ -7,8 +7,8 @@
 #' Returns an integer with the number of resources in the Data Package.
 
 #' @export
-nresources <- function(dp) {
+dpnresources <- function(dp) {
   # If resources does not exist dp$resources will return NULL which has a 
   # length of 0
-  length(property(dp, "resources"))
+  length(dpproperty(dp, "resources"))
 }

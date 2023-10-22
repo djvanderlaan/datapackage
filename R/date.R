@@ -1,21 +1,21 @@
-#' Generate field schema for a date field
-#'
-#' @param name name of the field
-#' @param description description of the field
-#' @param format the textual format with which the date is stored. Can be 
-#'   "default", a valid format as accepted by \code{\link{strptime}} or 
-#'   "any" (no specified format, in R this the date is passed on to
-#'   \code{\link{as.Date}}. 
-#' @param ... additional custom fields to add to the field schema.
-#'
-#' @return 
-#' A list with a least the fields "name" and "type".
-#'
-#' @examples
-#' x <- as.Date(c("2020-01-01", "2022-12-31"))
-#' schema(x) <- schema_date("importantday")
-#'
-#' @export
+# Generate field schema for a date field
+#
+# @param name name of the field
+# @param description description of the field
+# @param format the textual format with which the date is stored. Can be 
+#   "default", a valid format as accepted by \code{\link{strptime}} or 
+#   "any" (no specified format, in R this the date is passed on to
+#   \code{\link{as.Date}}. 
+# @param ... additional custom fields to add to the field schema.
+#
+# @return 
+# A list with a least the fields "name" and "type".
+#
+# @examples
+# x <- as.Date(c("2020-01-01", "2022-12-31"))
+# schema(x) <- schema_date("importantday")
+#
+# @export
 schema_date <- function(name, description, format = "default", ...) {
   res <- list(name = name, type = "date")
   if (!missing(description) && !is.null(description)) 
@@ -25,36 +25,36 @@ schema_date <- function(name, description, format = "default", ...) {
   c(res, list(...))
 }
 
-#' Add required fields to the schema for a date column
-#'
-#' @param schema should be a list.
-#'
-#' @return
-#' Returns \code{schema} with the required fields added. 
-#' 
-#' @export 
+# Add required fields to the schema for a date column
+#
+# @param schema should be a list.
+#
+# @return
+# Returns \code{schema} with the required fields added. 
+# 
+# @export 
 complete_schema_date <- function(schema) {
   if (!exists("type", schema)) schema[["type"]] <- "date"
   schema
 }
 
-#' Convert a vector to 'date' using the specified schema
-#' 
-#' @param x the vector to convert.
-#' @param schema the table-schema for the field.
-#' @param to_factor convert to factor if the schema has a categories
-#'   field. 
-#' @param ... passed on to other methods.
-#'
-#' @details
-#' When \code{schema} is missing a default schema is generated using
-#' \code{\link{complete_schema_date}}. 
-#'
-#' @return
-#' Will return an \code{Date} vector with \code{schema} added as the 'schema'
-#' attribute.
-#' 
-#' @export
+# Convert a vector to 'date' using the specified schema
+# 
+# @param x the vector to convert.
+# @param schema the table-schema for the field.
+# @param to_factor convert to factor if the schema has a categories
+#   field. 
+# @param ... passed on to other methods.
+#
+# @details
+# When \code{schema} is missing a default schema is generated using
+# \code{\link{complete_schema_date}}. 
+#
+# @return
+# Will return an \code{Date} vector with \code{schema} added as the 'schema'
+# attribute.
+# 
+# @export
 to_date <- function(x, schema = list(), to_factor = TRUE, ...) {
   UseMethod("to_date")
 }
@@ -76,7 +76,7 @@ to_date.numeric <- function(x, schema = list(), to_factor = TRUE, ...) {
 }
 
 
-#' @export
+# @export
 to_date.character <- function(x, schema = list(), to_factor = TRUE, ...) {
   schema <- complete_schema_date(schema)
   # Consider "" as a NA
@@ -99,14 +99,14 @@ to_date.character <- function(x, schema = list(), to_factor = TRUE, ...) {
   structure(res, schema = schema)
 }
 
-#' @rdname csv_colclass
-#' @export
+# @rdname csv_colclass
+# @export
 csv_colclass_date <- function(schema = list(), ...) {
   "character"
 }
 
-#' @rdname csv_format
-#' @export
+# @rdname csv_format
+# @export
 csv_format_date <- function(x, schema = datapackage::schema(x)) {
   if (!is.null(schema$categories)) {
     # We are dealing with a categorical variable that is stored as 

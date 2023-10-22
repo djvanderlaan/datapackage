@@ -1,23 +1,23 @@
 
-#' Generate field schema for a boolean field
-#'
-#' @param name name of the field
-#' @param description description of the field
-#' @param trueValues a vector with strings that should be interpreted as
-#'  true values when representing the field as text.
-#' @param falseValues a vector with strings that should be interpreted as
-#'  false values when representing the field as text.
-#' @param ... additional custom fields to add to the field schema.
-#'
-#' @return 
-#' A list with a least the fields "name", "type", "trueValues" and
-#' "falseValues".
-#'
-#' @examples
-#' x <- 1:4 > 2
-#' schema(x) <- schema_boolean("field", "A logical field")
-#'
-#' @export
+# Generate field schema for a boolean field
+#
+# @param name name of the field
+# @param description description of the field
+# @param trueValues a vector with strings that should be interpreted as
+#  true values when representing the field as text.
+# @param falseValues a vector with strings that should be interpreted as
+#  false values when representing the field as text.
+# @param ... additional custom fields to add to the field schema.
+#
+# @return 
+# A list with a least the fields "name", "type", "trueValues" and
+# "falseValues".
+#
+# @examples
+# x <- 1:4 > 2
+# schema(x) <- schema_boolean("field", "A logical field")
+#
+# @export
 schema_boolean <- function(name, description, 
     trueValues = c("true", "TRUE", "True", "1"),
     falseValues = c("false", "FALSE", "False", "0"),...) {
@@ -30,14 +30,14 @@ schema_boolean <- function(name, description,
 }
 
 
-#' Add required fields to the schema for an boolean column
-#'
-#' @param schema should be a list.
-#'
-#' @return
-#' Returns \code{schema} with the required fields added. 
-#' 
-#' @export
+# Add required fields to the schema for an boolean column
+#
+# @param schema should be a list.
+#
+# @return
+# Returns \code{schema} with the required fields added. 
+# 
+# @export
 complete_schema_boolean <- function(schema) {
   if (!exists("type", schema)) schema[["type"]] <- "boolean"
   if (!exists("trueValues", schema))
@@ -47,28 +47,28 @@ complete_schema_boolean <- function(schema) {
   schema
 }
 
-#' Convert a vector to 'boolean' using the specified schema
-#' 
-#' @param x the vector to convert.
-#' @param schema the table-schema for the field.
-#' @param to_factor convert to factor if the schema has a categories
-#'   field. 
-#' @param ... passed on to other methods.
-#'
-#' @details
-#' When \code{schema} is missing a default schema is generated using
-#' \code{\link{complete_schema_boolean}}. 
-#'
-#' @return
-#' Will return an \code{logical} vector with \code{schema} added as the 'schema'
-#' attribute.
-#' 
-#' @export
+# Convert a vector to 'boolean' using the specified schema
+# 
+# @param x the vector to convert.
+# @param schema the table-schema for the field.
+# @param to_factor convert to factor if the schema has a categories
+#   field. 
+# @param ... passed on to other methods.
+#
+# @details
+# When \code{schema} is missing a default schema is generated using
+# \code{\link{complete_schema_boolean}}. 
+#
+# @return
+# Will return an \code{logical} vector with \code{schema} added as the 'schema'
+# attribute.
+# 
+# @export
 to_boolean <- function(x, schema = list(), to_factor = TRUE, ...) {
   UseMethod("to_boolean")
 }
 
-#' @export
+# @export
 to_boolean.integer <- function(x, schema = list(), to_factor = TRUE, ...) {
   schema <- complete_schema_boolean(schema)
   true_values <- suppressWarnings(as.integer(schema$trueValues))
@@ -98,7 +98,7 @@ to_boolean.integer <- function(x, schema = list(), to_factor = TRUE, ...) {
   structure(res, schema = schema)
 }
 
-#' @export
+# @export
 to_boolean.character <- function(x, schema = list(), to_factor = TRUE, ...) {
   schema <- complete_schema_boolean(schema)
   # Unless "" is a true of false value we will consider it a missing value
@@ -118,7 +118,7 @@ to_boolean.character <- function(x, schema = list(), to_factor = TRUE, ...) {
   structure(res, schema = schema)
 }
 
-#' @export
+# @export
 to_boolean.logical <- function(x, schema = list(), to_factor = TRUE, ...) {
   schema <- complete_schema_boolean(schema)
   # Handle categories
@@ -127,8 +127,8 @@ to_boolean.logical <- function(x, schema = list(), to_factor = TRUE, ...) {
   structure(x, schema = schema)
 }
 
-#' @rdname csv_colclass
-#' @export
+# @rdname csv_colclass
+# @export
 csv_colclass_boolean <- function(schema = list(), ...) {
   schema <- complete_schema_boolean(schema)
   res <- "character"
@@ -146,8 +146,8 @@ csv_colclass_boolean <- function(schema = list(), ...) {
   res
 }
 
-#' @rdname csv_format
-#' @export
+# @rdname csv_format
+# @export
 csv_format_boolean <- function(x, schema = datapackage::schema(x)) {
   if (!is.null(schema$categories)) {
     # We are dealing with a categorical variable that is stored as 

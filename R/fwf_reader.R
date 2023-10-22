@@ -5,7 +5,7 @@
 #' @param resource a Data Resource.
 #'
 #' @seealso
-#' Generally used by calling \code{\link{getdata}}.
+#' Generally used by calling \code{\link{dpgetdata}}.
 #'
 #' @return
 #' Returns a \code{data.frame} with the data.
@@ -13,7 +13,7 @@
 #' @export
 fwf_reader <- function(path, resource) {
   # Read fwfspec
-  fwfspec <- property(resource, "fwfspec")
+  fwfspec <- dpproperty(resource, "fwfspec")
   if (is.null(fwfspec)) stop("Required fwfspec is missing from resource meta.")
   lengths <- sapply(fwfspec, \(x) x$length)
   names   <- sapply(fwfspec, \(x) x$name)
@@ -47,7 +47,7 @@ fwf_reader <- function(path, resource) {
   #on.exit(close(con))
   dta <- con[,]
   # handle encoding
-  encoding <- property(resource, "encoding")
+  encoding <- dpproperty(resource, "encoding")
   if (is.null(encoding)) encoding <- "latin1"
   if (encoding == "cp1252") {
     warning("Encoding CP-1252 not supported. Using latin1, which is often ", 

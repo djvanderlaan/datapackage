@@ -22,33 +22,33 @@
 #' Will return the data. This will generally be a \code{data.frame} but
 #' depending on the file type can also be other types of R-objects.
 #
-#' @rdname getdata
+#' @rdname dpgetdata
 #' @export
-getdata <- function(x, ...) {
-  UseMethod("getdata")
+dpgetdata <- function(x, ...) {
+  UseMethod("dpgetdata")
 }
 
-#' @rdname getdata
+#' @rdname dpgetdata
 #' @export
-getdata.dataresource <- function(x, reader = "guess", ...) {
+dpgetdata.dataresource <- function(x, reader = "guess", ...) {
   # Check if resource includes data; ifso return that
   if (exists("data", x)) return(x$data)
   # Determine path to data
-  filename <- path(x, fullpath = TRUE)
+  filename <- dppath(x, fullpath = TRUE)
   # Determine reader
   if (is.character(reader) && reader[1] == "guess") 
-    reader <- guessreader(x$format, x$mediatype)
+    reader <- guessreader(dpformat(x), dpmediatype(x))
   stopifnot(is.function(reader))
   # Read
   reader(filename, x, ...)
 }
 
-#' @rdname getdata
+#' @rdname dpgetdata
 #' @export
-getdata.datapackage <- function(x, resourcename, reader = "guess", ...) {
-  resource <- resource(x, resourcename)
+dpgetdata.datapackage <- function(x, resourcename, reader = "guess", ...) {
+  resource <- dpresource(x, resourcename)
   if (is.null(resource)) stop("Resource '", resourcename, "' not found.")
-  getdata(resource, reader = "guess", ...)
+  dpgetdata(resource, reader = reader, ...)
 }
 
 guessreader <- function(format, mediatype) {

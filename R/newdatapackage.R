@@ -21,8 +21,8 @@
 #' dir <- tempdir()
 #' dp <- newdatapackage(dir, name = "test-package")
 #' 
-#' title(dp) <- "A Test Data Package"
-#' addcontributor(dp) <- newcontributor(title = "John Doe")
+#' dptitle(dp) <- "A Test Data Package"
+#' dpaddcontributor(dp) <- newcontributor(title = "John Doe")
 #' 
 #' \dontshow{
 #' file.remove(file.path(dir, "datapackage.json"))

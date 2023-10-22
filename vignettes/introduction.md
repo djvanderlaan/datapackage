@@ -42,17 +42,17 @@ the first paragraph of the description, the location of the Data Package and
 the Data Resources in the package. In this case there are two Data Resources:
 
 ```{.R}
-nresources(dp)
+dpnresources(dp)
 ```
 
 The names are
 ```{.R}
-resourcenames(dp)
+dpresourcenames(dp)
 ```
 
 Using the `resource` methode on can obtain the Data Resource
 ```{.R}
-iris <- resource(dp, "iris")
+iris <- dpresource(dp, "iris")
 print(iris)
 ```
 The `print` statement again shows the name, title and description. It also shows
@@ -63,12 +63,12 @@ a few properties of the Data Resource. To show all properties:
 print(iris, properties = NA)
 ```
 Using this information it should be possible to open the dataset. The data can
-be opened in R using the `getdata` method. Based on the information in the Data
+be opened in R using the `dpgetdata` method. Based on the information in the Data
 Resource this function will try to open the dataset using the correct functions
 in R (in this case `read.csv`):
 
 ```{.R}
-dta <- getdata(iris)
+dta <- dpgetdata(iris)
 head(dta)
 ```
 
@@ -76,16 +76,16 @@ It is also possible to import the data directly from the Data Package object by
 specifying the resource for which the data needs to be imported.
 
 ```{.R}
-dta <- getdata(dp, "iris")
+dta <- dpgetdata(dp, "iris")
 ```
-The `getdata` method only supports a limited set of data formats.  It is
+The `dpgetdata` method only supports a limited set of data formats.  It is
 possible to also provide a custum function to read the data using the `reader`
-argument of `getdata`. However, it is also possible to import the data
+argument of `dpgetdata`. However, it is also possible to import the data
 'manually' using the information in the Data Package. The path of the file in a
 Data Resource can be obtained using the `path` method:
 
 ```{.R}
-path(iris)
+dppath(iris)
 ```
 By default this will return the path as defined in the Data Package. This either
 a path relative to the directory in which the Data Package is located or a URL.
@@ -101,7 +101,7 @@ Using the `fullpath = TRUE` argument, `path` will return the full path to the
 file:
 
 ```{.R}
-fn <- path(iris, fullpath = TRUE)
+fn <- dppath(iris, fullpath = TRUE)
 ```
 This path can be used to open the file manually:
 
@@ -118,7 +118,7 @@ this case we open the other Data Resource. In the Data Resource the data is
 stored inside the Data Package:
 
 ```{.R}
-dta <- resource(dp, "inline") |> getdata()
+dta <- dpresource(dp, "inline") |> dpgetdata()
 head(dta)
 ```
 
@@ -128,42 +128,42 @@ For many of the standard fields of a Data Packages, methods are defined to
 obtain the values of these fields:
 
 ```{.R}
-name(dp)
-description(dp)
-description(dp, firstparagraph = TRUE)
-title(dp)
+dpname(dp)
+dpdescription(dp)
+dpdescription(dp, firstparagraph = TRUE)
+dptitle(dp)
 ```
 
 The same holds for Data Resources:
 
 ```{.R}
-title(iris)
-resource(dp, "inline") |> title()
+dptitle(iris)
+dpresource(dp, "inline") |> dptitle()
 ```
 
 For `datapackage` objects there are currently defined the following methods:
 (this list can be obtained using `?properties_datapackage`)
 
-- `name`
-- `title`
-- `description`
-- `keywords`
-- `created`
-- `id`
-- `contributors`
+- `dpname`
+- `dptitle`
+- `dpdescription`
+- `dpkeywords`
+- `dpcreated`
+- `dpid`
+- `dpcontributors`
 
 For `dataresource` objects there are currently defined the following methods
 (this list can be obtained using `?properties_dataresource`)
 
-- `name`
-- `title`
-- `description`
-- `path`
-- `format`
-- `mediatype`
-- `encoding`
-- `bytes`
-- `hash`
+- `dpname`
+- `dptitle`
+- `dpdescription`
+- `dppath`
+- `dpformat`
+- `dpmediatype`
+- `dpencoding`
+- `dpbytes`
+- `dphash`
 
 
 The last method has a `fullpath` argument that, when used, returns the full
@@ -172,15 +172,15 @@ Package. The full path is needed when one wants to use the path to read the
 data.
 
 ```{.R}
-path(iris)
-path(iris, fullpath = TRUE)
+dppath(iris)
+dppath(iris, fullpath = TRUE)
 ```
 
 It is also possible to get other properties than the ones explicitly mentioned
-above using the `property` method:
+above using the `dpproperty` method:
 
 ```{.R}
-property(iris, "encoding")
+dpproperty(iris, "encoding")
 ```
 
 ## Creating a Data Package
@@ -197,14 +197,14 @@ list.files(dir)
 ```
 
 ```{.R}
-description(dp) <- "This is a description of the Data Package"
+dpdescription(dp) <- "This is a description of the Data Package"
 ```
 The `description<-` also accepts a character vector of length > 1. This makes it
 easy to read the contents of the description from file as it can be difficult to
 write long descriptions directly from R-code. It is possible to use markdown in
 the description.
 ```{.R eval=FALSE}
-description(dp) <- readLines("description.md")
+dpdescription(dp) <- readLines("description.md")
 ```
 Note that anytime the Data Resoure is modified the file on disk is also
 

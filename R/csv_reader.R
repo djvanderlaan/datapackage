@@ -14,7 +14,7 @@
 #'   additional arguments.
 #'
 #' @seealso
-#' Generally used by calling \code{\link{getdata}}.
+#' Generally used by calling \code{\link{dpgetdata}}.
 #'
 #' @return
 #' Returns a \code{data.frame} with the data.
@@ -27,7 +27,7 @@ csv_reader <- function(path, resource, use_fread = FALSE, to_factor = TRUE, ...)
   } else {
     dec <- determine_decimalchar(schema$fields)
     colclasses <- sapply(schema$fields, csv_colclass, decimalChar = dec)
-    dialect <- property(resource, "dialect")
+    dialect <- dpproperty(resource, "dialect")
     if (is.null(dialect)) dialect <- list()
     # TODO: missing values/na.strings
     dta <- csv_read_base(path, decimalChar = dec, colClasses = colclasses, 

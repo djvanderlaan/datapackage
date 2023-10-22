@@ -20,7 +20,7 @@
 #' @param ... used to pass additional arguments to other methods.
 #'
 #' @seealso
-#' See \code{\link{resource}} for methods for getting and setting the resources
+#' See \code{\link{dpresource}} for methods for getting and setting the resources
 #' of a Data Package.
 #' 
 #' @return
@@ -28,30 +28,30 @@
 #'
 #' @export
 #' @rdname properties_datapackage
-name <- function(x) {
-  UseMethod("name")
+dpname <- function(x) {
+  UseMethod("dpname")
 }
 
 #' @export
 #' @rdname properties_datapackage
-name.datapackage <- function(x) {
+dpname.datapackage <- function(x) {
   # Name is optional for data package
-  property(x, "name")
+  dpproperty(x, "name")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`name<-` <- function(x, value) {
-  UseMethod("name<-")
+`dpname<-` <- function(x, value) {
+  UseMethod("dpname<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`name<-.datapackage` <- function(x, value) {
+`dpname<-.datapackage` <- function(x, value) {
   value <- paste0(value)
   if (!is.null(value) && !isname(value)) stop("name should consists only of ", 
     "lower case letters, numbers, '-', '.' or '_' or NULL.")
-  property(x, "name") <- value
+  dpproperty(x, "name") <- value
   x
 }
 
@@ -61,29 +61,29 @@ name.datapackage <- function(x) {
 
 #' @export
 #' @rdname properties_datapackage
-title <- function(x) {
-  UseMethod("title")
+dptitle <- function(x) {
+  UseMethod("dptitle")
 }
 
 #' @export
 #' @rdname properties_datapackage
-title.datapackage <- function(x) {
-  property(x, "title")
+dptitle.datapackage <- function(x) {
+  dpproperty(x, "title")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`title<-` <- function(x, value) {
-  UseMethod("title<-")
+`dptitle<-` <- function(x, value) {
+  UseMethod("dptitle<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`title<-.datapackage` <- function(x, value) {
+`dptitle<-.datapackage` <- function(x, value) {
   value <- paste0(value)
   if (!is.null(value) && !isstring(value)) 
     stop("value should be a character of length 1 or NULL.")
-  property(x, "title") <- value
+  dpproperty(x, "title") <- value
   x
 }
 
@@ -93,8 +93,8 @@ title.datapackage <- function(x) {
 
 #' @export
 #' @rdname properties_datapackage
-description <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
-  UseMethod("description")
+dpdescription <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
+  UseMethod("dpdescription")
 }
 
 #' @param firstparagraph Only return the first paragraph of the description.
@@ -104,24 +104,24 @@ description <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
 #'
 #' @export
 #' @rdname properties_datapackage
-description.datapackage <- function(x, ..., firstparagraph = FALSE, 
+dpdescription.datapackage <- function(x, ..., firstparagraph = FALSE, 
     dots = FALSE) {
-  res <- property(x, "description")
+  res <- dpproperty(x, "description")
   if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
 }
 
 #' @export
 #' @rdname properties_datapackage
-`description<-` <- function(x, value) {
-  UseMethod("description<-")
+`dpdescription<-` <- function(x, value) {
+  UseMethod("dpdescription<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`description<-.datapackage` <- function(x, value) {
+`dpdescription<-.datapackage` <- function(x, value) {
   if (!is.null(value)) value <- paste0(value, collapse = "\n")
   # Because of the paste0 above value will always be a string
-  property(x, "description") <- value
+  dpproperty(x, "description") <- value
   x
 }
 
@@ -132,28 +132,28 @@ description.datapackage <- function(x, ..., firstparagraph = FALSE,
 
 #' @export
 #' @rdname properties_datapackage
-keywords <- function(x, ...) {
-  UseMethod("keywords")
+dpkeywords <- function(x, ...) {
+  UseMethod("dpkeywords")
 }
 
 #' @export
 #' @rdname properties_datapackage
-keywords.datapackage <- function(x, ...) {
-  property(x, "keywords")
+dpkeywords.datapackage <- function(x, ...) {
+  dpproperty(x, "keywords")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`keywords<-` <- function(x, value) {
-  UseMethod("keywords<-")
+`dpkeywords<-` <- function(x, value) {
+  UseMethod("dpkeywords<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`keywords<-.datapackage` <- function(x, value) {
+`dpkeywords<-.datapackage` <- function(x, value) {
   if (!is.null(value) && !is.character(value)) 
     stop("value should be a character vector")
-  property(x, "keywords") <- value
+  dpproperty(x, "keywords") <- value
   x
 }
 
@@ -163,28 +163,28 @@ keywords.datapackage <- function(x, ...) {
 
 #' @export
 #' @rdname properties_datapackage
-created <- function(x, ...) {
-  UseMethod("created")
+dpcreated <- function(x, ...) {
+  UseMethod("dpcreated")
 }
 
 #' @export
 #' @rdname properties_datapackage
-created.datapackage <- function(x, ...) {
-  property(x, "created")
+dpcreated.datapackage <- function(x, ...) {
+  dpproperty(x, "created")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`created<-` <- function(x, value) {
-  UseMethod("created<-")
+`dpcreated<-` <- function(x, value) {
+  UseMethod("dpcreated<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`created<-.datapackage` <- function(x, value) {
+`dpcreated<-.datapackage` <- function(x, value) {
   if (!is.null(value) && !(methods::is(value, "Date") && length(value) == 1) )
     stop("value should be a Date vector of length 1.")
-  property(x, "created") <- value
+  dpproperty(x, "created") <- value
   x
 }
 
@@ -194,28 +194,28 @@ created.datapackage <- function(x, ...) {
 
 #' @export
 #' @rdname properties_datapackage
-id <- function(x, ...) {
-  UseMethod("id")
+dpid <- function(x, ...) {
+  UseMethod("dpid")
 }
 
 #' @export
 #' @rdname properties_datapackage
-id.datapackage <- function(x, ...) {
-  property(x, "id")
+dpid.datapackage <- function(x, ...) {
+  dpproperty(x, "id")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`id<-` <- function(x, value) {
-  UseMethod("id<-")
+`dpid<-` <- function(x, value) {
+  UseMethod("dpid<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`id<-.datapackage` <- function(x, value) {
+`dpid<-.datapackage` <- function(x, value) {
   if (!is.null(value) && !(isname(value)))
     stop("value should be a character vector of length 1.")
-  property(x, "id") <- value
+  dpproperty(x, "id") <- value
   x
 }
 

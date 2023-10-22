@@ -8,31 +8,31 @@
 #' properties.
 #'
 #' @seealso
-#' The \code{\link{property}} method can be used to get the values of the
+#' The \code{\link{dpproperty}} method can be used to get the values of the
 #' properties.
 #'
 #' @export
-#' @rdname properties
-properties <- function(x) {
-  UseMethod("properties")
+#' @rdname dpproperties
+dpproperties <- function(x) {
+  UseMethod("dpproperties")
 }
 
 #' @export
-#' @rdname properties
-properties.readonlydatapackage <- function(x) {
+#' @rdname dpproperties
+dpproperties.readonlydatapackage <- function(x) {
   names(x)
 }
 
 #' @export
-#' @rdname properties
-properties.editabledatapackage <- function(x) {
+#' @rdname dpproperties
+dpproperties.editabledatapackage <- function(x) {
   dp <- readdatapackage(attr(x, "path"), attr(x, "filename"))
-  properties(dp)
+  dpproperties(dp)
 }
 
 #' @export
-#' @rdname properties
-properties.dataresource <- function(x) {
+#' @rdname dpproperties
+dpproperties.dataresource <- function(x) {
   names(x)
 }
 
