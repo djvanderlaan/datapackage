@@ -23,13 +23,14 @@ dpschema.dataresource <- function(x) {
       stop("Invalid schema field. Path should either be a relative path or a URL.")
     # Convert relative paths to full paths
     if (all(rel)) {
-      basepath <- attr(resource, "path")
+      basepath <- attr(x, "path")
       if (is.null(basepath)) 
         warning("Schema defined in resource is on relative path. ",
           "No base path is defined in resource. Returning relative path.")
       schema <- file.path(basepath, schema) 
-      # TODO: read schema
-      schema <- read_schema(schema)
+      schema <- read_json_yaml(schema)
+      # TODO: some properties are probably read incorrectly;
+      # see e.g. table-schema::read_schema
     } 
   } 
   schema

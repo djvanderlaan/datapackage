@@ -108,7 +108,7 @@ csv_read_base <- function(filename,
     }) |> data.table::rbindlist()
   } else {
     dta <- lapply(filename, function(fn) {
-      d <- read.table(filename, sep = delimiter, quote = quoteChar, 
+      d <- utils::read.table(filename, sep = delimiter, quote = quoteChar, 
         dec = decimalChar, header = header, comment.char = commentChar, 
         strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
         colClasses = colClasses, na.strings = na.strings, ...)

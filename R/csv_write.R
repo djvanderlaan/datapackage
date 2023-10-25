@@ -53,7 +53,8 @@ csv_write <- function(x, filename = "",
   utils::write.table(x, file = filename, na = na, row.names = FALSE, 
     fileEncoding = "UTF-8", quote = quote, sep = delimiter, dec = ".", 
     qmethod = "double")
-  write_schema(schema, filename_schema, pretty = TRUE)
+  # TODO
+  #write_schema(schema, filename_schema, pretty = TRUE)
 }
 
 
