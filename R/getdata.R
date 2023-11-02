@@ -51,19 +51,3 @@ dpgetdata.datapackage <- function(x, resourcename, reader = "guess", ...) {
   dpgetdata(resource, reader = reader, ...)
 }
 
-guessreader <- function(format, mediatype) {
-  if (missing(format) || is.null(format)) format <- ""
-  if (missing(mediatype) || is.null(mediatype)) format <- ""
-  stopifnot(is.character(format) && length(format) == 1)
-  stopifnot(is.character(mediatype) && length(mediatype) == 1)
-  format <- tolower(format)
-  mediatype <- tolower(mediatype)
-  # Try to find the correct reader for the given format/mediatype
-  if (format == "csv") return(csv_reader)
-  if (mediatype == "text/csv") return(csv_reader)
-  if (format == "asc") return(fwf_reader)
-  if (mediatype == "text/x-fixedwidth") return(fwf_reader)
-  # default reader = csv
-  csv_reader
-}
-

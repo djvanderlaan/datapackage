@@ -1,0 +1,44 @@
+{
+  "name": "codelist-example",
+  "title": "An example data package with a code list",
+  "resources" : [
+    {
+      "name": "codelist",
+      "path": "codelist.csv",
+      "title": "An example dataset with a code list",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields" : [ 
+          {
+            "name" : "name",
+            "type" : "string"
+          }, {
+            "name" : "gender",
+            "type" : "integer",
+            "codelist": "gender-codelist"
+          }
+        ]
+      }
+    }, {
+      "name": "codelist-gender",
+      "path": "codelist-gender.csv",
+      "title": "Code list for gender",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields" : [ 
+          {
+            "name" : "key",
+            "type" : "integer"
+          }, {
+            "name" : "label",
+            "type" : "string"
+          }
+        ]
+      }
+    }
+  ]
+}

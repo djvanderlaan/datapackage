@@ -26,7 +26,7 @@ dpresource.datapackage <- function(x, resourcename) {
   resources <- dpproperty(x, "resources")
   index <- getresourceindex(x, resourcename, resources = resources)
   r <- resources[[index]]
-  structure(r, class="dataresource", path=attr(x, "path"))
+  structure(r, class="dataresource", path=attr(x, "path"), resource = x)
 }
 
 #' @rdname dpresource
