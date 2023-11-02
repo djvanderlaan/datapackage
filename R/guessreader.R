@@ -27,7 +27,7 @@ guessreader <- function(format, mediatype, filename = "") {
     }
   }
   reader <- readers$readers[[format]]
-  if (!is.null(reader)) reader <- csv_reader
+  if (is.null(reader)) reader <- csv_reader
   reader
 }
 
@@ -40,6 +40,7 @@ guessreader <- function(format, mediatype, filename = "") {
 #' @param extensions a character vector with typical file extensions used by the format.
 #' 
 #' @details
+#' TODO
 #'
 #' @return
 #' Does not return anything (\code{invisible(NULL)}). 

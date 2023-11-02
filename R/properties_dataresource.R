@@ -9,11 +9,14 @@
 #' @param x a \code{dataresource} object.
 #' 
 #' @param value the new value of the property.
+#' @param default return the default value if the property had a default value 
+#'   and the property is not set.
 #'
 #' @param ... used to pass additional arguments to other methods.
 #'
 #' @return
-#' Either returns the property or modifies the object.
+#' Either returns the property or modifies the object. If the property of not
+#' set \code{NULL} is returned (unless \code{default = TRUE}).
 #' 
 #' @export
 #' @rdname properties_dataresource
@@ -175,8 +178,18 @@ dpformat <- function(x, ...) {
 
 #' @export
 #' @rdname properties_dataresource
-dpformat.dataresource <- function(x, ...) {
-  dpproperty(x, "format")
+dpformat.dataresource <- function(x, default = FALSE, ...) {
+  res <- dpproperty(x, "format")
+  if (is.null(res) && default) {
+    path <- dppath(x)
+    if (!is.null(path)) {
+      ext <- sapply(path, tools::file_ext) |> tolower() |> unique()
+      if (length(ext) == 1) {
+        res <- ext
+      }
+    }
+  }
+  res
 }
 
 #' @export
@@ -225,7 +238,7 @@ dpmediatype.dataresource <- function(x, ...) {
 
 #' @export
 #' @rdname properties_dataresource
-dpencoding <- function(x, ...) {
+dpencoding <- function(x, default = FALSE, ...) {
   UseMethod("dpencoding")
 }
 
@@ -237,8 +250,10 @@ dpencoding <- function(x, ...) {
 
 #' @export
 #' @rdname properties_dataresource
-dpencoding.dataresource <- function(x, ...) {
-  dpproperty(x, "encoding")
+dpencoding.dataresource <- function(x, default = FALSE, ...) {
+  res <- dpproperty(x, "encoding")
+  if (is.null(res) && default) res <- "UTF-8"
+  res
 }
 
 #' @export
