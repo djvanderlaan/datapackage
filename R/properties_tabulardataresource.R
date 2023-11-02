@@ -37,3 +37,36 @@ dpschema.dataresource <- function(x) {
 }
 
 
+
+
+#==============================================================================
+# GETTING FIELD META
+
+#' @export
+dpfieldnames <- function(resource) {
+  schema <- dpschema(resource, "schema")
+  if (is.null(schema)) stop("Data Resource does not have a schema property.")
+  # TODO: convert to dpproperty
+  fields <- schema$fields
+  if (is.null(fields)) stop("Fields are missing from schema of Data Resource.")
+  sapply(fields, function(f) {
+    if (!exists("name", f)) stop("Field without name.")
+    f$name
+  })
+}
+
+#' @export
+dpfield <- function(resource, fieldname) {
+  schema <- dpschema(resource)
+  if (is.null(schema)) stop("Data Resource does not have a schema property.")
+  fields <- schema$fields
+  if (is.null(fields)) stop("Fields are missing from schema of Data Resource.")
+  for (i in seq_along(fields)) {
+    if (!exists("name", fields[[i]])) stop("Field without name.")
+    if (fields[[i]]$name == fieldname) return(
+      structure(fields[[i]], class = "fieldschema", dataresource = resource)
+    )
+  }
+  stop("Field '", fieldname, "' not found.")
+}
+
