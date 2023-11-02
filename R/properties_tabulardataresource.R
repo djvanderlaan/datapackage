@@ -33,7 +33,7 @@ dpschema.dataresource <- function(x) {
       # see e.g. table-schema::read_schema
     } 
   } 
-  schema
+  structure(schema, class = "tableschema", dataresource = x)
 }
 
 

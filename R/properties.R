@@ -36,3 +36,9 @@ dpproperties.dataresource <- function(x) {
   names(x)
 }
 
+#' @export
+#' @rdname dpproperties
+dpproperties.tableschema <- function(x) {
+  names(x)
+}
+
