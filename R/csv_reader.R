@@ -6,8 +6,8 @@
 #' @param resource a Data Resource.
 #' @param use_fread use the \code{\link[data.table]{fread}} function instead of
 #'   \code{\link[utils]{read.csv}} and return a \code{data.table}.
-#' @param to_factor convert columns to factor if the schema has a categories
-#'   field for the column.
+#' @param to_factor convert columns to factor if the schema has a codelist
+#'   property for the column.
 #' @param ... additional arguments are passed on to \code{\link{read.csv}} or
 #'   \code{\link[data.table]{fread}}. Note that some arguments are already set
 #'   by \code{csv_reader}, so not all arguments are available to use as 
