@@ -14,7 +14,37 @@ x <- dta$gender
 schema <- attr(x, "schema")
 
 
-recode_to_factor <- function(x, schema = attr(x, "schema"), datapackage) {
+dpgetdatapackage <- function(x) {
+  UseMethod("dpgetdatapackage")
+}
+dpgetdatapackage.dataresource <- function(x) {
+  attr(x, "datapackage")
+}
+dpgetdatapackage.fieldschema <- function(x) {
+  resource <- attr(x, "dataresource")
+  if (is.null(resource)) {
+    NULL
+  } else {
+    dpgetdatapackage(resource)
+  }
+}
+
+dpcodelist <- functiom(x, schema = attr(x, "schema"), 
+    datapackage = dpgetdatapackage(schema)) {
+  codelist <- schema$codelist
+  if (is.null(codelist)) return(NULL)
+  if (is.character(codelist)) {
+    stopifnot(is.character(codelist), length(codelist) == 1)
+    codelist <- dpgetdata(datapackage, codelist)
+  }
+  stopifnot(is.data.frame(codelist))
+  codelist
+}
+
+
+
+recode_to_factor <- function(x, schema = attr(x, "schema"), 
+    datapackage = dpgetdatapackage(schema)) {
   codelist <- schema$codelist
   if (is.character(codelist)) {
     stopifnot(is.character(codelist), length(codelist) == 1)

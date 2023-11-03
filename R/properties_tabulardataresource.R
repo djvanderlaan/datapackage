@@ -13,6 +13,7 @@ dpschema <- function(x) {
 #' @rdname properties_dataresource
 dpschema.dataresource <- function(x) {
   schema <- dpproperty(x, "schema")
+  if (is.null(schema)) return(schema)
   # Handle the case that schema is a string e.g. a path
   if (is.character(schema)) {
     # Check if path is valid; note path may be a vector of paths
@@ -44,7 +45,7 @@ dpschema.dataresource <- function(x) {
 
 #' @export
 dpfieldnames <- function(resource) {
-  schema <- dpschema(resource, "schema")
+  schema <- dpschema(resource)
   if (is.null(schema)) stop("Data Resource does not have a schema property.")
   # TODO: convert to dpproperty
   fields <- schema$fields

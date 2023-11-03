@@ -28,32 +28,34 @@
 # dta <- data.frame(field1 = c("10,1", "-10,1"))
 # convert_using_schema(dta, schema)
 #
-# @export
-convert_using_schema <- function(dta, schema, to_factor = TRUE, ...) {
+#'@export
+convert_using_schema <- function(dta, resource, to_factor = TRUE, ...) {
   # Check columnnames
-  colnames <- sapply(schema$fields, function(x) x$name)
-  if (!all(names(dta) == colnames)) 
+  fieldnames <- dpfieldnames(resource)
+  if (!all(names(dta) == fieldnames)) 
     stop("Column names of dta do not match those in the schema.")
   # Convert columns to correct type
   is_data_table <- methods::is(dta, "data.table")
-  for (i in seq_along(dta)) {
-    fun <- paste0("to_", schema$fields[[i]]$type)
+  for (field in fieldnames) {
+    fieldschema <- dpfield(resource, field)
+    fun <- paste0("to_", fieldschema$type)
     stopifnot(exists(fun))
     fun <- get(fun)
-    col <- names(dta)[i]
     if (is_data_table) {
-      data.table::set(dta, j = col, 
-        value = fun(dta[[col]], schema$fields[[i]], to_factor, ...))
+      data.table::set(dta, j = field, 
+        value = fun(dta[[field]], fieldschema, to_factor, ...))
     } else {
-      dta[[i]] <- fun(dta[[i]], schema$fields[[i]], to_factor, ...)
+      dta[[field]] <- fun(dta[[field]], fieldschema, to_factor, ...)
     }
   }
   # The fields schema is stored in the fields; drop it
-  schema$fields <- NULL
+  # TODO: ? schema$fields <- NULL
+  # TODO: probably beter to not store the schema with the data.frame; unlikely 
+  # that the schema remains valid
   if (is_data_table) {
-    data.table::setattr(dta, "schema", schema)
+    data.table::setattr(dta, "resource", resource)
   } else {
-    attr(dta, "schema") <- schema
+    attr(dta, "resource") <- resource
   }
   dta[]
 }

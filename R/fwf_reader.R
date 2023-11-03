@@ -60,7 +60,7 @@ fwf_reader <- function(path, resource) {
     if (is.character(dta[[col]])) Encoding(dta[[col]]) <- encoding
   # apply schema
   if (!is.null(schema)) {
-    dta <- convert_using_schema(dta, schema, to_factor = TRUE, 
+    dta <- convert_using_schema(dta, resource, to_factor = TRUE, 
       decimalChar = dec)
   }
   structure(dta, resource = resource)

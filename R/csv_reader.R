@@ -32,7 +32,8 @@ csv_reader <- function(path, resource, use_fread = FALSE, to_factor = TRUE, ...)
     # TODO: missing values/na.strings
     dta <- csv_read_base(path, decimalChar = dec, colClasses = colclasses, 
       use_fread = use_fread, csv_dialect = dialect, ...)
-    dta <- convert_using_schema(dta, schema, to_factor = to_factor, decimalChar = dec)
+    dta <- convert_using_schema(dta, resource, to_factor = to_factor, decimalChar = dec)
+    #dta <- convert_using_schema(dta, schema, to_factor = to_factor, decimalChar = dec)
   }
   structure(dta, resource = resource)
 }
