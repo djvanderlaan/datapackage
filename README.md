@@ -41,6 +41,7 @@ Location: </home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iri
 Resources:
 [iris] The iris data set
 [complex] A complex example dataset
+[codelist-factor1] Codelist for the factor1 field in the complex resource
 [inline] An inline data set
 [fixed-width] A Fixed Width Example
 ```
@@ -52,14 +53,15 @@ two Data Resources:
 
 ``` r
 > dpnresources(dp)
-[1] 4
+[1] 5
 ```
 
 The names are
 
 ``` r
 > dpresourcenames(dp)
-[1] "iris"        "complex"     "inline"      "fixed-width"
+[1] "iris"             "complex"          "codelist-factor1" "inline"          
+[5] "fixed-width"     
 ```
 
 Using the `resource` methode on can obtain the Data Resource
@@ -254,10 +256,10 @@ methods (this list can be obtained using `?properties_dataresource`)
 -   `dpbytes`
 -   `dphash`
 
-The last method has a `fullpath` argument that, when used, returns the
-full path to the Data Resources data and not just the path relative to
-the Data Package. The full path is needed when one wants to use the path
-to read the data.
+The `dppath` method has a `fullpath` argument that, when used, returns
+the full path to the Data Resources data and not just the path relative
+to the Data Package. The full path is needed when one wants to use the
+path to read the data.
 
 ``` r
 > dppath(iris)
@@ -274,6 +276,60 @@ mentioned above using the `dpproperty` method:
 [1] "utf-8"
 ```
 
+## Working with Code Lists
+
+It is possible for fields to have a Code List associated with them. For
+example in the ‘complex’ example resource, there is a column ‘factor1’:
+
+``` r
+> complex <- dpresource(dp, "complex") |> dpgetdata()
+> print(complex)
+  string1 integer1 boolean1  number1    number2 boolean2      date1 factor1
+1       a        1     TRUE  1.2e+00      1.200     TRUE 2020-01-01       1
+2       b     -100    FALSE -1.0e-04     -0.001    FALSE 2022-01-12       2
+3       c       NA     TRUE      Inf   1100.000     TRUE       <NA>       1
+4              100     TRUE  1.0e+04 -11000.400       NA 1950-10-10       3
+5       f        0       NA      NaN         NA    FALSE 1920-12-10      NA
+6       g        0    FALSE       NA      0.000     TRUE 2002-02-20       3
+```
+
+This is an integer column but it has an ‘codelist’ property set which
+points to a Data Resource in the Data Package. It is possible te get
+this code list
+
+``` r
+> dpcodelist(complex$factor1)
+  code     label
+1    1    Purple
+2    2       Red
+3    3     Other
+4    0 Not given
+```
+
+This Code List can also be used to convert the field to factor:
+
+``` r
+> dptofactor(complex$factor1)
+[1] Purple Red    Purple Other  <NA>   Other 
+Levels: Purple Red Other Not given
+```
+
+Using the `to_factor = TRUE` argument of the `csv_reader` it is also
+possible to convert all fields which have an associated ‘codelist’ to
+factor:
+
+``` r
+> complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
+> print(complex)
+  string1 integer1 boolean1  number1    number2 boolean2      date1 factor1
+1       a        1     TRUE  1.2e+00      1.200     TRUE 2020-01-01  Purple
+2       b     -100    FALSE -1.0e-04     -0.001    FALSE 2022-01-12     Red
+3       c       NA     TRUE      Inf   1100.000     TRUE       <NA>  Purple
+4              100     TRUE  1.0e+04 -11000.400       NA 1950-10-10   Other
+5       f        0       NA      NaN         NA    FALSE 1920-12-10    <NA>
+6       g        0    FALSE       NA      0.000     TRUE 2002-02-20   Other
+```
+
 ## Creating a Data Package
 
 ``` r
@@ -283,13 +339,13 @@ mentioned above using the `dpproperty` method:
 > print(dp)
 [example] An Example Data Package
 
-Location: </tmp/RtmpCgL5ya>
+Location: </tmp/RtmpPMPOWz>
 <NO RESOURCES>
 ```
 
 ``` r
 > list.files(dir)
-[1] "datapackage.json"      "file6b14725100ea.json"
+[1] "datapackage.json"      "file401f725e434d.json"
 ```
 
 ``` r
