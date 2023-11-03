@@ -25,50 +25,48 @@ schema_date <- function(name, description, format = "default", ...) {
   c(res, list(...))
 }
 
-# Add required fields to the schema for a date column
-#
-# @param schema should be a list.
-#
-# @return
-# Returns \code{schema} with the required fields added. 
-# 
-# @export 
+#' Add required fields to the schema for a date column
+#'
+#' @param schema should be a list.
+#'
+#' @return
+#' Returns \code{schema} with the required fields added. 
+#' 
+#' @export 
 complete_schema_date <- function(schema) {
   if (!exists("type", schema)) schema[["type"]] <- "date"
   schema
 }
 
-# Convert a vector to 'date' using the specified schema
-# 
-# @param x the vector to convert.
-# @param schema the table-schema for the field.
-# @param to_factor convert to factor if the schema has a categories
-#   field. 
-# @param ... passed on to other methods.
-#
-# @details
-# When \code{schema} is missing a default schema is generated using
-# \code{\link{complete_schema_date}}. 
-#
-# @return
-# Will return an \code{Date} vector with \code{schema} added as the 'schema'
-# attribute.
-# 
-# @export
-to_date <- function(x, schema = list(), to_factor = TRUE, ...) {
+#' Convert a vector to 'date' using the specified schema
+#' 
+#' @param x the vector to convert.
+#' @param schema the table-schema for the field.
+#' @param ... passed on to other methods.
+#'
+#' @details
+#' When \code{schema} is missing a default schema is generated using
+#' \code{\link{complete_schema_date}}. 
+#'
+#' @return
+#' Will return an \code{Date} vector with \code{schema} added as the 'schema'
+#' attribute.
+#' 
+#' @export
+to_date <- function(x, schema = list(), ...) {
   UseMethod("to_date")
 }
 
-##' @export
-to_date.integer <- function(x, schema = list(), to_factor = TRUE, ...) {
+#' @export
+to_date.integer <- function(x, schema = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 20200101 or 01012020-> convert to character and 
   # convert
   to_date(sprintf("%08d", x))
 }
 
-##' @export
-to_date.numeric <- function(x, schema = list(), to_factor = TRUE, ...) {
+#' @export
+to_date.numeric <- function(x, schema = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 20200101 or 01012020-> convert to character and 
   # convert
@@ -76,8 +74,8 @@ to_date.numeric <- function(x, schema = list(), to_factor = TRUE, ...) {
 }
 
 
-# @export
-to_date.character <- function(x, schema = list(), to_factor = TRUE, ...) {
+#' @export
+to_date.character <- function(x, schema = list(), ...) {
   schema <- complete_schema_date(schema)
   # Consider "" as a NA
   na_values <- if (!is.null(schema$missingValues)) schema$missingValues else ""
@@ -93,9 +91,6 @@ to_date.character <- function(x, schema = list(), to_factor = TRUE, ...) {
   invalid <- is.na(res) & !na
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  # Handle categories
-  if (to_factor && !is.null(schema$categories)) 
-    res <- to_factor(res, schema)
   structure(res, schema = schema)
 }
 

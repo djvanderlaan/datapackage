@@ -49,15 +49,29 @@
           }, {
             "name" : "factor1",
             "type" : "integer",
-            "categories" : [
-              {"value": 1, "label": "Female"},
-              {"value": 2, "label": "Male"},
-              {"value": 3, "label": "Other"},
-              {"value": 0, "label": "Not given"}
-            ]
+            "codelist" : "codelist-factor1"
           }
         ]
       }
+    }, {
+      "name": "codelist-factor1",
+      "path": "codelist-factor1.csv",
+      "title": "Codelist for the factor1 field in the complex resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields" : [ 
+          {
+            "name" : "code",
+            "type" : "integer"
+          }, {
+            "name" : "label",
+            "type" : "string"
+          }
+        ]
+      }
+
     }, {
       "name": "inline",
       "title": "An inline data set",

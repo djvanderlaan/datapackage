@@ -30,56 +30,48 @@ schema_number <- function(name, description = NULL, decimalChar = ".",
 }
 
 
-# Add required fields to the schema for an number column
-#
-# @param schema should be a list.
-#
-# @return
-# Returns \code{schema} with the required fields added. 
-# 
-# @export
+#' Add required fields to the schema for an number column
+#'
+#' @param schema should be a list.
+#'
+#' @return
+#' Returns \code{schema} with the required fields added. 
+#' 
+#' @export
 complete_schema_number <- function(schema) {
   if (!exists("type", schema)) schema[["type"]] <- "number"
   schema
 }
 
-# Convert a vector to 'number' using the specified schema
-# 
-# @param x the vector to convert.
-# @param schema the field schema for the field.
-# @param to_factor convert to factor if the schema has a categories
-#   field. 
-# @param decimalChar decimal separator. Used when the field schema does not
-#   specify a decimal separator.
-# @param ... passed on to other methods.
-#
-# @details
-# When \code{schema} is missing a default schema is generated using
-# \code{\link{complete_schema_number}}. 
-#
-# @return
-# Will return an \code{numeric} vector with \code{schema} added as the 'schema'
-# attribute.
-# 
-# @export
-to_number <- function(x, schema = list(), to_factor = TRUE, 
-    decimalChar = ".", ...) {
+#' Convert a vector to 'number' using the specified schema
+#' 
+#' @param x the vector to convert.
+#' @param schema the field schema for the field.
+#' @param decimalChar decimal separator. Used when the field schema does not
+#'   specify a decimal separator.
+#' @param ... passed on to other methods.
+#'
+#' @details
+#' When \code{schema} is missing a default schema is generated using
+#' \code{\link{complete_schema_number}}. 
+#'
+#' @return
+#' Will return an \code{numeric} vector with \code{schema} added as the 'schema'
+#' attribute.
+#' 
+#' @export
+to_number <- function(x, schema = list(),  decimalChar = ".", ...) {
   UseMethod("to_number")
 }
 
-# @export
-to_number.numeric <- function(x, schema = list(), to_factor = TRUE, 
-    decimalChar = ".", ...) {
+#' @export
+to_number.numeric <- function(x, schema = list(),  decimalChar = ".", ...) {
   schema <- complete_schema_number(schema)
-  # Handle categories
-  if (to_factor && !is.null(schema$categories)) 
-    x <- to_factor(x, schema)
   structure(x, schema = schema)
 }
 
-# @export
-to_number.character <- function(x, schema = list(), to_factor = TRUE, 
-    decimalChar = ".", ...) {
+#' @export
+to_number.character <- function(x, schema = list(), decimalChar = ".", ...) {
   schema <- complete_schema_number(schema)
   decimalChar <- if (is.null(schema$decimalChar)) 
     decimalChar else schema$decimalChar
@@ -95,9 +87,6 @@ to_number.character <- function(x, schema = list(), to_factor = TRUE,
   invalid <- is.na(res) & !na & !is.nan(res)
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  # Handle categories
-  if (to_factor && !is.null(schema$categories)) 
-    res <- to_factor(res, schema)
   structure(res, schema = schema)
 }
 

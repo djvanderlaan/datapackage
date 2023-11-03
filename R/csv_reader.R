@@ -20,7 +20,7 @@
 #' Returns a \code{data.frame} with the data.
 #'
 #' @export
-csv_reader <- function(path, resource, use_fread = FALSE, to_factor = TRUE, ...) {
+csv_reader <- function(path, resource, use_fread = FALSE, to_factor = FALSE, ...) {
   schema <- dpschema(resource)
   if (is.null(schema)) {
     dta <- csv_read_base(path, use_fread = use_fread, ...)

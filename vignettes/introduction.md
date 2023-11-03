@@ -167,7 +167,7 @@ For `dataresource` objects there are currently defined the following methods
 - `dphash`
 
 
-The last method has a `fullpath` argument that, when used, returns the full
+The `dppath` method has a `fullpath` argument that, when used, returns the full
 path to the Data Resources data and not just the path relative to the Data
 Package. The full path is needed when one wants to use the path to read the
 data.
@@ -182,6 +182,32 @@ above using the `dpproperty` method:
 
 ```{.R}
 dpproperty(iris, "encoding")
+```
+
+## Working with Code Lists
+
+It is possible for fields to have a Code List associated with them. For example
+in the 'complex' example resource, there is a column 'factor1':
+
+```{.R}
+complex <- dpresource(dp, "complex") |> dpgetdata()
+print(complex)
+```
+
+This is an integer column but it has an 'codelist' property set which points to
+a Data Resource in the Data Package. It is possible te get this code list
+```{.R}
+dpcodelist(complex$factor1)
+```
+This Code List can also be used to convert the field to factor:
+```{.R}
+dptofactor(complex$factor1)
+```
+Using the `to_factor = TRUE` argument of the `csv_reader` it is also possible to
+convert all fields which have an associated 'codelist' to factor:
+```{.R}
+complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
+print(complex)
 ```
 
 ## Creating a Data Package

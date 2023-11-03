@@ -43,6 +43,14 @@ dpschema.dataresource <- function(x) {
 #==============================================================================
 # GETTING FIELD META
 
+
+#' List the fields in a Data Resource
+#' 
+#' @param resource a \code{dataresource} object.
+#'
+#' @return
+#' Returns a character vector with the fields in the Data Resource.
+#'
 #' @export
 dpfieldnames <- function(resource) {
   schema <- dpschema(resource)
@@ -56,6 +64,15 @@ dpfieldnames <- function(resource) {
   })
 }
 
+
+#' Get the field schema associated with a certain field in a Data Resource
+#'
+#' @param resource a \code{dataresource} object.
+#' @param fieldname length one character vector with the name of the field.
+#'
+#' @return
+#' An object of type \code{fieldschema}.
+#'
 #' @export
 dpfield <- function(resource, fieldname) {
   schema <- dpschema(resource)
