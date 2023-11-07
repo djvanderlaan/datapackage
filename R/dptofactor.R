@@ -17,10 +17,6 @@ dptofactor <- function(x, codelist = dpcodelist(x), warn = TRUE) {
     if (warn) warning("Field does not have an associated code list. Returning original vector.")
     return(x)
   }
-  if (is.character(codelist)) {
-    stopifnot(is.character(codelist), length(codelist) == 1)
-    codelist <- dpgetdata(datapackage, codelist)
-  }
   stopifnot(is.data.frame(codelist))
   # TODO: more intelligence in determining which column to use as codes and
   # labels

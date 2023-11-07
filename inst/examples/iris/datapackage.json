@@ -50,6 +50,11 @@
             "name" : "factor1",
             "type" : "integer",
             "codelist" : "codelist-factor1"
+          }, {
+            "name" : "factor2",
+            "type" : "string",
+            "missingValues": "",
+            "codelist" : "codelist-factor2"
           }
         ]
       }
@@ -72,6 +77,13 @@
         ]
       }
 
+    }, {
+      "name": "codelist-factor2",
+      "data": [
+        {"code": "101", "label": "circle"},
+        {"code": "102", "label": "square"},
+        {"code": "103", "label": "triangle"}
+      ]
     }, {
       "name": "inline",
       "title": "An inline data set",

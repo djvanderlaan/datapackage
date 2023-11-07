@@ -6,7 +6,7 @@ guessreader <- function(format, mediatype, filename = "") {
   stopifnot(is.character(format) && length(format) == 1)
   stopifnot(is.character(mediatype) && length(mediatype) == 1)
   stopifnot(is.character(filename))
-  extension <- tools::file_ext(filename) |> head(1) |> tolower()
+  extension <- tools::file_ext(filename) |> utils::head(1) |> tolower()
   format <- tolower(format)
   mediatype <- tolower(mediatype)
   # Try to find the correct reader for the given format/mediatype/extension

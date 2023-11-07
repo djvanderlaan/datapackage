@@ -27,7 +27,7 @@ show how we can create a Data Package for our own data.
 
 Below we open an example Data Package that comes with the package:
 
-``` r
+``` R
 > library(datapackage, warn.conflicts = FALSE)
 > dir <- system.file("examples/iris", package = "datapackage")
 > dp <- opendatapackage(dir)
@@ -37,11 +37,12 @@ Below we open an example Data Package that comes with the package:
 A description
 ...
 
-Location: </home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iris>
+Location: </home/eoos/R/x86_64-pc-linux-gnu-library/4.3/datapackage/examples/iris>
 Resources:
 [iris] The iris data set
 [complex] A complex example dataset
 [codelist-factor1] Codelist for the factor1 field in the complex resource
+[codelist-factor2] 
 [inline] An inline data set
 [fixed-width] A Fixed Width Example
 ```
@@ -51,22 +52,22 @@ title, the first paragraph of the description, the location of the Data
 Package and the Data Resources in the package. In this case there are
 two Data Resources:
 
-``` r
+``` R
 > dpnresources(dp)
-[1] 5
+[1] 6
 ```
 
 The names are
 
-``` r
+``` R
 > dpresourcenames(dp)
-[1] "iris"             "complex"          "codelist-factor1" "inline"          
-[5] "fixed-width"     
+[1] "iris"             "complex"          "codelist-factor1" "codelist-factor2"
+[5] "inline"           "fixed-width"     
 ```
 
 Using the `resource` methode on can obtain the Data Resource
 
-``` r
+``` R
 > iris <- dpresource(dp, "iris")
 > print(iris)
 [iris] The iris data set
@@ -86,7 +87,7 @@ also shows that the data is in a CSV-file anmes `iris.csv`. Standard the
 `print` shows only a few properties of the Data Resource. To show all
 properties:
 
-``` r
+``` R
 > print(iris, properties = NA)
 [iris] The iris data set
 
@@ -105,7 +106,7 @@ data can be opened in R using the `dpgetdata` method. Based on the
 information in the Data Resource this function will try to open the
 dataset using the correct functions in R (in this case `read.csv`):
 
-``` r
+``` R
 > dta <- dpgetdata(iris)
 > head(dta)
   sepal.length sepal.width petal.length petal.width species
@@ -121,7 +122,7 @@ It is also possible to import the data directly from the Data Package
 object by specifying the resource for which the data needs to be
 imported.
 
-``` r
+``` R
 > dta <- dpgetdata(dp, "iris")
 ```
 
@@ -131,7 +132,7 @@ is possible to also provide a custum function to read the data using the
 the data ‘manually’ using the information in the Data Package. The path
 of the file in a Data Resource can be obtained using the `path` method:
 
-``` r
+``` R
 > dppath(iris)
 [1] "iris.csv"
 ```
@@ -142,23 +143,23 @@ is located or a URL. To open a file inside the Data Package one also
 needs the location of the Data Package. This is stored in the `path`
 attribute of the Data Package and Resource:
 
-``` r
+``` R
 > attr(dp, "path")
-[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iris"
+[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.3/datapackage/examples/iris"
 > attr(iris, "path")
-[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iris"
+[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.3/datapackage/examples/iris"
 ```
 
 Using the `fullpath = TRUE` argument, `path` will return the full path
 to the file:
 
-``` r
+``` R
 > fn <- dppath(iris, fullpath = TRUE)
 ```
 
 This path can be used to open the file manually:
 
-``` r
+``` R
 > dta <- read.csv(fn)
 > head(dta)
   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
@@ -180,31 +181,13 @@ Resource. Here we use the pipe operator to chain the various commands to
 import the ‘inline’ data set. In this example data set the data is
 stored inside the Data Package.
 
-``` r
+``` R
 > dta <- dpresource(dp, "inline") |> dpgetdata()
 > head(dta)
-[[1]]
-[[1]]$field1
-[1] 10
-
-[[1]]$field2
-[1] "20"
-
-
-[[2]]
-[[2]]$field1
-[1] 20
-
-[[2]]$field2
-[1] "21"
-
-
-[[3]]
-[[3]]$field1
-[1] 30
-
-[[3]]$field2
-[1] "22"
+  field1 field2
+1     10     20
+2     20     21
+3     30     22
 ```
 
 ## Reading properties from Data Packages and Data Resources
@@ -212,7 +195,7 @@ stored inside the Data Package.
 For many of the standard fields of a Data Packages, methods are defined
 to obtain the values of these fields:
 
-``` r
+``` R
 > dpname(dp)
 [1] "iris-example"
 > dpdescription(dp)
@@ -225,7 +208,7 @@ to obtain the values of these fields:
 
 The same holds for Data Resources:
 
-``` r
+``` R
 > dptitle(iris)
 [1] "The iris data set"
 > dpresource(dp, "inline") |> dptitle()
@@ -235,43 +218,43 @@ The same holds for Data Resources:
 For `datapackage` objects there are currently defined the following
 methods: (this list can be obtained using `?properties_datapackage`)
 
--   `dpname`
--   `dptitle`
--   `dpdescription`
--   `dpkeywords`
--   `dpcreated`
--   `dpid`
--   `dpcontributors`
+  - `dpname`
+  - `dptitle`
+  - `dpdescription`
+  - `dpkeywords`
+  - `dpcreated`
+  - `dpid`
+  - `dpcontributors`
 
 For `dataresource` objects there are currently defined the following
 methods (this list can be obtained using `?properties_dataresource`)
 
--   `dpname`
--   `dptitle`
--   `dpdescription`
--   `dppath`
--   `dpformat`
--   `dpmediatype`
--   `dpencoding`
--   `dpbytes`
--   `dphash`
+  - `dpname`
+  - `dptitle`
+  - `dpdescription`
+  - `dppath`
+  - `dpformat`
+  - `dpmediatype`
+  - `dpencoding`
+  - `dpbytes`
+  - `dphash`
 
 The `dppath` method has a `fullpath` argument that, when used, returns
 the full path to the Data Resources data and not just the path relative
 to the Data Package. The full path is needed when one wants to use the
 path to read the data.
 
-``` r
+``` R
 > dppath(iris)
 [1] "iris.csv"
 > dppath(iris, fullpath = TRUE)
-[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.2/datapackage/examples/iris/iris.csv"
+[1] "/home/eoos/R/x86_64-pc-linux-gnu-library/4.3/datapackage/examples/iris/iris.csv"
 ```
 
 It is also possible to get other properties than the ones explicitly
 mentioned above using the `dpproperty` method:
 
-``` r
+``` R
 > dpproperty(iris, "encoding")
 [1] "utf-8"
 ```
@@ -281,7 +264,7 @@ mentioned above using the `dpproperty` method:
 It is possible for fields to have a Code List associated with them. For
 example in the ‘complex’ example resource, there is a column ‘factor1’:
 
-``` r
+``` R
 > complex <- dpresource(dp, "complex") |> dpgetdata()
 > print(complex)
   string1 integer1 boolean1  number1    number2 boolean2      date1 factor1
@@ -291,13 +274,20 @@ example in the ‘complex’ example resource, there is a column ‘factor1’:
 4              100     TRUE  1.0e+04 -11000.400       NA 1950-10-10       3
 5       f        0       NA      NaN         NA    FALSE 1920-12-10      NA
 6       g        0    FALSE       NA      0.000     TRUE 2002-02-20       3
+  factor2
+1     101
+2     102
+3     101
+4     103
+5     102
+6    <NA>
 ```
 
 This is an integer column but it has an ‘codelist’ property set which
 points to a Data Resource in the Data Package. It is possible te get
 this code list
 
-``` r
+``` R
 > dpcodelist(complex$factor1)
   code     label
 1    1    Purple
@@ -308,7 +298,7 @@ this code list
 
 This Code List can also be used to convert the field to factor:
 
-``` r
+``` R
 > dptofactor(complex$factor1)
 [1] Purple Red    Purple Other  <NA>   Other 
 Levels: Purple Red Other Not given
@@ -318,7 +308,7 @@ Using the `to_factor = TRUE` argument of the `csv_reader` it is also
 possible to convert all fields which have an associated ‘codelist’ to
 factor:
 
-``` r
+``` R
 > complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
 > print(complex)
   string1 integer1 boolean1  number1    number2 boolean2      date1 factor1
@@ -328,27 +318,34 @@ factor:
 4              100     TRUE  1.0e+04 -11000.400       NA 1950-10-10   Other
 5       f        0       NA      NaN         NA    FALSE 1920-12-10    <NA>
 6       g        0    FALSE       NA      0.000     TRUE 2002-02-20   Other
+   factor2
+1   circle
+2   square
+3   circle
+4 triangle
+5   square
+6     <NA>
 ```
 
 ## Creating a Data Package
 
-``` r
+``` R
 > dir <- tempdir()
 > dp <- newdatapackage(dir, name = "example", 
 +   title = "An Example Data Package")
 > print(dp)
 [example] An Example Data Package
 
-Location: </tmp/RtmpPMPOWz>
+Location: </tmp/RtmpQnZBqR>
 <NO RESOURCES>
 ```
 
-``` r
+``` R
 > list.files(dir)
-[1] "datapackage.json"      "file401f725e434d.json"
+[1] "datapackage.json"      "file61da54e2d31e.json"
 ```
 
-``` r
+``` R
 > dpdescription(dp) <- "This is a description of the Data Package"
 ```
 
@@ -357,7 +354,7 @@ makes it easy to read the contents of the description from file as it
 can be difficult to write long descriptions directly from R-code. It is
 possible to use markdown in the description.
 
-``` r
+``` R
 dpdescription(dp) <- readLines("description.md")
 ```
 
