@@ -11,7 +11,7 @@
 #' Returns a \code{data.frame} with the data.
 #'
 #' @export
-fwf_reader <- function(path, resource) {
+fwf_reader <- function(path, resource, to_factor = FALSE, ...) {
   # Read fwfspec
   fwfspec <- dpproperty(resource, "fwfspec")
   if (is.null(fwfspec)) stop("Required fwfspec is missing from resource meta.")
@@ -60,8 +60,8 @@ fwf_reader <- function(path, resource) {
     if (is.character(dta[[col]])) Encoding(dta[[col]]) <- encoding
   # apply schema
   if (!is.null(schema)) {
-    dta <- convert_using_schema(dta, resource, to_factor = FALSE, 
-      decimalChar = dec)
+    dta <- dpapplyschema(dta, resource, to_factor = to_factor, 
+      decimalChar = dec, ...)
   }
   structure(dta, resource = resource)
 }

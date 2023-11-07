@@ -1,5 +1,3 @@
-
-
 #' Recode a variable to factor using the associated Code List
 #'
 #' @param x the variable to recode

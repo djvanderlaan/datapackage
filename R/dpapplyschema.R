@@ -1,4 +1,3 @@
-
 #' Convert columns of data.frame to their correct types using table schema
 #'
 #' @param dta a \code{data.frame} or \code{data.table}.
@@ -22,7 +21,7 @@
 #' and \code{\link{to_date}}.
 #'
 #'@export
-convert_using_schema <- function(dta, resource, to_factor = FALSE, ...) {
+dpapplyschema <- function(dta, resource, to_factor = FALSE, ...) {
   # Check columnnames
   fieldnames <- dpfieldnames(resource)
   if (!all(names(dta) == fieldnames)) 
@@ -53,4 +52,3 @@ convert_using_schema <- function(dta, resource, to_factor = FALSE, ...) {
   }
   dta[]
 }
-

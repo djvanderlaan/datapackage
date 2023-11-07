@@ -1,4 +1,3 @@
-
 # Generate field schema for a boolean field
 #
 # @param name name of the field
