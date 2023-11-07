@@ -13,26 +13,26 @@
 #' object does not have a schema associated with it, a default schema appropiate
 #' for the object is generated.
 #
-#' @rdname schema
+#' @rdname dpschema
 #' @export
 schema <- function(x, attribute, ...) {
   UseMethod("schema")
 }
 
-#' @rdname schema
+#' @rdname dpschema
 #' @export
 schema.default <- function(x, attribute, ...) {
   schema <- generate_schema(x)
   if (!missing(attribute)) schema[[attribute]] else schema
 }
 
-#' @rdname schema
+#' @rdname dpschema
 #' @export
 `schema<-` <- function(x, attribute, value) {
   UseMethod("schema<-")
 }
 
-#' @rdname schema
+#' @rdname dpschema
 #' @export
 `schema<-.default` <- function(x, attribute, value) {
   schema <- schema(x)
