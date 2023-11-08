@@ -38,34 +38,3 @@ dpschema.dataresource <- function(x) {
 }
 
 
-
-
-#==============================================================================
-# GETTING FIELD META
-
-
-
-
-#' Get the field schema associated with a certain field in a Data Resource
-#'
-#' @param resource a \code{dataresource} object.
-#' @param fieldname length one character vector with the name of the field.
-#'
-#' @return
-#' An object of type \code{fielddescriptor}.
-#'
-#' @export
-dpfield <- function(resource, fieldname) {
-  schema <- dpschema(resource)
-  if (is.null(schema)) stop("Data Resource does not have a schema property.")
-  fields <- schema$fields
-  if (is.null(fields)) stop("Fields are missing from schema of Data Resource.")
-  for (i in seq_along(fields)) {
-    if (!exists("name", fields[[i]])) stop("Field without name.")
-    if (fields[[i]]$name == fieldname) return(
-      structure(fields[[i]], class = "fielddescriptor", dataresource = resource)
-    )
-  }
-  stop("Field '", fieldname, "' not found.")
-}
-
