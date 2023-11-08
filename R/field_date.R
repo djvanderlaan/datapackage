@@ -109,11 +109,11 @@ csv_colclass_date <- function(schema = list(), ...) {
 # @rdname csv_format
 # @export
 csv_format_date <- function(x, schema = datapackage::schema(x)) {
-  if (!is.null(schema$categories)) {
+  #if (!is.null(schema$categories)) {
     # We are dealing with a categorical variable that is stored as 
     # a date
-    x <- csv_format_categorical(x, schema)
-  }
+    #x <- csv_format_categorical(x, schema)
+  #}
   if (is.null(schema$format) || schema$format == "default" || 
       schema$format == "any") {
     format <- "%Y-%m-%d"

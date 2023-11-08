@@ -1,4 +1,3 @@
-
 #' Return the number of resources in a Data Package
 #'
 #' @param dp A Data Package object.

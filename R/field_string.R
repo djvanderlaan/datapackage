@@ -71,11 +71,11 @@ csv_colclass_string <- function(schema = list(), ...) {
 # @rdname csv_format
 # @export
 csv_format_string <- function(x, schema = datapackage::schema(x)) {
-  if (!is.null(schema$categories)) {
+  #if (!is.null(schema$categories)) {
     # We are dealing with a categorical variable that is stored as 
     # a string
-    x <- csv_format_categorical(x, schema)
-  }
+    #x <- csv_format_categorical(x, schema)
+  #}
   # For a character we don't have to do anything; we can write as is
   x
 }
