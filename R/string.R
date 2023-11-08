@@ -59,7 +59,7 @@ to_string.character <- function(x, schema = list(), ...) {
   na_values <- if (!is.null(schema$missingValues)) schema$missingValues else
     character(0)
   x[x %in% na_values] <- NA
-  structure(x, schema = schema)
+  structure(x, fielddescriptor = schema)
 }
 
 # @rdname csv_colclass

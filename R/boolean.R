@@ -89,7 +89,7 @@ to_boolean.integer <- function(x, schema = list(), ...) {
     if (any(invalid)) 
       stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
   }
-  structure(res, schema = schema)
+  structure(res, fielddescriptor = schema)
 }
 
 #' @export
@@ -106,13 +106,13 @@ to_boolean.character <- function(x, schema = list(), ...) {
   invalid <- !(s0 | s1 | is.na(x))
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  structure(res, schema = schema)
+  structure(res, fielddescriptor = schema)
 }
 
 #' @export
 to_boolean.logical <- function(x, schema = list(), ...) {
   schema <- complete_schema_boolean(schema)
-  structure(x, schema = schema)
+  structure(x, fielddescriptor = schema)
 }
 
 # @rdname csv_colclass

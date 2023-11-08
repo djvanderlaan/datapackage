@@ -73,7 +73,6 @@ to_date.numeric <- function(x, schema = list(), ...) {
   to_date(sprintf("%08d", x))
 }
 
-
 #' @export
 to_date.character <- function(x, schema = list(), ...) {
   schema <- complete_schema_date(schema)
@@ -91,7 +90,14 @@ to_date.character <- function(x, schema = list(), ...) {
   invalid <- is.na(res) & !na
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  structure(res, schema = schema)
+  structure(res, fielddescriptor = schema)
+}
+
+#' @export
+to_date.Date <- function(x, schema = list(), ...) {
+  schema <- complete_schema_date(schema)
+  # Nothing to do; x is already a Data 
+  structure(x, fielddescriptor = schema)
 }
 
 # @rdname csv_colclass
