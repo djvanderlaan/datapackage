@@ -23,7 +23,40 @@ data. Below we will show how we can use the information in a Data
 Package to easily read in the data and work with the data and we will
 show how we can create a Data Package for our own data.
 
-# Getting information from a Data Package
+## Overview of terminology
+
+Below an overview of some of the terminology associated with Data
+Packages.
+
+**Data Package**
+
+  - Contains one or more Data Resources.
+  - Has a number of properties like `title`, `name` and `description`.
+
+**Data Resource**
+
+  - Contains data either as inline data in a `data` property or external
+    data pointed to by a `path` property.
+  - Has a number of properties, like `title,`name`,`encoding\`, …
+
+**Tabular Data Resource**
+
+  - Is a Data Resource with an additional set of properties and
+    constraints.
+  - Has a Table Schema.
+
+**Table Schema**
+
+  - Describes a tabular data set (a data set with rows an columns; as
+    usually stored in a `data.frame` in R).
+  - Has one or more Field Descriptors.
+
+**Field Descriptor**
+
+  - Describes a Field (a column) in a tabular data set.
+  - Has number of properties like, `name` and `type`.
+
+## Getting information from a Data Package
 
 Below we open an example Data Package that comes with the package:
 
@@ -336,13 +369,13 @@ factor:
 > print(dp)
 [example] An Example Data Package
 
-Location: </tmp/RtmpCOpLCn>
+Location: </tmp/RtmpVPiUq4>
 <NO RESOURCES>
 ```
 
 ``` R
 > list.files(dir)
-[1] "datapackage.json"      "file5e4f700ca0f3.json"
+[1] "datapackage.json"      "file89bd6f815cec.json"
 ```
 
 ``` R
