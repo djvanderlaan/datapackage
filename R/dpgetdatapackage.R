@@ -1,5 +1,3 @@
-
-
 #' Get the Data Package associated with the object
 #' 
 #' @param x the object for which to determine the associated Data Package
@@ -30,7 +28,7 @@ dpgetdatapackage.dataresource <- function(x) {
 }
 
 #' @export
-dpgetdatapackage.fieldschema <- function(x) {
+dpgetdatapackage.fielddescriptor <- function(x) {
   resource <- attr(x, "dataresource")
   if (is.null(resource)) {
     NULL

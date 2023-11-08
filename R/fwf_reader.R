@@ -6,6 +6,11 @@
 #' @param to_factor convert columns to factor if the schema has a codelist
 #'   property for the column.
 #'
+#' @param to_factor convert columns to factor if the schema has a categories
+#'   field for the column. Passed on to \code{\link{dpapplyschema}}.
+#'
+#' @param ... additional arguments are passed on to \code{\link{dpapplyschema}}.
+#'
 #' @seealso
 #' Generally used by calling \code{\link{dpgetdata}}.
 #'
@@ -13,7 +18,7 @@
 #' Returns a \code{data.frame} with the data.
 #'
 #' @export
-fwf_reader <- function(path, resource, to_factor = FALSE) {
+fwf_reader <- function(path, resource, to_factor = FALSE, ...) {
   # Read fwfspec
   fwfspec <- dpproperty(resource, "fwfspec")
   if (is.null(fwfspec)) stop("Required fwfspec is missing from resource meta.")
@@ -62,8 +67,8 @@ fwf_reader <- function(path, resource, to_factor = FALSE) {
     if (is.character(dta[[col]])) Encoding(dta[[col]]) <- encoding
   # apply schema
   if (!is.null(schema)) {
-    dta <- convert_using_schema(dta, resource, to_factor = to_factor, 
-      decimalChar = dec)
+    dta <- dpapplyschema(dta, resource, to_factor = to_factor, 
+      decimalChar = dec, ...)
   }
   structure(dta, resource = resource)
 }

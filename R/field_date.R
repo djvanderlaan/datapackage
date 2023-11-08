@@ -73,7 +73,6 @@ to_date.numeric <- function(x, schema = list(), ...) {
   to_date(sprintf("%08d", x))
 }
 
-
 #' @export
 to_date.character <- function(x, schema = list(), ...) {
   schema <- complete_schema_date(schema)
@@ -91,7 +90,14 @@ to_date.character <- function(x, schema = list(), ...) {
   invalid <- is.na(res) & !na
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  structure(res, schema = schema)
+  structure(res, fielddescriptor = schema)
+}
+
+#' @export
+to_date.Date <- function(x, schema = list(), ...) {
+  schema <- complete_schema_date(schema)
+  # Nothing to do; x is already a Data 
+  structure(x, fielddescriptor = schema)
 }
 
 # @rdname csv_colclass
@@ -103,11 +109,11 @@ csv_colclass_date <- function(schema = list(), ...) {
 # @rdname csv_format
 # @export
 csv_format_date <- function(x, schema = datapackage::schema(x)) {
-  if (!is.null(schema$categories)) {
+  #if (!is.null(schema$categories)) {
     # We are dealing with a categorical variable that is stored as 
     # a date
-    x <- csv_format_categorical(x, schema)
-  }
+    #x <- csv_format_categorical(x, schema)
+  #}
   if (is.null(schema$format) || schema$format == "default" || 
       schema$format == "any") {
     format <- "%Y-%m-%d"

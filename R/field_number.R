@@ -67,7 +67,7 @@ to_number <- function(x, schema = list(),  decimalChar = ".", ...) {
 #' @export
 to_number.numeric <- function(x, schema = list(),  decimalChar = ".", ...) {
   schema <- complete_schema_number(schema)
-  structure(x, schema = schema)
+  structure(x, fielddescriptor = schema)
 }
 
 #' @export
@@ -87,7 +87,7 @@ to_number.character <- function(x, schema = list(), decimalChar = ".", ...) {
   invalid <- is.na(res) & !na & !is.nan(res)
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  structure(res, schema = schema)
+  structure(res, fielddescriptor = schema)
 }
 
 # @param decimalChar the decimal separator used when reading the CSV-file.
@@ -107,11 +107,11 @@ csv_colclass_number <- function(schema = list(), decimalChar = ".", ...) {
 # @rdname csv_format
 # @export
 csv_format_number <- function(x, schema = datapackage::schema(x)) {
-  if (!is.null(schema$categories)) {
+  #if (!is.null(schema$categories)) {
     # We are dealing with a categorical variable that is stored as 
     # a number
-    x <- csv_format_categorical(x, schema)
-  }
+    #x <- csv_format_categorical(x, schema)
+  #}
   has_groupchar <- !is.null(schema$groupChar) && schema$groupChar != ""
   has_decimalchar <- !is.null(schema$decimalChar) && schema$decimalChar != "."
   x <- as.numeric(x)

@@ -6,8 +6,8 @@
 #' @param resource a Data Resource.
 #' @param use_fread use the \code{\link[data.table]{fread}} function instead of
 #'   \code{\link[utils]{read.csv}} and return a \code{data.table}.
-#' @param to_factor convert columns to factor if the schema has a codelist
-#'   property for the column.
+#' @param to_factor convert columns to factor if the schema has a categories
+#'   field for the column. Passed on to \code{\link{dpapplyschema}}.
 #' @param ... additional arguments are passed on to \code{\link{read.csv}} or
 #'   \code{\link[data.table]{fread}}. Note that some arguments are already set
 #'   by \code{csv_reader}, so not all arguments are available to use as 
@@ -32,7 +32,7 @@ csv_reader <- function(path, resource, use_fread = FALSE, to_factor = FALSE, ...
     # TODO: missing values/na.strings
     dta <- csv_read_base(path, decimalChar = dec, colClasses = colclasses, 
       use_fread = use_fread, csv_dialect = dialect, ...)
-    dta <- convert_using_schema(dta, resource, to_factor = to_factor, decimalChar = dec)
+    dta <- dpapplyschema(dta, resource, to_factor = to_factor, decimalChar = dec)
     #dta <- convert_using_schema(dta, schema, to_factor = to_factor, decimalChar = dec)
   }
   structure(dta, resource = resource)

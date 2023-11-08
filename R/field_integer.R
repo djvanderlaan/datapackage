@@ -57,7 +57,7 @@ to_integer <- function(x, schema = list(), ...) {
 #' @export
 to_integer.integer <- function(x, schema = list(), ...) {
   schema <- complete_schema_integer(schema)
-  structure(x, schema = schema)
+  structure(x, fielddescriptor = schema)
 }
 
 #' @export
@@ -65,7 +65,7 @@ to_integer.numeric <- function(x, schema = list(), ...) {
   schema <- complete_schema_integer(schema)
   # Need to check for rounding errors? Would round(x) be better? 
   x <- as.integer(round(x))
-  structure(x, schema = schema)
+  structure(x, fielddescriptor = schema)
 }
 
 # @export
@@ -95,7 +95,7 @@ to_integer.character <- function(x, schema = list(), ...) {
   invalid <- is.na(res) & !na
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  structure(res, schema = schema)
+  structure(res, fielddescriptor = schema)
 }
 
 
@@ -111,11 +111,11 @@ csv_colclass_integer <- function(schema = list(), ...) {
 # @rdname csv_format
 # @export
 csv_format_integer <- function(x, schema = datapackage::schema(x)) {
-  if (!is.null(schema$categories)) {
+  #if (!is.null(schema$categories)) {
     # We are dealing with a categorical variable that is stored as 
     # an integer
-    x <- csv_format_categorical(x, schema)
-  }
+    #x <- csv_format_categorical(x, schema)
+  #}
   as.integer(x)
 }
 

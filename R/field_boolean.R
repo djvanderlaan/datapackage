@@ -1,4 +1,3 @@
-
 # Generate field schema for a boolean field
 #
 # @param name name of the field
@@ -90,7 +89,7 @@ to_boolean.integer <- function(x, schema = list(), ...) {
     if (any(invalid)) 
       stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
   }
-  structure(res, schema = schema)
+  structure(res, fielddescriptor = schema)
 }
 
 #' @export
@@ -107,13 +106,13 @@ to_boolean.character <- function(x, schema = list(), ...) {
   invalid <- !(s0 | s1 | is.na(x))
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  structure(res, schema = schema)
+  structure(res, fielddescriptor = schema)
 }
 
 #' @export
 to_boolean.logical <- function(x, schema = list(), ...) {
   schema <- complete_schema_boolean(schema)
-  structure(x, schema = schema)
+  structure(x, fielddescriptor = schema)
 }
 
 # @rdname csv_colclass
@@ -138,11 +137,11 @@ csv_colclass_boolean <- function(schema = list(), ...) {
 # @rdname csv_format
 # @export
 csv_format_boolean <- function(x, schema = datapackage::schema(x)) {
-  if (!is.null(schema$categories)) {
+  #if (!is.null(schema$categories)) {
     # We are dealing with a categorical variable that is stored as 
     # a boolean
-    x <- csv_format_categorical(x, schema)
-  }
+    #x <- csv_format_categorical(x, schema)
+  #}
   if (is.logical(x) && ("TRUE" %in% schema$trueValues) && 
       ("FALSE" %in% schema$falseValues)) {
     # We can as is as R writes TRUE/FALSE by default

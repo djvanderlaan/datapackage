@@ -1,4 +1,3 @@
-
 #' Get the data belonging to a Data Resource
 #'
 #' @param x a \code{dataresource} or \code{datapackage} object.
@@ -17,6 +16,9 @@
 #' used based on the \code{format} and \code{mediatype} of the Data Resource.
 #' Currently only CSV is supported. For other data types a custom reader has to
 #' be provided unless the data is stored inside the Data Resource object.
+#'
+#' It is also possible to assign default readers for data formats. For that see
+#' \code{\link{dpaddreader}}.
 #'
 #' @return
 #' Will return the data. This will generally be a \code{data.frame} but

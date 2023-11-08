@@ -1,19 +1,18 @@
-
 #' Convert columns of data.frame to their correct types using table schema
 #'
 #' @param dta a \code{data.frame} or \code{data.table}.
 #' @param resource an object with the Data Resource of the data set.
-#' @param to_factor convert columns to factor if the schema has a categories
-#'   field for the column.
+#' @param to_factor convert columns to factor if the field descriptor a
+#'   \code{codelist} field for the column.
 #' @param ... additional arguments are passed on to the \code{to_<fieldtype>} 
 #'   functions (e.g. \code{\link{to_number}}). 
 #'
 #' @details
 #' Converts each column in \code{dta} to the correct R-type using the type
-#' information in the schema. For example, if the original column type in
-#' \code{dta} is a character vector and the schema specifies that the field is
+#' information in the table schema. For example, if the original column type in
+#' \code{dta} is a character vector and the table schema specifies that the field is
 #' of type number, the column is converted to numeric using the decimal
-#' separator and thousands separator specified in the schema (or default values
+#' separator and thousands separator specified in the field descriptor (or default values
 #' for these if not). 
 #'
 #' @seealso
@@ -22,19 +21,19 @@
 #' and \code{\link{to_date}}.
 #'
 #'@export
-convert_using_schema <- function(dta, resource, to_factor = FALSE, ...) {
+dpapplyschema <- function(dta, resource, to_factor = FALSE, ...) {
   # Check columnnames
   fieldnames <- dpfieldnames(resource)
   if (!all(names(dta) == fieldnames)) 
-    stop("Column names of dta do not match those in the schema.")
+    stop("Column names of dta do not match those in the table schema")
   # Convert columns to correct type
   is_data_table <- methods::is(dta, "data.table")
   for (field in fieldnames) {
-    fieldschema <- dpfield(resource, field)
-    fun <- paste0("to_", fieldschema$type)
+    fielddescriptor <- dpfield(resource, field)
+    fun <- paste0("to_", fielddescriptor$type)
     stopifnot(exists(fun))
     fun <- get(fun)
-    res <- fun(dta[[field]], fieldschema, ...)
+    res <- fun(dta[[field]], fielddescriptor, ...)
     if (to_factor) res <- dptofactor(res, warn = FALSE)
     if (is_data_table) {
       data.table::set(dta, j = field, value = res)
@@ -42,7 +41,7 @@ convert_using_schema <- function(dta, resource, to_factor = FALSE, ...) {
       dta[[field]] <- res
     }
   }
-  # The fields schema is stored in the fields; drop it
+  # The fields descriptor is stored in the fields; drop it
   # TODO: ? schema$fields <- NULL
   # TODO: probably beter to not store the schema with the data.frame; unlikely 
   # that the schema remains valid
@@ -53,4 +52,3 @@ convert_using_schema <- function(dta, resource, to_factor = FALSE, ...) {
   }
   dta[]
 }
-
