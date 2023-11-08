@@ -69,3 +69,29 @@ dpproperty.dataresource <- function(x, attribute) {
   x
 }
 
+#' @export
+#' @rdname dpproperty
+dpproperty.tableschema <- function(x, attribute) {
+  x[[attribute]]
+}
+
+#' @export
+#' @rdname dpproperty
+`dpproperty<-.tableschema` <- function(x, attribute, value) {
+  x[[attribute]] <- value
+  x
+}
+
+#' @export
+#' @rdname dpproperty
+dpproperty.fielddescriptor <- function(x, attribute) {
+  x[[attribute]]
+}
+
+#' @export
+#' @rdname dpproperty
+`dpproperty<-.fielddescriptor` <- function(x, attribute, value) {
+  x[[attribute]] <- value
+  x
+}
+

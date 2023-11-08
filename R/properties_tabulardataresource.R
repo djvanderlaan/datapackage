@@ -44,25 +44,6 @@ dpschema.dataresource <- function(x) {
 # GETTING FIELD META
 
 
-#' List the fields in a Data Resource
-#' 
-#' @param resource a \code{dataresource} object.
-#'
-#' @return
-#' Returns a character vector with the fields in the Data Resource.
-#'
-#' @export
-dpfieldnames <- function(resource) {
-  schema <- dpschema(resource)
-  if (is.null(schema)) stop("Data Resource does not have a schema property.")
-  # TODO: convert to dpproperty
-  fields <- schema$fields
-  if (is.null(fields)) stop("Fields are missing from schema of Data Resource.")
-  sapply(fields, function(f) {
-    if (!exists("name", f)) stop("Field without name.")
-    f$name
-  })
-}
 
 
 #' Get the field schema associated with a certain field in a Data Resource
@@ -71,7 +52,7 @@ dpfieldnames <- function(resource) {
 #' @param fieldname length one character vector with the name of the field.
 #'
 #' @return
-#' An object of type \code{fieldschema}.
+#' An object of type \code{fielddescriptor}.
 #'
 #' @export
 dpfield <- function(resource, fieldname) {
@@ -82,7 +63,7 @@ dpfield <- function(resource, fieldname) {
   for (i in seq_along(fields)) {
     if (!exists("name", fields[[i]])) stop("Field without name.")
     if (fields[[i]]$name == fieldname) return(
-      structure(fields[[i]], class = "fieldschema", dataresource = resource)
+      structure(fields[[i]], class = "fielddescriptor", dataresource = resource)
     )
   }
   stop("Field '", fieldname, "' not found.")

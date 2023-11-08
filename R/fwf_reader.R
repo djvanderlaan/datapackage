@@ -4,6 +4,11 @@
 #' 
 #' @param resource a Data Resource.
 #'
+#' @param to_factor convert columns to factor if the schema has a categories
+#'   field for the column. Passed on to \code{\link{dpapplyschema}}.
+#'
+#' @param ... additional arguments are passed on to \code{\link{dpapplyschema}}.
+#'
 #' @seealso
 #' Generally used by calling \code{\link{dpgetdata}}.
 #'
