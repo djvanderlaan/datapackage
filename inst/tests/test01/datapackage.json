@@ -1,0 +1,121 @@
+{
+  "name": "test01",
+  "title": "Test datapackage 01",
+  "description" : "A data package to test if tooling functions correctly",
+  "resources" : [
+    {
+      "name": "complex",
+      "path": "complex.csv",
+      "title": "A complex example dataset",
+      "description": "An example dataset with columns of various types and non-standard CSV-format",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields" : [ 
+          {
+            "name" : "string1",
+            "type" : "string"
+          }, {
+            "name" : "integer1",
+            "type" : "integer"
+          }, {
+            "name" : "boolean1",
+            "type" : "boolean"
+          }, {
+            "name" : "number1",
+            "type" : "number"
+          }, {
+            "name" : "number2",
+            "type" : "number",
+            "decimalChar" : "$",
+            "groupChar" : " "
+          }, {
+            "name" : "boolean2",
+            "type" : "boolean",
+            "trueValues" : ["TRUE"],
+            "falseValues" : ["FALSE"]
+          }, {
+            "name" : "date1",
+            "type" : "date"
+          }, {
+            "name" : "factor1",
+            "type" : "integer",
+            "codelist" : "codelist-factor1"
+          }, {
+            "name" : "factor2",
+            "type" : "string",
+            "missingValues": "",
+            "codelist" : "codelist-factor2"
+          }
+        ]
+      }
+    }, {
+      "name": "codelist-factor1",
+      "path": "codelist-factor1.csv",
+      "title": "Codelist for the factor1 field in the complex resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields" : [ 
+          {
+            "name" : "code",
+            "type" : "integer"
+          }, {
+            "name" : "label",
+            "type" : "string"
+          }
+        ]
+      }
+
+    }, {
+      "name": "codelist-factor2",
+      "data": [
+        {"code": "101", "label": "circle"},
+        {"code": "102", "label": "square"},
+        {"code": "103", "label": "triangle"}
+      ]
+    }, {
+      "name": "inline",
+      "title": "An inline data set",
+      "description": "A description of the inline set",
+      "data": [
+        {"field1": 10, "field2": "20"},
+        {"field1": 20, "field2": "21"},
+        {"field1": 30, "field2": "22"}
+      ]
+    }, {
+      "name": "fixed-width",
+      "path": "fixedwidth.asc",
+      "title": "A Fixed Width Example",
+      "encoding": "UTF-8",
+      "mediatype": "text/x-fixedwidth",
+      "fwfspec": [
+        {"name": "foo", "length": 1},
+        {"name": "bar", "length": 5},
+        {"name": "date", "length": 10},
+        {"name": "name", "length": 8}
+      ],
+      "schema": {
+        "fields" : [
+          { 
+            "name": "foo",
+            "type": "integer"
+          }, {
+            "name": "bar",
+            "type": "number",
+            "decimalChar": "."
+          }, {
+            "name": "date",
+            "type": "date"
+          }, {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ]
+}
+

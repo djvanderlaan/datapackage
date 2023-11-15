@@ -1,9 +1,20 @@
 expect_equal <- function(x, y, attributes = TRUE) {
   if (is.data.frame(x) && !attributes) 
     return(expect_equal_data.frame(x, y, attributes))
+  if (is.factor(x) && !attributes) 
+    return(expect_equal_factor(x, y, attributes))
   if (!attributes) attributes(x) <- NULL
   if (!attributes) attributes(y) <- NULL
   stopifnot(isTRUE(all.equal(x, y)))
+}
+
+expect_equal_factor <- function(x, y, attributes = TRUE) {
+  if (attributes) {
+    expect_equal(x, y, attributes = attributes)
+  } else {
+    expect_equal(as.integer(x), as.integer(y), attributes = FALSE)
+    expect_equal(levels(x), levels(y), attributes = FALSE)
+  }
 }
 
 expect_equal_data.frame <- function(x, y, attributes = TRUE) {

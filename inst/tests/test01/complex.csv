@@ -1,0 +1,7 @@
+string1,integer1,boolean1,number1,number2,boolean2,date1,factor1,factor2
+a,1,true,1.20,1$20,TRUE,2020-01-01,1,101
+b,-100,false,-1E-4,-0$001,FALSE,2022-01-12,2,102
+c,,true,Inf,1 100,TRUE,,1,101
+,+100,TRUE,1E4,-1 1000$40,,1950-10-10,3,103
+f,-0,,NaN,,FALSE,1920-12-10,,102
+g,+0,False,,-0,TRUE,2002-02-20,3,
