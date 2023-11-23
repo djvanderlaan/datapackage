@@ -29,6 +29,7 @@ dptofactor <- function(x, codelist = dpcodelist(x), warn = TRUE) {
       wrong <- c(utils::head(wrong, 5), "...")
     stop("Invalid values found in x: ", paste0(wrong, collapse = ","))
   }
-  factor(x, levels = codes, labels = labels)
+  structure(factor(x, levels = codes, labels = labels), 
+    fielddescriptor = attr(x, "fielddescriptor"))
 }
 
