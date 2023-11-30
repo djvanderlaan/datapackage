@@ -12,7 +12,7 @@
 #' be found.
 #'
 #' @export
-dpcodelist <- function(x, schema = attr(x, "schema"), 
+dpcodelist <- function(x, schema = attr(x, "fielddescriptor"), 
     datapackage = dpgetdatapackage(schema)) {
   codelist <- schema$codelist
   if (is.null(codelist)) return(NULL)

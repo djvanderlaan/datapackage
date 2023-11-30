@@ -20,7 +20,7 @@ dpfield.tableschema <- function(x, fieldname) {
     if (!exists("name", fields[[i]])) stop("Field without name.")
     if (fields[[i]]$name == fieldname) return(
       structure(fields[[i]], class = "fielddescriptor", 
-        dataresource = attr(x, "resource"))
+        dataresource = attr(x, "dataresource"))
     )
   }
   stop("Field '", fieldname, "' not found.")
