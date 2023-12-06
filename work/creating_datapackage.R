@@ -1,5 +1,4 @@
 
-pkgload::load_all()
 
 
 Welke use cases:
@@ -20,6 +19,7 @@ deze bestaande metadata.
 # TODO: option to not store any codelist at all an store factor as character
 # TODO: other types such as integer, boolean, date
 
+pkgload::load_all()
 
 dpgeneratedataresources <- function(x, name, ...) {
   stopifnot(is.data.frame(x))
@@ -74,7 +74,7 @@ generatefielddescriptor.factor <- function(x, name, ...) {
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
-dpgeneratedataresources(iris, "iris") |> jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE)
+dpgeneratedataresources(iris, "iris") |> lapply(unclass) |> jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE)
 
 
 system("rm -f -r work/test")
@@ -101,9 +101,13 @@ dpresources(dp) <- res
 
 dp
 
-csv_write <- function(x, resourcename, datapackage
-    delimiter = ",", decimalChar = ".", ...) {
-  if (decimalChar != ".") schema <- set_decimalchar(schema, decimalChar, FALSE)
+csv_write <- function(x, resourcename, datapackage, ...) {
+  dataresource <- dpresource(datapackage, resourcename)
+  if (is.null(dataresource)) 
+    stop("Data resource '", resourcename, "' does not exist in data package")
+  decimalChar <- decimalchar(dataresource)
+  delimiter <- "," # TODO: check csv specs in resource
+
   delimiter_ok <- sapply(schema$fields, function(x) x$type != "number" || 
     is.null(x$decimalChar) || x$decimalChar != delimiter)
   delimiter_ok <- all(delimiter_ok)
@@ -127,7 +131,13 @@ csv_write <- function(x, resourcename, datapackage
   #write_schema(schema, filename_schema, pretty = TRUE)
 }
 
-decimalchar <- function(x) {
-  decimalChars <- sapply(dpfieldnames(x), \(fn) 
-    dpfield(x, fn) |> dpproperty("decimalChar"))
+decimalchar <- function(x, default = ".") {
+  decimalChars <- sapply(dpfieldnames(x), \(fn) {
+    char <- dpfield(x, fn) |> dpproperty("decimalChar")
+    ifelse(is.null(char), ".", char)
+  }) |> table() |> sort(decreasing = TRUE)
+  if(length(decimalChars) == 0) default else names(decimalChars)[1]
 }
+
+decimalchar(res[[1]])
+
