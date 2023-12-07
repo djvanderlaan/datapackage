@@ -99,17 +99,20 @@ res <- dpgeneratedataresources(iris, "iris")
 dpresources(dp) <- res
 
 
+x <- iris
+resourcename <- "iris"
+datapackage <- dp
+
 dp
 
-csv_write <- function(x, resourcename, datapackage, ...) {
+#csv_write <- function(x, resourcename, datapackage, ...) {
   dataresource <- dpresource(datapackage, resourcename)
   if (is.null(dataresource)) 
     stop("Data resource '", resourcename, "' does not exist in data package")
-  decimalChar <- decimalchar(dataresource)
+  decimalChar <- decimalchars(dataresource) |> head(1)
   delimiter <- "," # TODO: check csv specs in resource
-
-  delimiter_ok <- sapply(schema$fields, function(x) x$type != "number" || 
-    is.null(x$decimalChar) || x$decimalChar != delimiter)
+  # Check if delimiter equal to decimalchar; ifso we will have issues reading
+  delimiter_ok <- decimalchars(dataresource) != delimiter
   delimiter_ok <- all(delimiter_ok)
   if (delimiter == decimalChar || !delimiter_ok)
     stop("There are fields for which the decimalChar equals the field ", 
@@ -118,8 +121,8 @@ csv_write <- function(x, resourcename, datapackage, ...) {
   # be quoted in the output
   quote <- which(sapply(x, is.character))
   # Format the fields (if necessary)
-  for (i in seq_along(x)) 
-    x[[i]] <- csv_format(x[[i]], schema$fields[[i]])
+  for (i in names(x)) 
+    x[[i]] <- csv_format(x[[i]], dpfield(dataresource, i))
   # How to write missing values
   nastrings <- if (!is.null(schema$missingValues)) schema$missingValues else ""
   na <- if (length(nastrings) > 0) nastrings[1] else ""
@@ -131,13 +134,21 @@ csv_write <- function(x, resourcename, datapackage, ...) {
   #write_schema(schema, filename_schema, pretty = TRUE)
 }
 
-decimalchar <- function(x, default = ".") {
+decimalchars <- function(x) {
   decimalChars <- sapply(dpfieldnames(x), \(fn) {
     char <- dpfield(x, fn) |> dpproperty("decimalChar")
-    ifelse(is.null(char), ".", char)
-  }) |> table() |> sort(decreasing = TRUE)
-  if(length(decimalChars) == 0) default else names(decimalChars)[1]
+    if (is.null(char)) {
+      type <- dpfield(x, fn) |> dpproperty("type")
+      if (type == "number") NA_character_ else '.'
+    } else {
+      char
+    }
+  }) 
+  decimalChars <- decimalChars[!is.na(decimalChars)]
+  if (length(decimalChars) == 0) decimalChars <- "."
+  decimalChars <- sort(decimalChars) |> as.character()
+  tmp <- rle(decimalChars)
+  o <- order(tmp$lengths, decreasing = TRUE)
+  tmp$values[o]
 }
-
-decimalchar(res[[1]])
 
