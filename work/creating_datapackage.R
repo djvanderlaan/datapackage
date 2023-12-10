@@ -102,18 +102,18 @@ dpresources(dp) <- res
 x <- iris
 resourcename <- "iris"
 datapackage <- dp
+path <- "iris.csv"
 
 dp
 
-#csv_write <- function(x, resourcename, datapackage, ...) {
+#csv_write <- function(x, resourcename, datapackage, path, ...) {
   dataresource <- dpresource(datapackage, resourcename)
   if (is.null(dataresource)) 
     stop("Data resource '", resourcename, "' does not exist in data package")
   decimalChar <- decimalchars(dataresource) |> head(1)
   delimiter <- "," # TODO: check csv specs in resource
   # Check if delimiter equal to decimalchar; ifso we will have issues reading
-  delimiter_ok <- decimalchars(dataresource) != delimiter
-  delimiter_ok <- all(delimiter_ok)
+  delimiter_ok <- all(decimalchars(dataresource) != delimiter)
   if (delimiter == decimalChar || !delimiter_ok)
     stop("There are fields for which the decimalChar equals the field ", 
       "delimiter. This is not allowed.")
@@ -124,15 +124,90 @@ dp
   for (i in names(x)) 
     x[[i]] <- csv_format(x[[i]], dpfield(dataresource, i))
   # How to write missing values
-  nastrings <- if (!is.null(schema$missingValues)) schema$missingValues else ""
-  na <- if (length(nastrings) > 0) nastrings[1] else ""
+  csvdialect <- dpproperty(dataresource, "dialect")
+  encoding <- dpencoding(dataresource, "encoding")
+  if (is.null(encoding)) encoding <- "UTF-8"
+  if (missing(path)) {
+    path <- dppath(dataresource)
+  } else {
+  }
+  if (!missing(path))
+  if (is.null(path)) stop("Path is missing in dataresource.")
   # Write
-  utils::write.table(x, file = filename, na = na, row.names = FALSE, 
-    fileEncoding = "UTF-8", quote = quote, sep = delimiter, dec = ".", 
-    qmethod = "double")
+  csv_write_base(x, path, encoding = encoding, decimalChar = decimalChar, 
+    csv_dialect = csvdialect, quote = quote)
   # TODO
   #write_schema(schema, filename_schema, pretty = TRUE)
 }
+
+
+csv_write_base <- function(x, filename, 
+    delimiter = ",", decimalChar = ".",
+    quoteChar = "\"", doubleQuote = TRUE, 
+    commentChar  = "", lineTerminator = "\r\n", 
+    header = TRUE, nullSequence = "", encoding = "UTF-8",
+    skipInitialSpace = FALSE,  use_fwrite = FALSE, 
+    quote = quoteChar != "", csv_dialect, ...) {
+  # Handle input of the arguments through a named list
+  if (!missing(csv_dialect) && !is.null(csv_dialect)) {
+    stopifnot(is.list(csv_dialect))
+    keep <- c("delimiter", "lineTerminator", "quoteChar", "doubleQuote", 
+      "skipInitialSpace", "header", "commentChar", "nullSequence")
+    csv_dialect <- csv_dialect[names(csv_dialect) %in% keep]
+    if (!missing(delimiter)) csv_dialect$delimiter <- delimiter
+    if (!missing(lineTerminator)) csv_dialect$lineTerminator <- lineTerminator
+    if (!missing(quoteChar)) csv_dialect$quoteChar <- quoteChar
+    if (!missing(doubleQuote)) csv_dialect$doubleQuote <- doubleQuote
+    if (!missing(skipInitialSpace)) csv_dialect$skipInitialSpace <- skipInitialSpace
+    if (!missing(header)) csv_dialect$header <- header
+    if (!missing(commentChar)) csv_dialect$commentChar <- commentChar
+    if (!missing(caseSensitiveHeader)) csv_dialect$caseSensitiveHeader <- caseSensitiveHeader
+    if (!missing(nullSequence)) csv_dialect$nullSequence <- nullSequence
+    args <- c(csv_dialect, list(filename = filename, colClasses = colClasses, na.strings = na.strings,
+      use_fwrite = use_fwrite, decimalChar = decimalChar), list(...))
+    return(do.call(csv_write_base, args))
+  }
+  # Check and process aguments
+  stopifnot(is.character(filename))
+  stopifnot(is.character(delimiter), length(delimiter) == 1, nchar(delimiter) == 1)
+  stopifnot(is.character(decimalChar), length(decimalChar) == 1, nchar(decimalChar) == 1)
+  stopifnot(is.character(quoteChar), length(quoteChar) == 1)
+  if (quoteChar != '"') 
+    stop("Values other than \" for quoteChar are not supported.")
+  stopifnot(length(doubleQuote) == 1)
+  if (!doubleQuote) stop("Values other than TRUE for doubleQuote are not supported.")
+  stopifnot(is.logical(header), length(header) == 1)
+  stopifnot(is.character(commentChar), length(commentChar) == 1, nchar(commentChar) <= 1)
+  if (commentChar != "") 
+    stop('Values other than "" for commentChar are not supported.')
+  stopifnot(is.character(lineTerminator), length(lineTerminator) == 1)
+  if (!(lineTerminator %in% c("\n", "\r", "\r\n")))
+    stop("Values other than '\\n', '\\r' or '\\r\\n' for lineTerminator are not supported.")
+  stopifnot(is.character(nullSequence), length(nullSequence) == 1)
+  stopifnot(is.logical(skipInitialSpace), length(skipInitialSpace) == 1)
+  stopifnot(is.character(encoding), length(encoding) == 1)
+  encoding <- toupper(encoding)
+  # Write data
+#  if (use_fwrite) {
+#    if (!requireNamespace("data.table")) stop("In order to use ", 
+#        "'use_fread=TRUE' the data.table package needs to be installed.")
+#    lapply(filename, function(fn) {
+#      d <- data.table::fread(filename, sep = delimiter, quote = quoteChar, 
+#        dec = decimalChar, header = header, 
+#        strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
+#        colClasses = colClasses, na.strings = na.strings, ...)
+#      if (!caseSensitiveHeader) names(d) <- tolower(names(d))
+#      d
+#    }) |> data.table::rbindlist()
+#  } else {
+    write.table(x, filename, quote = quote, sep = delimiter, 
+      eol = lineTerminator, na = nullSequence, dec = decimalChar, 
+      row.names = FALSE, col.names = header, qmethod = "double", 
+      fileEncoding = encoding)
+#    if (length(dta) > 1) do.call(rbind, dta) else dta[[1]]
+#  }
+}
+
 
 decimalchars <- function(x) {
   decimalChars <- sapply(dpfieldnames(x), \(fn) {
