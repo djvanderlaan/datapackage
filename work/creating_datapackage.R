@@ -21,7 +21,7 @@ deze bestaande metadata.
 
 pkgload::load_all()
 
-dpgeneratedataresources <- function(x, name, ...) {
+dpgeneratedataresources <- function(x, name, path = paste0(name, ".csv"), ...) {
   stopifnot(is.data.frame(x))
   resources <- vector("list", 1)
   # Generate the table schema
@@ -40,7 +40,8 @@ dpgeneratedataresources <- function(x, name, ...) {
     fields[[i]] <- fd$fielddescriptor
   }
   res <- structure(list(name = name, format = "csv", mediatype = "text/csv", 
-    encoding = "utf-8", schema = list(fields = fields)), class = "dataresource")
+    path = path, encoding = "utf-8", schema = list(fields = fields)), 
+    class = "dataresource")
   resources[[1L]] <- res
   resources
 }
@@ -106,7 +107,7 @@ path <- "iris.csv"
 
 dp
 
-#csv_write <- function(x, resourcename, datapackage, path, ...) {
+#csv_write <- function(x, resourcename, datapackage, ...) {
   dataresource <- dpresource(datapackage, resourcename)
   if (is.null(dataresource)) 
     stop("Data resource '", resourcename, "' does not exist in data package")
@@ -121,18 +122,16 @@ dp
   # be quoted in the output
   quote <- which(sapply(x, is.character))
   # Format the fields (if necessary)
+  stopifnot(setequal(names(x), dpfieldnames(dataresource)))
   for (i in names(x)) 
     x[[i]] <- csv_format(x[[i]], dpfield(dataresource, i))
   # How to write missing values
   csvdialect <- dpproperty(dataresource, "dialect")
   encoding <- dpencoding(dataresource, "encoding")
   if (is.null(encoding)) encoding <- "UTF-8"
-  if (missing(path)) {
-    path <- dppath(dataresource)
-  } else {
-  }
-  if (!missing(path))
+  path <- dppath(dataresource, fullpath = TRUE)
   if (is.null(path)) stop("Path is missing in dataresource.")
+  if (isurl(path)) stop("Path is an URL; writing to a URL is not supported.")
   # Write
   csv_write_base(x, path, encoding = encoding, decimalChar = decimalChar, 
     csv_dialect = csvdialect, quote = quote)
