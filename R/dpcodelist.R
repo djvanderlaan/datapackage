@@ -12,9 +12,27 @@
 #' be found.
 #'
 #' @export
-dpcodelist <- function(x, schema = attr(x, "fielddescriptor"), 
+dpcodelist <- function(x, ...) {
+  UseMethod("dpcodelist")
+}
+
+#' @export
+dpcodelist.default <- function(x, schema = attr(x, "fielddescriptor"), 
     datapackage = dpgetdatapackage(schema)) {
-  codelist <- schema$codelist
+  res <- NULL
+  if (!is.null(res)) res <- dpcodelist(schema)
+  if (is.null(res) && is.factor(x)) {
+    res <- data.frame(
+      code = seq_len(nlevels(x)),
+      label = levels(x)
+    )
+  }
+  res
+}
+
+#' @export
+dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x)) {
+  codelist <- x$codelist
   if (is.null(codelist)) return(NULL)
   if (is.character(codelist)) {
     stopifnot(is.character(codelist), length(codelist) == 1)
@@ -23,4 +41,6 @@ dpcodelist <- function(x, schema = attr(x, "fielddescriptor"),
   stopifnot(is.data.frame(codelist))
   codelist
 }
+
+
 

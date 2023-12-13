@@ -104,13 +104,29 @@ x <- iris
 resourcename <- "iris"
 datapackage <- dp
 path <- "iris.csv"
+write_codelists <- TRUE
 
 dp
 
-#csv_write <- function(x, resourcename, datapackage, ...) {
+csv_write(iris, "iris", dp)
+
+csv_write <- function(x, resourcename, datapackage, write_codelists = TRUE, ...) {
   dataresource <- dpresource(datapackage, resourcename)
   if (is.null(dataresource)) 
     stop("Data resource '", resourcename, "' does not exist in data package")
+  # First check to see of dataresourc fits data
+  stopifnot(setequal(names(x), dpfieldnames(dataresource)))
+  # Save code lists
+  if (write_codelists) {
+    for (field in dpfieldnames(dataresource)) {
+      clresource <- dpfield(dataresource, field) |> dpproperty("codelist")
+      if (!is.null(clresource)) {
+        cl <- dpcodelist(x[[field]])
+        csv_write(cl, clresource, datapackage, write_codelists = FALSE, ...)
+      }
+    }
+  }
+  # Write dataset; but first process arguments
   decimalChar <- decimalchars(dataresource) |> head(1)
   delimiter <- "," # TODO: check csv specs in resource
   # Check if delimiter equal to decimalchar; ifso we will have issues reading
@@ -122,7 +138,6 @@ dp
   # be quoted in the output
   quote <- which(sapply(x, is.character))
   # Format the fields (if necessary)
-  stopifnot(setequal(names(x), dpfieldnames(dataresource)))
   for (i in names(x)) 
     x[[i]] <- csv_format(x[[i]], dpfield(dataresource, i))
   # How to write missing values
@@ -135,8 +150,6 @@ dp
   # Write
   csv_write_base(x, path, encoding = encoding, decimalChar = decimalChar, 
     csv_dialect = csvdialect, quote = quote)
-  # TODO
-  #write_schema(schema, filename_schema, pretty = TRUE)
 }
 
 
