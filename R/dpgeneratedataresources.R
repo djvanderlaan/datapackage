@@ -36,8 +36,9 @@ dpgeneratedataresources <- function(x, name, path = paste0(name, ".csv"), ...) {
     codelist <- fd$codelist
     if (!is.null(codelist)) {
       # WE have a codelist and need to generate a dataresource for the codelist
-      codelistname <- sprintf("%s-%s-codelist", 
-         name, names(x)[i])
+      codelistname <- fd$fielddescriptor$codelist
+      if (is.null(codelistname))
+        codelistname <- sprintf("%s-%s-codelist", name, names(x)[i])
       fd$fielddescriptor$codelist <- codelistname
       codelist_res <- dpgeneratedataresources(codelist, codelistname)
       resources[[length(resources)+1L]] <- codelist_res[[1]]

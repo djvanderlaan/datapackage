@@ -67,8 +67,7 @@ readLines("work/test/iris.csv", n=10) |> writeLines()
 readLines("work/test/iris-Species-codelist.csv", n=10) |> writeLines()
 
 dp <- opendatapackage("work/test")
-dp |> dpresource("iris") |> dpgetdata()
-# TODO: Species isn't a factor??
+dp |> dpresource("iris") |> dpgetdata(to_factor = TRUE) |> head()
 
 foo <- function(x) {
   deparse(substitute(x))
@@ -76,4 +75,25 @@ foo <- function(x) {
 
 x <- "foo (bar-)ww"
 
+
+
+dploadfromdatapackage <- function(path, name, ...) {
+  missingname <- missing(name)
+  dp <- opendatapackage(path)
+  if (missingname) name <- dpname(dp)
+  resourcenames <- dpresourcenames(dp)
+  if (length(dpresourcenames) == 0) 
+    stop("Data Package does not contain any resources.")
+  if (is.null(name) | !(name %in% dpresourcenames(dp))) {
+    if (!missingname) stop("Invalid resource name '", name, "'. ", 
+      "Valid names are: ", paste0("'", resourcenames, "'", collapse = ", "))
+    name <- dpresourcenames(dp)[1]
+    warning("Using first data resource.")
+  }
+  dp |> dpresource(name) |> dpgetdata(...)
+}
+
+dploadfromdatapackage("work/test", to_factor = TRUE) |> head()
+
+dploadfromdatapackage("work/test", "Species-codelist")
 

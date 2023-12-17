@@ -38,7 +38,8 @@ dpgeneratefielddescriptor.numeric <- function(x, name, ...) {
 dpgeneratefielddescriptor.factor <- function(x, name, ...) {
   fielddescriptor <- list(
     name = name,
-    type = "integer"
+    type = "integer",
+    codelist = sprintf("%s-codelist", name)
   )
   codelist <- data.frame(
     code = seq_len(nlevels(x)),
@@ -47,3 +48,4 @@ dpgeneratefielddescriptor.factor <- function(x, name, ...) {
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
+# TODO: reuse existing fielddescriptor

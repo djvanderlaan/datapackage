@@ -20,7 +20,7 @@ dpcodelist <- function(x, ...) {
 dpcodelist.default <- function(x, schema = attr(x, "fielddescriptor"), 
     datapackage = dpgetdatapackage(schema)) {
   res <- NULL
-  if (!is.null(res)) res <- dpcodelist(schema)
+  if (!is.null(schema)) res <- dpcodelist(schema)
   if (is.null(res) && is.factor(x)) {
     res <- data.frame(
       code = seq_len(nlevels(x)),
