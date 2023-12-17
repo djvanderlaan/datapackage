@@ -13,7 +13,7 @@
 #'
 #' @details
 #' When \code{reader = "guess"} the function will try to guess which reader to
-#' used based on the \code{format} and \code{mediatype} of the Data Resource.
+#' use based on the \code{format} and \code{mediatype} of the Data Resource.
 #' Currently only CSV is supported. For other data types a custom reader has to
 #' be provided unless the data is stored inside the Data Resource object.
 #'
