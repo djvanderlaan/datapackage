@@ -4,6 +4,10 @@
 #'
 #' @param x vector for which to generate the fielddescriptor
 #' @param name name of the field in the dataset.
+#' @param use_existing use existing field descriptor of present (assumed this is
+#'   stored in the 'fielddescriptor' attribute.
+#' @param use_codelist use existing code list of \code{x} if available. The
+#'   code list is obtained using \code{\link{dpcodelist}}.
 #' @param ... used to pass extra arguments to methods.
 #'
 #' @return
@@ -26,26 +30,53 @@ dpgeneratefielddescriptor.default <- function(x, name, ...) {
 }
 
 #' @export
-dpgeneratefielddescriptor.numeric <- function(x, name, ...) {
-  fielddescriptor <- list(
-    name = name,
-    type = "number"
-  )
-  list(fielddescriptor = fielddescriptor)
+dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE, 
+    use_codelist = TRUE, ...) {
+  fielddescriptor <- attr(x, "fielddescriptor")
+  codelistname <- if (is.null(fielddescriptor)) NULL else 
+    dpproperty(fielddescriptor, "codelist")
+  codelist <- dpcodelist(x)
+  if (!is.null(fielddescriptor) && use_existing) {
+    fielddescriptor$name <- name
+  } else {
+    fielddescriptor <- list(
+      name = name,
+      type = "numeric"
+    )
+    if (!is.null(codelist) && use_codelist) {
+      if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+      fielddescriptor$codelist <- codelistname
+    } else codelist <- NULL
+  }
+  class(fielddescriptor) <- "fielddescriptor"
+  list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
 #' @export
-dpgeneratefielddescriptor.factor <- function(x, name, ...) {
-  fielddescriptor <- list(
-    name = name,
-    type = "integer",
-    codelist = sprintf("%s-codelist", name)
-  )
-  codelist <- data.frame(
-    code = seq_len(nlevels(x)),
-    label = levels(x)
-  )
+dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE, 
+    use_codelist = TRUE, ...) {
+  fielddescriptor <- attr(x, "fielddescriptor")
+  codelistname <- if (is.null(fielddescriptor)) NULL else 
+    dpproperty(fielddescriptor, "codelist")
+  codelist <- dpcodelist(x)
+  if (!is.null(fielddescriptor) && use_existing) {
+    fielddescriptor$name <- name
+  } else {
+    fielddescriptor <- list(
+      name = name,
+      type = "integer"
+    )
+    if (!use_codelist) {
+      codelist <- data.frame(
+        code = seq_len(nlevels(x)),
+        label = levels(x))
+    }
+    if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+    fielddescriptor$codelist <- codelistname
+  }
+  class(fielddescriptor) <- "fielddescriptor"
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
 # TODO: reuse existing fielddescriptor
+# TODO: add methods for Date, logical, integer

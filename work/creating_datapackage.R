@@ -97,3 +97,12 @@ dploadfromdatapackage("work/test", to_factor = TRUE) |> head()
 
 dploadfromdatapackage("work/test", "Species-codelist")
 
+
+tmp <- opendatapackage("inst/examples/iris") |> dpresource("complex") |> dpgetdata()
+dpgeneratefielddescriptor(tmp$factor1, "factor1")
+dpgeneratefielddescriptor(tmp$number1, "number1")
+dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE)
+dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE, use_codelist = FALSE)
+
+
+fielddescriptor 
