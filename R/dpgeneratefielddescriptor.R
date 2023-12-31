@@ -41,7 +41,30 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
   } else {
     fielddescriptor <- list(
       name = name,
-      type = "numeric"
+      type = "number"
+    )
+    if (!is.null(codelist) && use_codelist) {
+      if (is.null(codelistname)) codelistname <- paste0(name, "-codelist")
+      fielddescriptor$codelist <- codelistname
+    } else codelist <- NULL
+  }
+  class(fielddescriptor) <- "fielddescriptor"
+  list(fielddescriptor = fielddescriptor, codelist = codelist)
+}
+
+#' @export
+dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE, 
+    use_codelist = TRUE, ...) {
+  fielddescriptor <- attr(x, "fielddescriptor")
+  codelistname <- if (is.null(fielddescriptor)) NULL else 
+    dpproperty(fielddescriptor, "codelist")
+  codelist <- dpcodelist(x)
+  if (!is.null(fielddescriptor) && use_existing) {
+    fielddescriptor$name <- name
+  } else {
+    fielddescriptor <- list(
+      name = name,
+      type = "integer"
     )
     if (!is.null(codelist) && use_codelist) {
       if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
@@ -51,6 +74,78 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
   class(fielddescriptor) <- "fielddescriptor"
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
+
+#' @export
+dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE, 
+    use_codelist = TRUE, ...) {
+  fielddescriptor <- attr(x, "fielddescriptor")
+  codelistname <- if (is.null(fielddescriptor)) NULL else 
+    dpproperty(fielddescriptor, "codelist")
+  codelist <- dpcodelist(x)
+  if (!is.null(fielddescriptor) && use_existing) {
+    fielddescriptor$name <- name
+  } else {
+    fielddescriptor <- list(
+      name = name,
+      type = "boolean",
+      trueValues = "TRUE", 
+      falseValues = "FALSE"
+    )
+    if (!is.null(codelist) && use_codelist) {
+      if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+      fielddescriptor$codelist <- codelistname
+    } else codelist <- NULL
+  }
+  class(fielddescriptor) <- "fielddescriptor"
+  list(fielddescriptor = fielddescriptor, codelist = codelist)
+}
+
+#' @export
+dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE, 
+    use_codelist = TRUE, ...) {
+  fielddescriptor <- attr(x, "fielddescriptor")
+  codelistname <- if (is.null(fielddescriptor)) NULL else 
+    dpproperty(fielddescriptor, "codelist")
+  codelist <- dpcodelist(x)
+  if (!is.null(fielddescriptor) && use_existing) {
+    fielddescriptor$name <- name
+  } else {
+    fielddescriptor <- list(
+      name = name,
+      type = "date"
+    )
+    if (!is.null(codelist) && use_codelist) {
+      if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+      fielddescriptor$codelist <- codelistname
+    } else codelist <- NULL
+  }
+  class(fielddescriptor) <- "fielddescriptor"
+  list(fielddescriptor = fielddescriptor, codelist = codelist)
+}
+
+#' @export
+dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE, 
+    use_codelist = TRUE, ...) {
+  fielddescriptor <- attr(x, "fielddescriptor")
+  codelistname <- if (is.null(fielddescriptor)) NULL else 
+    dpproperty(fielddescriptor, "codelist")
+  codelist <- dpcodelist(x)
+  if (!is.null(fielddescriptor) && use_existing) {
+    fielddescriptor$name <- name
+  } else {
+    fielddescriptor <- list(
+      name = name,
+      type = "string"
+    )
+    if (!is.null(codelist) && use_codelist) {
+      if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+      fielddescriptor$codelist <- codelistname
+    } else codelist <- NULL
+  }
+  class(fielddescriptor) <- "fielddescriptor"
+  list(fielddescriptor = fielddescriptor, codelist = codelist)
+}
+
 
 #' @export
 dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE, 
@@ -71,12 +166,10 @@ dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE,
         code = seq_len(nlevels(x)),
         label = levels(x))
     }
-    if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+    if (is.null(codelistname)) codelistname <- paste0(name, "-codelist")
     fielddescriptor$codelist <- codelistname
   }
   class(fielddescriptor) <- "fielddescriptor"
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
-# TODO: reuse existing fielddescriptor
-# TODO: add methods for Date, logical, integer

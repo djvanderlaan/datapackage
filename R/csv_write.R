@@ -30,7 +30,7 @@ csv_write <- function(x, resourcename, datapackage, write_codelists = TRUE,
     for (field in dpfieldnames(dataresource)) {
       clresource <- dpfield(dataresource, field) |> dpproperty("codelist")
       if (!is.null(clresource)) {
-        cl <- dpcodelist(x[[field]])
+        cl <- dpcodelist(dpfield(dataresource, field))
         csv_write(cl, clresource, datapackage, write_codelists = FALSE, ...)
       }
     }

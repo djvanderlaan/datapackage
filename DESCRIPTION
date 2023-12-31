@@ -14,8 +14,8 @@ URL: https://github.com/djvanderlaan/datapackage
 Depends:
     R (>= 3.6.0)
 Imports:
-    jsonlite, 
     yaml,
+    jsonlite,
     utils,
     tools,
     methods

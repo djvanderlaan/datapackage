@@ -104,25 +104,3 @@ csv_colclass_number <- function(schema = list(), decimalChar = ".", ...) {
   }
 }
 
-# @rdname csv_format
-# @export
-csv_format_number <- function(x, schema = datapackage::schema(x)) {
-  #if (!is.null(schema$categories)) {
-    # We are dealing with a categorical variable that is stored as 
-    # a number
-    #x <- csv_format_categorical(x, schema)
-  #}
-  has_groupchar <- !is.null(schema$groupChar) && schema$groupChar != ""
-  has_decimalchar <- !is.null(schema$decimalChar) && schema$decimalChar != "."
-  x <- as.numeric(x)
-  if (has_groupchar || has_decimalchar) {
-    groupchar <- if (has_groupchar) schema$groupChar else ""
-    decimalchar <- if (has_decimalchar) schema$decimalChar else "."
-    na <- is.na(x)
-    x <- formatC(x, big.mark = groupchar, decimal.mark = decimalchar, 
-     format = "fg", digits = 15, width = 1)
-    x[na] <- NA
-    x
-  } else x
-}
-

@@ -37,12 +37,22 @@ res <- dpgeneratedataresources(iris, "iris")
 
 dpresources(dp) <- res
 
+codelist <- dpcodelist(iris$Species)
+codelist$code <- c(101, 202, 303)
+dpwritedata(dp, "Species-codelist", codelist)
+
+
 dp |> dpresource("iris") |> dpwritedata(iris)
 
 dpwritedata(dp, "iris", iris)
-readLines("work/test/iris.csv", n=10) |> writeLines()
-readLines("work/test/iris-Species-codelist.csv", n=10) |> writeLines()
 
+readLines("work/test/iris.csv", n=10) |> writeLines()
+readLines("work/test/Species-codelist.csv", n=10) |> writeLines()
+
+
+dp2 <- opendatapackage("work/test")
+dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE) |> head()
+dp2 |> dpresource("iris") |> dpgetdata(to_factor = FALSE) |> head()
 
 
 path <- "work/test"
@@ -104,5 +114,10 @@ dpgeneratefielddescriptor(tmp$number1, "number1")
 dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE)
 dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE, use_codelist = FALSE)
 
+tmp <- opendatapackage("inst/examples/iris") |> dpresource("complex") |> dpgetdata(to_factor = TRUE)
+dpgeneratefielddescriptor(tmp$factor1, "factor1")
+dpgeneratefielddescriptor(tmp$number1, "number1")
+dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE)
+dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE, use_codelist = FALSE)
 
-fielddescriptor 
+
