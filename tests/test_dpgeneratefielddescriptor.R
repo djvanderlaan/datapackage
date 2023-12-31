@@ -58,6 +58,12 @@ expect_equal(dpproperty(tmp$fielddescriptor, "type"), "number")
 expect_equal(dpproperty(tmp$fielddescriptor, "codelist"), NULL)
 expect_equal(tmp$codelist, NULL)
 
+tmp <- dpgeneratefielddescriptor(dta$date1, "d1")
+expect_equal(dpproperty(tmp$fielddescriptor, "name"), "d1")
+expect_equal(dpproperty(tmp$fielddescriptor, "type"), "date")
+expect_equal(dpproperty(tmp$fielddescriptor, "codelist"), NULL)
+expect_equal(tmp$codelist, NULL)
+
 
 dta <- dp |> dpresource("complex") |> dpgetdata(to_factor = TRUE)
 
