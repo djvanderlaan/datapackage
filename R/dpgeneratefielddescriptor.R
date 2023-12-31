@@ -15,11 +15,13 @@
 #' \code{codelist}. The first contains the \code{fielddescriptor} object and the
 #' second the optional code list for the field.
 #'
+#' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor <- function(x, name, ...) {
   UseMethod("dpgeneratefielddescriptor")
 }
 
+#' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.default <- function(x, name, ...) {
   fielddescriptor <- list(
@@ -29,6 +31,7 @@ dpgeneratefielddescriptor.default <- function(x, name, ...) {
   list(fielddescriptor = fielddescriptor)
 }
 
+#' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE, 
     use_codelist = TRUE, ...) {
@@ -52,6 +55,7 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
+#' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE, 
     use_codelist = TRUE, ...) {
@@ -75,6 +79,7 @@ dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE,
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
+#' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE, 
     use_codelist = TRUE, ...) {
@@ -100,6 +105,7 @@ dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE,
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
+#' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE, 
     use_codelist = TRUE, ...) {
@@ -123,6 +129,7 @@ dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE,
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
 
+#' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE, 
     use_codelist = TRUE, ...) {
@@ -147,6 +154,7 @@ dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE,
 }
 
 
+#' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE, 
     use_codelist = TRUE, ...) {

@@ -4,23 +4,26 @@
 #' Get the Code List for a variable.
 #'
 #' @param x the variable for which to get the Code List
-#' @param schema the Field Schema associated with the variable.
+#' @param fielddescriptor the Field Descriptor associated with the variable.
 #' @param datapackage the Data Package where the variable is from.
+#' @param ... used to pass extra arguments on to other methods.
 #'
 #' @return
 #' Returns a \code{data.frame} with the Code List or \code{NULL} when none could
 #' be found.
 #'
+#' @rdname dpcodelist
 #' @export
 dpcodelist <- function(x, ...) {
   UseMethod("dpcodelist")
 }
 
+#' @rdname dpcodelist
 #' @export
-dpcodelist.default <- function(x, schema = attr(x, "fielddescriptor"), 
-    datapackage = dpgetdatapackage(schema)) {
+dpcodelist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"), 
+    datapackage = dpgetdatapackage(fielddescriptor), ...) {
   res <- NULL
-  if (!is.null(schema)) res <- dpcodelist(schema)
+  if (!is.null(fielddescriptor)) res <- dpcodelist(fielddescriptor)
   if (is.null(res) && is.factor(x)) {
     res <- data.frame(
       code = seq_len(nlevels(x)),
@@ -30,8 +33,9 @@ dpcodelist.default <- function(x, schema = attr(x, "fielddescriptor"),
   res
 }
 
+#' @rdname dpcodelist
 #' @export
-dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x)) {
+dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), ...) {
   codelist <- x$codelist
   if (is.null(codelist)) return(NULL)
   if (is.character(codelist)) {

@@ -10,6 +10,8 @@
 #' @param use_fwrite write the file using \code{fwrite} from the
 #' \code{data.table} package.
 #'
+#' @param ... ignored for now
+#'
 #' @return
 #' The function doesn't return anything. It is called for it's side effect of
 #' creating CSV-files in the directory of the data package.

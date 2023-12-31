@@ -8,6 +8,8 @@
 #' @param resourcename name of the Data Resource in the Data Package to which
 #' the data needs to be written.
 #'
+#' @param datapackage the Data Package to which the data needs to be written.
+#'
 #' @param writer the writer to use to write the data. This should be either a
 #' function accepting the Data Package, name of the Data Resource, the data and
 #' the \code{write_codelists} argument or the character string \code{"guess"}.

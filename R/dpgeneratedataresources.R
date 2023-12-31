@@ -22,7 +22,7 @@
 #' @examples
 #' # generate an example dataset
 #' dta <- data.frame(a = 1:3, b = factor(letters[1:3]))
-#' resources <- dpgenerateresources(dta, "example")
+#' resources <- dpgeneratedataresources(dta, "example")
 #' print(resources)
 #' 
 #' @export
