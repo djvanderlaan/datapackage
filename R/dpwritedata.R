@@ -35,8 +35,6 @@ dpwritedata <- function(x, ..., write_codelists = TRUE) {
 #' @export
 dpwritedata.datapackage <- function(x, resourcename, data, writer = "guess", ..., 
     write_codelists = TRUE) {
-  # TODO: better handle the write_codelists here: in principle it is possible that the
-  # codelists require a different writer
   resource <- dpresource(x, resourcename)
   dpwritedata(resource, data = data, datapackage = x, writer = writer, ..., 
     write_codelists = write_codelists)
@@ -46,12 +44,24 @@ dpwritedata.datapackage <- function(x, resourcename, data, writer = "guess", ...
 #' @export
 dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x), 
     writer = "guess", ..., write_codelists = TRUE) {
+  # First check to see of dataresource fits data
+  stopifnot(setequal(names(data), dpfieldnames(x)))
+  # Save code lists
+  if (write_codelists) {
+    for (field in dpfieldnames(x)) {
+      clresource <- dpfield(x, field) |> dpproperty("codelist")
+      if (!is.null(clresource)) {
+        cl <- dpcodelist(dpfield(x, field))
+        dpwritedata(data = cl, resourcename = clresource, datapackage, 
+          write_codelists = FALSE, ...)
+      }
+    }
+  }
   # Determine reader
   if (is.character(writer) && writer[1] == "guess") 
     writer <- getwriter(dpformat(x), dpmediatype(x))
   stopifnot(is.function(writer))
-  writer(data, resourcename = dpname(x), datapackage = datapackage, 
-    write_codelists = write_codelists, ...)
+  writer(data, resourcename = dpname(x), datapackage = datapackage, ...)
 }
 
 getwriter <- function(format, mediatype) {

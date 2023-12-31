@@ -7,9 +7,6 @@
 #'
 #' @param datapackage the Data Package to which the file should be written.
 #'
-#' @param write_codelists write both the data set \code{x} itself and any
-#' code lists of fields in the data set.
-#'
 #' @param use_fwrite write the file using \code{fwrite} from the
 #' \code{data.table} package.
 #'
@@ -18,23 +15,13 @@
 #' creating CSV-files in the directory of the data package.
 #'
 #' @export
-csv_write <- function(x, resourcename, datapackage, write_codelists = TRUE, 
+csv_write <- function(x, resourcename, datapackage, 
     use_fwrite = FALSE, ...) {
   dataresource <- dpresource(datapackage, resourcename)
   if (is.null(dataresource)) 
     stop("Data resource '", resourcename, "' does not exist in data package")
   # First check to see of dataresourc fits data
   stopifnot(setequal(names(x), dpfieldnames(dataresource)))
-  # Save code lists
-  if (write_codelists) {
-    for (field in dpfieldnames(dataresource)) {
-      clresource <- dpfield(dataresource, field) |> dpproperty("codelist")
-      if (!is.null(clresource)) {
-        cl <- dpcodelist(dpfield(dataresource, field))
-        csv_write(cl, clresource, datapackage, write_codelists = FALSE, ...)
-      }
-    }
-  }
   # Write dataset; but first process arguments
   csvdialect <- dpproperty(dataresource, "dialect")
   decimalChar <- decimalchars(dataresource) |> head(1)
