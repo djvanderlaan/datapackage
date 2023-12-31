@@ -12,3 +12,6 @@ dpaddreader("fwf", fwf_reader,
   mediatypes = "text/x-fixedwidth",
   extensions = c("fwf", "asc"))
 
+
+# TODO: add dpaddwriter
+
