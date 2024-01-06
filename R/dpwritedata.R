@@ -53,7 +53,12 @@ dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x),
     for (field in dpfieldnames(x)) {
       clresource <- dpfield(x, field) |> dpproperty("codelist")
       if (!is.null(clresource)) {
-        cl <- dpcodelist(dpfield(x, field))
+        cl <- NULL
+        suppressWarnings(try({
+          # This could fail if the codelist is not already saved
+          cl <- dpcodelist(dpfield(x, field))
+        }))
+        if (is.null(cl)) cl <- dpcodelist(data[[field]])
         dpwritedata(data = cl, resourcename = clresource, datapackage, 
           write_codelists = FALSE, ...)
       }
