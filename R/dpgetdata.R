@@ -37,7 +37,7 @@ dpgetdata.dataresource <- function(x, reader = "guess", ...) {
   d <- dpproperty(x, "data")
   if (!is.null(d)) {
     # Try to transoform to data.frame 
-    df <- d |> jsonlite::toJSON() |> jsonlite::fromJSON(simplifyVector = TRUE)
+    df <- d |> jsonlite::toJSON(auto_unbox = TRUE) |> jsonlite::fromJSON(simplifyVector = TRUE)
     if (is.data.frame(df)) df else d
   } else {
     # Determine path to data
