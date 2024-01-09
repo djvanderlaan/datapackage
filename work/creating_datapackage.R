@@ -121,3 +121,50 @@ dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE)
 dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE, use_codelist = FALSE)
 
 
+# ==========================================================
+pkgload::load_all()
+
+system("rm -f -r work/test")
+
+data(iris)
+
+dp <- newdatapackage("work/test", name = "iris")
+
+head(iris)
+
+res <- dpgeneratedataresources(iris, "iris") 
+
+dpresources(dp) <- res
+
+codelistres <- dp |> dpresource("Species-codelist")
+codelistres
+
+codelist <- data.frame(
+  code = c(101, 102, 103),
+  label = c("setosa", "virginica", "versicolor"))
+
+dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
+
+readLines("work/test/Species-codelist.csv") |> writeLines()
+
+dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = FALSE)
+
+readLines("work/test/iris.csv", n = 10) |> writeLines()
+
+
+dp2 <- opendatapackage("work/test")
+
+iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
+
+head(iris2)
+
+source("tests/helpers.R")
+iris$Species <- as.character(iris$Species)
+iris2$Species <- as.character(iris2$Species)
+expect_equal(iris, iris2, attributes = FALSE)
+
+
+
+
+
+
