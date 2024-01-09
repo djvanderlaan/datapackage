@@ -13,7 +13,7 @@ clearandcheckcodelists <- function(x, fielddescriptor = attr(x, "fielddescriptor
       ok <- is.na(labels) | !is.na(m)
       if (!all(ok)) {
         notok <- labels[!ok] |> unique()
-        if (length(notok) > 10) notok <- c(head(notok[1:10]), "...")
+        if (length(notok) > 10) notok <- c(utils::head(notok[1:10]), "...")
         stop("Not all levels of x could be matched to labels from the code list: ",
           paste0("'", notok, "'", collapse = ", "))
       }
@@ -23,7 +23,7 @@ clearandcheckcodelists <- function(x, fielddescriptor = attr(x, "fielddescriptor
       ok <- is.na(x) | !is.na(m)
       if (!all(ok)) {
         notok <- x[!ok] |> unique()
-        if (length(notok) > 10) notok <- c(head(notok[1:10]), "...")
+        if (length(notok) > 10) notok <- c(utils::head(notok[1:10]), "...")
         stop("Not all values of x could be matched to codes from the code list: ",
           paste0("'", notok, "'", collapse = ", "))
       }

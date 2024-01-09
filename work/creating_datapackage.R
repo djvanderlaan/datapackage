@@ -124,11 +124,48 @@ dpgeneratefielddescriptor(tmp$factor1, "factor1", use_existing = FALSE, use_code
 # ==========================================================
 pkgload::load_all()
 
-system("rm -f -r work/test")
+dir <- tempdir()
 
 data(iris)
 
-dp <- newdatapackage("work/test", name = "iris")
+dp <- newdatapackage(dir, name = "iris")
+
+head(iris)
+
+res <- dpgeneratedataresources(iris, "iris") 
+
+dpresources(dp) <- res
+
+dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = TRUE)
+
+readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
+
+readLines(file.path(dir, "Species-codelist.csv")) |> writeLines()
+
+
+dp2 <- opendatapackage(dir)
+
+iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
+
+head(iris2)
+
+source("tests/helpers.R")
+iris$Species <- as.character(iris$Species)
+iris2$Species <- as.character(iris2$Species)
+expect_equal(iris, iris2, attributes = FALSE)
+
+for (f in list.files(dir, full.names = TRUE)) file.remove(f)
+file.remove(dir)
+
+
+# ==========================================================
+pkgload::load_all()
+
+dir <- tempdir()
+
+data(iris)
+
+dp <- newdatapackage(dir, name = "iris")
 
 head(iris)
 
@@ -145,14 +182,14 @@ codelist <- data.frame(
 
 dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
 
-readLines("work/test/Species-codelist.csv") |> writeLines()
+readLines(file.path(dir, "Species-codelist.csv")) |> writeLines()
 
 dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = FALSE)
 
-readLines("work/test/iris.csv", n = 10) |> writeLines()
+readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
 
 
-dp2 <- opendatapackage("work/test")
+dp2 <- opendatapackage(dir)
 
 iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
 
@@ -162,6 +199,11 @@ source("tests/helpers.R")
 iris$Species <- as.character(iris$Species)
 iris2$Species <- as.character(iris2$Species)
 expect_equal(iris, iris2, attributes = FALSE)
+
+for (f in list.files(dir, full.names = TRUE)) file.remove(f)
+file.remove(dir)
+
+
 
 
 

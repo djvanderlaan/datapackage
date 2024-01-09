@@ -71,7 +71,7 @@ dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE,
       type = "integer"
     )
     if (!is.null(codelist) && use_codelist) {
-      if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+      if (is.null(codelistname)) codelistname <- paste0(name, "-codelist")
       fielddescriptor$codelist <- codelistname
     } else codelist <- NULL
   }
@@ -97,7 +97,7 @@ dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE,
       falseValues = "FALSE"
     )
     if (!is.null(codelist) && use_codelist) {
-      if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+      if (is.null(codelistname)) codelistname <- paste0(name, "-codelist")
       fielddescriptor$codelist <- codelistname
     } else codelist <- NULL
   }
@@ -121,7 +121,7 @@ dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE,
       type = "date"
     )
     if (!is.null(codelist) && use_codelist) {
-      if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+      if (is.null(codelistname)) codelistname <- paste0(name, "-codelist")
       fielddescriptor$codelist <- codelistname
     } else codelist <- NULL
   }
@@ -145,7 +145,7 @@ dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE,
       type = "string"
     )
     if (!is.null(codelist) && use_codelist) {
-      if (is.null(codelistname)) codelistname <- past0(name, "-codelist")
+      if (is.null(codelistname)) codelistname <- paste0(name, "-codelist")
       fielddescriptor$codelist <- codelistname
     } else codelist <- NULL
   }

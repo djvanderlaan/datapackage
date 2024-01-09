@@ -26,7 +26,7 @@ csv_write <- function(x, resourcename, datapackage,
   stopifnot(setequal(names(x), dpfieldnames(dataresource)))
   # Write dataset; but first process arguments
   csvdialect <- dpproperty(dataresource, "dialect")
-  decimalChar <- decimalchars(dataresource) |> head(1)
+  decimalChar <- decimalchars(dataresource) |> utils::head(1)
   delimiter <- "," 
   if (!is.null(csvdialect) && !is.null(csvdialect$delimiter))
     delimiter <- csvdialect$delimiter
@@ -73,9 +73,9 @@ csv_write_base <- function(x, filename,
     if (!missing(skipInitialSpace)) csv_dialect$skipInitialSpace <- skipInitialSpace
     if (!missing(header)) csv_dialect$header <- header
     if (!missing(commentChar)) csv_dialect$commentChar <- commentChar
-    if (!missing(caseSensitiveHeader)) csv_dialect$caseSensitiveHeader <- caseSensitiveHeader
+    #if (!missing(caseSensitiveHeader)) csv_dialect$caseSensitiveHeader <- caseSensitiveHeader
     if (!missing(nullSequence)) csv_dialect$nullSequence <- nullSequence
-    args <- c(csv_dialect, list(filename = filename, colClasses = colClasses, na.strings = na.strings,
+    args <- c(csv_dialect, list(filename = filename, 
       use_fwrite = use_fwrite, decimalChar = decimalChar), list(...))
     return(do.call(csv_write_base, args))
   }
@@ -111,7 +111,7 @@ csv_write_base <- function(x, filename,
       eol = lineTerminator, na = nullSequence, dec = decimalChar, 
       row.names = FALSE, col.names = header, qmethod = "double")
   } else {
-    write.table(x, filename, quote = quote, sep = delimiter, 
+    utils::write.table(x, filename, quote = quote, sep = delimiter, 
       eol = lineTerminator, na = nullSequence, dec = decimalChar, 
       row.names = FALSE, col.names = header, qmethod = "double", 
       fileEncoding = encoding)
