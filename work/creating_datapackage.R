@@ -14,10 +14,8 @@ deze bestaande metadata.
 # Create data resources from a dataset.
 # This can generate multiple resources in case a dataset contains variables 
 # with a codelist
-# TODO: use existing fielddescriptors of variables if available
 # TODO: option to store codelist in the metadata
 # TODO: option to not store any codelist at all an store factor as character
-# TODO: other types such as integer, boolean, date
 
 pkgload::load_all()
 
@@ -202,11 +200,5 @@ expect_equal(iris, iris2, attributes = FALSE)
 
 for (f in list.files(dir, full.names = TRUE)) file.remove(f)
 file.remove(dir)
-
-
-
-
-
-
 
 

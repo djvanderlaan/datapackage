@@ -4,6 +4,7 @@ readers <- new.env(parent = emptyenv())
 readers$mediatypes  <- list()
 readers$extensions <- list()
 readers$readers <- list()
+readers$writers <- list()
 
 dpaddreader("csv", csv_reader, 
   mediatypes = "text/csv",
@@ -13,5 +14,5 @@ dpaddreader("fwf", fwf_reader,
   extensions = c("fwf", "asc"))
 
 
-# TODO: add dpaddwriter
+dpaddwriter("csv", csv_write)
 
