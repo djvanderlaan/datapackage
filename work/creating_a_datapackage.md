@@ -10,7 +10,7 @@ head(iris)
 
 First, we create a new datapackage the directory `dir`:
 ```{.R}
-dir <- tempdir()
+dir <- tempfile()
 dp <- newdatapackage(dir, name = "iris")
 ```
 Besides name it is also possible to specify the title and description of the
@@ -73,53 +73,49 @@ iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
 all.equal(iris, iris2, check.attributes = FALSE)
 ```
 
-```{.R echo=FALSE results=FALSE}
-for (f in list.files(dir, full.names = TRUE)) file.remove(f)
-file.remove(dir)
-```
 
 ## Custom codelists
 
-
+By default the package will generate a codelist for factor variables. The levels
+will be numbered using sequential integers starting from 1. The example below
+shows how different codes can be used. First we create the resources as w did
+above. We will add those to the existing datapackage.
 ```{.R}
+data(chickwts)
 
-res <- dpgeneratedataresources(iris, "iris2") 
+res <- dpgeneratedataresources(chickwts, "chickwts") 
 dpresources(dp) <- res
-
-dpname(res[[2]]) <- "species-codelist2"
-dppath(res[[2]]) <- "species-codelist2.csv"
-
-dpproperty(dpfield(res[[1]], "Species"), "codelist") <- "species-codelist2"
-
-codelistres <- dp |> dpresource("Species-codelist")
-codelistres
-
-codelist <- data.frame(
-  code = c(101, 102, 103),
-  label = c("setosa", "virginica", "versicolor"))
-
-dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
-
-readLines(file.path(dir, "Species-codelist.csv")) |> writeLines()
-
-dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = FALSE)
-
-readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
-
-
-dp2 <- opendatapackage(dir)
-
-iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
-
-head(iris2)
-
-source("tests/helpers.R")
-iris$Species <- as.character(iris$Species)
-iris2$Species <- as.character(iris2$Species)
-expect_equal(iris, iris2, attributes = FALSE)
-
-for (f in list.files(dir, full.names = TRUE)) file.remove(f)
-file.remove(dir)
-
 ```
 
+In order to write the correct codes we will also first have to generate the and
+save the dataset with the correct codes. In the example below we do this using
+R, but it is of course also possible to generate the CSV using other methods
+(e.g. manual editing):
+```{.R}
+codelist <- data.frame(
+  code = c(101, 102, 103, 202, 203, 204),
+  label = c("casein", "horsebean", "linseed", "meatmeal", 
+    "soybean", "sunflower")
+)
+codelistres <- dp |> dpresource("feed-codelist")
+dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
+```
+This creates the correct CSV-files:
+
+```{.R}
+readLines(file.path(dir, "feed-codelist.csv")) |> writeLines()
+```
+When we now write the dataset to file it will use this dataset - as long as we
+don't overwrite it. Therefore, the `write_codelists = FALSE`: 
+```{.R}
+dpwritedata(dp, resourcename = "chickwts", data = chickwts, write_codelists = FALSE)
+```
+We can see that the correct codes are used in the CSV-file:
+```{.R}
+readLines(file.path(dir, "chickwts.csv"), n = 10) |> writeLines()
+```
+
+```{.R #cleanup echo=FALSE results=FALSE}
+for (f in list.files(dir, full.names = TRUE)) file.remove(f)
+file.remove(dir)
+```
