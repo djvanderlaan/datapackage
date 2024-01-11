@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Jan van der Laan" />
+  <title>Creating a Data Package</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style type="text/css">
+body {
+max-width: 50rem;
+margin-left: auto;
+margin-right: auto;
+font-family: system-ui;
+color: lightgray;
+background: #555555;
+}
+p, li {
+text-align: justify;
+}
+pre {
+background: #444;
+padding: 0.5rem;
+}
+h1, h2, h3, h4, h5 {
+color: orange;
+font-weight: bold;
+}
+h4, h5 {
+color: inherit;
+}
+h2 {
+margin-top: 3rem;
+}
+a {
+color: orange;
+}
+a:hover {
+color: lightblue;
+}
+pre code {
+color: white;
+background: inherit;
+padding: 0;
+}
+code {
+color: #e5c892;
+background: #444;
+padding: 0.2rem;
+}
+
+p.author {
+font-weight : bold;
+color: orange;
+}
+
+code {
+color : lightgray;
+}
+code span.op {
+color: #cccccc;
+}
+code span.kw, code span.cf {
+color: #30bd58;
+}
+code span.st {
+color: #76a9db; }
+code span.dv, code span.ot, code span.fl{
+color: #7fd0a8; }
+code span.dt, code span.er {
+color: #ee8c70; }
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Creating a Data Package</h1>
+<p class="author">Jan van der Laan</p>
+</header>
+<!--
+%\VignetteEngine{simplermarkdown::mdweave_to_html}
+%\VignetteIndexEntry{Creating a Data Package}
+-->
+<p>This vignette will show how to create and edit Data Packages.</p>
+<h2 id="creating-a-data-package">Creating a Data Package</h2>
+<p>The <code>newdatapackage</code> function creates a new Data Package</p>
+<div class="sourceCode" id="n1"><pre class="sourceCode R"><code class="sourceCode r"><span id="n1-1"><a href="#n1-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(datapackage)</span>
+<span id="n1-2"><a href="#n1-2" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>dir &lt;-<span class="st"> </span><span class="kw">tempfile</span>()</span>
+<span id="n1-3"><a href="#n1-3" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>dp &lt;-<span class="st"> </span><span class="kw">newdatapackage</span>(dir, <span class="dt">name =</span> <span class="st">&quot;example&quot;</span>, </span>
+<span id="n1-4"><a href="#n1-4" aria-hidden="true"></a><span class="op">+</span><span class="st">   </span><span class="dt">title =</span> <span class="st">&quot;An Example Data Package&quot;</span>)</span>
+<span id="n1-5"><a href="#n1-5" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">print</span>(dp)</span>
+<span id="n1-6"><a href="#n1-6" aria-hidden="true"></a>[example] An Example Data Package</span>
+<span id="n1-7"><a href="#n1-7" aria-hidden="true"></a></span>
+<span id="n1-8"><a href="#n1-8" aria-hidden="true"></a>Location<span class="op">:</span><span class="st"> </span><span class="er">&lt;/</span>tmp<span class="op">/</span>Rtmp1NDjpO<span class="op">/</span>file20d1c77989b07<span class="op">&gt;</span></span>
+<span id="n1-9"><a href="#n1-9" aria-hidden="true"></a><span class="er">&lt;</span>NO RESOURCES<span class="op">&gt;</span></span></code></pre></div>
+<p>This will return an <code>editabledatapackage</code>. This means that any changes to the Data Package are immediately saved to the <code>datapackage.json</code> file and when reading any properties these are read from the file. It is, therefore, possible to manually edit the <code>datapackage.json</code> file while working in R with the Data Package.</p>
+<div class="sourceCode" id="n2"><pre class="sourceCode R"><code class="sourceCode r"><span id="n2-1"><a href="#n2-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">list.files</span>(dir)</span>
+<span id="n2-2"><a href="#n2-2" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;datapackage.json&quot;</span></span></code></pre></div>
+<p>Using methods such as <code>dptitle</code> and <code>dpdescription</code> the properties of the Data Package can be modified.</p>
+<div class="sourceCode" id="n3"><pre class="sourceCode R"><code class="sourceCode r"><span id="n3-1"><a href="#n3-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpdescription</span>(dp) &lt;-<span class="st"> &quot;This is a description of the Data Package&quot;</span></span></code></pre></div>
+<p>The <code>description&lt;-</code> also accepts a character vector of length &gt; 1. This makes it easy to read the contents of the description from file as it can be difficult to write long descriptions directly from R-code. It is possible to use markdown in the description.</p>
+<div class="sourceCode" id="n4"><pre class="sourceCode R"><code class="sourceCode r"><span id="n4-1"><a href="#n4-1" aria-hidden="true"></a><span class="kw">dpdescription</span>(dp) &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;description.md&quot;</span>)</span></code></pre></div>
+<p>The following methods a currently (when writing the vignette) supported:</p>
+<ul>
+<li><code>dptitle&lt;-</code></li>
+<li><code>dpcontributors&lt;-</code> and <code>dpaddcontributor&lt;-</code></li>
+<li><code>dpdescription&lt;-</code></li>
+<li><code>dpid&lt;-</code></li>
+<li><code>dpname&lt;-</code></li>
+<li><code>dpcreated&lt;-</code></li>
+<li><code>dpkeywords&lt;-</code></li>
+<li><code>dpproperty&lt;-</code>: this function also allow custom properties.</li>
+</ul>
+<p>For an up to data list run the following:</p>
+<p><code>[.R #n5} methods(class = &quot;datapackage&quot;) |&gt; (\(x) x[grep(&quot;&lt;-&quot;, x)])()</code> Below an example of adding a contributor to the package</p>
+<div class="sourceCode" id="n6"><pre class="sourceCode R"><code class="sourceCode r"><span id="n6-1"><a href="#n6-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpaddcontributor</span>(dp) &lt;-<span class="st"> </span><span class="kw">newcontributor</span>(<span class="st">&quot;Jane Doe&quot;</span>, <span class="dt">role =</span> <span class="st">&quot;author&quot;</span>,</span>
+<span id="n6-2"><a href="#n6-2" aria-hidden="true"></a><span class="op">+</span><span class="st">   </span><span class="dt">email =</span> <span class="st">&quot;j.doe@organisation.org&quot;</span>)</span></code></pre></div>
+<h2 id="adding-a-dataset-to-the-datapackage">Adding a dataset to the datapackage</h2>
+<p>In this example we will save the <code>iris</code> dataset to a new datapackage.</p>
+<div class="sourceCode" id="a1"><pre class="sourceCode R"><code class="sourceCode r"><span id="a1-1"><a href="#a1-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">data</span>(iris)</span>
+<span id="a1-2"><a href="#a1-2" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">head</span>(iris)</span>
+<span id="a1-3"><a href="#a1-3" aria-hidden="true"></a>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
+<span id="a1-4"><a href="#a1-4" aria-hidden="true"></a><span class="dv">1</span>          <span class="fl">5.1</span>         <span class="fl">3.5</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-5"><a href="#a1-5" aria-hidden="true"></a><span class="dv">2</span>          <span class="fl">4.9</span>         <span class="fl">3.0</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-6"><a href="#a1-6" aria-hidden="true"></a><span class="dv">3</span>          <span class="fl">4.7</span>         <span class="fl">3.2</span>          <span class="fl">1.3</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-7"><a href="#a1-7" aria-hidden="true"></a><span class="dv">4</span>          <span class="fl">4.6</span>         <span class="fl">3.1</span>          <span class="fl">1.5</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-8"><a href="#a1-8" aria-hidden="true"></a><span class="dv">5</span>          <span class="fl">5.0</span>         <span class="fl">3.6</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-9"><a href="#a1-9" aria-hidden="true"></a><span class="dv">6</span>          <span class="fl">5.4</span>         <span class="fl">3.9</span>          <span class="fl">1.7</span>         <span class="fl">0.4</span>  setosa</span></code></pre></div>
+<p>In order to store a new dataset in a datapackage we need to do two things. First, we need to create a new dataresource in the package. Second, using the specifation of the dataresource we need to save the actual dataset at the location specified in the dataresource.</p>
+<p>It is possible to add the <code>datapackage.json</code> file to create the new dataresource. The package also has a function <code>dpgeneratedataresources</code> to generate skeleton dataresources for a given dataset:</p>
+<div class="sourceCode" id="a10"><pre class="sourceCode R"><code class="sourceCode r"><span id="a10-1"><a href="#a10-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>res &lt;-<span class="st"> </span><span class="kw">dpgeneratedataresources</span>(iris, <span class="st">&quot;iris&quot;</span>) </span></code></pre></div>
+<p>Note the plural in the function names. This is because it is possible that mulitple dataresources are needed for one given dataset. This is the case when the dataset contains factor variables. The levels of a factor are stored in a seperate dataresource. The <code>iris</code> dataset contains one factor variable. Therefore, <code>res</code> will contain two dataresources:</p>
+<div class="sourceCode" id="a20"><pre class="sourceCode R"><code class="sourceCode r"><span id="a20-1"><a href="#a20-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">print</span>(res)</span>
+<span id="a20-2"><a href="#a20-2" aria-hidden="true"></a>[[<span class="dv">1</span>]]</span>
+<span id="a20-3"><a href="#a20-3" aria-hidden="true"></a>[iris] </span>
+<span id="a20-4"><a href="#a20-4" aria-hidden="true"></a></span>
+<span id="a20-5"><a href="#a20-5" aria-hidden="true"></a>Selected properties<span class="op">:</span></span>
+<span id="a20-6"><a href="#a20-6" aria-hidden="true"></a>format   <span class="op">:</span><span class="st">&quot;csv&quot;</span></span>
+<span id="a20-7"><a href="#a20-7" aria-hidden="true"></a>mediatype<span class="op">:</span><span class="st">&quot;text/csv&quot;</span></span>
+<span id="a20-8"><a href="#a20-8" aria-hidden="true"></a>path     <span class="op">:</span><span class="st">&quot;iris.csv&quot;</span></span>
+<span id="a20-9"><a href="#a20-9" aria-hidden="true"></a>encoding <span class="op">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="a20-10"><a href="#a20-10" aria-hidden="true"></a>schema   <span class="op">:</span>Table Schema [<span class="dv">5</span>] <span class="st">&quot;Sepal.Length&quot;</span> <span class="st">&quot;Sepal.Width&quot;</span> <span class="st">&quot;Petal.Length&quot;</span> <span class="st">&quot;Petal.Width&quot;</span> <span class="st">&quot;Species&quot;</span></span>
+<span id="a20-11"><a href="#a20-11" aria-hidden="true"></a></span>
+<span id="a20-12"><a href="#a20-12" aria-hidden="true"></a>[[<span class="dv">2</span>]]</span>
+<span id="a20-13"><a href="#a20-13" aria-hidden="true"></a>[Species<span class="op">-</span>codelist] </span>
+<span id="a20-14"><a href="#a20-14" aria-hidden="true"></a></span>
+<span id="a20-15"><a href="#a20-15" aria-hidden="true"></a>Selected properties<span class="op">:</span></span>
+<span id="a20-16"><a href="#a20-16" aria-hidden="true"></a>format   <span class="op">:</span><span class="st">&quot;csv&quot;</span></span>
+<span id="a20-17"><a href="#a20-17" aria-hidden="true"></a>mediatype<span class="op">:</span><span class="st">&quot;text/csv&quot;</span></span>
+<span id="a20-18"><a href="#a20-18" aria-hidden="true"></a>path     <span class="op">:</span><span class="st">&quot;Species-codelist.csv&quot;</span></span>
+<span id="a20-19"><a href="#a20-19" aria-hidden="true"></a>encoding <span class="op">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="a20-20"><a href="#a20-20" aria-hidden="true"></a>schema   <span class="op">:</span>Table Schema [<span class="dv">2</span>] <span class="st">&quot;code&quot;</span> <span class="st">&quot;label&quot;</span></span></code></pre></div>
+<p>Again these can be further modified using methods such as <code>dptitle</code> and <code>dpproperty</code>:</p>
+<div class="sourceCode" id="a30"><pre class="sourceCode R"><code class="sourceCode r"><span id="a30-1"><a href="#a30-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dptitle</span>(res[[<span class="dv">1</span>]]) &lt;-<span class="st"> &quot;The Iris dataset&quot;</span></span></code></pre></div>
+<p>Let’s add these resources to the datapackage.</p>
+<div class="sourceCode" id="a40"><pre class="sourceCode R"><code class="sourceCode r"><span id="a40-1"><a href="#a40-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpresources</span>(dp) &lt;-<span class="st"> </span>res</span></code></pre></div>
+<p>In this case the datapackage does not yet contain dataresources. Should the datapackage contain dataresources with the same name, these will be overwritten by the new dataresources.</p>
+<p>We are now ready to write the dataset. For this we can use the <code>dpwritedata</code> method:</p>
+<div class="sourceCode" id="a50"><pre class="sourceCode R"><code class="sourceCode r"><span id="a50-1"><a href="#a50-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpwritedata</span>(dp, <span class="dt">resourcename =</span> <span class="st">&quot;iris&quot;</span>, <span class="dt">data =</span> iris, <span class="dt">write_codelists =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>With <code>write_codelists = TRUE</code> this function will also write any codelists associated with the dataresource.</p>
+<div class="sourceCode" id="a60"><pre class="sourceCode R"><code class="sourceCode r"><span id="a60-1"><a href="#a60-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">readLines</span>(<span class="kw">file.path</span>(dir, <span class="st">&quot;iris.csv&quot;</span>), <span class="dt">n =</span> <span class="dv">10</span>) <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">writeLines</span>()</span>
+<span id="a60-2"><a href="#a60-2" aria-hidden="true"></a><span class="st">&quot;Sepal.Length&quot;</span>,<span class="st">&quot;Sepal.Width&quot;</span>,<span class="st">&quot;Petal.Length&quot;</span>,<span class="st">&quot;Petal.Width&quot;</span>,<span class="st">&quot;Species&quot;</span></span>
+<span id="a60-3"><a href="#a60-3" aria-hidden="true"></a><span class="fl">5.1</span>,<span class="fl">3.5</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-4"><a href="#a60-4" aria-hidden="true"></a><span class="fl">4.9</span>,<span class="dv">3</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-5"><a href="#a60-5" aria-hidden="true"></a><span class="fl">4.7</span>,<span class="fl">3.2</span>,<span class="fl">1.3</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-6"><a href="#a60-6" aria-hidden="true"></a><span class="fl">4.6</span>,<span class="fl">3.1</span>,<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-7"><a href="#a60-7" aria-hidden="true"></a><span class="dv">5</span>,<span class="fl">3.6</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-8"><a href="#a60-8" aria-hidden="true"></a><span class="fl">5.4</span>,<span class="fl">3.9</span>,<span class="fl">1.7</span>,<span class="fl">0.4</span>,<span class="dv">1</span></span>
+<span id="a60-9"><a href="#a60-9" aria-hidden="true"></a><span class="fl">4.6</span>,<span class="fl">3.4</span>,<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">1</span></span>
+<span id="a60-10"><a href="#a60-10" aria-hidden="true"></a><span class="dv">5</span>,<span class="fl">3.4</span>,<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-11"><a href="#a60-11" aria-hidden="true"></a><span class="fl">4.4</span>,<span class="fl">2.9</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-12"><a href="#a60-12" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">readLines</span>(<span class="kw">file.path</span>(dir, <span class="st">&quot;Species-codelist.csv&quot;</span>)) <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">writeLines</span>()</span>
+<span id="a60-13"><a href="#a60-13" aria-hidden="true"></a><span class="st">&quot;code&quot;</span>,<span class="st">&quot;label&quot;</span></span>
+<span id="a60-14"><a href="#a60-14" aria-hidden="true"></a><span class="dv">1</span>,<span class="st">&quot;setosa&quot;</span></span>
+<span id="a60-15"><a href="#a60-15" aria-hidden="true"></a><span class="dv">2</span>,<span class="st">&quot;versicolor&quot;</span></span>
+<span id="a60-16"><a href="#a60-16" aria-hidden="true"></a><span class="dv">3</span>,<span class="st">&quot;virginica&quot;</span></span></code></pre></div>
+<p>And of course we can open the datapackage and read the data back in:</p>
+<div class="sourceCode" id="a70"><pre class="sourceCode R"><code class="sourceCode r"><span id="a70-1"><a href="#a70-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>dp2 &lt;-<span class="st"> </span><span class="kw">opendatapackage</span>(dir)</span>
+<span id="a70-2"><a href="#a70-2" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>iris2 &lt;-<span class="st"> </span>dp2 <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">dpresource</span>(<span class="st">&quot;iris&quot;</span>) <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">dpgetdata</span>(<span class="dt">to_factor =</span> <span class="ot">TRUE</span>)</span>
+<span id="a70-3"><a href="#a70-3" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">all.equal</span>(iris, iris2, <span class="dt">check.attributes =</span> <span class="ot">FALSE</span>)</span>
+<span id="a70-4"><a href="#a70-4" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="ot">TRUE</span></span></code></pre></div>
+<h2 id="custom-codelists">Custom codelists</h2>
+<p>By default the package will generate a codelist for factor variables. The levels will be numbered using sequential integers starting from 1. The example below shows how different codes can be used. First we create the resources as w did above. We will add those to the existing datapackage.</p>
+<div class="sourceCode" id="c00"><pre class="sourceCode R"><code class="sourceCode r"><span id="c00-1"><a href="#c00-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">data</span>(chickwts)</span>
+<span id="c00-2"><a href="#c00-2" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>res &lt;-<span class="st"> </span><span class="kw">dpgeneratedataresources</span>(chickwts, <span class="st">&quot;chickwts&quot;</span>) </span>
+<span id="c00-3"><a href="#c00-3" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpresources</span>(dp) &lt;-<span class="st"> </span>res</span></code></pre></div>
+<p>In order to write the correct codes we will also first have to generate the and save the dataset with the correct codes. In the example below we do this using R, but it is of course also possible to generate the CSV using other methods (e.g. manual editing):</p>
+<div class="sourceCode" id="c10"><pre class="sourceCode R"><code class="sourceCode r"><span id="c10-1"><a href="#c10-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>codelist &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="c10-2"><a href="#c10-2" aria-hidden="true"></a><span class="op">+</span><span class="st">   </span><span class="dt">code =</span> <span class="kw">c</span>(<span class="dv">101</span>, <span class="dv">102</span>, <span class="dv">103</span>, <span class="dv">202</span>, <span class="dv">203</span>, <span class="dv">204</span>),</span>
+<span id="c10-3"><a href="#c10-3" aria-hidden="true"></a><span class="op">+</span><span class="st">   </span><span class="dt">label =</span> <span class="kw">c</span>(<span class="st">&quot;casein&quot;</span>, <span class="st">&quot;horsebean&quot;</span>, <span class="st">&quot;linseed&quot;</span>, <span class="st">&quot;meatmeal&quot;</span>, </span>
+<span id="c10-4"><a href="#c10-4" aria-hidden="true"></a><span class="op">+</span><span class="st">     &quot;soybean&quot;</span>, <span class="st">&quot;sunflower&quot;</span>)</span>
+<span id="c10-5"><a href="#c10-5" aria-hidden="true"></a><span class="op">+</span><span class="st"> </span>)</span>
+<span id="c10-6"><a href="#c10-6" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>codelistres &lt;-<span class="st"> </span>dp <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">dpresource</span>(<span class="st">&quot;feed-codelist&quot;</span>)</span>
+<span id="c10-7"><a href="#c10-7" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpwritedata</span>(codelistres, <span class="dt">data =</span> codelist, <span class="dt">write_codelists =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p>This creates the correct CSV-files:</p>
+<div class="sourceCode" id="c20"><pre class="sourceCode R"><code class="sourceCode r"><span id="c20-1"><a href="#c20-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">readLines</span>(<span class="kw">file.path</span>(dir, <span class="st">&quot;feed-codelist.csv&quot;</span>)) <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">writeLines</span>()</span>
+<span id="c20-2"><a href="#c20-2" aria-hidden="true"></a><span class="st">&quot;code&quot;</span>,<span class="st">&quot;label&quot;</span></span>
+<span id="c20-3"><a href="#c20-3" aria-hidden="true"></a><span class="dv">101</span>,<span class="st">&quot;casein&quot;</span></span>
+<span id="c20-4"><a href="#c20-4" aria-hidden="true"></a><span class="dv">102</span>,<span class="st">&quot;horsebean&quot;</span></span>
+<span id="c20-5"><a href="#c20-5" aria-hidden="true"></a><span class="dv">103</span>,<span class="st">&quot;linseed&quot;</span></span>
+<span id="c20-6"><a href="#c20-6" aria-hidden="true"></a><span class="dv">202</span>,<span class="st">&quot;meatmeal&quot;</span></span>
+<span id="c20-7"><a href="#c20-7" aria-hidden="true"></a><span class="dv">203</span>,<span class="st">&quot;soybean&quot;</span></span>
+<span id="c20-8"><a href="#c20-8" aria-hidden="true"></a><span class="dv">204</span>,<span class="st">&quot;sunflower&quot;</span></span></code></pre></div>
+<p>When we now write the dataset to file it will use this dataset - as long as we don’t overwrite it. Therefore, the <code>write_codelists = FALSE</code>:</p>
+<div class="sourceCode" id="c30"><pre class="sourceCode R"><code class="sourceCode r"><span id="c30-1"><a href="#c30-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpwritedata</span>(dp, <span class="dt">resourcename =</span> <span class="st">&quot;chickwts&quot;</span>, <span class="dt">data =</span> chickwts, <span class="dt">write_codelists =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p>We can see that the correct codes are used in the CSV-file:</p>
+<div class="sourceCode" id="c40"><pre class="sourceCode R"><code class="sourceCode r"><span id="c40-1"><a href="#c40-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">readLines</span>(<span class="kw">file.path</span>(dir, <span class="st">&quot;chickwts.csv&quot;</span>), <span class="dt">n =</span> <span class="dv">10</span>) <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">writeLines</span>()</span>
+<span id="c40-2"><a href="#c40-2" aria-hidden="true"></a><span class="st">&quot;weight&quot;</span>,<span class="st">&quot;feed&quot;</span></span>
+<span id="c40-3"><a href="#c40-3" aria-hidden="true"></a><span class="dv">179</span>,<span class="dv">102</span></span>
+<span id="c40-4"><a href="#c40-4" aria-hidden="true"></a><span class="dv">160</span>,<span class="dv">102</span></span>
+<span id="c40-5"><a href="#c40-5" aria-hidden="true"></a><span class="dv">136</span>,<span class="dv">102</span></span>
+<span id="c40-6"><a href="#c40-6" aria-hidden="true"></a><span class="dv">227</span>,<span class="dv">102</span></span>
+<span id="c40-7"><a href="#c40-7" aria-hidden="true"></a><span class="dv">217</span>,<span class="dv">102</span></span>
+<span id="c40-8"><a href="#c40-8" aria-hidden="true"></a><span class="dv">168</span>,<span class="dv">102</span></span>
+<span id="c40-9"><a href="#c40-9" aria-hidden="true"></a><span class="dv">108</span>,<span class="dv">102</span></span>
+<span id="c40-10"><a href="#c40-10" aria-hidden="true"></a><span class="dv">124</span>,<span class="dv">102</span></span>
+<span id="c40-11"><a href="#c40-11" aria-hidden="true"></a><span class="dv">143</span>,<span class="dv">102</span></span></code></pre></div>
+<h2 id="editing-an-existing-data-package">Editing an existing Data Package</h2>
+<p>Editing of existing Data Packages is also possible. Use the <code>readonly = TRUE</code> argument when opening the Data Package:</p>
+<div class="sourceCode" id="e00"><pre class="sourceCode R"><code class="sourceCode r"><span id="e00-1"><a href="#e00-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>edit &lt;-<span class="st"> </span><span class="kw">opendatapackage</span>(dir, <span class="dt">readonly =</span> <span class="ot">FALSE</span>)</span>
+<span id="e00-2"><a href="#e00-2" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpid</span>(edit) &lt;-<span class="st"> &quot;iris_chkwts&quot;</span></span>
+<span id="e00-3"><a href="#e00-3" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpcreated</span>(edit) &lt;-<span class="st"> </span><span class="kw">Sys.time</span>() <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">as.Date</span>()</span></code></pre></div>
+<p>Showing the complete <code>datapackage.json</code> file after all of the edits in this vignette:</p>
+<div class="sourceCode" id="e10"><pre class="sourceCode R"><code class="sourceCode r"><span id="e10-1"><a href="#e10-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">readLines</span>(<span class="kw">file.path</span>(dir, <span class="st">&quot;datapackage.json&quot;</span>)) <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">writeLines</span>()</span>
+<span id="e10-2"><a href="#e10-2" aria-hidden="true"></a>{</span>
+<span id="e10-3"><a href="#e10-3" aria-hidden="true"></a>  <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;example&quot;</span>,</span>
+<span id="e10-4"><a href="#e10-4" aria-hidden="true"></a>  <span class="st">&quot;title&quot;</span><span class="op">:</span><span class="st"> &quot;An Example Data Package&quot;</span>,</span>
+<span id="e10-5"><a href="#e10-5" aria-hidden="true"></a>  <span class="st">&quot;resources&quot;</span><span class="op">:</span><span class="st"> </span>[</span>
+<span id="e10-6"><a href="#e10-6" aria-hidden="true"></a>    {</span>
+<span id="e10-7"><a href="#e10-7" aria-hidden="true"></a>      <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;iris&quot;</span>,</span>
+<span id="e10-8"><a href="#e10-8" aria-hidden="true"></a>      <span class="st">&quot;format&quot;</span><span class="op">:</span><span class="st"> &quot;csv&quot;</span>,</span>
+<span id="e10-9"><a href="#e10-9" aria-hidden="true"></a>      <span class="st">&quot;mediatype&quot;</span><span class="op">:</span><span class="st"> &quot;text/csv&quot;</span>,</span>
+<span id="e10-10"><a href="#e10-10" aria-hidden="true"></a>      <span class="st">&quot;path&quot;</span><span class="op">:</span><span class="st"> &quot;iris.csv&quot;</span>,</span>
+<span id="e10-11"><a href="#e10-11" aria-hidden="true"></a>      <span class="st">&quot;encoding&quot;</span><span class="op">:</span><span class="st"> &quot;utf-8&quot;</span>,</span>
+<span id="e10-12"><a href="#e10-12" aria-hidden="true"></a>      <span class="st">&quot;schema&quot;</span><span class="op">:</span><span class="st"> </span>{</span>
+<span id="e10-13"><a href="#e10-13" aria-hidden="true"></a>        <span class="st">&quot;fields&quot;</span><span class="op">:</span><span class="st"> </span>[</span>
+<span id="e10-14"><a href="#e10-14" aria-hidden="true"></a>          {</span>
+<span id="e10-15"><a href="#e10-15" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;Sepal.Length&quot;</span>,</span>
+<span id="e10-16"><a href="#e10-16" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;number&quot;</span></span>
+<span id="e10-17"><a href="#e10-17" aria-hidden="true"></a>          },</span>
+<span id="e10-18"><a href="#e10-18" aria-hidden="true"></a>          {</span>
+<span id="e10-19"><a href="#e10-19" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;Sepal.Width&quot;</span>,</span>
+<span id="e10-20"><a href="#e10-20" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;number&quot;</span></span>
+<span id="e10-21"><a href="#e10-21" aria-hidden="true"></a>          },</span>
+<span id="e10-22"><a href="#e10-22" aria-hidden="true"></a>          {</span>
+<span id="e10-23"><a href="#e10-23" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;Petal.Length&quot;</span>,</span>
+<span id="e10-24"><a href="#e10-24" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;number&quot;</span></span>
+<span id="e10-25"><a href="#e10-25" aria-hidden="true"></a>          },</span>
+<span id="e10-26"><a href="#e10-26" aria-hidden="true"></a>          {</span>
+<span id="e10-27"><a href="#e10-27" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;Petal.Width&quot;</span>,</span>
+<span id="e10-28"><a href="#e10-28" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;number&quot;</span></span>
+<span id="e10-29"><a href="#e10-29" aria-hidden="true"></a>          },</span>
+<span id="e10-30"><a href="#e10-30" aria-hidden="true"></a>          {</span>
+<span id="e10-31"><a href="#e10-31" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;Species&quot;</span>,</span>
+<span id="e10-32"><a href="#e10-32" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;integer&quot;</span>,</span>
+<span id="e10-33"><a href="#e10-33" aria-hidden="true"></a>            <span class="st">&quot;codelist&quot;</span><span class="op">:</span><span class="st"> &quot;Species-codelist&quot;</span></span>
+<span id="e10-34"><a href="#e10-34" aria-hidden="true"></a>          }</span>
+<span id="e10-35"><a href="#e10-35" aria-hidden="true"></a>        ]</span>
+<span id="e10-36"><a href="#e10-36" aria-hidden="true"></a>      },</span>
+<span id="e10-37"><a href="#e10-37" aria-hidden="true"></a>      <span class="st">&quot;title&quot;</span><span class="op">:</span><span class="st"> &quot;The Iris dataset&quot;</span></span>
+<span id="e10-38"><a href="#e10-38" aria-hidden="true"></a>    },</span>
+<span id="e10-39"><a href="#e10-39" aria-hidden="true"></a>    {</span>
+<span id="e10-40"><a href="#e10-40" aria-hidden="true"></a>      <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;Species-codelist&quot;</span>,</span>
+<span id="e10-41"><a href="#e10-41" aria-hidden="true"></a>      <span class="st">&quot;format&quot;</span><span class="op">:</span><span class="st"> &quot;csv&quot;</span>,</span>
+<span id="e10-42"><a href="#e10-42" aria-hidden="true"></a>      <span class="st">&quot;mediatype&quot;</span><span class="op">:</span><span class="st"> &quot;text/csv&quot;</span>,</span>
+<span id="e10-43"><a href="#e10-43" aria-hidden="true"></a>      <span class="st">&quot;path&quot;</span><span class="op">:</span><span class="st"> &quot;Species-codelist.csv&quot;</span>,</span>
+<span id="e10-44"><a href="#e10-44" aria-hidden="true"></a>      <span class="st">&quot;encoding&quot;</span><span class="op">:</span><span class="st"> &quot;utf-8&quot;</span>,</span>
+<span id="e10-45"><a href="#e10-45" aria-hidden="true"></a>      <span class="st">&quot;schema&quot;</span><span class="op">:</span><span class="st"> </span>{</span>
+<span id="e10-46"><a href="#e10-46" aria-hidden="true"></a>        <span class="st">&quot;fields&quot;</span><span class="op">:</span><span class="st"> </span>[</span>
+<span id="e10-47"><a href="#e10-47" aria-hidden="true"></a>          {</span>
+<span id="e10-48"><a href="#e10-48" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;code&quot;</span>,</span>
+<span id="e10-49"><a href="#e10-49" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;integer&quot;</span></span>
+<span id="e10-50"><a href="#e10-50" aria-hidden="true"></a>          },</span>
+<span id="e10-51"><a href="#e10-51" aria-hidden="true"></a>          {</span>
+<span id="e10-52"><a href="#e10-52" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;label&quot;</span>,</span>
+<span id="e10-53"><a href="#e10-53" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;string&quot;</span></span>
+<span id="e10-54"><a href="#e10-54" aria-hidden="true"></a>          }</span>
+<span id="e10-55"><a href="#e10-55" aria-hidden="true"></a>        ]</span>
+<span id="e10-56"><a href="#e10-56" aria-hidden="true"></a>      }</span>
+<span id="e10-57"><a href="#e10-57" aria-hidden="true"></a>    },</span>
+<span id="e10-58"><a href="#e10-58" aria-hidden="true"></a>    {</span>
+<span id="e10-59"><a href="#e10-59" aria-hidden="true"></a>      <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;chickwts&quot;</span>,</span>
+<span id="e10-60"><a href="#e10-60" aria-hidden="true"></a>      <span class="st">&quot;format&quot;</span><span class="op">:</span><span class="st"> &quot;csv&quot;</span>,</span>
+<span id="e10-61"><a href="#e10-61" aria-hidden="true"></a>      <span class="st">&quot;mediatype&quot;</span><span class="op">:</span><span class="st"> &quot;text/csv&quot;</span>,</span>
+<span id="e10-62"><a href="#e10-62" aria-hidden="true"></a>      <span class="st">&quot;path&quot;</span><span class="op">:</span><span class="st"> &quot;chickwts.csv&quot;</span>,</span>
+<span id="e10-63"><a href="#e10-63" aria-hidden="true"></a>      <span class="st">&quot;encoding&quot;</span><span class="op">:</span><span class="st"> &quot;utf-8&quot;</span>,</span>
+<span id="e10-64"><a href="#e10-64" aria-hidden="true"></a>      <span class="st">&quot;schema&quot;</span><span class="op">:</span><span class="st"> </span>{</span>
+<span id="e10-65"><a href="#e10-65" aria-hidden="true"></a>        <span class="st">&quot;fields&quot;</span><span class="op">:</span><span class="st"> </span>[</span>
+<span id="e10-66"><a href="#e10-66" aria-hidden="true"></a>          {</span>
+<span id="e10-67"><a href="#e10-67" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;weight&quot;</span>,</span>
+<span id="e10-68"><a href="#e10-68" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;number&quot;</span></span>
+<span id="e10-69"><a href="#e10-69" aria-hidden="true"></a>          },</span>
+<span id="e10-70"><a href="#e10-70" aria-hidden="true"></a>          {</span>
+<span id="e10-71"><a href="#e10-71" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;feed&quot;</span>,</span>
+<span id="e10-72"><a href="#e10-72" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;integer&quot;</span>,</span>
+<span id="e10-73"><a href="#e10-73" aria-hidden="true"></a>            <span class="st">&quot;codelist&quot;</span><span class="op">:</span><span class="st"> &quot;feed-codelist&quot;</span></span>
+<span id="e10-74"><a href="#e10-74" aria-hidden="true"></a>          }</span>
+<span id="e10-75"><a href="#e10-75" aria-hidden="true"></a>        ]</span>
+<span id="e10-76"><a href="#e10-76" aria-hidden="true"></a>      }</span>
+<span id="e10-77"><a href="#e10-77" aria-hidden="true"></a>    },</span>
+<span id="e10-78"><a href="#e10-78" aria-hidden="true"></a>    {</span>
+<span id="e10-79"><a href="#e10-79" aria-hidden="true"></a>      <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;feed-codelist&quot;</span>,</span>
+<span id="e10-80"><a href="#e10-80" aria-hidden="true"></a>      <span class="st">&quot;format&quot;</span><span class="op">:</span><span class="st"> &quot;csv&quot;</span>,</span>
+<span id="e10-81"><a href="#e10-81" aria-hidden="true"></a>      <span class="st">&quot;mediatype&quot;</span><span class="op">:</span><span class="st"> &quot;text/csv&quot;</span>,</span>
+<span id="e10-82"><a href="#e10-82" aria-hidden="true"></a>      <span class="st">&quot;path&quot;</span><span class="op">:</span><span class="st"> &quot;feed-codelist.csv&quot;</span>,</span>
+<span id="e10-83"><a href="#e10-83" aria-hidden="true"></a>      <span class="st">&quot;encoding&quot;</span><span class="op">:</span><span class="st"> &quot;utf-8&quot;</span>,</span>
+<span id="e10-84"><a href="#e10-84" aria-hidden="true"></a>      <span class="st">&quot;schema&quot;</span><span class="op">:</span><span class="st"> </span>{</span>
+<span id="e10-85"><a href="#e10-85" aria-hidden="true"></a>        <span class="st">&quot;fields&quot;</span><span class="op">:</span><span class="st"> </span>[</span>
+<span id="e10-86"><a href="#e10-86" aria-hidden="true"></a>          {</span>
+<span id="e10-87"><a href="#e10-87" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;code&quot;</span>,</span>
+<span id="e10-88"><a href="#e10-88" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;integer&quot;</span></span>
+<span id="e10-89"><a href="#e10-89" aria-hidden="true"></a>          },</span>
+<span id="e10-90"><a href="#e10-90" aria-hidden="true"></a>          {</span>
+<span id="e10-91"><a href="#e10-91" aria-hidden="true"></a>            <span class="st">&quot;name&quot;</span><span class="op">:</span><span class="st"> &quot;label&quot;</span>,</span>
+<span id="e10-92"><a href="#e10-92" aria-hidden="true"></a>            <span class="st">&quot;type&quot;</span><span class="op">:</span><span class="st"> &quot;string&quot;</span></span>
+<span id="e10-93"><a href="#e10-93" aria-hidden="true"></a>          }</span>
+<span id="e10-94"><a href="#e10-94" aria-hidden="true"></a>        ]</span>
+<span id="e10-95"><a href="#e10-95" aria-hidden="true"></a>      }</span>
+<span id="e10-96"><a href="#e10-96" aria-hidden="true"></a>    }</span>
+<span id="e10-97"><a href="#e10-97" aria-hidden="true"></a>  ],</span>
+<span id="e10-98"><a href="#e10-98" aria-hidden="true"></a>  <span class="st">&quot;description&quot;</span><span class="op">:</span><span class="st"> &quot;This is a description of the Data Package&quot;</span>,</span>
+<span id="e10-99"><a href="#e10-99" aria-hidden="true"></a>  <span class="st">&quot;contributors&quot;</span><span class="op">:</span><span class="st"> </span>[</span>
+<span id="e10-100"><a href="#e10-100" aria-hidden="true"></a>    {</span>
+<span id="e10-101"><a href="#e10-101" aria-hidden="true"></a>      <span class="st">&quot;title&quot;</span><span class="op">:</span><span class="st"> &quot;Jane Doe&quot;</span>,</span>
+<span id="e10-102"><a href="#e10-102" aria-hidden="true"></a>      <span class="st">&quot;role&quot;</span><span class="op">:</span><span class="st"> &quot;author&quot;</span>,</span>
+<span id="e10-103"><a href="#e10-103" aria-hidden="true"></a>      <span class="st">&quot;email&quot;</span><span class="op">:</span><span class="st"> &quot;j.doe@organisation.org&quot;</span></span>
+<span id="e10-104"><a href="#e10-104" aria-hidden="true"></a>    }</span>
+<span id="e10-105"><a href="#e10-105" aria-hidden="true"></a>  ],</span>
+<span id="e10-106"><a href="#e10-106" aria-hidden="true"></a>  <span class="st">&quot;id&quot;</span><span class="op">:</span><span class="st"> &quot;iris_chkwts&quot;</span>,</span>
+<span id="e10-107"><a href="#e10-107" aria-hidden="true"></a>  <span class="st">&quot;created&quot;</span><span class="op">:</span><span class="st"> &quot;2024-01-11&quot;</span></span>
+<span id="e10-108"><a href="#e10-108" aria-hidden="true"></a>}</span></code></pre></div>
+</body>
+</html>

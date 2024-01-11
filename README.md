@@ -142,7 +142,7 @@ dataset using the correct functions in R (in this case `read.csv`):
 ``` R
 > dta <- dpgetdata(iris)
 > head(dta)
-  sepal.length sepal.width petal.length petal.width species
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 1          5.1         3.5          1.4         0.2  setosa
 2          4.9         3.0          1.4         0.2  setosa
 3          4.7         3.2          1.3         0.2  setosa
@@ -334,6 +334,11 @@ This Code List can also be used to convert the field to factor:
 ``` R
 > dptofactor(complex$factor1)
 [1] Purple Red    Purple Other  <NA>   Other 
+attr(,"fielddescriptor")
+Field Descriptor:
+name    :"factor1"
+type    :"integer"
+codelist:"codelist-factor1"
 Levels: Purple Red Other Not given
 ```
 
@@ -362,33 +367,4 @@ factor:
 
 ## Creating a Data Package
 
-``` R
-> dir <- tempdir()
-> dp <- newdatapackage(dir, name = "example", 
-+   title = "An Example Data Package")
-> print(dp)
-[example] An Example Data Package
-
-Location: </tmp/RtmpVPiUq4>
-<NO RESOURCES>
-```
-
-``` R
-> list.files(dir)
-[1] "datapackage.json"      "file89bd6f815cec.json"
-```
-
-``` R
-> dpdescription(dp) <- "This is a description of the Data Package"
-```
-
-The `description<-` also accepts a character vector of length \> 1. This
-makes it easy to read the contents of the description from file as it
-can be difficult to write long descriptions directly from R-code. It is
-possible to use markdown in the description.
-
-``` R
-dpdescription(dp) <- readLines("description.md")
-```
-
-Note that anytime the Data Resoure is modified the file on disk is also
+This is shown in a seperate vignette `Creating a Data Package`
