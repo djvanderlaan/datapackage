@@ -1,0 +1,37 @@
+#' Add a writer function for a specific format
+#'
+#' @param format the data format read by the writer Should be a length 1 character vector.
+#' @param writer the writer function. See details.
+#' 
+#' @details
+#' Adds a writer for a given format. The writer is added to a list of writers
+#' referenced by the format. The writer function should accept 'data' with
+#' the data as its first argument, 'resourcename' the name of the resource to
+#' which the data set belongs, 'datapackage' that datapackage to which the data
+#' should be written.
+#'
+#' Note that adding a writer for an existing format will overwrite the existing
+#' writer
+#'
+#' @return
+#' Does not return anything (\code{invisible(NULL)}). 
+#'
+#' @examples
+#' # Add a very simple writer for json
+#' json_writer <- function(data, resourcename, datapackage, ...) {
+#'   dataresource <- dpresource(datapackage, resourcename)
+#'   path <- dppath(dataresource, fullpath = TRUE)
+#'   jsonlite::write_json(data, path)
+#' }
+#'
+#' dpaddwriter("json", json_writer)
+#' 
+#' @export
+dpaddwriter <- function(format, writer) {
+  stopifnot(is.character(format), length(format) == 1)
+  stopifnot(is.function(writer))
+  readers$writers[[format]] <- writer
+  invisible(NULL)
+}
+
+# TODO: same type of arguments as reader?

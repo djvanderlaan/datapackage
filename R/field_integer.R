@@ -108,14 +108,3 @@ csv_colclass_integer <- function(schema = list(), ...) {
   if (!is.null(schema$missingValues)) "character" else "integer"
 }
 
-# @rdname csv_format
-# @export
-csv_format_integer <- function(x, schema = datapackage::schema(x)) {
-  #if (!is.null(schema$categories)) {
-    # We are dealing with a categorical variable that is stored as 
-    # an integer
-    #x <- csv_format_categorical(x, schema)
-  #}
-  as.integer(x)
-}
-

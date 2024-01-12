@@ -104,7 +104,7 @@ csv_read_base <- function(filename,
         dec = decimalChar, header = header, 
         strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
         colClasses = colClasses, na.strings = na.strings, ...)
-      if (!caseSensitiveHeader) names(d) <- tolower(names(d))
+      #if (!caseSensitiveHeader) names(d) <- tolower(names(d))
       d
     }) |> data.table::rbindlist()
   } else {
@@ -113,7 +113,7 @@ csv_read_base <- function(filename,
         dec = decimalChar, header = header, comment.char = commentChar, 
         strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
         colClasses = colClasses, na.strings = na.strings, ...)
-      if (!caseSensitiveHeader) names(d) <- tolower(names(d))
+      #if (!caseSensitiveHeader) names(d) <- tolower(names(d))
       d
     })
     if (length(dta) > 1) do.call(rbind, dta) else dta[[1]]

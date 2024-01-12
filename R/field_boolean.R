@@ -134,23 +134,3 @@ csv_colclass_boolean <- function(schema = list(), ...) {
   res
 }
 
-# @rdname csv_format
-# @export
-csv_format_boolean <- function(x, schema = datapackage::schema(x)) {
-  #if (!is.null(schema$categories)) {
-    # We are dealing with a categorical variable that is stored as 
-    # a boolean
-    #x <- csv_format_categorical(x, schema)
-  #}
-  if (is.logical(x) && ("TRUE" %in% schema$trueValues) && 
-      ("FALSE" %in% schema$falseValues)) {
-    # We can as is as R writes TRUE/FALSE by default
-    x
-  } else {
-    trueval <- utils::head(schema$trueValues, 1)
-    falseval <- utils::head(schema$falseValues, 1)
-    # When x is not logical; we let ifelse handle that
-    ifelse(x, trueval, falseval)
-  }
-}
-

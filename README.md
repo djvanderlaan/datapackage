@@ -142,7 +142,7 @@ dataset using the correct functions in R (in this case `read.csv`):
 ``` R
 > dta <- dpgetdata(iris)
 > head(dta)
-  sepal.length sepal.width petal.length petal.width species
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 1          5.1         3.5          1.4         0.2  setosa
 2          4.9         3.0          1.4         0.2  setosa
 3          4.7         3.2          1.3         0.2  setosa
@@ -334,6 +334,11 @@ This Code List can also be used to convert the field to factor:
 ``` R
 > dptofactor(complex$factor1)
 [1] Purple Red    Purple Other  <NA>   Other 
+attr(,"fielddescriptor")
+Field Descriptor:
+name    :"factor1"
+type    :"integer"
+codelist:"codelist-factor1"
 Levels: Purple Red Other Not given
 ```
 
@@ -362,33 +367,51 @@ factor:
 
 ## Creating a Data Package
 
-``` R
-> dir <- tempdir()
-> dp <- newdatapackage(dir, name = "example", 
-+   title = "An Example Data Package")
-> print(dp)
-[example] An Example Data Package
+This is shown in a seperate vignette `Creating a Data Package`
 
-Location: </tmp/Rtmp15hzx7>
-<NO RESOURCES>
-```
+## Quickly saving to and reading from a Data Package
+
+A quick way to create a Data Package from a given dataset is with the
+`dpsaveasdatapackage` function:
 
 ``` R
-> list.files(dir)
-[1] "datapackage.json"      "file8a3a70fc50f7.json"
+> dir <- tempfile()
+> data(iris)
+> dpsaveasdatapackage(iris, dir)
 ```
+
+And for reading:
 
 ``` R
-> dpdescription(dp) <- "This is a description of the Data Package"
+> dploadfromdatapackage(dir) |> head()
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2       1
+2          4.9         3.0          1.4         0.2       1
+3          4.7         3.2          1.3         0.2       1
+4          4.6         3.1          1.5         0.2       1
+5          5.0         3.6          1.4         0.2       1
+6          5.4         3.9          1.7         0.4       1
 ```
 
-The `description<-` also accepts a character vector of length \> 1. This
-makes it easy to read the contents of the description from file as it
-can be difficult to write long descriptions directly from R-code. It is
-possible to use markdown in the description.
+This will either load the Data Resource with the same name as the Data
+Package or the first resource in the Data Package. It is also possible
+to specify the name of the Data Resource that should be read. Additional
+arguments are passed on to `dpgetdata`:
 
 ``` R
-dpdescription(dp) <- readLines("description.md")
+> dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
+Loading required namespace: data.table
+ 
+     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+  1:          5.1         3.5          1.4         0.2    setosa
+  2:          4.9         3.0          1.4         0.2    setosa
+  3:          4.7         3.2          1.3         0.2    setosa
+  4:          4.6         3.1          1.5         0.2    setosa
+  5:          5.0         3.6          1.4         0.2    setosa
+ ---                                                            
+146:          6.7         3.0          5.2         2.3 virginica
+147:          6.3         2.5          5.0         1.9 virginica
+148:          6.5         3.0          5.2         2.0 virginica
+149:          6.2         3.4          5.4         2.3 virginica
+150:          5.9         3.0          5.1         1.8 virginica
 ```
-
-Note that anytime the Data Resoure is modified the file on disk is also

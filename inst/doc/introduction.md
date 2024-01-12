@@ -241,37 +241,12 @@ convert all fields which have an associated 'codelist' to factor:
 complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
 print(complex)
 ```
-```{.R #n5 echo=FALSE results=FALSE}
-file.remove(file.path(dir, "datapackage.json"))
-```
 
 ## Creating a Data Package
 
 This is shown in a seperate vignette `Creating a Data Package`
 
-## Quickly saving to and reading from a Data Package
-
-A quick way to create a Data Package from a given dataset is with the
-`dpsaveasdatapackage` function:
-
-```{.R #q1}
-dir <- tempfile()
-data(iris)
-dpsaveasdatapackage(iris, dir)
-```
-
-And for reading:
-
-```{.R #q2}
-dploadfromdatapackage(dir) |> head()
-```
-
-This will either load the Data Resource with the same name as the Data Package
-or the first resource in the Data Package.  It is also possible to specify the
-name of the Data Resource that should be read. Additional arguments are passed
-on to `dpgetdata`:
-
-```{.R #q2}
-dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
+```{.R #n5 echo=FALSE results=FALSE}
+file.remove(file.path(dir, "datapackage.json"))
 ```
 
