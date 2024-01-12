@@ -368,3 +368,50 @@ factor:
 ## Creating a Data Package
 
 This is shown in a seperate vignette `Creating a Data Package`
+
+## Quickly saving to and reading from a Data Package
+
+A quick way to create a Data Package from a given dataset is with the
+`dpsaveasdatapackage` function:
+
+``` R
+> dir <- tempfile()
+> data(iris)
+> dpsaveasdatapackage(iris, dir)
+```
+
+And for reading:
+
+``` R
+> dploadfromdatapackage(dir) |> head()
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2       1
+2          4.9         3.0          1.4         0.2       1
+3          4.7         3.2          1.3         0.2       1
+4          4.6         3.1          1.5         0.2       1
+5          5.0         3.6          1.4         0.2       1
+6          5.4         3.9          1.7         0.4       1
+```
+
+This will either load the Data Resource with the same name as the Data
+Package or the first resource in the Data Package. It is also possible
+to specify the name of the Data Resource that should be read. Additional
+arguments are passed on to `dpgetdata`:
+
+``` R
+> dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
+Loading required namespace: data.table
+ 
+     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+  1:          5.1         3.5          1.4         0.2    setosa
+  2:          4.9         3.0          1.4         0.2    setosa
+  3:          4.7         3.2          1.3         0.2    setosa
+  4:          4.6         3.1          1.5         0.2    setosa
+  5:          5.0         3.6          1.4         0.2    setosa
+ ---                                                            
+146:          6.7         3.0          5.2         2.3 virginica
+147:          6.3         2.5          5.0         1.9 virginica
+148:          6.5         3.0          5.2         2.0 virginica
+149:          6.2         3.4          5.4         2.3 virginica
+150:          5.9         3.0          5.1         1.8 virginica
+```
