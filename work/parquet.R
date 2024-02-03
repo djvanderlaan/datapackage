@@ -1,6 +1,26 @@
 library(datapackage)
 library(arrow)
 
+data(iris)
+
+dp <- newdatapackage(path = "work/iris_parquet", name = "iris")
+
+res <- dpgeneratedataresources(iris, "iris")
+
+dpresources(dp) <- res
+
+dpwritedata(dp, resourcename = "iris", data = iris)
+
+tmp <- read.csv("work/iris_parquet/iris.csv")
+write_parquet(tmp, sink = "work/iris_parquet/iris.csv")
+
+res <- dpresource(dp, "iris")
+dpformat(res) <- "parquet"
+dpresource(dp, "iris") <- res
+
+
+
+
 parquet_reader <- function(path, resource, to_factor = FALSE, ...) {
   schema <- dpschema(resource)
   if (is.null(schema)) {
@@ -16,7 +36,11 @@ dp <- opendatapackage("work/iris_parquet")
 
 dp
 
+iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = FALSE)
+iris
+
 iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = TRUE)
+iris
 
 iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = TRUE, as_data_frame = FALSE)
 
