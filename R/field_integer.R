@@ -69,8 +69,8 @@ to_integer.numeric <- function(x, schema = list(), ...) {
 }
 
 # @export
-to_integer.factor <- function(x, schema = list(), ...) {
-  stop("Unimplemented")
+#to_integer.factor <- function(x, schema = list(), ...) {
+  #stop("Unimplemented")
   #schema <- complete_schema_integer(schema)
   ## Check if levels of x match those in the schema
   #if (is.null(schema$categories)) 
@@ -81,7 +81,7 @@ to_integer.factor <- function(x, schema = list(), ...) {
   #if (!to_factor) stop("to_factor = FALSE is not supported when x is a factor.")
   ## We can return x
   #structure(x, schema = schema)
-}
+#}
 
 
 #' @export
