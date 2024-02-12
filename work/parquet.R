@@ -58,15 +58,18 @@ to_integer.factor <- function(x, schema = list(), ...) {
     x <- as.integer(x)
   } else {
     na <- is.na(x)
-    res <- match(x, codelist[[2]])
-    wrong <- is.na(res) & !na
-    if (any(wrong)) {
-      wrong <- unique(x[wrong])
-      wrong <- paste0("'", wrong, "'")
-      if (length(wrong) > 5) 
-        wrong <- c(utils::head(wrong, 5), "...")
-      stop("Invalid values found in x: ", paste0(wrong, collapse = ","))
+    if (length(intersect(levels(x), codelist[[2]])) != nlevels(x)) {
+      stop("Levels of x do not match codelist.")
     }
+    res <- match(x, codelist[[2]])
+    #wrong <- is.na(res) & !na
+    #if (any(wrong)) {
+      #wrong <- unique(x[wrong])
+      #wrong <- paste0("'", wrong, "'")
+      #if (length(wrong) > 5) 
+        #wrong <- c(utils::head(wrong, 5), "...")
+      #stop("Invalid values found in x: ", paste0(wrong, collapse = ","))
+    #}
     x <- res
   }
   structure(x, fielddescriptor = schema)
@@ -87,15 +90,70 @@ iris2 |> head()
 # ================== READ AS CONNECTION
 
 
+# ERROR: doesn't work as to_number etc don't work on parquet column (ChunkedArray)
 iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = TRUE, as_data_frame = FALSE)
 
-library(dplyr)
 tmp <- read_parquet("work/iris_parquet/iris2.parquet", as_data_frame = FALSE)
-tmp |> slice_head(n = 1) |> collect() |> (\(x) levels(x$Species))()
+h <- tmp$Take(1) |> as.data.frame()
+levels(h$Species)
 
-# Kan ook zonder dplyr
-tmp$Take(1) |> as.data.frame()
 
+parquet_reader2 <- function(path, resource, to_factor = FALSE, as_connection = FALSE, ...) {
+  schema <- dpschema(resource)
+  if (is.null(schema)) {
+    dta <- arrow::read_parquet(path, as_data_frame = !s_connection, ...)
+  } else {
+    dta <- arrow::read_parquet(path, as_data_frame = !as_connection, ...)
+    if (as_connection) {
+      # Check if parquet file is valid
+      # First try to convert the first few rows; this should already catch quite a few
+      # possiblee issues; e.g. levels of factor not matching code list
+      tmp <- dta$Take(1) |> as.data.frame()
+      tmp <- dpapplyschema(tmp, resource, to_factor = to_factor)
+      # However, we also want an integer column to be numeric etc. dpapplyschema will
+      # accept character for most fields.
+      for (fieldname in dpfieldnames(schema)) {
+        field <- dpfield(schema, fieldname)
+        type  <- dpproperty(field, "type")
+        class <- class(tmp[[fieldname]])
+        if (is.factor(tmp[[fieldname]]) && !is.null(dpproperty(field, "codelist"))) {
+          # this is ok
+        } else if (type == "boolean") {
+          if (!is(tmp[[fieldname]], "logical"))
+            stop("Field '", fieldname, "' is of wrong type. Should be a logical")
+        } else if (type == "date") {
+          if (!is(tmp[[fieldname]], "Date"))
+            stop("Field '", fieldname, "' is of wrong type. Should be a Date.")
+        } else if (type == "integer") {
+          if (!is(tmp[[fieldname]], "integer"))
+            stop("Field '", fieldname, "' is of wrong type. Should be an integer.")
+        } else if (type == "number") {
+          if (!is(tmp[[fieldname]], "numeric"))
+            stop("Field '", fieldname, "' is of wrong type. Should be an numeric")
+        } else if (type == "string") {
+          if (!is(tmp[[fieldname]], "character"))
+            stop("Field '", fieldname, "' is of wrong type. Should be an character")
+        }
+      }
+    } else {
+      dta <- dpapplyschema(dta, resource, to_factor = to_factor)
+    }
+  }
+  structure(dta, resource = resource)
+}
+
+
+iris <- dpgetdata(dp, "iris", reader = parquet_reader2, to_factor = TRUE, as_connection = TRUE)
+iris$Take(1:10) |> as.data.frame()
+
+iris <- dpgetdata(dp, "iris", reader = parquet_reader2, to_factor = FALSE, as_connection = TRUE)
+iris$Take(1:10) |> as.data.frame()
+
+iris <- dpgetdata(dp, "iris2", reader = parquet_reader2, to_factor = FALSE, as_connection = TRUE)
+iris$Take(1:10) |> as.data.frame()
+
+iris <- dpgetdata(dp, "iris2", reader = parquet_reader2, to_factor = TRUE, as_connection = TRUE)
+iris$Take(1:10) |> as.data.frame()
 
 a <- data.frame(a=1:4, b = letters[1:4], c=factor(LETTERS[1:4]))
 a <- a[rep(1:4, 1000), ]
