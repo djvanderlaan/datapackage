@@ -9,23 +9,24 @@ author: Jan van der Laan
 css: "style.css"
 ---
 
-A Data Package is collection of files and consists of both data, which can be
-any type of information such as images and CSV files, and meta data. These files
-are usually stored in one directory (possibly with sub directories) although
-links to external data are possible. Meta data is data about data and consists
-of the information needed by software programmes to use the data and information
-needed by users of the data such as descriptions, names of authors, licences
-etc. The meta data is stored in a file in the directory that is usually called
-`datapackage.json`. The information in this file is what below will be called
-the Data Package. As mentioned, it contains both information on the data package
-itself (title, description) and information on a number of Data Resources. The
-Data Resources describe the data files in the data package and also consist of
-information like a title, description, but also information needed by software
-to use the data such as the path to the data (location of the data), and
-technical information such as how the data is stored. This information makes it
-easier to use the data. Below we will show how we can use the information in a
-Data Package to easily read in the data and work with the data and we will show
-how we can create a Data Package for our own data.
+A [Data Package](https://specs.frictionlessdata.io/) is collection of files and
+consists of both data, which can be any type of information such as images and
+CSV files, and meta data. These files are usually stored in one directory
+(possibly with sub directories) although links to external data are possible.
+Meta data is data about data and consists of the information needed by software
+programmes to use the data and information needed by users of the data such as
+descriptions, names of authors, licences etc. The meta data is stored in a file
+in the directory that is usually called `datapackage.json`. The information in
+this file is what below will be called the Data Package. As mentioned, it
+contains both information on the data package itself (title, description) and
+information on a number of Data Resources. The Data Resources describe the data
+files in the data package and also consist of information like a title,
+description, but also information needed by software to use the data such as the
+path to the data (location of the data), and technical information such as how
+the data is stored. This information makes it easier to use the data. Below we
+will show how we can use the information in a Data Package to easily read in the
+data and work with the data and we will show how we can create a Data Package
+for our own data.
 
 ## Overview of terminology
 
@@ -241,12 +242,37 @@ convert all fields which have an associated 'codelist' to factor:
 complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
 print(complex)
 ```
+```{.R #n5 echo=FALSE results=FALSE}
+file.remove(file.path(dir, "datapackage.json"))
+```
 
 ## Creating a Data Package
 
 This is shown in a seperate vignette `Creating a Data Package`
 
-```{.R #n5 echo=FALSE results=FALSE}
-file.remove(file.path(dir, "datapackage.json"))
+## Quickly saving to and reading from a Data Package
+
+A quick way to create a Data Package from a given dataset is with the
+`dpsaveasdatapackage` function:
+
+```{.R #q1}
+dir <- tempfile()
+data(iris)
+dpsaveasdatapackage(iris, dir)
+```
+
+And for reading:
+
+```{.R #q2}
+dploadfromdatapackage(dir) |> head()
+```
+
+This will either load the Data Resource with the same name as the Data Package
+or the first resource in the Data Package.  It is also possible to specify the
+name of the Data Resource that should be read. Additional arguments are passed
+on to `dpgetdata`:
+
+```{.R #q2}
+dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
 ```
 
