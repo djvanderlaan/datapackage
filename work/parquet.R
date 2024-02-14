@@ -31,74 +31,8 @@ write_parquet(iris, "work/iris_parquet/iris2.parquet")
 
 
 
-parquet_reader <- function(path, resource, to_factor = FALSE, ...) {
-  schema <- dpschema(resource)
-  if (is.null(schema)) {
-    dta <- arrow::read_parquet(path, ...)
-  } else {
-    dta <- arrow::read_parquet(path, ...)
-    dta <- dpapplyschema(dta, resource, to_factor = to_factor)
-  }
-  structure(dta, resource = resource)
-}
-
-dp <- opendatapackage("work/iris_parquet")
-dp
-
-iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = FALSE)
-iris |> head()
-
-iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = TRUE)
-iris |> head()
-
-to_integer.factor <- function(x, schema = list(), ...) {
-  schema <- complete_schema_integer(schema)
-  codelist <- dpcodelist(schema)
-  if (is.null(codelist)) {
-    x <- as.integer(x)
-  } else {
-    na <- is.na(x)
-    if (length(intersect(levels(x), codelist[[2]])) != nlevels(x)) {
-      stop("Levels of x do not match codelist.")
-    }
-    res <- match(x, codelist[[2]])
-    #wrong <- is.na(res) & !na
-    #if (any(wrong)) {
-      #wrong <- unique(x[wrong])
-      #wrong <- paste0("'", wrong, "'")
-      #if (length(wrong) > 5) 
-        #wrong <- c(utils::head(wrong, 5), "...")
-      #stop("Invalid values found in x: ", paste0(wrong, collapse = ","))
-    #}
-    x <- res
-  }
-  structure(x, fielddescriptor = schema)
-}
-
-iris2 <- dpgetdata(dp, "iris2", reader = parquet_reader, to_factor = FALSE)
-iris2 |> head()
-
-# This solution with do_integer.factor is inefficient. Now the column is first 
-# converted from factor to integer and then back to factor.
-# Better would be, in case of `to_factor = TRUE` to check if the levels match 
-# those of the code list and if so do nothing. If not, there should be an error.
-iris2 <- dpgetdata(dp, "iris2", reader = parquet_reader, to_factor = TRUE)
-iris2 |> head()
-
-
-
-# ================== READ AS CONNECTION
-
-
-# ERROR: doesn't work as to_number etc don't work on parquet column (ChunkedArray)
-iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = TRUE, as_data_frame = FALSE)
-
-tmp <- read_parquet("work/iris_parquet/iris2.parquet", as_data_frame = FALSE)
-h <- tmp$Take(1) |> as.data.frame()
-levels(h$Species)
-
-
-parquet_reader2 <- function(path, resource, to_factor = FALSE, as_connection = FALSE, ...) {
+parquet_reader <- function(path, resource, to_factor = FALSE, as_connection = FALSE, ...) {
+  print(as_connection)
   schema <- dpschema(resource)
   if (is.null(schema)) {
     dta <- arrow::read_parquet(path, as_data_frame = !s_connection, ...)
@@ -143,16 +77,72 @@ parquet_reader2 <- function(path, resource, to_factor = FALSE, as_connection = F
 }
 
 
-iris <- dpgetdata(dp, "iris", reader = parquet_reader2, to_factor = TRUE, as_connection = TRUE)
+parquet_reader0 <- function(path, resource, to_factor = FALSE, ...) {
+  schema <- dpschema(resource)
+  if (is.null(schema)) {
+    dta <- arrow::read_parquet(path, ...)
+  } else {
+    dta <- arrow::read_parquet(path, ...)
+    dta <- dpapplyschema(dta, resource, to_factor = to_factor)
+  }
+  structure(dta, resource = resource)
+}
+
+dp <- opendatapackage("work/iris_parquet")
+dp
+
+iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = FALSE)
+iris |> head()
+
+iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = TRUE)
+iris |> head()
+
+
+iris2 <- dpgetdata(dp, "iris2", reader = parquet_reader, to_factor = FALSE)
+iris2 |> head()
+
+# This solution with do_integer.factor is inefficient. Now the column is first 
+# converted from factor to integer and then back to factor.
+# Better would be, in case of `to_factor = TRUE` to check if the levels match 
+# those of the code list and if so do nothing. If not, there should be an error.
+iris2 <- dpgetdata(dp, "iris2", reader = parquet_reader, to_factor = TRUE)
+iris2 |> head()
+
+
+
+# ================== READ AS CONNECTION
+
+
+# ERROR: doesn't work as to_number etc don't work on parquet column (ChunkedArray)
+#iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = TRUE, as_data_frame = FALSE)
+
+tmp <- read_parquet("work/iris_parquet/iris2.parquet", as_data_frame = FALSE)
+h <- tmp$Take(1) |> as.data.frame()
+levels(h$Species)
+
+
+iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = TRUE, as_connection = TRUE)
 iris$Take(1:10) |> as.data.frame()
 
-iris <- dpgetdata(dp, "iris", reader = parquet_reader2, to_factor = FALSE, as_connection = TRUE)
+iris <- dpgetdata(dp, "iris", reader = parquet_reader, to_factor = FALSE, as_connection = TRUE)
 iris$Take(1:10) |> as.data.frame()
 
-iris <- dpgetdata(dp, "iris2", reader = parquet_reader2, to_factor = FALSE, as_connection = TRUE)
+iris <- dpgetdata(dp, "iris2", reader = parquet_reader, to_factor = FALSE, as_connection = TRUE)
 iris$Take(1:10) |> as.data.frame()
 
-iris <- dpgetdata(dp, "iris2", reader = parquet_reader2, to_factor = TRUE, as_connection = TRUE)
+iris <- dpgetdata(dp, "iris2", reader = parquet_reader, to_factor = TRUE, as_connection = TRUE)
+iris$Take(1:10) |> as.data.frame()
+
+iris <- dpgetconnection(dp, "iris", reader = parquet_reader, to_factor = TRUE)
+iris$Take(1:10) |> as.data.frame()
+
+iris <- dpgetconnection(dp, "iris", reader = parquet_reader, to_factor = FALSE)
+iris$Take(1:10) |> as.data.frame()
+
+iris <- dpgetconnection(dp, "iris2", reader = parquet_reader, to_factor = FALSE)
+iris$Take(1:10) |> as.data.frame()
+
+iris <- dpgetconnection(dp, "iris2", reader = parquet_reader, to_factor = TRUE)
 iris$Take(1:10) |> as.data.frame()
 
 a <- data.frame(a=1:4, b = letters[1:4], c=factor(LETTERS[1:4]))

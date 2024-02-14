@@ -11,6 +11,10 @@
 #'
 #' @param ... passed on to the \code{reader}
 #'
+#' @param as_connection Try to return a connection to the data instead of the
+#' data itself. When a reader does not support returning connections it will
+#' return the data.
+#'
 #' @details
 #' When \code{reader = "guess"} the function will try to guess which reader to
 #' use based on the \code{format} and \code{mediatype} of the Data Resource.
@@ -20,19 +24,27 @@
 #' It is also possible to assign default readers for data formats. For that see
 #' \code{\link{dpaddreader}}.
 #'
+#' @seealso
+#' \code{dpgetconnection} is a wrapper around 
+#' \code{dpgetdata(..., as_connection = TRUE)}. 
+#'
 #' @return
 #' Will return the data. This will generally be a \code{data.frame} but
-#' depending on the file type can also be other types of R-objects.
+#' depending on the file type can also be other types of R-objects. 
+#'
+#' When called with the \code{as_connection = TRUE} argument, it will try to
+#' return a connection to the data. This depends on the reader. When the reader
+#' does not support returning connections it will return the data.
 #
 #' @rdname dpgetdata
 #' @export
-dpgetdata <- function(x, ...) {
+dpgetdata <- function(x, ..., as_connection = FALSE) {
   UseMethod("dpgetdata")
 }
 
 #' @rdname dpgetdata
 #' @export
-dpgetdata.dataresource <- function(x, reader = "guess", ...) {
+dpgetdata.dataresource <- function(x, reader = "guess", ..., as_connection = FALSE) {
   # Check if resource includes data; ifso return that
   d <- dpproperty(x, "data")
   if (!is.null(d)) {
@@ -47,15 +59,15 @@ dpgetdata.dataresource <- function(x, reader = "guess", ...) {
       reader <- guessreader(dpformat(x), dpmediatype(x))
     stopifnot(is.function(reader))
     # Read
-    reader(filename, x, ...)
+    reader(filename, x, ..., as_connection = as_connection)
   }
 }
 
 #' @rdname dpgetdata
 #' @export
-dpgetdata.datapackage <- function(x, resourcename, reader = "guess", ...) {
+dpgetdata.datapackage <- function(x, resourcename, reader = "guess", ..., as_connection = FALSE) {
   resource <- dpresource(x, resourcename)
   if (is.null(resource)) stop("Resource '", resourcename, "' not found.")
-  dpgetdata(resource, reader = reader, ...)
+  dpgetdata(resource, reader = reader, ..., as_connection = as_connection)
 }
 
