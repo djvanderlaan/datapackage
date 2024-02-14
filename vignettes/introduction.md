@@ -9,23 +9,24 @@ author: Jan van der Laan
 css: "style.css"
 ---
 
-A Data Package is collection of files and consists of both data, which can be
-any type of information such as images and CSV files, and meta data. These files
-are usually stored in one directory (possibly with sub directories) although
-links to external data are possible. Meta data is data about data and consists
-of the information needed by software programmes to use the data and information
-needed by users of the data such as descriptions, names of authors, licences
-etc. The meta data is stored in a file in the directory that is usually called
-`datapackage.json`. The information in this file is what below will be called
-the Data Package. As mentioned, it contains both information on the data package
-itself (title, description) and information on a number of Data Resources. The
-Data Resources describe the data files in the data package and also consist of
-information like a title, description, but also information needed by software
-to use the data such as the path to the data (location of the data), and
-technical information such as how the data is stored. This information makes it
-easier to use the data. Below we will show how we can use the information in a
-Data Package to easily read in the data and work with the data and we will show
-how we can create a Data Package for our own data.
+A [Data Package](https://specs.frictionlessdata.io/) is collection of files and
+consists of both data, which can be any type of information such as images and
+CSV files, and meta data. These files are usually stored in one directory
+(possibly with sub directories) although links to external data are possible.
+Meta data is data about data and consists of the information needed by software
+programmes to use the data and information needed by users of the data such as
+descriptions, names of authors, licences etc. The meta data is stored in a file
+in the directory that is usually called `datapackage.json`. The information in
+this file is what below will be called the Data Package. As mentioned, it
+contains both information on the data package itself (title, description) and
+information on a number of Data Resources. The Data Resources describe the data
+files in the data package and also consist of information like a title,
+description, but also information needed by software to use the data such as the
+path to the data (location of the data), and technical information such as how
+the data is stored. This information makes it easier to use the data. Below we
+will show how we can use the information in a Data Package to easily read in the
+data and work with the data and we will show how we can create a Data Package
+for our own data.
 
 ## Overview of terminology
 

@@ -68,21 +68,21 @@ to_integer.numeric <- function(x, schema = list(), ...) {
   structure(x, fielddescriptor = schema)
 }
 
-# @export
+#' @export
 to_integer.factor <- function(x, schema = list(), ...) {
-  stop("Unimplemented")
-  #schema <- complete_schema_integer(schema)
-  ## Check if levels of x match those in the schema
-  #if (is.null(schema$categories)) 
-    #stop("schema does not define categories while x is of type factor.")
-  #labels <- sapply(schema$categories, function(x) x$label)
-  #if (!isTRUE(all.equal(labels, levels(x))))
-    #stop("Levels of x do not match the categories defined in the schema.")
-  #if (!to_factor) stop("to_factor = FALSE is not supported when x is a factor.")
-  ## We can return x
-  #structure(x, schema = schema)
+  schema <- complete_schema_integer(schema)
+  codelist <- dpcodelist(schema)
+  if (is.null(codelist)) {
+    x <- as.integer(x)
+  } else {
+    na <- is.na(x)
+    if (length(intersect(levels(x), codelist[[2]])) != nlevels(x)) {
+      stop("Levels of x do not match codelist.")
+    }
+    x <- match(x, codelist[[2]])
+  }
+  structure(x, fielddescriptor = schema)
 }
-
 
 #' @export
 to_integer.character <- function(x, schema = list(), ...) {

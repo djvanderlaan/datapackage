@@ -76,3 +76,14 @@ print(complex)
 # n5
 file.remove(file.path(dir, "datapackage.json"))
 
+# q1
+dir <- tempfile()
+data(iris)
+dpsaveasdatapackage(iris, dir)
+
+# q2
+dploadfromdatapackage(dir) |> head()
+
+# q2
+dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
+
