@@ -98,6 +98,7 @@
       "path": "fixedwidth.asc",
       "title": "A Fixed Width Example",
       "encoding": "UTF-8",
+      "format": "fixed",
       "mediatype": "text/x-fixedwidth",
       "fwfspec": [
         {"name": "foo", "length": 1},

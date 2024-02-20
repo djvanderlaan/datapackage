@@ -54,9 +54,11 @@ fwf_reader <- function(path, resource, to_factor = FALSE, ...) {
   #on.exit(close(con))
   dta <- con[,]
   # handle encoding
-  encoding <- dpproperty(resource, "encoding")
+  encoding <- dpproperty(resource, "encoding") |> tolower()
   if (is.null(encoding)) encoding <- "latin1"
-  if (encoding == "cp1252") {
+  if (encoding == "utf-8") encoding <- "UTF-8"
+  if (encoding == "latin-1") encoding <- "latin1"
+  if (encoding == "cp1252" || encoding == "cp-1252" || encoding == "windows-1252") {
     warning("Encoding CP-1252 not supported. Using latin1, which is often ", 
       "the same. See ?Encoding.")
     encoding <- "latin1"

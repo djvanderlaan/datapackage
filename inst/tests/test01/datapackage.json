@@ -137,6 +137,38 @@
       "path": "fixedwidth.asc",
       "title": "A Fixed Width Example",
       "encoding": "UTF-8",
+      "format": "fixed",
+      "mediatype": "text/x-fixedwidth",
+      "fwfspec": [
+        {"name": "foo", "length": 1},
+        {"name": "bar", "length": 5},
+        {"name": "date", "length": 10},
+        {"name": "name", "length": 8}
+      ],
+      "schema": {
+        "fields" : [
+          { 
+            "name": "foo",
+            "type": "integer"
+          }, {
+            "name": "bar",
+            "type": "number",
+            "decimalChar": "."
+          }, {
+            "name": "date",
+            "type": "date"
+          }, {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
+    }, {
+      "name": "fixed-width-latin1",
+      "path": "fixedwidth_latin1.asc",
+      "title": "A Fixed Width Example encoded in latin1",
+      "encoding": "latin1",
+      "format": "fixed",
       "mediatype": "text/x-fixedwidth",
       "fwfspec": [
         {"name": "foo", "length": 1},

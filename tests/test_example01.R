@@ -10,7 +10,7 @@ expect_equal(dpname(dp), "test01")
 expect_equal(dptitle(dp), "Test datapackage 01")
 expect_equal(dpdescription(dp), "A data package to test if tooling functions correctly")
 expect_equal(dpresourcenames(dp), c("complex", "complex-empty", "codelist-factor1", 
-    "codelist-factor2", "inline", "fixed-width"))
+    "codelist-factor2", "inline", "fixed-width", "fixed-width-latin1"))
 
 res <- dpresource(dp, "complex")
 expect_equal(dppath(res), "complex.csv")
