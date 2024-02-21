@@ -9,13 +9,13 @@ readers$writers <- list()
 dpaddreader("csv", csv_reader, 
   mediatypes = "text/csv",
   extensions = "csv")
-dpaddreader("fixed", fwf_reader, 
-  mediatypes = "text/x-fixedwidth",
-  extensions = c("fwf", "asc"))
 dpaddreader("asc", fwf_reader, 
   mediatypes = "text/x-fixedwidth",
   extensions = c("fwf", "asc"))
 dpaddreader("fwf", fwf_reader, 
+  mediatypes = "text/x-fixedwidth",
+  extensions = c("fwf", "asc"))
+dpaddreader("fixed", fwf_reader, 
   mediatypes = "text/x-fixedwidth",
   extensions = c("fwf", "asc"))
 

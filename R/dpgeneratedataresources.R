@@ -8,6 +8,10 @@
 #' @param path name of the file in which to store the dataset. This should be a
 #' path relative to the location of the directory in which the Data Package in
 #' which the Data Resource will be stored. 
+#' @param format the data format in which the data is stored.
+#' @param mediatype mediatype of the data
+#' @param format_codelists data format to use for the code lists
+#' @param mediatype_codelists mediatyp of the code lists
 #' @param ... Currently ignored
 #'
 #' @return
@@ -26,7 +30,9 @@
 #' print(resources)
 #' 
 #' @export
-dpgeneratedataresources <- function(x, name, path = paste0(name, ".csv"), ...) {
+dpgeneratedataresources <- function(x, name, path = paste0(name, getextension(format)), 
+    format = "csv", mediatype = getmediatype(format), format_codelists = format, 
+    mediatype_codelists = getmediatype(format_codelists), ...) {
   stopifnot(is.data.frame(x))
   resources <- vector("list", 1)
   # Generate the table schema
@@ -40,15 +46,41 @@ dpgeneratedataresources <- function(x, name, path = paste0(name, ".csv"), ...) {
       if (is.null(codelistname))
         codelistname <- sprintf("%s-%s-codelist", name, names(x)[i])
       fd$fielddescriptor$codelist <- codelistname
-      codelist_res <- dpgeneratedataresources(codelist, codelistname)
+      codelist_res <- dpgeneratedataresources(codelist, codelistname, 
+        format = format_codelists, mediatype = mediatype_codelists)
       resources[[length(resources)+1L]] <- codelist_res[[1]]
     }
     fields[[i]] <- fd$fielddescriptor
   }
-  res <- structure(list(name = name, format = "csv", mediatype = "text/csv", 
+  res <- structure(list(name = name, format = format, mediatype = mediatype, 
     path = path, encoding = "utf-8", schema = list(fields = fields)), 
     class = "dataresource")
   resources[[1L]] <- res
   resources
+}
+
+
+getextension <- function(format, withdot = TRUE) {
+  extensions <- readers$extensions
+  result <- format
+  for (extension in names(extensions)) {
+    if (format %in% extensions[[extension]]) {
+      result <- extension
+      break
+    }
+  }
+  if (withdot) paste0(".", result) else result
+}
+
+getmediatype <- function(format) {
+  mediatypes <- readers$mediatypes
+  result <- NULL
+  for (mediatype in names(mediatypes)) {
+    if (format %in% mediatypes[[mediatype]]) {
+      result <- mediatype
+      break
+    }
+  }
+  result
 }
 
