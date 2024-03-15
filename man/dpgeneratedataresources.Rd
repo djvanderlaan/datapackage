@@ -4,7 +4,16 @@
 \alias{dpgeneratedataresources}
 \title{Generate Data Resources for a dataset}
 \usage{
-dpgeneratedataresources(x, name, path = paste0(name, ".csv"), ...)
+dpgeneratedataresources(
+  x,
+  name,
+  path = paste0(name, getextension(format)),
+  format = "csv",
+  mediatype = getmediatype(format),
+  format_codelists = format,
+  mediatype_codelists = getmediatype(format_codelists),
+  ...
+)
 }
 \arguments{
 \item{x}{\code{data.frame} for which to generate the Data Resources.}
@@ -14,6 +23,14 @@ dpgeneratedataresources(x, name, path = paste0(name, ".csv"), ...)
 \item{path}{name of the file in which to store the dataset. This should be a
 path relative to the location of the directory in which the Data Package in
 which the Data Resource will be stored.}
+
+\item{format}{the data format in which the data is stored.}
+
+\item{mediatype}{mediatype of the data}
+
+\item{format_codelists}{data format to use for the code lists}
+
+\item{mediatype_codelists}{mediatyp of the code lists}
 
 \item{...}{Currently ignored}
 }
