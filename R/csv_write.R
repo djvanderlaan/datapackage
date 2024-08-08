@@ -75,7 +75,7 @@ csv_write_base <- function(x, filename,
     if (!missing(commentChar)) csv_dialect$commentChar <- commentChar
     #if (!missing(caseSensitiveHeader)) csv_dialect$caseSensitiveHeader <- caseSensitiveHeader
     if (!missing(nullSequence)) csv_dialect$nullSequence <- nullSequence
-    args <- c(csv_dialect, list(filename = filename, 
+    args <- c(csv_dialect, list(x = x, filename = filename, 
       use_fwrite = use_fwrite, decimalChar = decimalChar), list(...))
     return(do.call(csv_write_base, args))
   }

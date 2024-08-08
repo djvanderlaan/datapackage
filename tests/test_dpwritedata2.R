@@ -64,3 +64,23 @@ for (f in list.files(dir, full.names = TRUE)) file.remove(f)
 file.remove(dir)
 
 
+# =============================================================================
+# Missing values coded as NA
+dir <- tempdir()
+
+data(iris)
+for (col in names(iris)) iris[[col]][sample(nrow(iris), 10)] <- NA
+
+# Create the datapackage
+dp <- newdatapackage(dir, name = "iris")
+res <- dpgeneratedataresources(iris, "iris") 
+dpproperty(res[[1]], "dialect") <- list(nullSequence = "FOO")
+dpresources(dp) <- res
+dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = TRUE)
+# OPen the new datapacakge, read the data and check
+dp2 <- opendatapackage(dir)
+iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
+expect_equal(iris, iris2, attributes = FALSE)
+# Clean up
+for (f in list.files(dir, full.names = TRUE)) file.remove(f)
+file.remove(dir)

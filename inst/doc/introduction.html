@@ -189,7 +189,7 @@ color: #ee8c70; }
 <span id="g1-7"><a href="#g1-7" aria-hidden="true"></a>A description</span>
 <span id="g1-8"><a href="#g1-8" aria-hidden="true"></a>...</span>
 <span id="g1-9"><a href="#g1-9" aria-hidden="true"></a></span>
-<span id="g1-10"><a href="#g1-10" aria-hidden="true"></a>Location<span class="op">:</span><span class="st"> </span><span class="er">&lt;/</span>tmp<span class="op">/</span>Rtmpxe9ec8<span class="op">/</span>Rinst756a198c4df2<span class="op">/</span>datapackage<span class="op">/</span>examples<span class="op">/</span>iris<span class="op">&gt;</span></span>
+<span id="g1-10"><a href="#g1-10" aria-hidden="true"></a>Location<span class="op">:</span><span class="st"> </span><span class="er">&lt;/</span>tmp<span class="op">/</span>RtmpouPo99<span class="op">/</span>Rinst13e9a37cb6e3e<span class="op">/</span>datapackage<span class="op">/</span>examples<span class="op">/</span>iris<span class="op">&gt;</span></span>
 <span id="g1-11"><a href="#g1-11" aria-hidden="true"></a>Resources<span class="op">:</span></span>
 <span id="g1-12"><a href="#g1-12" aria-hidden="true"></a>[iris] The iris data set</span>
 <span id="g1-13"><a href="#g1-13" aria-hidden="true"></a>[complex] A complex example dataset</span>
@@ -246,9 +246,9 @@ color: #ee8c70; }
 <span id="g8-2"><a href="#g8-2" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;iris.csv&quot;</span></span></code></pre></div>
 <p>By default this will return the path as defined in the Data Package. This either a path relative to the directory in which the Data Package is located or a URL. To open a file inside the Data Package one also needs the location of the Data Package. This is stored in the <code>path</code> attribute of the Data Package and Resource:</p>
 <div class="sourceCode" id="g9"><pre class="sourceCode R"><code class="sourceCode r"><span id="g9-1"><a href="#g9-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">attr</span>(dp, <span class="st">&quot;path&quot;</span>)</span>
-<span id="g9-2"><a href="#g9-2" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/Rtmpxe9ec8/Rinst756a198c4df2/datapackage/examples/iris&quot;</span></span>
+<span id="g9-2"><a href="#g9-2" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpouPo99/Rinst13e9a37cb6e3e/datapackage/examples/iris&quot;</span></span>
 <span id="g9-3"><a href="#g9-3" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">attr</span>(iris, <span class="st">&quot;path&quot;</span>)</span>
-<span id="g9-4"><a href="#g9-4" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/Rtmpxe9ec8/Rinst756a198c4df2/datapackage/examples/iris&quot;</span></span></code></pre></div>
+<span id="g9-4"><a href="#g9-4" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpouPo99/Rinst13e9a37cb6e3e/datapackage/examples/iris&quot;</span></span></code></pre></div>
 <p>Using the <code>fullpath = TRUE</code> argument, <code>path</code> will return the full path to the file:</p>
 <div class="sourceCode" id="g10"><pre class="sourceCode R"><code class="sourceCode r"><span id="g10-1"><a href="#g10-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span>fn &lt;-<span class="st"> </span><span class="kw">dppath</span>(iris, <span class="dt">fullpath =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>This path can be used to open the file manually:</p>
@@ -310,7 +310,7 @@ color: #ee8c70; }
 <div class="sourceCode" id="r3"><pre class="sourceCode R"><code class="sourceCode r"><span id="r3-1"><a href="#r3-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dppath</span>(iris)</span>
 <span id="r3-2"><a href="#r3-2" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;iris.csv&quot;</span></span>
 <span id="r3-3"><a href="#r3-3" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dppath</span>(iris, <span class="dt">fullpath =</span> <span class="ot">TRUE</span>)</span>
-<span id="r3-4"><a href="#r3-4" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/Rtmpxe9ec8/Rinst756a198c4df2/datapackage/examples/iris/iris.csv&quot;</span></span></code></pre></div>
+<span id="r3-4"><a href="#r3-4" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpouPo99/Rinst13e9a37cb6e3e/datapackage/examples/iris/iris.csv&quot;</span></span></code></pre></div>
 <p>It is also possible to get other properties than the ones explicitly mentioned above using the <code>dpproperty</code> method:</p>
 <div class="sourceCode" id="r4"><pre class="sourceCode R"><code class="sourceCode r"><span id="r4-1"><a href="#r4-1" aria-hidden="true"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">dpproperty</span>(iris, <span class="st">&quot;encoding&quot;</span>)</span>
 <span id="r4-2"><a href="#r4-2" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="st">&quot;utf-8&quot;</span></span></code></pre></div>

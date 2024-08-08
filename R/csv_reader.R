@@ -56,7 +56,7 @@ csv_read_base <- function(filename,
     commentChar  = "", lineTerminator = "\r\n", 
     header = TRUE, caseSensitiveHeader = FALSE, nullSequence = character(0),
     skipInitialSpace = FALSE, colClasses = character(), 
-    na.strings = character(0), use_fread = FALSE, csv_dialect, ...) {
+    use_fread = FALSE, csv_dialect, ...) {
   # Handle input of the arguments through a named list
   if (!missing(csv_dialect) && !is.null(csv_dialect)) {
     stopifnot(is.list(csv_dialect))
@@ -73,7 +73,7 @@ csv_read_base <- function(filename,
     if (!missing(commentChar)) csv_dialect$commentChar <- commentChar
     if (!missing(caseSensitiveHeader)) csv_dialect$caseSensitiveHeader <- caseSensitiveHeader
     if (!missing(nullSequence)) csv_dialect$nullSequence <- nullSequence
-    args <- c(csv_dialect, list(filename = filename, colClasses = colClasses, na.strings = na.strings,
+    args <- c(csv_dialect, list(filename = filename, colClasses = colClasses, 
       use_fread = use_fread, decimalChar = decimalChar), list(...))
     return(do.call(csv_read_base, args))
   }
@@ -95,8 +95,8 @@ csv_read_base <- function(filename,
   if (!missing(caseSensitiveHeader) && header) 
     warning("The value for caseSentitiveHeader is ignored as header=FALSE.")
   stopifnot(is.character(nullSequence), length(nullSequence) <= 1)
-  if (length(nullSequence) > 0)
-    stop("Specifying nullSequence is not supported.")
+  #if (length(nullSequence) > 0)
+    #stop("Specifying nullSequence is not supported.")
   stopifnot(is.logical(skipInitialSpace), length(skipInitialSpace) == 1)
   # Read data
   if (use_fread) {
@@ -106,7 +106,7 @@ csv_read_base <- function(filename,
       d <- data.table::fread(filename, sep = delimiter, quote = quoteChar, 
         dec = decimalChar, header = header, 
         strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
-        colClasses = colClasses, na.strings = na.strings, ...)
+        colClasses = colClasses, na.strings = nullSequence, ...)
       #if (!caseSensitiveHeader) names(d) <- tolower(names(d))
       d
     }) |> data.table::rbindlist()
@@ -115,7 +115,7 @@ csv_read_base <- function(filename,
       d <- utils::read.table(filename, sep = delimiter, quote = quoteChar, 
         dec = decimalChar, header = header, comment.char = commentChar, 
         strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
-        colClasses = colClasses, na.strings = na.strings, ...)
+        colClasses = colClasses, na.strings = nullSequence, ...)
       #if (!caseSensitiveHeader) names(d) <- tolower(names(d))
       d
     })
