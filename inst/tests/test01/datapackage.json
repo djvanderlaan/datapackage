@@ -41,12 +41,18 @@
           }, {
             "name" : "factor1",
             "type" : "integer",
-            "codelist" : "codelist-factor1"
+            "categories" : {
+              "resource" : "codelist-factor1",
+              "valueField" : "code"
+            }
           }, {
             "name" : "factor2",
             "type" : "string",
             "missingValues": "",
-            "codelist" : "codelist-factor2"
+            "categories" : {
+              "resource" : "codelist-factor2",
+              "valueField" : "code"
+            }
           }
         ]
       }
@@ -88,12 +94,18 @@
           }, {
             "name" : "factor1",
             "type" : "integer",
-            "codelist" : "codelist-factor1"
+            "categories" : {
+              "resource" : "codelist-factor1",
+              "valueField" : "code"
+            }
           }, {
             "name" : "factor2",
             "type" : "string",
             "missingValues": "",
-            "codelist" : "codelist-factor2"
+            "categories" : {
+              "resource" : "codelist-factor2",
+              "valueField" : "code"
+            }
           }
         ]
       }
