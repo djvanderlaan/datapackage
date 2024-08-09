@@ -59,18 +59,18 @@ dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), ...
       # We have a list with labels and values
       values <- sapply(codelist, \(x) x$value)
       labels <- sapply(codelist, \(x) 
-        if (hasName(x, "label")) x$label else x$value)
+        if (utils::hasName(x, "label")) x$label else x$value)
       codelist <- data.frame(value = values, label = labels)
     } else {
       # We have a reference to a data resource
-      if (!hasName(codelist, "resource")) 
+      if (!utils::hasName(codelist, "resource")) 
         stop("'resource' field missing from categories.")
       resource <- codelist$resource
       categories <- codelist
       codelist <- dpgetdata(datapackage, resource)
-      if (hasName(categories, "valueField")) 
+      if (utils::hasName(categories, "valueField")) 
         names(codelist)[names(codelist) == categories$valueField] <- "value"
-      if (hasName(categories, "labelField")) 
+      if (utils::hasName(categories, "labelField")) 
         names(codelist)[names(codelist) == categories$labelField] <- "label"
     }
   } else if (is.numeric(codelist) || is.character(codelist) || is.logical(codelist)) {

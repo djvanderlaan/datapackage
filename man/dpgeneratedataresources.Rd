@@ -10,6 +10,7 @@ dpgeneratedataresources(
   path = paste0(name, getextension(format)),
   format = "csv",
   mediatype = getmediatype(format),
+  categories_type = c("regular", "resource"),
   format_codelists = format,
   mediatype_codelists = getmediatype(format_codelists),
   ...
@@ -27,6 +28,9 @@ which the Data Resource will be stored.}
 \item{format}{the data format in which the data is stored.}
 
 \item{mediatype}{mediatype of the data}
+
+\item{categories_type}{how should categories be stored. See 
+\code{\link{dpgeneratefielddescriptor}}.}
 
 \item{format_codelists}{data format to use for the code lists}
 

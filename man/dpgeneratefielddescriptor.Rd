@@ -81,6 +81,9 @@ stored in the 'fielddescriptor' attribute.}
 
 \item{use_codelist}{use existing code list of \code{x} if available. The
 code list is obtained using \code{\link{dpcodelist}}.}
+
+\item{categories_type}{how should categories be stored. Note that type "resource"
+is not officially part of the standard.}
 }
 \value{
 Returns a \code{list} with two fields: \code{fielddescriptor} and optionally

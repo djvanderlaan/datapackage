@@ -10,6 +10,8 @@
 #' which the Data Resource will be stored. 
 #' @param format the data format in which the data is stored.
 #' @param mediatype mediatype of the data
+#' @param categories_type how should categories be stored. See 
+#'   \code{\link{dpgeneratefielddescriptor}}.
 #' @param format_codelists data format to use for the code lists
 #' @param mediatype_codelists mediatyp of the code lists
 #' @param ... Currently ignored
@@ -31,14 +33,14 @@
 #' 
 #' @export
 dpgeneratedataresources <- function(x, name, path = paste0(name, getextension(format)), 
-    format = "csv", mediatype = getmediatype(format), format_codelists = format, 
-    mediatype_codelists = getmediatype(format_codelists), ...) {
+    format = "csv", mediatype = getmediatype(format), categories_type = c("regular", "resource"),
+    format_codelists = format, mediatype_codelists = getmediatype(format_codelists), ...) {
   stopifnot(is.data.frame(x))
   resources <- vector("list", 1)
   # Generate the table schema
   fields <- vector("list", ncol(x))
   for (i in seq_along(x)) {
-    fd <- dpgeneratefielddescriptor(x[[i]], names(x)[i])
+    fd <- dpgeneratefielddescriptor(x[[i]], names(x)[i], categories_type = categories_type)
     codelist <- fd$codelist
     if (!is.null(codelist)) {
       # WE have a codelist and need to generate a dataresource for the codelist

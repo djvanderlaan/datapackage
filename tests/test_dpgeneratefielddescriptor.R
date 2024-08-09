@@ -9,11 +9,10 @@ dp <- opendatapackage(dir)
 dta <- dp |> dpresource("complex") |> dpgetdata()
 tmp <- dpgeneratefielddescriptor(dta$factor1, "factor1")
 expect_equal(dpproperty(tmp$fielddescriptor, "type"), "integer")
-#expect_equal(dpproperty(tmp$fielddescriptor, "codelist"), "codelist-factor1")
-#expect_equal(dpproperty(tmp$fielddescriptor, "codelist"), "codelist-factor1")
-#expect_equal(tmp$codelist, 
-#  data.frame(code = c(1,2,3,0), label = c("Purple", "Red", "Other", "Not given")),
-#  attributes = FALSE)
+expect_equal(dpproperty(tmp$fielddescriptor, "categories"), list(resource="codelist-factor1"))
+expect_equal(tmp$codelist, 
+  data.frame(value = c(1,2,3,0), label = c("Purple", "Red", "Other", "Not given")),
+  attributes = FALSE)
 
 tmp <- dpgeneratefielddescriptor(dta$factor1, "factor1", use_existing = FALSE)
 expect_equal(dpproperty(tmp$fielddescriptor, "type"), "integer")
@@ -26,10 +25,14 @@ expect_equal(
     list(value = 0L, label = "Not given")),
   attributes = FALSE)
 expect_equal(tmp$codelist, NULL)
-#expect_equal(dpproperty(tmp$fielddescriptor, "codelist"), "codelist-factor1")
-#expect_equal(tmp$codelist, 
-#  data.frame(code = c(1,2,3,0), label = c("Purple", "Red", "Other", "Not given")),
-#  attributes = FALSE)
+
+tmp <- dpgeneratefielddescriptor(dta$factor1, "factor1", use_existing = FALSE, 
+  categories_type = "resource")
+expect_equal(dpproperty(tmp$fielddescriptor, "type"), "integer")
+expect_equal(dpproperty(tmp$fielddescriptor, "categories"), list(resource="factor1-codelist"))
+expect_equal(tmp$codelist, 
+  data.frame(value = c(1,2,3,0), label = c("Purple", "Red", "Other", "Not given")),
+  attributes = FALSE)
 
 tmp <- dpgeneratefielddescriptor(dta$factor1, "factor1", use_existing = FALSE, use_codelist = FALSE)
 expect_equal(dpproperty(tmp$fielddescriptor, "type"), "integer")
@@ -82,10 +85,10 @@ dta <- dp |> dpresource("complex") |> dpgetdata(to_factor = TRUE)
 tmp <- dpgeneratefielddescriptor(dta$factor1, "f1")
 expect_equal(dpproperty(tmp$fielddescriptor, "name"), "f1")
 expect_equal(dpproperty(tmp$fielddescriptor, "type"), "integer")
-#expect_equal(dpproperty(tmp$fielddescriptor, "codelist"), "codelist-factor1")
-#expect_equal(tmp$codelist, 
-#  data.frame(code = c(1,2,3,0), label = c("Purple", "Red", "Other", "Not given")),
-#  attributes = FALSE)
+expect_equal(dpproperty(tmp$fielddescriptor, "categories"), list(resource="codelist-factor1"))
+expect_equal(tmp$codelist, 
+  data.frame(value = c(1,2,3,0), label = c("Purple", "Red", "Other", "Not given")),
+  attributes = FALSE)
 
 tmp <- dpgeneratefielddescriptor(dta$factor1, "f1", use_existing = FALSE)
 expect_equal(dpproperty(tmp$fielddescriptor, "name"), "f1")
@@ -99,10 +102,15 @@ expect_equal(
     list(value = 0L, label = "Not given")),
   attributes = FALSE)
 expect_equal(tmp$codelist, NULL)
-#expect_equal(dpproperty(tmp$fielddescriptor, "codelist"), "codelist-factor1")
-#expect_equal(tmp$codelist, 
-#  data.frame(code = c(1,2,3,0), label = c("Purple", "Red", "Other", "Not given")),
-#  attributes = FALSE)
+
+tmp <- dpgeneratefielddescriptor(dta$factor1, "f1", use_existing = FALSE, 
+  categories_type = "resource")
+expect_equal(dpproperty(tmp$fielddescriptor, "name"), "f1")
+expect_equal(dpproperty(tmp$fielddescriptor, "type"), "integer")
+expect_equal(dpproperty(tmp$fielddescriptor, "categories"), list(resource = "f1-codelist"))
+expect_equal(tmp$codelist, 
+  data.frame(value = c(1,2,3,0), label = c("Purple", "Red", "Other", "Not given")),
+  attributes = FALSE)
 
 tmp <- dpgeneratefielddescriptor(dta$factor1, "f1", use_existing = FALSE, use_codelist = FALSE)
 expect_equal(dpproperty(tmp$fielddescriptor, "name"), "f1")
@@ -118,11 +126,16 @@ expect_equal(
     list(value = 4L, label = "Not given")),
   attributes = FALSE)
 expect_equal(tmp$codelist, NULL)
-#expect_equal(dpproperty(tmp$fielddescriptor, "codelist"), "codelist-factor1")
+
+tmp <- dpgeneratefielddescriptor(dta$factor1, "f1", use_existing = FALSE, use_codelist = FALSE,
+  categories_type = "resource")
+expect_equal(dpproperty(tmp$fielddescriptor, "name"), "f1")
+expect_equal(dpproperty(tmp$fielddescriptor, "type"), "integer")
 # Note that this one is different than the previous cases for this variable. factor1 is now a factor
 # therefore a codelist is generated.
-#expect_equal(tmp$codelist, 
-#  data.frame(code = c(1:4), label = c("Purple", "Red", "Other", "Not given")),
-#  attributes = FALSE)
+expect_equal(dpproperty(tmp$fielddescriptor, "categories"), list(resource = "f1-codelist"))
+expect_equal(tmp$codelist, 
+  data.frame(value = c(1,2,3,4), label = c("Purple", "Red", "Other", "Not given")),
+  attributes = FALSE)
 
 
