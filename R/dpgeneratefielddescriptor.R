@@ -48,7 +48,8 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
     )
     if (!is.null(codelist) && use_codelist) {
       if (is.null(codelistname)) codelistname <- paste0(name, "-codelist")
-      fielddescriptor$codelist <- codelistname
+      #fielddescriptor$codelist <- codelistname
+      fielddescriptor$categories <- list(resource = codelistname)
     } else codelist <- NULL
   }
   class(fielddescriptor) <- "fielddescriptor"
@@ -60,8 +61,8 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
 dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE, 
     use_codelist = TRUE, ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  codelistname <- if (is.null(fielddescriptor)) NULL else 
-    dpproperty(fielddescriptor, "codelist")
+  categories <- if (is.null(fielddescriptor)) NULL else 
+    dpproperty(fielddescriptor, "categories")
   codelist <- dpcodelist(x)
   if (!is.null(fielddescriptor) && use_existing) {
     fielddescriptor$name <- name
@@ -70,14 +71,16 @@ dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE,
       name = name,
       type = "integer"
     )
-    if (!is.null(codelist) && use_codelist) {
-      if (is.null(codelistname)) codelistname <- paste0(name, "-codelist")
-      fielddescriptor$codelist <- codelistname
+    if (!is.null(categories) && use_codelist) {
+      # TODO: for now always store categories in fielddescriptor
+      fielddescriptor$categories <- categorieslisttolist(codelist)
+      codelist <- NULL
     } else codelist <- NULL
   }
   class(fielddescriptor) <- "fielddescriptor"
   list(fielddescriptor = fielddescriptor, codelist = codelist)
 }
+
 
 #' @rdname dpgeneratefielddescriptor
 #' @export
