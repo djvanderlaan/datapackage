@@ -20,6 +20,7 @@ dpgeneratefielddescriptor(x, name, ...)
   name,
   use_existing = TRUE,
   use_codelist = TRUE,
+  categories_type = c("regular", "resource"),
   ...
 )
 
@@ -28,6 +29,7 @@ dpgeneratefielddescriptor(x, name, ...)
   name,
   use_existing = TRUE,
   use_codelist = TRUE,
+  categories_type = c("regular", "resource"),
   ...
 )
 
@@ -36,6 +38,7 @@ dpgeneratefielddescriptor(x, name, ...)
   name,
   use_existing = TRUE,
   use_codelist = TRUE,
+  categories_type = c("regular", "resource"),
   ...
 )
 
@@ -44,6 +47,7 @@ dpgeneratefielddescriptor(x, name, ...)
   name,
   use_existing = TRUE,
   use_codelist = TRUE,
+  categories_type = c("regular", "resource"),
   ...
 )
 
@@ -52,6 +56,7 @@ dpgeneratefielddescriptor(x, name, ...)
   name,
   use_existing = TRUE,
   use_codelist = TRUE,
+  categories_type = c("regular", "resource"),
   ...
 )
 
@@ -60,6 +65,7 @@ dpgeneratefielddescriptor(x, name, ...)
   name,
   use_existing = TRUE,
   use_codelist = TRUE,
+  categories_type = c("regular", "resource"),
   ...
 )
 }

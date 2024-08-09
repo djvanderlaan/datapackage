@@ -242,9 +242,6 @@ convert all fields which have an associated 'codelist' to factor:
 complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
 print(complex)
 ```
-```{.R #n5 echo=FALSE results=FALSE}
-file.remove(file.path(dir, "datapackage.json"))
-```
 
 ## Creating a Data Package
 
@@ -276,3 +273,8 @@ on to `dpgetdata`:
 dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
 ```
 
+```{.R #n5 echo=FALSE results=FALSE}
+file.remove(file.path(dir, "datapackage.json"))
+file.remove(file.path(dir, "iris.csv"))
+file.remove(dir)
+```

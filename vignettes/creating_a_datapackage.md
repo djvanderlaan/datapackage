@@ -121,7 +121,8 @@ associated with the dataresource.
 
 ```{.R #a60}
 readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
-readLines(file.path(dir, "Species-codelist.csv")) |> writeLines()
+## TODO: update
+##readLines(file.path(dir, "Species-codelist.csv")) |> writeLines()
 ```
 
 And of course we can open the datapackage and read the data back in:
@@ -139,10 +140,10 @@ will be numbered using sequential integers starting from 1. The example below
 shows how different codes can be used. First we create the resources as w did
 above. We will add those to the existing datapackage.
 ```{.R #c00}
-data(chickwts)
-
-res <- dpgeneratedataresources(chickwts, "chickwts") 
-dpresources(dp) <- res
+##data(chickwts)
+##
+##res <- dpgeneratedataresources(chickwts, "chickwts") 
+##dpresources(dp) <- res
 ```
 
 In order to write the correct codes we will also first have to generate the and
@@ -150,27 +151,27 @@ save the dataset with the correct codes. In the example below we do this using
 R, but it is of course also possible to generate the CSV using other methods
 (e.g. manual editing):
 ```{.R #c10}
-codelist <- data.frame(
-  code = c(101, 102, 103, 202, 203, 204),
-  label = c("casein", "horsebean", "linseed", "meatmeal", 
-    "soybean", "sunflower")
-)
-codelistres <- dp |> dpresource("feed-codelist")
-dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
+##codelist <- data.frame(
+##  code = c(101, 102, 103, 202, 203, 204),
+##  label = c("casein", "horsebean", "linseed", "meatmeal", 
+##    "soybean", "sunflower")
+##)
+##codelistres <- dp |> dpresource("feed-codelist")
+##dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
 ```
 This creates the correct CSV-files:
 
 ```{.R #c20}
-readLines(file.path(dir, "feed-codelist.csv")) |> writeLines()
+##readLines(file.path(dir, "feed-codelist.csv")) |> writeLines()
 ```
 When we now write the dataset to file it will use this dataset - as long as we
 don't overwrite it. Therefore, the `write_codelists = FALSE`: 
 ```{.R #c30}
-dpwritedata(dp, resourcename = "chickwts", data = chickwts, write_codelists = FALSE)
+##dpwritedata(dp, resourcename = "chickwts", data = chickwts, write_codelists = FALSE)
 ```
 We can see that the correct codes are used in the CSV-file:
 ```{.R #c40}
-readLines(file.path(dir, "chickwts.csv"), n = 10) |> writeLines()
+##readLines(file.path(dir, "chickwts.csv"), n = 10) |> writeLines()
 ```
 ## Editing an existing Data Package
 
@@ -178,16 +179,16 @@ Editing of existing Data Packages is also possible. Use the `readonly = TRUE`
 argument when opening the Data Package:
 
 ```{.R #e00}
-edit <- opendatapackage(dir, readonly = FALSE)
- 
-dpid(edit) <- "iris_chkwts"
-dpcreated(edit) <- Sys.time() |> as.Date()
+##edit <- opendatapackage(dir, readonly = FALSE)
+## 
+##dpid(edit) <- "iris_chkwts"
+##dpcreated(edit) <- Sys.time() |> as.Date()
 ```
 
 Showing the complete `datapackage.json` file after all of the edits in this
 vignette:
 ```{.R #e10}
-readLines(file.path(dir, "datapackage.json")) |> writeLines()
+##readLines(file.path(dir, "datapackage.json")) |> writeLines()
 ```
 
 
