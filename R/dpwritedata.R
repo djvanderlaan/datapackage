@@ -51,15 +51,18 @@ dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x),
   # Save code lists
   if (write_codelists) {
     for (field in dpfieldnames(x)) {
-      clresource <- dpfield(x, field) |> dpproperty("codelist")
-      if (!is.null(clresource)) {
+      categories <- dpfield(x, field) |> dpproperty("categories")
+      if (!is.null(categories) && categoriestype(categories) == "dataresource") {
+        categories_resource <- categories$resource
+        if (is.null(categories_resource)) 
+          stop("Resource missing for categories of '", field, "'.")
         cl <- NULL
         suppressWarnings(try({
           # This could fail if the codelist is not already saved
           cl <- dpcodelist(dpfield(x, field))
         }, silent = TRUE))
         if (is.null(cl)) cl <- dpcodelist(data[[field]])
-        dpwritedata(data = cl, resourcename = clresource, datapackage, 
+        dpwritedata(data = cl, resourcename = categories_resource, datapackage, 
           write_codelists = FALSE, ...)
       }
     }
