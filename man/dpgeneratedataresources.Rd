@@ -11,8 +11,6 @@ dpgeneratedataresources(
   format = "csv",
   mediatype = getmediatype(format),
   categories_type = c("regular", "resource"),
-  format_codelists = format,
-  mediatype_codelists = getmediatype(format_codelists),
   ...
 )
 }
@@ -32,11 +30,11 @@ which the Data Resource will be stored.}
 \item{categories_type}{how should categories be stored. See 
 \code{\link{dpgeneratefielddescriptor}}.}
 
+\item{...}{Currently ignored}
+
 \item{format_codelists}{data format to use for the code lists}
 
 \item{mediatype_codelists}{mediatyp of the code lists}
-
-\item{...}{Currently ignored}
 }
 \value{
 Returns a \code{list} with Data Resource objects. The first Data Resource is

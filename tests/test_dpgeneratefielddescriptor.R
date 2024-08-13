@@ -122,3 +122,74 @@ expect_equal(dpproperty(tmp, "type"), "integer")
 expect_equal(dpproperty(tmp, "categories"), list(resource = "f1-categories"))
 
 
+# ==================================================================
+# And now test with a dataset where the columns not already have a fielddescriptor
+
+data(iris)
+
+tmp <- dpgeneratefielddescriptor(iris$Species, "sp")
+expect_equal(dpproperty(tmp, "name"), "sp")
+expect_equal(dpproperty(tmp, "type"), "integer")
+expect_equal(
+  dpproperty(tmp, "categories"),
+  list(
+    list(value = 1L, label = "setosa"),
+    list(value = 2L, label = "versicolor"),
+    list(value = 3L, label = "virginica")),
+  attributes = FALSE)
+
+tmp <- dpgeneratefielddescriptor(iris$Species, "sp", use_existing = FALSE)
+expect_equal(dpproperty(tmp, "name"), "sp")
+expect_equal(dpproperty(tmp, "type"), "integer")
+expect_equal(
+  dpproperty(tmp, "categories"),
+  list(
+    list(value = 1L, label = "setosa"),
+    list(value = 2L, label = "versicolor"),
+    list(value = 3L, label = "virginica")),
+  attributes = FALSE)
+
+tmp <- dpgeneratefielddescriptor(iris$Species, "sp", use_categories = TRUE, use_existing = FALSE)
+expect_equal(dpproperty(tmp, "name"), "sp")
+expect_equal(dpproperty(tmp, "type"), "integer")
+expect_equal(
+  dpproperty(tmp, "categories"),
+  list(
+    list(value = 1L, label = "setosa"),
+    list(value = 2L, label = "versicolor"),
+    list(value = 3L, label = "virginica")),
+  attributes = FALSE)
+
+tmp <- dpgeneratefielddescriptor(iris$Species, "sp", use_categories = FALSE, use_existing = FALSE)
+expect_equal(dpproperty(tmp, "name"), "sp")
+expect_equal(dpproperty(tmp, "type"), "integer")
+expect_equal(
+  dpproperty(tmp, "categories"),
+  list(
+    list(value = 1L, label = "setosa"),
+    list(value = 2L, label = "versicolor"),
+    list(value = 3L, label = "virginica")),
+  attributes = FALSE)
+
+
+tmp <- dpgeneratefielddescriptor(iris$Species, "sp", categories_type = "resource")
+expect_equal(dpproperty(tmp, "name"), "sp")
+expect_equal(dpproperty(tmp, "type"), "integer")
+expect_equal(dpproperty(tmp, "categories"), list(resource = "sp-categories"))
+
+
+tmp <- dpgeneratefielddescriptor(iris$Species, "sp", use_existing = FALSE, categories_type = "resource")
+expect_equal(dpproperty(tmp, "name"), "sp")
+expect_equal(dpproperty(tmp, "type"), "integer")
+expect_equal(dpproperty(tmp, "categories"), list(resource = "sp-categories"))
+
+tmp <- dpgeneratefielddescriptor(iris$Sepal.Width, "sw")
+expect_equal(dpproperty(tmp, "name"), "sw")
+expect_equal(dpproperty(tmp, "type"), "number")
+expect_equal(dpproperty(tmp, "categories"), NULL)
+
+tmp <- dpgeneratefielddescriptor(iris$Sepal.Width, "sw", use_existing = FALSE)
+expect_equal(dpproperty(tmp, "name"), "sw")
+expect_equal(dpproperty(tmp, "type"), "number")
+expect_equal(dpproperty(tmp, "categories"), NULL)
+

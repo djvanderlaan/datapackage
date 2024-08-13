@@ -34,25 +34,26 @@
 #' @export
 dpgeneratedataresources <- function(x, name, path = paste0(name, getextension(format)), 
     format = "csv", mediatype = getmediatype(format), categories_type = c("regular", "resource"),
-    format_codelists = format, mediatype_codelists = getmediatype(format_codelists), ...) {
+    # format_codelists = format, mediatype_codelists = getmediatype(format_codelists), 
+    ...) {
   stopifnot(is.data.frame(x))
   resources <- vector("list", 1)
   # Generate the table schema
   fields <- vector("list", ncol(x))
   for (i in seq_along(x)) {
     fd <- dpgeneratefielddescriptor(x[[i]], names(x)[i], categories_type = categories_type)
-    codelist <- fd$codelist
-    if (!is.null(codelist)) {
-      # WE have a codelist and need to generate a dataresource for the codelist
-      codelistname <- fd$fielddescriptor$codelist
-      if (is.null(codelistname))
-        codelistname <- sprintf("%s-%s-codelist", name, names(x)[i])
-      fd$fielddescriptor$codelist <- codelistname
-      codelist_res <- dpgeneratedataresources(codelist, codelistname, 
-        format = format_codelists, mediatype = mediatype_codelists)
-      resources[[length(resources)+1L]] <- codelist_res[[1]]
-    }
-    fields[[i]] <- fd$fielddescriptor
+    #codelist <- fd$codelist
+    #if (!is.null(codelist)) {
+    #  # WE have a codelist and need to generate a dataresource for the codelist
+    #  codelistname <- fd$fielddescriptor$codelist
+    #  if (is.null(codelistname))
+    #    codelistname <- sprintf("%s-%s-codelist", name, names(x)[i])
+    #  fd$fielddescriptor$codelist <- codelistname
+    #  codelist_res <- dpgeneratedataresources(codelist, codelistname, 
+    #    format = format_codelists, mediatype = mediatype_codelists)
+    #  resources[[length(resources)+1L]] <- codelist_res[[1]]
+    #}
+    fields[[i]] <- fd
   }
   res <- structure(list(name = name, format = format, mediatype = mediatype, 
     path = path, encoding = "utf-8", schema = list(fields = fields)), 

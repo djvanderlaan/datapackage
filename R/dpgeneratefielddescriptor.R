@@ -36,7 +36,8 @@ dpgeneratefielddescriptor.default <- function(x, name, ...) {
 dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  if (!is.null(fielddescriptor) && use_existing) {
+  hasfielddescriptor <- !is.null(fielddescriptor)
+  if (hasfielddescriptor && use_existing) {
     fielddescriptor$name <- name
   } else {
     fielddescriptor <- list(
@@ -45,7 +46,7 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
     )
   }
   fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
-    fielddescriptor, use_existing, use_categories, categories_type)
+    fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
@@ -55,7 +56,8 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
 dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  if (!is.null(fielddescriptor) && use_existing) {
+  hasfielddescriptor <- !is.null(fielddescriptor)
+  if (hasfielddescriptor && use_existing) {
     fielddescriptor$name <- name
   } else {
     fielddescriptor <- list(
@@ -64,7 +66,7 @@ dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE,
     )
   }
   fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
-    fielddescriptor, use_existing, use_categories, categories_type)
+    fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
@@ -75,7 +77,8 @@ dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE,
 dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  if (!is.null(fielddescriptor) && use_existing) {
+  hasfielddescriptor <- !is.null(fielddescriptor)
+  if (hasfielddescriptor && use_existing) {
     fielddescriptor$name <- name
   } else {
     fielddescriptor <- list(
@@ -86,7 +89,7 @@ dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE,
     )
   }
   fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
-    fielddescriptor, use_existing, use_categories, categories_type)
+    fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
@@ -96,7 +99,8 @@ dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE,
 dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  if (!is.null(fielddescriptor) && use_existing) {
+  hasfielddescriptor <- !is.null(fielddescriptor)
+  if (hasfielddescriptor && use_existing) {
     fielddescriptor$name <- name
   } else {
     fielddescriptor <- list(
@@ -105,7 +109,7 @@ dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE,
     )
   }
   fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
-    fielddescriptor, use_existing, use_categories, categories_type)
+    fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
@@ -115,7 +119,8 @@ dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE,
 dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  if (!is.null(fielddescriptor) && use_existing) {
+  hasfielddescriptor <- !is.null(fielddescriptor)
+  if (hasfielddescriptor && use_existing) {
     fielddescriptor$name <- name
   } else {
     fielddescriptor <- list(
@@ -124,7 +129,7 @@ dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE,
     )
   }
   fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
-    fielddescriptor, use_existing, use_categories, categories_type)
+    fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
@@ -135,7 +140,8 @@ dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE,
 dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  if (!is.null(fielddescriptor) && use_existing) {
+  hasfielddescriptor <- !is.null(fielddescriptor)
+  if (hasfielddescriptor && use_existing) {
     fielddescriptor$name <- name
   } else {
     fielddescriptor <- list(
@@ -144,7 +150,7 @@ dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE,
     )
   }
   fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
-    fielddescriptor, use_existing, use_categories, categories_type)
+    fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
