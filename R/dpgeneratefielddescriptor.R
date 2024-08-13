@@ -4,18 +4,16 @@
 #'
 #' @param x vector for which to generate the fielddescriptor
 #' @param name name of the field in the dataset.
-#' @param use_existing use existing field descriptor of present (assumed this is
-#'   stored in the 'fielddescriptor' attribute.
-#' @param use_codelist use existing code list of \code{x} if available. The
-#'   code list is obtained using \code{\link{dpcodelist}}.
+#' @param use_existing use existing field descriptor of present (assumes this is
+#'   stored in the 'fielddescriptor' attribute).
+#' @param use_categories do not generate a categories field except when \code{x}
+#'   is a factor.
 #' @param categories_type how should categories be stored. Note that type "resource"
 #'   is not officially part of the standard. 
 #' @param ... used to pass extra arguments to methods.
 #'
 #' @return
-#' Returns a \code{list} with two fields: \code{fielddescriptor} and optionally
-#' \code{codelist}. The first contains the \code{fielddescriptor} object and the
-#' second the optional code list for the field.
+#' Returns a \code{fielddescriptor}. 
 #'
 #' @rdname dpgeneratefielddescriptor
 #' @export
@@ -30,18 +28,14 @@ dpgeneratefielddescriptor.default <- function(x, name, ...) {
     name = name,
     type = "string"
   )
-  list(fielddescriptor = fielddescriptor)
+  fielddescriptor
 }
 
 #' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE, 
-    use_codelist = TRUE, categories_type = c("regular", "resource"), ...) {
-  categories_type <- match.arg(categories_type)
+    use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  categories <- if (is.null(fielddescriptor)) NULL else 
-    dpproperty(fielddescriptor, "categories")
-  categorieslist <- dpcodelist(x)
   if (!is.null(fielddescriptor) && use_existing) {
     fielddescriptor$name <- name
   } else {
@@ -49,36 +43,18 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
       name = name,
       type = "number"
     )
-    if (!is.null(categories) && use_codelist) {
-      if (categories_type == "resource") {
-        fielddescriptor$categories <- list(resource = paste0(name, "-codelist"))
-      } else {
-        fielddescriptor$categories <- categorieslisttolist(categorieslist)
-      }
-    } else categorieslist <- NULL
   }
-  # Set categorieslist to NULL when no categories; when categorielist is stored in
-  # field descriptor
-  if (is.null(fielddescriptor$categories) || !is.list(fielddescriptor$categories) ||
-      is.null(fielddescriptor$categories$resource)) {
-    categorieslist <- NULL
-  } else {
-    fielddescriptor$categories$valueField <- NULL
-    fielddescriptor$categories$labelField <- NULL
-  }
+  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+    fielddescriptor, use_existing, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
-  list(fielddescriptor = fielddescriptor, codelist = categorieslist)
+  fielddescriptor
 }
 
 #' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE, 
-    use_codelist = TRUE, categories_type = c("regular", "resource"), ...) {
-  categories_type <- match.arg(categories_type)
+    use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  categories <- if (is.null(fielddescriptor)) NULL else 
-    dpproperty(fielddescriptor, "categories")
-  categorieslist <- dpcodelist(x)
   if (!is.null(fielddescriptor) && use_existing) {
     fielddescriptor$name <- name
   } else {
@@ -86,37 +62,19 @@ dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE,
       name = name,
       type = "integer"
     )
-    if (!is.null(categories) && use_codelist) {
-      if (categories_type == "resource") {
-        fielddescriptor$categories <- list(resource = paste0(name, "-codelist"))
-      } else {
-        fielddescriptor$categories <- categorieslisttolist(categorieslist)
-      }
-    } else categorieslist <- NULL
   }
-  # Set categorieslist to NULL when no categories; when categorielist is stored in
-  # field descriptor
-  if (is.null(fielddescriptor$categories) || !is.list(fielddescriptor$categories) ||
-      is.null(fielddescriptor$categories$resource)) {
-    categorieslist <- NULL
-  } else {
-    fielddescriptor$categories$valueField <- NULL
-    fielddescriptor$categories$labelField <- NULL
-  }
+  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+    fielddescriptor, use_existing, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
-  list(fielddescriptor = fielddescriptor, codelist = categorieslist)
+  fielddescriptor
 }
 
 
 #' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE, 
-    use_codelist = TRUE, categories_type = c("regular", "resource"), ...) {
-  categories_type <- match.arg(categories_type)
+    use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  categories <- if (is.null(fielddescriptor)) NULL else 
-    dpproperty(fielddescriptor, "categories")
-  categorieslist <- dpcodelist(x)
   if (!is.null(fielddescriptor) && use_existing) {
     fielddescriptor$name <- name
   } else {
@@ -126,36 +84,18 @@ dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE,
       trueValues = "TRUE", 
       falseValues = "FALSE"
     )
-    if (!is.null(categories) && use_codelist) {
-      if (categories_type == "resource") {
-        fielddescriptor$categories <- list(resource = paste0(name, "-codelist"))
-      } else {
-        fielddescriptor$categories <- categorieslisttolist(categorieslist)
-      }
-    } else categorieslist <- NULL
   }
-  # Set categorieslist to NULL when no categories; when categorielist is stored in
-  # field descriptor
-  if (is.null(fielddescriptor$categories) || !is.list(fielddescriptor$categories) ||
-      is.null(fielddescriptor$categories$resource)) {
-    categorieslist <- NULL
-  } else {
-    fielddescriptor$categories$valueField <- NULL
-    fielddescriptor$categories$labelField <- NULL
-  }
+  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+    fielddescriptor, use_existing, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
-  list(fielddescriptor = fielddescriptor, codelist = categorieslist)
+  fielddescriptor
 }
 
 #' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE, 
-    use_codelist = TRUE, categories_type = c("regular", "resource"), ...) {
-  categories_type <- match.arg(categories_type)
+    use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  categories <- if (is.null(fielddescriptor)) NULL else 
-    dpproperty(fielddescriptor, "categories")
-  categorieslist <- dpcodelist(x)
   if (!is.null(fielddescriptor) && use_existing) {
     fielddescriptor$name <- name
   } else {
@@ -163,36 +103,18 @@ dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE,
       name = name,
       type = "date"
     )
-    if (!is.null(categories) && use_codelist) {
-      if (categories_type == "resource") {
-        fielddescriptor$categories <- list(resource = paste0(name, "-codelist"))
-      } else {
-        fielddescriptor$categories <- categorieslisttolist(categorieslist)
-      }
-    } else categorieslist <- NULL
   }
-  # Set categorieslist to NULL when no categories; when categorielist is stored in
-  # field descriptor
-  if (is.null(fielddescriptor$categories) || !is.list(fielddescriptor$categories) ||
-      is.null(fielddescriptor$categories$resource)) {
-    categorieslist <- NULL
-  } else {
-    fielddescriptor$categories$valueField <- NULL
-    fielddescriptor$categories$labelField <- NULL
-  }
+  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+    fielddescriptor, use_existing, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
-  list(fielddescriptor = fielddescriptor, codelist = categorieslist)
+  fielddescriptor
 }
 
 #' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE, 
-    use_codelist = TRUE, categories_type = c("regular", "resource"), ...) {
-  categories_type <- match.arg(categories_type)
+    use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  categories <- if (is.null(fielddescriptor)) NULL else 
-    dpproperty(fielddescriptor, "categories")
-  categorieslist <- dpcodelist(x)
   if (!is.null(fielddescriptor) && use_existing) {
     fielddescriptor$name <- name
   } else {
@@ -200,37 +122,19 @@ dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE,
       name = name,
       type = "string"
     )
-    if (!is.null(categories) && use_codelist) {
-      if (categories_type == "resource") {
-        fielddescriptor$categories <- list(resource = paste0(name, "-codelist"))
-      } else {
-        fielddescriptor$categories <- categorieslisttolist(categorieslist)
-      }
-    } else categorieslist <- NULL
   }
-  # Set categorieslist to NULL when no categories; when categorielist is stored in
-  # field descriptor
-  if (is.null(fielddescriptor$categories) || !is.list(fielddescriptor$categories) ||
-      is.null(fielddescriptor$categories$resource)) {
-    categorieslist <- NULL
-  } else {
-    fielddescriptor$categories$valueField <- NULL
-    fielddescriptor$categories$labelField <- NULL
-  }
+  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+    fielddescriptor, use_existing, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
-  list(fielddescriptor = fielddescriptor, codelist = categorieslist)
+  fielddescriptor
 }
 
 
 #' @rdname dpgeneratefielddescriptor
 #' @export
 dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE, 
-    use_codelist = TRUE, categories_type = c("regular", "resource"), ...) {
-  categories_type <- match.arg(categories_type)
+    use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
-  categories <- if (is.null(fielddescriptor)) NULL else 
-    dpproperty(fielddescriptor, "categories")
-  categorieslist <- dpcodelist(x)
   if (!is.null(fielddescriptor) && use_existing) {
     fielddescriptor$name <- name
   } else {
@@ -238,28 +142,34 @@ dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE,
       name = name,
       type = "integer"
     )
-    if (!use_codelist) {
-      # Generate new categorieslist
-      categorieslist <- data.frame(
-        value = seq_len(nlevels(x)),
-        label = levels(x))
-    }
+  }
+  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+    fielddescriptor, use_existing, use_categories, categories_type)
+  class(fielddescriptor) <- "fielddescriptor"
+  fielddescriptor
+}
+
+
+dpgeneratefielddescriptor_handle_categories <- function(x, fielddescriptor, use_existing, 
+    use_categories, categories_type = c("regular", "resource")) {
+  if (use_existing) return(fielddescriptor)
+  categories_type <- match.arg(categories_type)
+  categorieslist <- dpcodelist(x)
+  if (!use_categories && is.factor(x)) {
+    categorieslist <- data.frame(
+      value = seq_len(nlevels(x)),
+      label = levels(x))
+  } 
+  if ((use_categories || is.factor(x)) && !is.null(categorieslist)) {
     if (categories_type == "resource") {
-      fielddescriptor$categories <- list(resource = paste0(name, "-codelist"))
+      fielddescriptor$categories <- list(resource = paste0(fielddescriptor$name, "-categories"))
     } else {
       fielddescriptor$categories <- categorieslisttolist(categorieslist)
     }
-  }
- # Set categorieslist to NULL when no categories; when categorielist is stored in
-  # field descriptor
-  if (is.null(fielddescriptor$categories) || !is.list(fielddescriptor$categories) ||
-      is.null(fielddescriptor$categories$resource)) {
-    categorieslist <- NULL
   } else {
-    fielddescriptor$categories$valueField <- NULL
-    fielddescriptor$categories$labelField <- NULL
+    fielddescriptor$categories <- NULL
+    fielddescriptor$categoriesOrdered <- NULL
   }
-  class(fielddescriptor) <- "fielddescriptor"
-  list(fielddescriptor = fielddescriptor, codelist = categorieslist)
+  fielddescriptor
 }
 

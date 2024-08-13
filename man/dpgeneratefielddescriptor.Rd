@@ -19,7 +19,7 @@ dpgeneratefielddescriptor(x, name, ...)
   x,
   name,
   use_existing = TRUE,
-  use_codelist = TRUE,
+  use_categories = TRUE,
   categories_type = c("regular", "resource"),
   ...
 )
@@ -28,7 +28,7 @@ dpgeneratefielddescriptor(x, name, ...)
   x,
   name,
   use_existing = TRUE,
-  use_codelist = TRUE,
+  use_categories = TRUE,
   categories_type = c("regular", "resource"),
   ...
 )
@@ -37,7 +37,7 @@ dpgeneratefielddescriptor(x, name, ...)
   x,
   name,
   use_existing = TRUE,
-  use_codelist = TRUE,
+  use_categories = TRUE,
   categories_type = c("regular", "resource"),
   ...
 )
@@ -46,7 +46,7 @@ dpgeneratefielddescriptor(x, name, ...)
   x,
   name,
   use_existing = TRUE,
-  use_codelist = TRUE,
+  use_categories = TRUE,
   categories_type = c("regular", "resource"),
   ...
 )
@@ -55,7 +55,7 @@ dpgeneratefielddescriptor(x, name, ...)
   x,
   name,
   use_existing = TRUE,
-  use_codelist = TRUE,
+  use_categories = TRUE,
   categories_type = c("regular", "resource"),
   ...
 )
@@ -64,7 +64,7 @@ dpgeneratefielddescriptor(x, name, ...)
   x,
   name,
   use_existing = TRUE,
-  use_codelist = TRUE,
+  use_categories = TRUE,
   categories_type = c("regular", "resource"),
   ...
 )
@@ -76,19 +76,17 @@ dpgeneratefielddescriptor(x, name, ...)
 
 \item{...}{used to pass extra arguments to methods.}
 
-\item{use_existing}{use existing field descriptor of present (assumed this is
-stored in the 'fielddescriptor' attribute.}
+\item{use_existing}{use existing field descriptor of present (assumes this is
+stored in the 'fielddescriptor' attribute).}
 
-\item{use_codelist}{use existing code list of \code{x} if available. The
-code list is obtained using \code{\link{dpcodelist}}.}
+\item{use_categories}{do not generate a categories field except when \code{x}
+is a factor.}
 
 \item{categories_type}{how should categories be stored. Note that type "resource"
 is not officially part of the standard.}
 }
 \value{
-Returns a \code{list} with two fields: \code{fielddescriptor} and optionally
-\code{codelist}. The first contains the \code{fielddescriptor} object and the
-second the optional code list for the field.
+Returns a \code{fielddescriptor}.
 }
 \description{
 Generate a fielddescriptor for a given variable in a dataset
