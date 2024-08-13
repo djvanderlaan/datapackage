@@ -6,6 +6,8 @@
 #' @param x the variable for which to get the Code List
 #' @param fielddescriptor the Field Descriptor associated with the variable.
 #' @param datapackage the Data Package where the variable is from.
+#' @param normalised if \code{TRUE} the column with values will be named 
+#'   \code{value} and the the columnd with labels \code{label}.
 #' @param ... used to pass extra arguments on to other methods.
 #'
 #' @return
@@ -23,7 +25,7 @@ dpcodelist <- function(x, ...) {
 dpcodelist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"), 
     datapackage = dpgetdatapackage(fielddescriptor), ...) {
   res <- NULL
-  if (!is.null(fielddescriptor)) res <- dpcodelist(fielddescriptor)
+  if (!is.null(fielddescriptor)) res <- dpcodelist(fielddescriptor, ...)
   if (is.null(res) && is.factor(x)) {
     res <- data.frame(
       value = seq_len(nlevels(x)),
@@ -48,7 +50,8 @@ dpcodelist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"),
 
 #' @rdname dpcodelist
 #' @export
-dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), ...) {
+dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), 
+    normalised = FALSE, ...) {
   codelist <- x$categories
   if (is.null(codelist)) {
     return(NULL)
@@ -61,6 +64,9 @@ dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), ...
       labels <- sapply(codelist, \(x) 
         if (utils::hasName(x, "label")) x$label else x$value)
       codelist <- data.frame(value = values, label = labels)
+      stopifnot(is.data.frame(codelist))
+      if (!("value" %in% names(codelist))) stop("'value' column missing from codelist.")
+      if (!("label" %in% names(codelist))) stop("'label' column missing from codelist.")
     } else {
       # We have a reference to a data resource
       if (!utils::hasName(codelist, "resource")) 
@@ -68,10 +74,19 @@ dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), ...
       resource <- codelist$resource
       categories <- codelist
       codelist <- dpgetdata(datapackage, resource)
-      if (utils::hasName(categories, "valueField")) 
-        names(codelist)[names(codelist) == categories$valueField] <- "value"
-      if (utils::hasName(categories, "labelField")) 
-        names(codelist)[names(codelist) == categories$labelField] <- "label"
+      stopifnot(is.data.frame(codelist))
+      valueField <- if (utils::hasName(categories, "valueField")) 
+        categories$valueField else "value"
+      labelField <- if (utils::hasName(categories, "labelField")) 
+        categories$labelField else "label"
+      if (!(valueField %in% names(codelist))) 
+        stop("Categories list does not contain a field '", valueField, "'.")
+      if (!(labelField %in% names(codelist))) 
+        stop("Categories list does not contain a field '", labelField, "'.")
+      if (normalised) {
+        names(codelist)[names(codelist) == valueField] <- "value"
+        names(codelist)[names(codelist) == labelField] <- "label"
+      }
     }
   } else if (is.numeric(codelist) || is.character(codelist) || is.logical(codelist)) {
     # We have a vector with categories
@@ -80,10 +95,6 @@ dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), ...
     stop("Unsupported format for categories: '", 
       paste0(class(codelist), collapse ="', '"), "'.")
   }
-  # Check of output seems ok
-  stopifnot(is.data.frame(codelist))
-  if (!("value" %in% names(codelist))) stop("'value' column missing from codelist.")
-  if (!("label" %in% names(codelist))) stop("'label' column missing from codelist.")
   codelist
 }
 

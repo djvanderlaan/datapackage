@@ -10,6 +10,7 @@ dpgeneratedataresources(
   path = paste0(name, getextension(format)),
   format = "csv",
   mediatype = getmediatype(format),
+  use_existing = FALSE,
   categories_type = c("regular", "resource"),
   ...
 )
@@ -27,14 +28,12 @@ which the Data Resource will be stored.}
 
 \item{mediatype}{mediatype of the data}
 
+\item{use_existing}{use existing field descriptors if present.}
+
 \item{categories_type}{how should categories be stored. See 
 \code{\link{dpgeneratefielddescriptor}}.}
 
 \item{...}{Currently ignored}
-
-\item{format_codelists}{data format to use for the code lists}
-
-\item{mediatype_codelists}{mediatyp of the code lists}
 }
 \value{
 Returns a \code{list} with Data Resource objects. The first Data Resource is

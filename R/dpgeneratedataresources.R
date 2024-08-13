@@ -10,6 +10,7 @@
 #' which the Data Resource will be stored. 
 #' @param format the data format in which the data is stored.
 #' @param mediatype mediatype of the data
+#' @param use_existing use existing field descriptors if present.
 #' @param categories_type how should categories be stored. See 
 #'   \code{\link{dpgeneratefielddescriptor}}.
 #' @param ... Currently ignored
@@ -31,14 +32,16 @@
 #' 
 #' @export
 dpgeneratedataresources <- function(x, name, path = paste0(name, getextension(format)), 
-    format = "csv", mediatype = getmediatype(format), categories_type = c("regular", "resource"),
+    format = "csv", mediatype = getmediatype(format), 
+    use_existing = FALSE, categories_type = c("regular", "resource"),
     ...) {
   stopifnot(is.data.frame(x))
   resources <- vector("list", 1)
   # Generate the table schema
   fields <- vector("list", ncol(x))
   for (i in seq_along(x)) {
-    fd <- dpgeneratefielddescriptor(x[[i]], names(x)[i], categories_type = categories_type)
+    fd <- dpgeneratefielddescriptor(x[[i]], names(x)[i], use_existing = use_existing, 
+      categories_type = categories_type)
     fields[[i]] <- fd
   }
   res <- structure(list(name = name, format = format, mediatype = mediatype, 

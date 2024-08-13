@@ -4,7 +4,7 @@
 #'
 #' @param x vector for which to generate the fielddescriptor
 #' @param name name of the field in the dataset.
-#' @param use_existing use existing field descriptor of present (assumes this is
+#' @param use_existing use existing field descriptor if present (assumes this is
 #'   stored in the 'fielddescriptor' attribute).
 #' @param use_categories do not generate a categories field except when \code{x}
 #'   is a factor.
@@ -160,7 +160,7 @@ dpgeneratefielddescriptor_handle_categories <- function(x, fielddescriptor, use_
     use_categories, categories_type = c("regular", "resource")) {
   if (use_existing) return(fielddescriptor)
   categories_type <- match.arg(categories_type)
-  categorieslist <- dpcodelist(x)
+  categorieslist <- dpcodelist(x, normalise = TRUE)
   if (!use_categories && is.factor(x)) {
     categorieslist <- data.frame(
       value = seq_len(nlevels(x)),

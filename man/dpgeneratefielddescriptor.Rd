@@ -76,7 +76,7 @@ dpgeneratefielddescriptor(x, name, ...)
 
 \item{...}{used to pass extra arguments to methods.}
 
-\item{use_existing}{use existing field descriptor of present (assumes this is
+\item{use_existing}{use existing field descriptor if present (assumes this is
 stored in the 'fielddescriptor' attribute).}
 
 \item{use_categories}{do not generate a categories field except when \code{x}
