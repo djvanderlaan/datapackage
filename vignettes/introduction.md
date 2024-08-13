@@ -253,15 +253,15 @@ A quick way to create a Data Package from a given dataset is with the
 `dpsaveasdatapackage` function:
 
 ```{.R #q1}
-##dir <- tempfile()
-##data(iris)
-##dpsaveasdatapackage(iris, dir)
+dir <- tempfile()
+data(iris)
+dpsaveasdatapackage(iris, dir)
 ```
 
 And for reading:
 
 ```{.R #q2}
-##dploadfromdatapackage(dir) |> head()
+dploadfromdatapackage(dir) |> head()
 ```
 
 This will either load the Data Resource with the same name as the Data Package
@@ -270,7 +270,7 @@ name of the Data Resource that should be read. Additional arguments are passed
 on to `dpgetdata`:
 
 ```{.R #q2}
-##dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
+dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
 ```
 
 ```{.R #n5 echo=FALSE results=FALSE}
