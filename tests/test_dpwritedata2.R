@@ -23,7 +23,7 @@ expect_equal(iris, iris2, attributes = FALSE)
 
 # Clean up
 for (f in list.files(dir, full.names = TRUE)) file.remove(f)
-file.remove(dir)
+ignore <- file.remove(dir)
 
 
 # ==========================================================
@@ -32,15 +32,17 @@ dir <- tempdir()
 
 # Create the datapackage
 dp <- newdatapackage(dir, name = "iris")
-res <- dpgeneratedataresources(iris, "iris") 
+res <- dpgeneratedataresources(iris, "iris", categories_type = "resource") 
 dpresources(dp) <- res
 
 # SAve the custom code list
-codelistres <- dp |> dpresource("Species-codelist")
+#codelistres <- dp |> dpresource("Species-codelist")
 codelist <- data.frame(
-  code = c(101, 102, 103),
+  value = c(101, 102, 103),
   label = c("setosa", "virginica", "versicolor"))
-dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
+codelistres <- dpgeneratedataresources(codelist, "Species-categories")
+dpresources(dp) <- codelistres
+dpwritedata(dp, "Species-categories", data = codelist, write_codelists = FALSE)
 
 # Write the dtaset
 dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = FALSE)
@@ -61,7 +63,7 @@ iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = FALSE)
 expect_equal(unique(iris2$Species), c(101, 103, 102))
 
 for (f in list.files(dir, full.names = TRUE)) file.remove(f)
-file.remove(dir)
+ignore <- file.remove(dir)
 
 
 # =============================================================================
@@ -83,4 +85,4 @@ iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
 expect_equal(iris, iris2, attributes = FALSE)
 # Clean up
 for (f in list.files(dir, full.names = TRUE)) file.remove(f)
-file.remove(dir)
+ignore <- file.remove(dir)

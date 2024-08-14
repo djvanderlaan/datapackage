@@ -15,7 +15,7 @@ dpcodelist(x, ...)
   ...
 )
 
-\method{dpcodelist}{fielddescriptor}(x, datapackage = dpgetdatapackage(x), ...)
+\method{dpcodelist}{fielddescriptor}(x, datapackage = dpgetdatapackage(x), normalised = FALSE, ...)
 }
 \arguments{
 \item{x}{the variable for which to get the Code List}
@@ -25,6 +25,9 @@ dpcodelist(x, ...)
 \item{fielddescriptor}{the Field Descriptor associated with the variable.}
 
 \item{datapackage}{the Data Package where the variable is from.}
+
+\item{normalised}{if \code{TRUE} the column with values will be named 
+\code{value} and the the columnd with labels \code{label}.}
 }
 \value{
 Returns a \code{data.frame} with the Code List or \code{NULL} when none could

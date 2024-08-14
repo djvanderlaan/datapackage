@@ -4,7 +4,12 @@
 \alias{dpsaveasdatapackage}
 \title{Save a dataset as a Data Package}
 \usage{
-dpsaveasdatapackage(data, path, name)
+dpsaveasdatapackage(
+  data,
+  path,
+  name,
+  categories_type = c("regular", "resource")
+)
 }
 \arguments{
 \item{data}{the data.frame with the data to save}
@@ -12,6 +17,9 @@ dpsaveasdatapackage(data, path, name)
 \item{path}{directory in which to create the datapackage}
 
 \item{name}{name of the Data Resource. When omitted a name is generated.}
+
+\item{categories_type}{how should categories be stored. See 
+\code{\link{dpgeneratefielddescriptor}}.}
 }
 \value{
 Does not return anything. Called for the side effect of creating a directory

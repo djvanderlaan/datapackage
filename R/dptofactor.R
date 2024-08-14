@@ -20,8 +20,11 @@ dptofactor <- function(x, codelist = dpcodelist(x), warn = TRUE) {
   # labels
   codes  <- codelist[[1]]
   labels <- codelist[[2]]
+  # Handle x == ""; we will treat this as missing values
+  if (is.character(x) & !("" %in% codes)) 
+    x[!is.na(x) & (x == "")] <- NA_character_
   # check if codes are valid
-  ok <- x %in% codes | is.na(x)
+  ok <- x %in% codes | is.na(x) | (is.character(x) & x == "")
   if (!all(ok)) {
     wrong <- unique(x[!ok])
     wrong <- paste0("'", wrong, "'")

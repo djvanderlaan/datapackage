@@ -55,7 +55,7 @@ csv_read_base <- function(filename,
     quoteChar = "\"", doubleQuote = TRUE, 
     commentChar  = "", lineTerminator = "\r\n", 
     header = TRUE, caseSensitiveHeader = FALSE, nullSequence = character(0),
-    skipInitialSpace = FALSE, colClasses = character(), 
+    skipInitialSpace = FALSE, colClasses = "character", 
     use_fread = FALSE, csv_dialect, ...) {
   # Handle input of the arguments through a named list
   if (!missing(csv_dialect) && !is.null(csv_dialect)) {
@@ -120,6 +120,14 @@ csv_read_base <- function(filename,
       d
     })
     if (length(dta) > 1) do.call(rbind, dta) else dta[[1]]
+    #if (length(nullSequence)) {
+    #  for (col in names(dta)) {
+    #    if (is.character(dta[[col]])) {
+    #      dta[[col]][ dta[[col]] %in% nullSequence ] <- NA_character_
+    #    }
+    #  }
+    #}
+    #dta
   }
 }
 

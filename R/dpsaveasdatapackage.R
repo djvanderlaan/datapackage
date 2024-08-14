@@ -3,6 +3,8 @@
 #' @param data the data.frame with the data to save 
 #' @param path directory in which to create the datapackage
 #' @param name name of the Data Resource. When omitted a name is generated.
+#' @param categories_type how should categories be stored. See 
+#'   \code{\link{dpgeneratefielddescriptor}}.
 #'
 #' @details
 #' This function is a wrapper function around \code{\link{newdatapackage}},
@@ -16,12 +18,12 @@
 #' complete Data Package.
 #'
 #' @export
-dpsaveasdatapackage <- function(data, path, name) {
+dpsaveasdatapackage <- function(data, path, name, categories_type = c("regular", "resource")) {
   if (missing(name))
     name <- deparse(substitute(data)) |> 
       gsub(pattern = "[^[:alnum:].-]", replacement = ".")
   dp <- newdatapackage(path, name)
-  res <- dpgeneratedataresources(data, name)
+  res <- dpgeneratedataresources(data, name, categories_type = categories_type)
   dpresources(dp) <- res
   dp |> dpresource(name) |> dpwritedata(data)
 }
