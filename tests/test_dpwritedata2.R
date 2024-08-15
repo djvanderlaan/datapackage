@@ -12,7 +12,7 @@ data(iris)
 
 # Create the datapackage
 dp <- newdatapackage(dir, name = "iris")
-res <- dpgeneratedataresources(iris, "iris") 
+res <- dpgeneratedataresource(iris, "iris") 
 dpresources(dp) <- res
 dpwritedata(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 
@@ -32,7 +32,7 @@ dir <- tempdir()
 
 # Create the datapackage
 dp <- newdatapackage(dir, name = "iris")
-res <- dpgeneratedataresources(iris, "iris", categories_type = "resource") 
+res <- dpgeneratedataresource(iris, "iris", categories_type = "resource") 
 dpresources(dp) <- res
 
 # SAve the custom code list
@@ -40,7 +40,7 @@ dpresources(dp) <- res
 codelist <- data.frame(
   value = c(101, 102, 103),
   label = c("setosa", "virginica", "versicolor"))
-codelistres <- dpgeneratedataresources(codelist, "Species-categories")
+codelistres <- dpgeneratedataresource(codelist, "Species-categories")
 dpresources(dp) <- codelistres
 dpwritedata(dp, "Species-categories", data = codelist, write_categories = FALSE)
 
@@ -75,8 +75,8 @@ for (col in names(iris)) iris[[col]][sample(nrow(iris), 10)] <- NA
 
 # Create the datapackage
 dp <- newdatapackage(dir, name = "iris")
-res <- dpgeneratedataresources(iris, "iris") 
-dpproperty(res[[1]], "dialect") <- list(nullSequence = "FOO")
+res <- dpgeneratedataresource(iris, "iris") 
+dpproperty(res, "dialect") <- list(nullSequence = "FOO")
 dpresources(dp) <- res
 dpwritedata(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 # OPen the new datapacakge, read the data and check

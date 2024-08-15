@@ -31,7 +31,7 @@ Save a dataset as a Data Package
 }
 \details{
 This function is a wrapper function around \code{\link{newdatapackage}},
-\code{\link{dpgeneratedataresources}} and \code{\link{dpwritedata}}. These
+\code{\link{dpgeneratedataresource}} and \code{\link{dpwritedata}}. These
 functions are called with the default arguments. This allows for a quick way
 to save a data set with any necessary data needed to read the dataset.
 }

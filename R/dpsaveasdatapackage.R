@@ -8,7 +8,7 @@
 #'
 #' @details
 #' This function is a wrapper function around \code{\link{newdatapackage}},
-#' \code{\link{dpgeneratedataresources}} and \code{\link{dpwritedata}}. These
+#' \code{\link{dpgeneratedataresource}} and \code{\link{dpwritedata}}. These
 #' functions are called with the default arguments. This allows for a quick way
 #' to save a data set with any necessary data needed to read the dataset. 
 #'
@@ -23,7 +23,7 @@ dpsaveasdatapackage <- function(data, path, name, categories_type = c("regular",
     name <- deparse(substitute(data)) |> 
       gsub(pattern = "[^[:alnum:].-]", replacement = ".")
   dp <- newdatapackage(path, name)
-  res <- dpgeneratedataresources(data, name, categories_type = categories_type)
+  res <- dpgeneratedataresource(data, name, categories_type = categories_type)
   dpresources(dp) <- res
   dp |> dpresource(name) |> dpwritedata(data)
 }

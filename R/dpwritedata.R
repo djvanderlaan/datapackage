@@ -64,7 +64,7 @@ dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x),
         if (is.null(cl)) cl <- dpcategorieslist(data[[field]])
         # Check if a resource for the categories list already exists; if not create it
         if (!(categories_resource %in% dpresourcenames(datapackage))) {
-          res <- dpgeneratedataresources(cl, categories_resource)
+          res <- dpgeneratedataresource(cl, categories_resource)
           dpresources(datapackage) <- res
         }
         dpwritedata(data = cl, resourcename = categories_resource, datapackage, 

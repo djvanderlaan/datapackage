@@ -84,15 +84,15 @@ specifation of the Data Resource we need to save the actual dataset at the
 location specified in the Data Resource.
 
 It is possible to edit the `datapackage.json` file to create the new
-Data Resource. The package also has a function `dpgeneratedataresources` to
+Data Resource. The package also has a function `dpgeneratedataresource` to
 generate a skeleton Data Resource for a given dataset:
 ```{.R #a10}
-res <- dpgeneratedataresources(iris, "iris") 
+res <- dpgeneratedataresource(iris, "iris") 
 ```
 Again these can be further modified using methods such as `dptitle` and
 `dpproperty`:
 ```{.R #a30}
-dptitle(res[[1]]) <- "The Iris dataset"
+dptitle(res) <- "The Iris dataset"
 ```
 
 Let's add the resources to the datapackage.
@@ -126,13 +126,13 @@ all.equal(iris, iris2, check.attributes = FALSE)
 
 ## More on categories
 
-By default `dpgeneratedataresources` will generate `categories` properties for
+By default `dpgeneratedataresource` will generate `categories` properties for
 factor fields:
 
 ```{.R #c00}
 data(chickwts)
 
-res <- dpgeneratedataresources(chickwts, "chickwts") 
+res <- dpgeneratedataresource(chickwts, "chickwts") 
 dpresources(dp) <- res
 
 (feed_name <- dpresource(dp, "chickwts") |> 
@@ -143,7 +143,7 @@ Here, the list of categories is stored directly in the `categories` property. It
 is also possible to store the list of categories in a Data Resource
 
 ```{.R #c01}
-res <- dpgeneratedataresources(chickwts, "chickwts", 
+res <- dpgeneratedataresource(chickwts, "chickwts", 
   categories_type = "resource") 
 dpresources(dp) <- res
 
@@ -174,7 +174,7 @@ codelist <- data.frame(
   label = c("casein", "horsebean", "linseed", "meatmeal", 
     "soybean", "sunflower")
 )
-res <- dpgeneratedataresources(codelist, "feed-categories")
+res <- dpgeneratedataresource(codelist, "feed-categories")
 res
 dpresources(dp) <- res
 

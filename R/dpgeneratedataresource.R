@@ -1,7 +1,7 @@
 # TODO: specify format
 # TODO: allow for addtional properties using ...
 
-#' Generate Data Resources for a dataset
+#' Generate Data Resource for a dataset
 #'
 #' @param x \code{data.frame} for which to generate the Data Resources.
 #' @param name name of the Data Resource
@@ -16,10 +16,7 @@
 #' @param ... Currently ignored
 #'
 #' @return
-#' Returns a \code{list} with Data Resource objects. The first Data Resource is
-#' that of the dataset \code{x} itself. Additional Data Resources are for the
-#' code lists of the variables. Code lists are generated for fields that have a
-#' code list and for \code{factor} variables.
+#' Returns a Data Resource object. 
 #'
 #' Note that this function does not create the file at \code{path}. The export
 #' of the Data Resource is automatically set to CSV.
@@ -27,16 +24,15 @@
 #' @examples
 #' # generate an example dataset
 #' dta <- data.frame(a = 1:3, b = factor(letters[1:3]))
-#' resources <- dpgeneratedataresources(dta, "example")
-#' print(resources)
+#' resource <- dpgeneratedataresource(dta, "example")
+#' print(resource)
 #' 
 #' @export
-dpgeneratedataresources <- function(x, name, path = paste0(name, getextension(format)), 
+dpgeneratedataresource <- function(x, name, path = paste0(name, getextension(format)), 
     format = "csv", mediatype = getmediatype(format), 
     use_existing = FALSE, categories_type = c("regular", "resource"),
     ...) {
   stopifnot(is.data.frame(x))
-  resources <- vector("list", 1)
   # Generate the table schema
   fields <- vector("list", ncol(x))
   for (i in seq_along(x)) {
@@ -47,10 +43,8 @@ dpgeneratedataresources <- function(x, name, path = paste0(name, getextension(fo
   res <- structure(list(name = name, format = format, mediatype = mediatype, 
     path = path, encoding = "utf-8", schema = list(fields = fields)), 
     class = "dataresource")
-  resources[[1L]] <- res
-  resources
+  res
 }
-
 
 getextension <- function(format, withdot = TRUE) {
   extensions <- readers$extensions

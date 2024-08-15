@@ -9,7 +9,8 @@ dpresources(x) <- value
 \arguments{
 \item{x}{a \code{datapackage} object}
 
-\item{value}{a list of \code{dataresource} objects}
+\item{value}{a \code{dataresource} object or a list of \code{dataresource}
+objects .}
 }
 \value{
 Returns a modified \code{x}.

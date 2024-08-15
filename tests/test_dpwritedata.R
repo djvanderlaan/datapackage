@@ -13,14 +13,13 @@ newdir <- tempdir()
 newdp <- newdatapackage(newdir)
 dpname(newdp) <- "test"
 
-res <- dpgeneratedataresources(dta, "complex")
+res <- dpgeneratedataresource(dta, "complex")
 # We expect one resource
-expect_equal(length(res), 1)
-expect_equal(dpname(res[[1]]), "complex")
+expect_equal(dpname(res), "complex")
 
 # Needed because we have "" in a string field which by default will not
 # be recognized as missing value;
-res[[1]]$schema$fields[[9]]$missingValues <- list("")
+res$schema$fields[[9]]$missingValues <- list("")
 
 dpresources(newdp) <- res
 expect_equal(dpresourcenames(newdp), c("complex"))
@@ -72,14 +71,12 @@ newdir <- tempdir()
 newdp <- newdatapackage(newdir)
 dpname(newdp) <- "test"
 
-res <- dpgeneratedataresources(dta, "complex", use_existing = TRUE)
+res <- dpgeneratedataresource(dta, "complex", use_existing = TRUE)
 # We expect one resource
-expect_equal(length(res), 1)
-expect_equal(dpname(res[[1]]), "complex")
+expect_equal(dpname(res), "complex")
 
 # Needed because we have "" in a string field which by default will not
 # be recognized as missing value;
-#res[[1]]$schema$fields[[9]]$missingValues <- list("")
 
 dpresources(newdp) <- res
 expect_equal(dpresourcenames(newdp), c("complex"))
