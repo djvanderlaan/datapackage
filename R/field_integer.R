@@ -71,7 +71,7 @@ to_integer.numeric <- function(x, schema = list(), ...) {
 #' @export
 to_integer.factor <- function(x, schema = list(), ...) {
   schema <- complete_schema_integer(schema)
-  codelist <- dpcodelist(schema)
+  codelist <- dpcategorieslist(schema)
   if (is.null(codelist)) {
     x <- as.integer(x)
   } else {

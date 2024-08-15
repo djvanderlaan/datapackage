@@ -10,7 +10,7 @@
 #' (\code{codelist = NULL}).
 #'
 #' @export
-dptofactor <- function(x, codelist = dpcodelist(x), warn = TRUE) {
+dptofactor <- function(x, codelist = dpcategorieslist(x), warn = TRUE) {
   if (is.null(codelist)) {
     if (warn) warning("Field does not have an associated code list. Returning original vector.")
     return(x)

@@ -3,7 +3,7 @@
 # x are valid when x has an associated code list
 #
 clearandcheckcodelists <- function(x, fielddescriptor = attr(x, "fielddescriptor"),
-    codelist = dpcodelist(fielddescriptor)) {
+    codelist = dpcategorieslist(fielddescriptor)) {
   if (!is.null(codelist)) {
     if (is.factor(x)) {
       # when x is a factor; we have to check the levels of the factor and see

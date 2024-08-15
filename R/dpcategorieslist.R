@@ -14,18 +14,18 @@
 #' Returns a \code{data.frame} with the Code List or \code{NULL} when none could
 #' be found.
 #'
-#' @rdname dpcodelist
+#' @rdname dpcategorieslist
 #' @export
-dpcodelist <- function(x, ...) {
-  UseMethod("dpcodelist")
+dpcategorieslist <- function(x, ...) {
+  UseMethod("dpcategorieslist")
 }
 
-#' @rdname dpcodelist
+#' @rdname dpcategorieslist
 #' @export
-dpcodelist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"), 
+dpcategorieslist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"), 
     datapackage = dpgetdatapackage(fielddescriptor), ...) {
   res <- NULL
-  if (!is.null(fielddescriptor)) res <- dpcodelist(fielddescriptor, ...)
+  if (!is.null(fielddescriptor)) res <- dpcategorieslist(fielddescriptor, ...)
   if (is.null(res) && is.factor(x)) {
     res <- data.frame(
       value = seq_len(nlevels(x)),
@@ -35,9 +35,9 @@ dpcodelist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"),
   res
 }
 
-## @rdname dpcodelist
+## @rdname dpcategorieslist
 ## @export
-#dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), ...) {
+#dpcategorieslist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), ...) {
 #  codelist <- x$codelist
 #  if (is.null(codelist)) return(NULL)
 #  if (is.character(codelist)) {
@@ -48,9 +48,9 @@ dpcodelist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"),
 #  codelist
 #}
 
-#' @rdname dpcodelist
+#' @rdname dpcategorieslist
 #' @export
-dpcodelist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), 
+dpcategorieslist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), 
     normalised = FALSE, ...) {
   codelist <- x$categories
   if (is.null(codelist)) {

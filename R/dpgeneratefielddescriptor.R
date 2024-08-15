@@ -160,7 +160,7 @@ dpgeneratefielddescriptor_handle_categories <- function(x, fielddescriptor, use_
     use_categories, categories_type = c("regular", "resource")) {
   if (use_existing) return(fielddescriptor)
   categories_type <- match.arg(categories_type)
-  categorieslist <- dpcodelist(x, normalise = TRUE)
+  categorieslist <- dpcategorieslist(x, normalise = TRUE)
   if (!use_categories && is.factor(x)) {
     categorieslist <- data.frame(
       value = seq_len(nlevels(x)),

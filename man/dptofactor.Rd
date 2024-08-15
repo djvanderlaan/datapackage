@@ -4,7 +4,7 @@
 \alias{dptofactor}
 \title{Recode a variable to factor using the associated Code List}
 \usage{
-dptofactor(x, codelist = dpcodelist(x), warn = TRUE)
+dptofactor(x, codelist = dpcategorieslist(x), warn = TRUE)
 }
 \arguments{
 \item{x}{the variable to recode}

@@ -59,9 +59,9 @@ dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x),
         cl <- NULL
         suppressWarnings(try({
           # This could fail if the codelist is not already saved
-          cl <- dpcodelist(dpfield(x, field))
+          cl <- dpcategorieslist(dpfield(x, field))
         }, silent = TRUE))
-        if (is.null(cl)) cl <- dpcodelist(data[[field]])
+        if (is.null(cl)) cl <- dpcategorieslist(data[[field]])
         # Check if a resource for the codelist already exists; if not create is
         if (!(categories_resource %in% dpresourcenames(datapackage))) {
           res <- dpgeneratedataresources(cl, categories_resource)

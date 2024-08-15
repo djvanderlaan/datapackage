@@ -230,7 +230,7 @@ print(complex)
 This is an integer column but it has an 'codelist' property set which points to
 a Data Resource in the Data Package. It is possible te get this code list
 ```{.R #c2}
-dpcodelist(complex$factor1)
+dpcategorieslist(complex$factor1)
 ```
 This Code List can also be used to convert the field to factor:
 ```{.R #c3}
