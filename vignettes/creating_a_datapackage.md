@@ -78,24 +78,16 @@ data(iris)
 head(iris)
 ```
 
-In order to store a new dataset in a datapackage we need to do two things.
-First, we need to create a new dataresource in the package. Second, using the
-specifation of the dataresource we need to save the actual dataset at the
-location specified in the dataresource.
+In order to store a new dataset in a Data Package we need to do two things.
+First, we need to create a new Data Resource in the package. Second, using the
+specifation of the Data Resource we need to save the actual dataset at the
+location specified in the Data Resource.
 
-It is possible to add the `datapackage.json` file to create the new
-dataresource. The package also has a function `dpgeneratedataresources` to
-generate skeleton dataresources for a given dataset:
+It is possible to edit the `datapackage.json` file to create the new
+Data Resource. The package also has a function `dpgeneratedataresources` to
+generate a skeleton Data Resource for a given dataset:
 ```{.R #a10}
 res <- dpgeneratedataresources(iris, "iris") 
-```
-Note the plural in the function names. This is because it is possible that
-mulitple dataresources are needed for one given dataset. This is the case when
-the dataset contains factor variables. The levels of a factor are stored in a
-seperate dataresource. The `iris` dataset contains one factor variable.
-Therefore, `res` will contain two dataresources:
-```{.R #a20}
-print(res)
 ```
 Again these can be further modified using methods such as `dptitle` and
 `dpproperty`:
@@ -103,7 +95,7 @@ Again these can be further modified using methods such as `dptitle` and
 dptitle(res[[1]]) <- "The Iris dataset"
 ```
 
-Let's add these resources to the datapackage.
+Let's add the resources to the datapackage.
 ```{.R #a40}
 dpresources(dp) <- res
 ```
@@ -114,15 +106,14 @@ by the new dataresources.
 We are now ready to write the dataset. For this we can use the `dpwritedata`
 method:
 ```{.R #a50}
-dpwritedata(dp, resourcename = "iris", data = iris, write_categories = TRUE)
+dpwritedata(dp, resourcename = "iris", data = iris)
 ```
-With `write_categories = TRUE` this function will also write any codelists
-associated with the dataresource.
+When some of the field in the Data Resource have categories that are stored in
+a separate Data Resource, this function will by default also write any
+codelists associated with the dataresource.
 
 ```{.R #a60}
 readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
-## TODO: update
-##readLines(file.path(dir, "Species-codelist.csv")) |> writeLines()
 ```
 
 And of course we can open the datapackage and read the data back in:
@@ -133,28 +124,45 @@ all.equal(iris, iris2, check.attributes = FALSE)
 ```
 
 
-## Custom codelists
+## More on categories
 
-By default the package will generate a codelist for factor variables. The levels
-will be numbered using sequential integers starting from 1. The example below
-shows how different codes can be used. First we create the resources as w did
-above. We will add those to the existing datapackage.
+By default `dpgeneratedataresources` will generate `categories` properties for
+factor fields:
+
 ```{.R #c00}
 data(chickwts)
 
+res <- dpgeneratedataresources(chickwts, "chickwts") 
+dpresources(dp) <- res
+
+(feed_name <- dpresource(dp, "chickwts") |> 
+  dpfield("feed") |> dpproperty("categories"))
+```
+
+Here, the list of categories is stored directly in the `categories` property. It
+is also possible to store the list of categories in a Data Resource
+
+```{.R #c01}
 res <- dpgeneratedataresources(chickwts, "chickwts", 
   categories_type = "resource") 
 dpresources(dp) <- res
 
 (feed_name <- dpresource(dp, "chickwts") |> 
   dpfield("feed") |> dpproperty("categories"))
+```
+Here the `categories` property points to Data Resource. `dpwritedata` will
+automatically create this resource by default when writing the data:
 
+```{.R #c02}
 dpwritedata(dpresource(dp, "chickwts"), data = chickwts, write_categories = TRUE)
 list.files(dir)
 
 dpresource(dp, "feed-categories") |> dpgetdata()
-
 ```
+
+By default the package will generate a list of categories for factor variables.
+The levels will be numbered using sequential integers starting from 1. The
+example below shows how different codes can be used. 
 
 In order to write the correct codes we will also first have to generate the and
 save the dataset with the correct codes. In the example below we do this using
@@ -169,7 +177,6 @@ codelist <- data.frame(
 res <- dpgeneratedataresources(codelist, "feed-categories")
 res
 dpresources(dp) <- res
-
 
 codelistres <- dp |> dpresource("feed-categories")
 dpwritedata(codelistres, data = codelist, write_categories = FALSE)
@@ -188,6 +195,8 @@ We can see that the correct codes are used in the CSV-file:
 ```{.R #c40}
 readLines(file.path(dir, "chickwts.csv"), n = 10) |> writeLines()
 ```
+
+
 ## Editing an existing Data Package
 
 Editing of existing Data Packages is also possible. Use the `readonly = TRUE`
