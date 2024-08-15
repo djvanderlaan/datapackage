@@ -40,9 +40,9 @@ dpresources(dp) <- res
 codelist <- data.frame(
   value = c(101, 102, 103),
   label = c("setosa", "virginica", "versicolor"))
-codelistres <- dpgeneratedataresource(codelist, "Species-categories")
+codelistres <- dpgeneratedataresource(codelist, "species-categories")
 dpresources(dp) <- codelistres
-dpwritedata(dp, "Species-categories", data = codelist, write_categories = FALSE)
+dpwritedata(dp, "species-categories", data = codelist, write_categories = FALSE)
 
 # Write the dtaset
 dpwritedata(dp, resourcename = "iris", data = iris, write_categories = FALSE)

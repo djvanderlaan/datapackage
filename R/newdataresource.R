@@ -7,7 +7,20 @@
 #'
 #' @param description The description of the Data Resource.
 #'
-#' @param ... Ignored for now.
+#' @param path the path of the Data Resource
+#'
+#' @param format the format of the Data Resource
+#'
+#' @param mediatype the mediatype of the Data Resource
+#'
+#' @param encoding the encoding of the Data Resource
+#'
+#' @param bytes the number of bytes of the Data Resource
+#'
+#' @param hash the hash of the Data Resource
+#'
+#' @param ... additional arguments are added as additional properties. It is 
+#' checked if these are valid. 
 #'
 #' @return
 #' Returns a \code{dataresource} object which is a list with the properties of
@@ -33,7 +46,9 @@
 #' 
 #'
 #' @export
-newdataresource <- function(name, title = NULL, description = NULL, ...) {
+newdataresource <- function(name, title = NULL, description = NULL, 
+    path = NULL, format = NULL, mediatype = NULL, encoding = NULL, 
+    bytes = NULL, hash = NULL, ...) {
   # Build object
   res <- structure(list(), class = 'dataresource')
   dpname(res) <- name
@@ -41,6 +56,20 @@ newdataresource <- function(name, title = NULL, description = NULL, ...) {
     dptitle(res) <- title
   if (!missing(description) && !is.null(description)) 
     dpdescription(res) <- description
+  if (!missing(path) && !is.null(path)) 
+    dppath(res) <- path
+  if (!missing(format) && !is.null(format)) 
+    dpformat(res) <- format
+  if (!missing(mediatype) && !is.null(mediatype)) 
+    dpmediatype(res) <- mediatype
+  if (!missing(encoding) && !is.null(encoding)) 
+    dpencoding(res) <- encoding
+  if (!missing(bytes) && !is.null(bytes)) 
+    dpbytes(res) <- bytes
+  if (!missing(hash) && !is.null(hash)) 
+    dphash(res) <- hash
+  other <- list(...)
+  for (property in names(other)) dpproperty(res, property) <- other[[property]]
   # Return
   res
 }

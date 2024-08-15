@@ -168,7 +168,8 @@ dpgeneratefielddescriptor_handle_categories <- function(x, fielddescriptor, use_
   } 
   if ((use_categories || is.factor(x)) && !is.null(categorieslist)) {
     if (categories_type == "resource") {
-      fielddescriptor$categories <- list(resource = paste0(fielddescriptor$name, "-categories"))
+      fielddescriptor$categories <- list(resource = 
+        paste0(tolower(fielddescriptor$name), "-categories"))
     } else {
       fielddescriptor$categories <- categorieslisttolist(categorieslist)
     }

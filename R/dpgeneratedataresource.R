@@ -40,9 +40,8 @@ dpgeneratedataresource <- function(x, name, path = paste0(name, getextension(for
       categories_type = categories_type)
     fields[[i]] <- fd
   }
-  res <- structure(list(name = name, format = format, mediatype = mediatype, 
-    path = path, encoding = "utf-8", schema = list(fields = fields)), 
-    class = "dataresource")
+  res <- newdataresource(name = name, format = format, mediatype = mediatype, 
+    path = path, encoding = "utf-8", schema = list(fields = fields))
   res
 }
 

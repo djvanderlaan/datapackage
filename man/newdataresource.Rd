@@ -4,7 +4,18 @@
 \alias{newdataresource}
 \title{Create a new Data Resource}
 \usage{
-newdataresource(name, title = NULL, description = NULL, ...)
+newdataresource(
+  name,
+  title = NULL,
+  description = NULL,
+  path = NULL,
+  format = NULL,
+  mediatype = NULL,
+  encoding = NULL,
+  bytes = NULL,
+  hash = NULL,
+  ...
+)
 }
 \arguments{
 \item{name}{The name of the Data Resource.}
@@ -13,7 +24,20 @@ newdataresource(name, title = NULL, description = NULL, ...)
 
 \item{description}{The description of the Data Resource.}
 
-\item{...}{Ignored for now.}
+\item{path}{the path of the Data Resource}
+
+\item{format}{the format of the Data Resource}
+
+\item{mediatype}{the mediatype of the Data Resource}
+
+\item{encoding}{the encoding of the Data Resource}
+
+\item{bytes}{the number of bytes of the Data Resource}
+
+\item{hash}{the hash of the Data Resource}
+
+\item{...}{additional arguments are added as additional properties. It is 
+checked if these are valid.}
 }
 \value{
 Returns a \code{dataresource} object which is a list with the properties of

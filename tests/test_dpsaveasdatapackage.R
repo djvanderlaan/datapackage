@@ -22,7 +22,7 @@ tmp2 <- dploadfromdatapackage(dir, to_factor = TRUE)
 expect_equal(tmp, tmp2, attributes = FALSE)
 expect_equal(levels(tmp$Species), levels(tmp2$Species))
 
-tmp <- dploadfromdatapackage(dir, "Species-categories")
+tmp <- dploadfromdatapackage(dir, "species-categories")
 expect_equal(names(tmp), c("value", "label"))
 expect_equal(tmp$value, 1:3, attributes = FALSE)
 expect_equal(tmp$label, c("setosa", "versicolor", "virginica"), attributes = FALSE)
