@@ -14,7 +14,7 @@ data(iris)
 dp <- newdatapackage(dir, name = "iris")
 res <- dpgeneratedataresources(iris, "iris") 
 dpresources(dp) <- res
-dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = TRUE)
+dpwritedata(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 
 # OPen the new datapacakge, read the data and check
 dp2 <- opendatapackage(dir)
@@ -42,10 +42,10 @@ codelist <- data.frame(
   label = c("setosa", "virginica", "versicolor"))
 codelistres <- dpgeneratedataresources(codelist, "Species-categories")
 dpresources(dp) <- codelistres
-dpwritedata(dp, "Species-categories", data = codelist, write_codelists = FALSE)
+dpwritedata(dp, "Species-categories", data = codelist, write_categories = FALSE)
 
 # Write the dtaset
-dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = FALSE)
+dpwritedata(dp, resourcename = "iris", data = iris, write_categories = FALSE)
 
 # Open the new datapacakge, read the data and check
 dp2 <- opendatapackage(dir)
@@ -78,7 +78,7 @@ dp <- newdatapackage(dir, name = "iris")
 res <- dpgeneratedataresources(iris, "iris") 
 dpproperty(res[[1]], "dialect") <- list(nullSequence = "FOO")
 dpresources(dp) <- res
-dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = TRUE)
+dpwritedata(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 # OPen the new datapacakge, read the data and check
 dp2 <- opendatapackage(dir)
 iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)

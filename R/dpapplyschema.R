@@ -2,8 +2,8 @@
 #'
 #' @param dta a \code{data.frame} or \code{data.table}.
 #' @param resource an object with the Data Resource of the data set.
-#' @param to_factor convert columns to factor if the field descriptor a
-#'   \code{codelist} field for the column.
+#' @param to_factor convert columns to factor if the field descriptor had a
+#'   \code{categories} field for the column.
 #' @param ... additional arguments are passed on to the \code{to_<fieldtype>} 
 #'   functions (e.g. \code{\link{to_number}}). 
 #'

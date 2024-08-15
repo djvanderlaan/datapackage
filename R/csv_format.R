@@ -12,7 +12,7 @@
 # @export
 csv_format <- function(x, fielddescriptor = attr(x, "fielddescriptor")) {
   type <- fielddescriptor$type
-  x <- clearandcheckcodelists(x, fielddescriptor)
+  x <- clearandcheckcategories(x, fielddescriptor)
   format_fun <- paste0("csv_format_", type)
   format_fun <- get(format_fun)
   format_fun(x, fielddescriptor)

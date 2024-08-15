@@ -11,8 +11,8 @@ dpapplyschema(dta, resource, to_factor = FALSE, ...)
 
 \item{resource}{an object with the Data Resource of the data set.}
 
-\item{to_factor}{convert columns to factor if the field descriptor a
-\code{codelist} field for the column.}
+\item{to_factor}{convert columns to factor if the field descriptor had a
+\code{categories} field for the column.}
 
 \item{...}{additional arguments are passed on to the \code{to_<fieldtype>} 
 functions (e.g. \code{\link{to_number}}).}

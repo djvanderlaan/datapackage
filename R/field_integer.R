@@ -71,15 +71,15 @@ to_integer.numeric <- function(x, schema = list(), ...) {
 #' @export
 to_integer.factor <- function(x, schema = list(), ...) {
   schema <- complete_schema_integer(schema)
-  codelist <- dpcategorieslist(schema)
-  if (is.null(codelist)) {
+  categorieslist <- dpcategorieslist(schema)
+  if (is.null(categorieslist)) {
     x <- as.integer(x)
   } else {
     na <- is.na(x)
-    if (length(intersect(levels(x), codelist[[2]])) != nlevels(x)) {
-      stop("Levels of x do not match codelist.")
+    if (length(intersect(levels(x), categorieslist[[2]])) != nlevels(x)) {
+      stop("Levels of x do not match categorieslist.")
     }
-    x <- match(x, codelist[[2]])
+    x <- match(x, categorieslist[[2]])
   }
   structure(x, fielddescriptor = schema)
 }

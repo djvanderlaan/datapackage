@@ -3,7 +3,7 @@
 #' @param path path to the data set. 
 #' 
 #' @param resource a Data Resource.
-#' @param to_factor convert columns to factor if the schema has a codelist
+#' @param to_factor convert columns to factor if the schema has a categories
 #'   property for the column.
 #'
 #' @param to_factor convert columns to factor if the schema has a categories

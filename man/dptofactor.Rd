@@ -2,22 +2,23 @@
 % Please edit documentation in R/dptofactor.R
 \name{dptofactor}
 \alias{dptofactor}
-\title{Recode a variable to factor using the associated Code List}
+\title{Recode a variable to factor using the associated categories}
 \usage{
-dptofactor(x, codelist = dpcategorieslist(x), warn = TRUE)
+dptofactor(x, categorieslist = dpcategorieslist(x), warn = TRUE)
 }
 \arguments{
 \item{x}{the variable to recode}
 
-\item{codelist}{a \code{data.frame} with the Code List. It is assumed that
-the first column contains the codes and the second column the labels.}
+\item{categorieslist}{a \code{data.frame} with the categories as a
+\code{data.frame}. It is assumed that the first column contains the codes
+and the second column the labels.}
 
 \item{warn}{give a warning when there is no code list.}
 }
 \value{
-Returns a factor vector or \code{x} when no Code List could be found
-(\code{codelist = NULL}).
+Returns a factor vector or \code{x} when no categories could be found
+(\code{categorieslist = NULL}).
 }
 \description{
-Recode a variable to factor using the associated Code List
+Recode a variable to factor using the associated categories
 }

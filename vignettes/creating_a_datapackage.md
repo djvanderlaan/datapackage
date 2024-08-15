@@ -114,9 +114,9 @@ by the new dataresources.
 We are now ready to write the dataset. For this we can use the `dpwritedata`
 method:
 ```{.R #a50}
-dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = TRUE)
+dpwritedata(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 ```
-With `write_codelists = TRUE` this function will also write any codelists
+With `write_categories = TRUE` this function will also write any codelists
 associated with the dataresource.
 
 ```{.R #a60}
@@ -149,7 +149,7 @@ dpresources(dp) <- res
 (feed_name <- dpresource(dp, "chickwts") |> 
   dpfield("feed") |> dpproperty("categories"))
 
-dpwritedata(dpresource(dp, "chickwts"), data = chickwts, write_codelists = TRUE)
+dpwritedata(dpresource(dp, "chickwts"), data = chickwts, write_categories = TRUE)
 list.files(dir)
 
 dpresource(dp, "feed-categories") |> dpgetdata()
@@ -172,7 +172,7 @@ dpresources(dp) <- res
 
 
 codelistres <- dp |> dpresource("feed-categories")
-dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
+dpwritedata(codelistres, data = codelist, write_categories = FALSE)
 ```
 This creates the correct CSV-files:
 
@@ -180,9 +180,9 @@ This creates the correct CSV-files:
 readLines(file.path(dir, "feed-categories.csv")) |> writeLines()
 ```
 When we now write the dataset to file it will use this dataset - as long as we
-don't overwrite it. Therefore, the `write_codelists = FALSE`: 
+don't overwrite it. Therefore, the `write_categories = FALSE`: 
 ```{.R #c30}
-dpwritedata(dp, resourcename = "chickwts", data = chickwts, write_codelists = FALSE)
+dpwritedata(dp, resourcename = "chickwts", data = chickwts, write_categories = FALSE)
 ```
 We can see that the correct codes are used in the CSV-file:
 ```{.R #c40}

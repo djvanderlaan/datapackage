@@ -12,12 +12,12 @@
 #'
 #' @param writer the writer to use to write the data. This should be either a
 #' function accepting the Data Package, name of the Data Resource, the data and
-#' the \code{write_codelists} argument or the character string \code{"guess"}.
+#' the \code{write_categories} argument or the character string \code{"guess"}.
 #'
 #' @param ... additional arguments are passed on to the writer function.
 #'
-#' @param write_codelists write both the data set \code{x} itself and any
-#' code lists of fields in the data set.
+#' @param write_categories write both the data set \code{x} itself and any
+#' categories lists of fields in the data set.
 #'
 #' @details
 #' When \code{writer = "guess"} the function will try to guess which writer to
@@ -29,27 +29,27 @@
 #'
 #' @rdname dpwritedata
 #' @export
-dpwritedata <- function(x, ..., write_codelists = TRUE) {
+dpwritedata <- function(x, ..., write_categories = TRUE) {
   UseMethod("dpwritedata")
 }
 
 #' @rdname dpwritedata
 #' @export
 dpwritedata.datapackage <- function(x, resourcename, data, writer = "guess", ..., 
-    write_codelists = TRUE) {
+    write_categories = TRUE) {
   resource <- dpresource(x, resourcename)
   dpwritedata(resource, data = data, datapackage = x, writer = writer, ..., 
-    write_codelists = write_codelists)
+    write_categories = write_categories)
 }
 
 #' @rdname dpwritedata
 #' @export
 dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x), 
-    writer = "guess", ..., write_codelists = TRUE) {
+    writer = "guess", ..., write_categories = TRUE) {
   # First check to see of dataresource fits data
   stopifnot(setequal(names(data), dpfieldnames(x)))
-  # Save code lists
-  if (write_codelists) {
+  # Save categories lists
+  if (write_categories) {
     for (field in dpfieldnames(x)) {
       categories <- dpfield(x, field) |> dpproperty("categories")
       if (!is.null(categories) && categoriestype(categories) == "dataresource") {
@@ -58,17 +58,17 @@ dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x),
           stop("Resource missing for categories of '", field, "'.")
         cl <- NULL
         suppressWarnings(try({
-          # This could fail if the codelist is not already saved
+          # This could fail if the categories list is not already saved
           cl <- dpcategorieslist(dpfield(x, field))
         }, silent = TRUE))
         if (is.null(cl)) cl <- dpcategorieslist(data[[field]])
-        # Check if a resource for the codelist already exists; if not create is
+        # Check if a resource for the categories list already exists; if not create it
         if (!(categories_resource %in% dpresourcenames(datapackage))) {
           res <- dpgeneratedataresources(cl, categories_resource)
           dpresources(datapackage) <- res
         }
         dpwritedata(data = cl, resourcename = categories_resource, datapackage, 
-          write_codelists = FALSE, ...)
+          write_categories = FALSE, ...)
       }
     }
   }

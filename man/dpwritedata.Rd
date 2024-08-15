@@ -6,7 +6,7 @@
 \alias{dpwritedata.dataresource}
 \title{Write  data of resource to file}
 \usage{
-dpwritedata(x, ..., write_codelists = TRUE)
+dpwritedata(x, ..., write_categories = TRUE)
 
 \method{dpwritedata}{datapackage}(
   x,
@@ -14,7 +14,7 @@ dpwritedata(x, ..., write_codelists = TRUE)
   data,
   writer = "guess",
   ...,
-  write_codelists = TRUE
+  write_categories = TRUE
 )
 
 \method{dpwritedata}{dataresource}(
@@ -23,7 +23,7 @@ dpwritedata(x, ..., write_codelists = TRUE)
   datapackage = dpgetdatapackage(x),
   writer = "guess",
   ...,
-  write_codelists = TRUE
+  write_categories = TRUE
 )
 }
 \arguments{
@@ -32,8 +32,8 @@ to.}
 
 \item{...}{additional arguments are passed on to the writer function.}
 
-\item{write_codelists}{write both the data set \code{x} itself and any
-code lists of fields in the data set.}
+\item{write_categories}{write both the data set \code{x} itself and any
+categories lists of fields in the data set.}
 
 \item{resourcename}{name of the Data Resource in the Data Package to which
 the data needs to be written.}
@@ -42,7 +42,7 @@ the data needs to be written.}
 
 \item{writer}{the writer to use to write the data. This should be either a
 function accepting the Data Package, name of the Data Resource, the data and
-the \code{write_codelists} argument or the character string \code{"guess"}.}
+the \code{write_categories} argument or the character string \code{"guess"}.}
 
 \item{datapackage}{the Data Package to which the data needs to be written.}
 }
