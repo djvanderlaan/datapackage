@@ -2,25 +2,25 @@
 % Please edit documentation in R/field_string.R
 \name{to_string}
 \alias{to_string}
-\title{Convert a vector to 'string' using the specified schema}
+\title{Convert a vector to 'string' using the specified fielddescriptor}
 \usage{
-to_string(x, schema = list(), ...)
+to_string(x, fielddescriptor = list(), ...)
 }
 \arguments{
 \item{x}{the vector to convert.}
 
-\item{schema}{the table-schema for the field.}
+\item{fielddescriptor}{the field descriptor for the field.}
 
 \item{...}{passed on to other methods.}
 }
 \value{
-Will return an \code{character} vector with \code{schema} added as the
-'schema' attribute.
+Will return an \code{character} vector with \code{fielddescriptor} added as
+the 'fielddescriptor' attribute.
 }
 \description{
-Convert a vector to 'string' using the specified schema
+Convert a vector to 'string' using the specified fielddescriptor
 }
 \details{
-When \code{schema} is missing a default schema is generated using
-\code{\link{complete_schema_string}}.
+When \code{fielddescriptor} is missing a default field descriptor is
+generated using \code{\link{complete_fielddescriptor_string}}.
 }

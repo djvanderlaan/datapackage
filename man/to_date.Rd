@@ -2,25 +2,25 @@
 % Please edit documentation in R/field_date.R
 \name{to_date}
 \alias{to_date}
-\title{Convert a vector to 'date' using the specified schema}
+\title{Convert a vector to 'date' using the specified field descriptor}
 \usage{
-to_date(x, schema = list(), ...)
+to_date(x, fielddescriptor = list(), ...)
 }
 \arguments{
 \item{x}{the vector to convert.}
 
-\item{schema}{the table-schema for the field.}
+\item{fielddescriptor}{the field descriptor for the field.}
 
 \item{...}{passed on to other methods.}
 }
 \value{
-Will return an \code{Date} vector with \code{schema} added as the 'schema'
-attribute.
+Will return an \code{Date} vector with \code{fielddescriptor} added as the
+'fielddescriptor' attribute.
 }
 \description{
-Convert a vector to 'date' using the specified schema
+Convert a vector to 'date' using the specified field descriptor
 }
 \details{
-When \code{schema} is missing a default schema is generated using
-\code{\link{complete_schema_date}}.
+When \code{fielddescriptor} is missing a default field descriptor is
+generated using \code{\link{complete_fielddescriptor_date}}.
 }

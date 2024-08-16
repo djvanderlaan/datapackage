@@ -2,46 +2,48 @@ library(datapackage)
 source("helpers.R")
 
 
-schema <- list(
+fielddescriptor <- list(
   name = "integer",
   title = "A integer field",
   description = "A description",
   type = "integer"
 )
-res <- datapackage:::to_integer.character(c("10", "-100", "", NA), schema = schema)
+res <- datapackage:::to_integer.character(c("10", "-100", "", NA), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(10L, -100L, NA_integer_, NA_integer_), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
-res <- datapackage:::to_integer.integer(c(10, -100, NA), schema = schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
+res <- datapackage:::to_integer.integer(c(10, -100, NA), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(10L, -100L, NA_integer_), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === Method call
-schema <- list(
+fielddescriptor <- list(
   name = "integer",
   title = "A integer field",
   description = "A description",
   type = "integer"
 )
-res <- to_integer(c("10", "-100", "", NA), schema = schema)
+res <- to_integer(c("10", "-100", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10L, -100L, NA_integer_, NA_integer_), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
-res <- to_integer(c(10, -100, NA), schema = schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
+res <- to_integer(c(10, -100, NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10L, -100L, NA_integer_), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
-res <- to_integer(c(10L, -100L, NA_integer_), schema = schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
+res <- to_integer(c(10L, -100L, NA_integer_), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10L, -100L, NA_integer_), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === No Schema
-schema <- list(
+fielddescriptor <- list(
   type = "integer"
 )
 res <- datapackage:::to_integer.character(c("10", "-100", "", NA))
 expect_equal(res, c(10L, -100L, NA_integer_, NA_integer_), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 res <- datapackage:::to_integer.integer(c(10, -100, NA))
 expect_equal(res, c(10L, -100L, NA_integer_), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === Empty input
 res <- to_integer(character(0))
@@ -53,13 +55,13 @@ expect_equal(res, integer(0), attributes = FALSE)
 expect_error(res <- to_integer(c("foo", "10", "10", NA)))
 
 # === NA
-schema <- list(
+fielddescriptor <- list(
   name = "integer",
   missingValues = c("--")
 )
-res <- to_integer(c("10","--", "11", NA), schema)
+res <- to_integer(c("10","--", "11", NA), fielddescriptor)
 expect_equal(res, c(10, NA, 11, NA), attributes = FALSE)
-expect_error(res <- to_integer(c("10","---", "11", NA), schema))
+expect_error(res <- to_integer(c("10","---", "11", NA), fielddescriptor))
 
 
 
@@ -71,10 +73,10 @@ expect_error(res <- to_integer(c("10","---", "11", NA), schema))
 #expect_equal(res, "integer")
 #
 ## === NA
-#schema <- list(
+#fielddescriptor <- list(
 #  name = "integer",
 #  missingValues = c("--")
 #)
-#res <- csv_colclass_integer(schema)
+#res <- csv_colclass_integer(fielddescriptor)
 #expect_equal(res, "character")
 

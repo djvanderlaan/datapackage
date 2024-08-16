@@ -2,25 +2,25 @@
 % Please edit documentation in R/field_boolean.R
 \name{to_boolean}
 \alias{to_boolean}
-\title{Convert a vector to 'boolean' using the specified schema}
+\title{Convert a vector to 'boolean' using the specified field descriptor}
 \usage{
-to_boolean(x, schema = list(), ...)
+to_boolean(x, fielddescriptor = list(), ...)
 }
 \arguments{
 \item{x}{the vector to convert.}
 
-\item{schema}{the table-schema for the field.}
+\item{fielddescriptor}{the field descriptor for the field.}
 
 \item{...}{passed on to other methods.}
 }
 \value{
-Will return an \code{logical} vector with \code{schema} added as the 'schema'
-attribute.
+Will return an \code{logical} vector with \code{fielddescriptor} added as
+the 'fielddescriptor' attribute.
 }
 \description{
-Convert a vector to 'boolean' using the specified schema
+Convert a vector to 'boolean' using the specified field descriptor
 }
 \details{
-When \code{schema} is missing a default schema is generated using
-\code{\link{complete_schema_boolean}}.
+When \code{fielddescriptor} is missing a default field descriptor is
+generated using \code{\link{complete_fielddescriptor_boolean}}.
 }

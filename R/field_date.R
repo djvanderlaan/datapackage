@@ -1,64 +1,38 @@
-# Generate field schema for a date field
-#
-# @param name name of the field
-# @param description description of the field
-# @param format the textual format with which the date is stored. Can be 
-#   "default", a valid format as accepted by \code{\link{strptime}} or 
-#   "any" (no specified format, in R this the date is passed on to
-#   \code{\link{as.Date}}. 
-# @param ... additional custom fields to add to the field schema.
-#
-# @return 
-# A list with a least the fields "name" and "type".
-#
-# @examples
-# x <- as.Date(c("2020-01-01", "2022-12-31"))
-# schema(x) <- schema_date("importantday")
-#
-# @export
-schema_date <- function(name, description, format = "default", ...) {
-  res <- list(name = name, type = "date")
-  if (!missing(description) && !is.null(description)) 
-    res$description <- description
-  if (!missing(format) && !is.null(format)) 
-    res$format <- format
-  c(res, list(...))
-}
 
-#' Add required fields to the schema for a date column
+#' Add required fields to the fielddescriptor for a date column
 #'
-#' @param schema should be a list.
+#' @param fielddescriptor should be a list.
 #'
 #' @return
-#' Returns \code{schema} with the required fields added. 
-#' 
-#' @export 
-complete_schema_date <- function(schema) {
-  if (!exists("type", schema)) schema[["type"]] <- "date"
-  schema
+#' Returns \code{fielddescriptor} with the required fields added. 
+#'
+#' @export
+complete_fielddescriptor_date <- function(fielddescriptor) {
+  if (!exists("type", fielddescriptor)) fielddescriptor[["type"]] <- "date"
+  fielddescriptor
 }
 
-#' Convert a vector to 'date' using the specified schema
+#' Convert a vector to 'date' using the specified field descriptor
 #' 
 #' @param x the vector to convert.
-#' @param schema the table-schema for the field.
+#' @param fielddescriptor the field descriptor for the field.
 #' @param ... passed on to other methods.
 #'
 #' @details
-#' When \code{schema} is missing a default schema is generated using
-#' \code{\link{complete_schema_date}}. 
+#' When \code{fielddescriptor} is missing a default field descriptor is
+#' generated using \code{\link{complete_fielddescriptor_date}}. 
 #'
 #' @return
-#' Will return an \code{Date} vector with \code{schema} added as the 'schema'
-#' attribute.
+#' Will return an \code{Date} vector with \code{fielddescriptor} added as the
+#' 'fielddescriptor' attribute.
 #' 
 #' @export
-to_date <- function(x, schema = list(), ...) {
+to_date <- function(x, fielddescriptor = list(), ...) {
   UseMethod("to_date")
 }
 
 #' @export
-to_date.integer <- function(x, schema = list(), ...) {
+to_date.integer <- function(x, fielddescriptor = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 20200101 or 01012020-> convert to character and 
   # convert
@@ -66,7 +40,7 @@ to_date.integer <- function(x, schema = list(), ...) {
 }
 
 #' @export
-to_date.numeric <- function(x, schema = list(), ...) {
+to_date.numeric <- function(x, fielddescriptor = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 20200101 or 01012020-> convert to character and 
   # convert
@@ -74,35 +48,36 @@ to_date.numeric <- function(x, schema = list(), ...) {
 }
 
 #' @export
-to_date.character <- function(x, schema = list(), ...) {
-  schema <- complete_schema_date(schema)
+to_date.character <- function(x, fielddescriptor = list(), ...) {
+  fielddescriptor <- complete_fielddescriptor_date(fielddescriptor)
   # Consider "" as a NA
-  na_values <- if (!is.null(schema$missingValues)) schema$missingValues else ""
+  na_values <- if (!is.null(fielddescriptor$missingValues)) 
+    fielddescriptor$missingValues else ""
   x[x %in% na_values] <- NA
   na <- is.na(x);
-  if (is.null(schema$format) || schema$format == "default") {
+  if (is.null(fielddescriptor$format) || fielddescriptor$format == "default") {
     res <- as.Date(x, format = "%Y-%m-%d")
-  } else if (schema$format == "any") {
+  } else if (fielddescriptor$format == "any") {
     res <- as.Date(x)
   } else {
-    res <- as.Date(x, format = schema$format)
+    res <- as.Date(x, format = fielddescriptor$format)
   }
   invalid <- is.na(res) & !na
   if (any(invalid)) 
     stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
-  structure(res, fielddescriptor = schema)
+  structure(res, fielddescriptor = fielddescriptor)
 }
 
 #' @export
-to_date.Date <- function(x, schema = list(), ...) {
-  schema <- complete_schema_date(schema)
+to_date.Date <- function(x, fielddescriptor = list(), ...) {
+  fielddescriptor <- complete_fielddescriptor_date(fielddescriptor)
   # Nothing to do; x is already a Data 
-  structure(x, fielddescriptor = schema)
+  structure(x, fielddescriptor = fielddescriptor)
 }
 
 # @rdname csv_colclass
 # @export
-csv_colclass_date <- function(schema = list(), ...) {
+csv_colclass_date <- function(fielddescriptor = list(), ...) {
   "character"
 }
 

@@ -1,5 +1,5 @@
 
-#' Get the field schema associated with a certain field in a Data Resource
+#' Get the Field Descriptor associated with a certain field in a Data Resource
 #'
 #' @param x a \code{dataresource} or \code{tableschema} object.
 #' @param fieldname length one character vector with the name of the field.

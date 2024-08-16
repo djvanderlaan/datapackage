@@ -1,45 +1,46 @@
 library(datapackage)
 source("helpers.R")
 
-schema <- list(
+fielddescriptor <- list(
   name = "string",
   title = "A string field",
   description = "A description",
   type = "string"
 )
-res <- datapackage:::to_string.character(c("a", "b", "", NA), schema = schema)
+res <- datapackage:::to_string.character(c("a", "b", "", NA), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c("a", "b", "", NA), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === Method call
-schema <- list(
+fielddescriptor <- list(
   name = "string",
   title = "A string field",
   description = "A description",
   type = "string"
 )
-res <- to_string(c("a", "b", "", NA), schema = schema)
+res <- to_string(c("a", "b", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c("a", "b", "", NA), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === No Schema
-schema <- list(
+fielddescriptor <- list(
   type = "string"
 )
-res <- to_string(c("a", "b", "", NA), schema = schema)
+res <- to_string(c("a", "b", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c("a", "b", "", NA), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === Empty input
 res <- to_string(character(0))
 expect_equal(res, character(0), attributes = FALSE)
 
 # === NA
-schema <- list(
+fielddescriptor <- list(
   type = "string",
   missingValues = c("NA", "<NA>")
 )
-res <- to_string(c("a", "NA", "<NA>", NA), schema)
+res <- to_string(c("a", "NA", "<NA>", NA), fielddescriptor)
 expect_equal(res, c("a", NA, NA, NA), attributes = FALSE)
 
 # =============================================================================
@@ -49,10 +50,10 @@ expect_equal(res, c("a", NA, NA, NA), attributes = FALSE)
 #expect_equal(res, "character")
 #
 ## === NA
-#schema <- list(
+#fielddescriptor <- list(
 #  type = "string",
 #  missingValues = c("NA", "<NA>")
 #)
-#res <- csv_colclass_string(schema)
+#res <- csv_colclass_string(fielddescriptor)
 #expect_equal(res, "character")
 

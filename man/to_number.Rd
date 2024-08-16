@@ -2,28 +2,28 @@
 % Please edit documentation in R/field_number.R
 \name{to_number}
 \alias{to_number}
-\title{Convert a vector to 'number' using the specified schema}
+\title{Convert a vector to 'number' using the specified field descriptor}
 \usage{
-to_number(x, schema = list(), decimalChar = ".", ...)
+to_number(x, fielddescriptor = list(), decimalChar = ".", ...)
 }
 \arguments{
 \item{x}{the vector to convert.}
 
-\item{schema}{the field schema for the field.}
+\item{fielddescriptor}{the field descriptor for the field.}
 
-\item{decimalChar}{decimal separator. Used when the field schema does not
-specify a decimal separator.}
+\item{decimalChar}{decimal separator. Used when the field field descriptor
+does not specify a decimal separator.}
 
 \item{...}{passed on to other methods.}
 }
 \value{
-Will return an \code{numeric} vector with \code{schema} added as the 'schema'
-attribute.
+Will return an \code{numeric} vector with \code{fielddescriptor} added as
+the 'fielddescriptor' attribute.
 }
 \description{
-Convert a vector to 'number' using the specified schema
+Convert a vector to 'number' using the specified field descriptor
 }
 \details{
-When \code{schema} is missing a default schema is generated using
-\code{\link{complete_schema_number}}.
+When \code{fielddescriptor} is missing a default field descriptor is
+generated using \code{\link{complete_fielddescriptor_number}}.
 }

@@ -1,6 +1,6 @@
 # What type to use when reading this column from a CSV-file
 #
-# @param schema the field schema
+# @param fielddescriptor the field descriptor
 # @param ... passed on to other methods.
 #
 # @return 
@@ -9,10 +9,10 @@
 #
 # @rdname csv_colclass
 # @export
-csv_colclass <- function(schema, ...) {
-  type <- schema$type
+csv_colclass <- function(fielddescriptor, ...) {
+  type <- fielddescriptor$type
   fun <- paste0("csv_colclass_", type)
   if (!exists(fun)) stop(fun, " does not exist.")
-  do.call(fun, c(list(schema), list(...)))
+  do.call(fun, c(list(fielddescriptor), list(...)))
 }
 

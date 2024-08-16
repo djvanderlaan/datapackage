@@ -2,7 +2,7 @@
 % Please edit documentation in R/dpfield.R
 \name{dpfield}
 \alias{dpfield}
-\title{Get the field schema associated with a certain field in a Data Resource}
+\title{Get the Field Descriptor associated with a certain field in a Data Resource}
 \usage{
 dpfield(x, fieldname)
 }
@@ -15,5 +15,5 @@ dpfield(x, fieldname)
 An object of type \code{fielddescriptor}.
 }
 \description{
-Get the field schema associated with a certain field in a Data Resource
+Get the Field Descriptor associated with a certain field in a Data Resource
 }

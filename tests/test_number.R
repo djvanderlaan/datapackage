@@ -2,64 +2,64 @@ library(datapackage)
 source("helpers.R")
 
 
-schema <- list(
+fielddescriptor <- list(
   name = "number",
   title = "A number field",
   description = "A description",
   type = "number"
 )
 res <- datapackage:::to_number.character(c("10", "-100.3", "Inf", "-Inf", "NaN", "", "-1.3E+6", 
-    "+4.3E-5", NA), schema = schema)
+    "+4.3E-5", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
   attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # Case sensitivity
 res <- datapackage:::to_number.character(c("10", "-100.3", "inf", "-inf", "nan", "", "-1.3E+6", 
-    "+4.3E-5", NA), schema = schema)
+    "+4.3E-5", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
   attributes = FALSE)
 res <- datapackage:::to_number.character(c("10", "-100.3", "INF", "-INF", "NAN", "", "-1.3E+6", 
-    "+4.3E-5", NA), schema = schema)
+    "+4.3E-5", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
   attributes = FALSE)
 
 # === numeric 
-schema <- list(
+fielddescriptor <- list(
   name = "number",
   title = "A number field",
   description = "A description",
   type = "number"
 )
 res <- datapackage:::to_number.numeric(c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E+6, 
-    +4.3E-5, NA), schema = schema)
+    +4.3E-5, NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
   attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 
 # === Method call
-schema <- list(
+fielddescriptor <- list(
   name = "number",
   title = "A number field",
   description = "A description",
   type = "number"
 )
 res <- to_number(c("10", "-100.3", "Inf", "-Inf", "NaN", "", "-1.3E+6", 
-    "+4.3E-5", NA), schema = schema)
+    "+4.3E-5", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
   attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === No Schema
-schema <- list(
+fielddescriptor <- list(
   type = "number"
 )
 res <- to_number(c("10", "-100.3", "Inf", "-Inf", "NaN", "", "-1.3E+6", 
     "+4.3E-5", NA))
 expect_equal(res, c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
   attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 
 # === Empty input
@@ -72,7 +72,7 @@ expect_equal(res, numeric(0), attributes = FALSE)
 expect_error(res <- to_number(c("foo", "10", "10", NA)))
 
 # === Other decimal signs 
-schema <- list(
+fielddescriptor <- list(
   name = "number",
   title = "A number field",
   description = "A description",
@@ -80,13 +80,13 @@ schema <- list(
   decimalChar = ","
 )
 res <- datapackage:::to_number.character(c("10", "-100,3", "Inf", "-Inf", "NaN", "", "-1,3E+6", 
-    "+4,3E-5", NA), schema = schema)
+    "+4,3E-5", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
   attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === Big mark
-schema <- list(
+fielddescriptor <- list(
   name = "number",
   title = "A number field",
   description = "A description",
@@ -95,19 +95,19 @@ schema <- list(
   groupChar = "."
 )
 res <- datapackage:::to_number.character(c("10", "-100.000,3", "1.023,12", "-Inf", "NaN", "", "-1,3E+6", 
-    "+4,3E-5", NA), schema = schema)
+    "+4,3E-5", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c(10, -100000.3, 1023.12, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
   attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === NA
-schema <- list(
+fielddescriptor <- list(
   name = "number",
   missingValues = c("--")
 )
-res <- to_number(c("10","--", "11", NA), schema)
+res <- to_number(c("10","--", "11", NA), fielddescriptor)
 expect_equal(res, c(10, NA, 11, NA), attributes = FALSE)
-expect_error(res <- to_number(c("10","---", "11", NA), schema))
+expect_error(res <- to_number(c("10","---", "11", NA), fielddescriptor))
 
 # =============================================================================
 # csv_colclass
@@ -116,7 +116,7 @@ expect_error(res <- to_number(c("10","---", "11", NA), schema))
 #res <- csv_colclass_number(list()) 
 #expect_equal(res, "numeric")
 #
-#schema <- list(
+#fielddescriptor <- list(
 #  name = "number",
 #  title = "A number field",
 #  description = "A description",
@@ -124,13 +124,13 @@ expect_error(res <- to_number(c("10","---", "11", NA), schema))
 #  decimalChar = ",",
 #  groupChar = "."
 #)
-#res <- csv_colclass_number(schema) 
+#res <- csv_colclass_number(fielddescriptor) 
 #expect_equal(res, "character")
 #
 ## === NA
-#schema <- list(
+#fielddescriptor <- list(
 #  name = "number",
 #  missingValues = c("--")
 #)
-#res <- csv_colclass_number(schema)
+#res <- csv_colclass_number(fielddescriptor)
 #expect_equal(res, "character")

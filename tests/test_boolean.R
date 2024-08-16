@@ -2,39 +2,46 @@ library(datapackage)
 source("helpers.R")
 
 
-schema <- list(
+fielddescriptor <- list(
   name = "boolean",
   title = "A boolean field",
   description = "A description",
   type = "boolean"
 )
 
-res <- datapackage:::to_boolean.character(c("TRUE", "FALSE", ""), schema = schema)
+res <- datapackage:::to_boolean.character(c("TRUE", "FALSE", ""), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", 
-  c(schema, list(trueValues = c("true", "TRUE", "True", "1"), 
+  c(fielddescriptor, list(trueValues = c("true", "TRUE", "True", "1"), 
     falseValues = c("false", "FALSE", "False", "0"))))
 
-res <- datapackage:::to_boolean.character(c("True", "False", ""), schema = schema)
+res <- datapackage:::to_boolean.character(c("True", "False", ""), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
-res <- datapackage:::to_boolean.character(c("true", "false", ""), schema = schema)
+res <- datapackage:::to_boolean.character(c("true", "false", ""), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
-res <- datapackage:::to_boolean.character(c("1", "0", ""), schema = schema)
+res <- datapackage:::to_boolean.character(c("1", "0", ""), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
-res <- datapackage:::to_boolean.character(c(), schema = schema)
+res <- datapackage:::to_boolean.character(c(), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, logical(0), attributes = FALSE)
 
-res <- datapackage:::to_boolean.character(c(""), schema = schema)
+res <- datapackage:::to_boolean.character(c(""), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, as.logical(NA), attributes = FALSE)
 
-expect_error( datapackage:::to_boolean.character(c("foo", ""), schema = schema) )
+expect_error( datapackage:::to_boolean.character(c("foo", ""), 
+    fielddescriptor = fielddescriptor) )
 
 
 # ==== Custom trueValues and falseValues
-schema <- list(
+fielddescriptor <- list(
   name = "boolean",
   title = "A boolean field",
   description = "A description",
@@ -43,85 +50,93 @@ schema <- list(
   falseValues = "no"
 )
 
-expect_error( datapackage:::to_boolean.character(c("FALSE", "TRUE", ""), schema = schema) )
+expect_error( datapackage:::to_boolean.character(c("FALSE", "TRUE", ""), 
+    fielddescriptor = fielddescriptor) )
 
-res <- datapackage:::to_boolean.character(c("yes", "no", "", "yes"), schema = schema)
+res <- datapackage:::to_boolean.character(c("yes", "no", "", "yes"), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA, TRUE), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
-# ==== No schema
+# ==== No fielddescriptor
 
 res <- datapackage:::to_boolean.character(c("true", "False", "FALSE", "0", "", NA, "TRUE"))
 expect_equal(res, c(TRUE, FALSE, FALSE, FALSE, NA, NA, TRUE), attributes = FALSE)
 
-schema <- list(
+fielddescriptor <- list(
   type = "boolean",
   trueValues = c("true", "TRUE", "True", "1"),
   falseValues = c("false", "FALSE", "False", "0")
 )
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # =============================================================================
 # to_boolean.integer
 
-schema <- list(
+fielddescriptor <- list(
   type = "boolean",
   trueValues = "1",
   falseValues = "0"
 )
-res <- datapackage:::to_boolean.integer(c(1, 0, NA), schema = schema)
+res <- datapackage:::to_boolean.integer(c(1, 0, NA), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
-expect_attribute(res, "fielddescriptor", schema)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
 
-schema <- list(
+fielddescriptor <- list(
   type = "boolean",
   trueValues = "42",
   falseValues = "0"
 )
-res <- datapackage:::to_boolean.integer(c(42, 0, NA), schema = schema)
+res <- datapackage:::to_boolean.integer(c(42, 0, NA), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
-schema <- list(
+fielddescriptor <- list(
   type = "boolean",
   trueValues = "42",
   falseValues = "1"
 )
-res <- datapackage:::to_boolean.integer(c(42, 1, NA), schema = schema)
+res <- datapackage:::to_boolean.integer(c(42, 1, NA), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
-schema <- list(
+fielddescriptor <- list(
   type = "boolean",
   trueValues = c("1", "42"),
   falseValues = "0"
 )
-res <- datapackage:::to_boolean.integer(c(42, 1, 0, NA), schema = schema)
+res <- datapackage:::to_boolean.integer(c(42, 1, 0, NA), 
+  fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, TRUE, FALSE, NA), attributes = FALSE)
 
-schema <- list(
+fielddescriptor <- list(
   type = "boolean",
   trueValues = c("1", "one"),
   falseValues = "0"
 )
-expect_error(datapackage:::to_boolean.integer(c(42, 1, 0, NA), schema = schema))
+expect_error(datapackage:::to_boolean.integer(c(42, 1, 0, NA), 
+    fielddescriptor = fielddescriptor))
 
-schema <- list(
+fielddescriptor <- list(
   type = "boolean",
   trueValues = "1",
   falseValues = "0"
 )
 expect_warning(
-  res <- datapackage:::to_boolean.integer(c(42, 1, 0, NA, 0), schema = schema)
+  res <- datapackage:::to_boolean.integer(c(42, 1, 0, NA, 0), 
+    fielddescriptor = fielddescriptor)
 )
 expect_equal(res, c(TRUE, TRUE, FALSE, NA, FALSE), attributes = FALSE)
 
 # === NA
-schema <- list(
+fielddescriptor <- list(
   name = "boolean",
   missingValues = c("--")
 )
-res <- to_boolean(c("TRUE","--", "FALSE", NA), schema)
+res <- to_boolean(c("TRUE","--", "FALSE", NA), fielddescriptor)
 expect_equal(res, c(TRUE, NA, FALSE, NA), attributes = FALSE)
-expect_error(res <- to_boolean(c("TRUE","---", "FALSE", NA), schema))
+expect_error(res <- to_boolean(c("TRUE","---", "FALSE", NA), fielddescriptor))
 
 # =============================================================================
 # csv_colclass
