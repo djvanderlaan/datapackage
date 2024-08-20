@@ -64,7 +64,7 @@ complex <- dpresource(dp, "complex") |> dpgetdata()
 print(complex)
 
 # c2
-dpcodelist(complex$factor1)
+dpcategorieslist(complex$factor1)
 
 # c3
 dptofactor(complex$factor1)
@@ -72,9 +72,6 @@ dptofactor(complex$factor1)
 # c4
 complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
 print(complex)
-
-# n5
-file.remove(file.path(dir, "datapackage.json"))
 
 # q1
 dir <- tempfile()
@@ -86,4 +83,9 @@ dploadfromdatapackage(dir) |> head()
 
 # q2
 dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
+
+# n5
+file.remove(file.path(dir, "datapackage.json"))
+file.remove(file.path(dir, "iris.csv"))
+file.remove(dir)
 
