@@ -9,52 +9,52 @@ author: Jan van der Laan
 css: "style.css"
 ---
 
-A [Data Package](https://specs.frictionlessdata.io/) is collection of files and
-consists of both data, which can be any type of information such as images and
-CSV files, and meta data. These files are usually stored in one directory
-(possibly with sub directories) although links to external data are possible.
-Meta data is data about data and consists of the information needed by software
+A [Data Package](https://datapackage.org) is collection of files and consists
+of both data, which can be any type of information such as images and CSV
+files, and meta data. These files are usually stored in one directory (possibly
+with sub directories) although links to external data are possible.  Meta data
+is data about data and consists of the information needed by software
 programmes to use the data and information needed by users of the data such as
 descriptions, names of authors, licences etc. The meta data is stored in a file
 in the directory that is usually called `datapackage.json`. The information in
 this file is what below will be called the Data Package. As mentioned, it
 contains both information on the data package itself (title, description) and
 information on a number of Data Resources. The Data Resources describe the data
-files in the data package and also consist of information like a title,
-description, but also information needed by software to use the data such as the
-path to the data (location of the data), and technical information such as how
-the data is stored. This information makes it easier to use the data. Below we
-will show how we can use the information in a Data Package to easily read in the
-data and work with the data and we will show how we can create a Data Package
-for our own data.
+files in the data package and also contains information like a title,
+description, but also information needed by software to use the data such as
+the path to the data (location of the data), and technical information such as
+how the data is stored. This information makes it easier to use the data. Below
+we will show how we can use the information in a Data Package to easily read in
+the data and work with the data and we will show how we can create a Data
+Package for our own data.
 
 ## Overview of terminology
 
 Below an overview of some of the terminology associated with Data Packages.
 
-**Data Package**
+**[Data Package](https://datapackage.org/standard/data-package/)**
 
 - Contains one or more Data Resources.
 - Has a number of properties like `title`, `name` and `description`.
 
-**Data Resource**
+**[Data Resource](https://datapackage.org/standard/data-resource/)**
 
 - Contains data either as inline data in a `data` property or external data
   pointed to by a `path` property.
 - Has a number of properties, like `title, `name`, `encoding`, ...
 
-**Tabular Data Resource**
+**[Tabular Data Resource](https://datapackage.org/standard/data-resource/#tabular)**
 
 - Is a Data Resource with an additional set of properties and constraints.
 - Has a Table Schema.
 
-**Table Schema**
+**[Table Schema](https://datapackage.org/standard/table-schema/)**
 
 - Describes a tabular data set (a data set with rows an columns; as usually
   stored in a `data.frame` in R).
 - Has one or more Field Descriptors.
 
-**Field Descriptor**
+**[Field Descriptor](https://datapackage.org/standard/table-schema/#field)**
 
 - Describes a Field (a column) in a tabular data set.
 - Has number of properties like, `name` and `type`.
@@ -217,33 +217,36 @@ above using the `dpproperty` method:
 dpproperty(iris, "encoding")
 ```
 
-## Working with Code Lists
+## Working with categories
 
-It is possible for fields to have a Code List associated with them. For example
-in the 'complex' example resource, there is a column 'factor1':
+It is possible for fields to have a list of [categories associated with
+them](https://datapackage.org/standard/table-schema/#categories). Categories are
+usually stored inside the Field Descriptor. However, the `datapackage` package
+also supports lists of categories stored in a seperate Data Resource (this is
+not part of the datapackage standard).  
+
+In the 'complex' example resource, there is a column 'factor1':
 
 ```{.R #c1}
 complex <- dpresource(dp, "complex") |> dpgetdata()
 print(complex)
 ```
 
-This is an integer column but it has an 'codelist' property set which points to
-a Data Resource in the Data Package. It is possible te get this code list
+This is an integer column but it has an 'categories' property set which points
+to a Data Resource in the Data Package. It is possible te get this list of
+categories
 ```{.R #c2}
-dpcodelist(complex$factor1)
+dpcategorieslist(complex$factor1)
 ```
-This Code List can also be used to convert the field to factor:
+This list of categories can also be used to convert the field to factor:
 ```{.R #c3}
 dptofactor(complex$factor1)
 ```
 Using the `to_factor = TRUE` argument of the `csv_reader` it is also possible to
-convert all fields which have an associated 'codelist' to factor:
+convert all fields which have an associated 'categories' field to factor:
 ```{.R #c4}
 complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
 print(complex)
-```
-```{.R #n5 echo=FALSE results=FALSE}
-file.remove(file.path(dir, "datapackage.json"))
 ```
 
 ## Creating a Data Package
@@ -276,3 +279,8 @@ on to `dpgetdata`:
 dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
 ```
 
+```{.R #n5 echo=FALSE results=FALSE}
+file.remove(file.path(dir, "datapackage.json"))
+file.remove(file.path(dir, "iris.csv"))
+file.remove(dir)
+```

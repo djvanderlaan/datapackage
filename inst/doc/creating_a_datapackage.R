@@ -24,23 +24,19 @@ data(iris)
 head(iris)
 
 # a10
-res <- dpgeneratedataresources(iris, "iris") 
-
-# a20
-print(res)
+res <- dpgeneratedataresource(iris, "iris") 
 
 # a30
-dptitle(res[[1]]) <- "The Iris dataset"
+dptitle(res) <- "The Iris dataset"
 
 # a40
 dpresources(dp) <- res
 
 # a50
-dpwritedata(dp, resourcename = "iris", data = iris, write_codelists = TRUE)
+dpwritedata(dp, resourcename = "iris", data = iris)
 
 # a60
 readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
-readLines(file.path(dir, "Species-codelist.csv")) |> writeLines()
 
 # a70
 dp2 <- opendatapackage(dir)
@@ -50,23 +46,44 @@ all.equal(iris, iris2, check.attributes = FALSE)
 # c00
 data(chickwts)
 
-res <- dpgeneratedataresources(chickwts, "chickwts") 
+res <- dpgeneratedataresource(chickwts, "chickwts") 
 dpresources(dp) <- res
+
+(feed_name <- dpresource(dp, "chickwts") |> 
+  dpfield("feed") |> dpproperty("categories"))
+
+# c01
+res <- dpgeneratedataresource(chickwts, "chickwts", 
+  categories_type = "resource") 
+dpresources(dp) <- res
+
+(feed_name <- dpresource(dp, "chickwts") |> 
+  dpfield("feed") |> dpproperty("categories"))
+
+# c02
+dpwritedata(dpresource(dp, "chickwts"), data = chickwts, write_categories = TRUE)
+list.files(dir)
+
+dpresource(dp, "feed-categories") |> dpgetdata()
 
 # c10
 codelist <- data.frame(
-  code = c(101, 102, 103, 202, 203, 204),
+  value = c(101, 102, 103, 202, 203, 204),
   label = c("casein", "horsebean", "linseed", "meatmeal", 
     "soybean", "sunflower")
 )
-codelistres <- dp |> dpresource("feed-codelist")
-dpwritedata(codelistres, data = codelist, write_codelists = FALSE)
+res <- dpgeneratedataresource(codelist, "feed-categories")
+res
+dpresources(dp) <- res
+
+codelistres <- dp |> dpresource("feed-categories")
+dpwritedata(codelistres, data = codelist, write_categories = FALSE)
 
 # c20
-readLines(file.path(dir, "feed-codelist.csv")) |> writeLines()
+readLines(file.path(dir, "feed-categories.csv")) |> writeLines()
 
 # c30
-dpwritedata(dp, resourcename = "chickwts", data = chickwts, write_codelists = FALSE)
+dpwritedata(dp, resourcename = "chickwts", data = chickwts, write_categories = FALSE)
 
 # c40
 readLines(file.path(dir, "chickwts.csv"), n = 10) |> writeLines()
