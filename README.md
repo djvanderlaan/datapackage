@@ -11,7 +11,7 @@ description of the fields in each of the datasets in the Data Package. The
 as well as creating and modifying Data Packages. More information can be found
 in the vignettes of the package:
 
-- [Introduction to `datapackage`](https://htmlpreview.github.io/?https://htmlpreview.github.io/?https://github.com/djvanderlaan/datapackage/blob/main/inst/doc/introduction.html)
+- [Introduction to `datapackage`](https://htmlpreview.github.io/?https://github.com/djvanderlaan/datapackage/blob/main/inst/doc/introduction.html)
 - [Creating a Data Package](https://htmlpreview.github.io/?https://github.com/djvanderlaan/datapackage/blob/main/inst/doc/creating_a_datapackage.html)
 
 The package supports CSV-files out of the box. Other file formats are supported
