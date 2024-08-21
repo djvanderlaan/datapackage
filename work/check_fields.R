@@ -34,30 +34,6 @@ check_integer <- function(x, fielddescriptor, check_constraints = TRUE, toleranc
   TRUE
 }
 
-check_constraint_required <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
-  name <- fielddescriptor$name
-  if (!is.null(constraints) && !is.null(constraints$required) && constraints$required && anyNA(x)) {
-    paste0("'", name, "' contains missing values while constraints require no missing values.")
-  } else TRUE
-}
-
-check_constraint_minimum <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
-  name <- fielddescriptor$name
-  if (!is.null(constraints) && !is.null(constraints$minimum)) {
-    minimum <- constraints$minimum
-    if (!is.numeric(x) || length(x) != 1 || is.na(x)) {
-      paste0("Constraint minimum for '", name, "' is not a numeric of length  1.")
-    } else if (!all(x > minimum, na.rm = TRUE)) {
-      paste0("'", name, "' contains values smaller than minimum")
-    } else TRUE
-  } else TRUE
-}
-
-check_constraint_maximum <- function(x, fielddescriptor) {
-  TRUE
-}
 
 
 source("tests/helpers.R")
@@ -95,26 +71,27 @@ fd2 <- list(name="foo", type="integer", categories = cat2)
 expect_nistrue(check_integer(fx2, fd2))
 
 fx2 <- factor(c(NA_integer_), levels=1:2, labels=c("a","b"))
-check_integer(fx2, fd)
+expect_istrue(check_integer(fx2, fd))
 
 fd2 <- list(name="foo", type="integer")
-check_integer(fx, fd2)
+expect_nistrue(check_integer(fx, fd2))
 
 x <- c(1,3,1,NA)
 fd <- list(name="foo", type="integer", constraints = list(minimum = 2))
 check_constraint_minimum(x, fd)
+expect_nistrue(check_constraint_minimum(x, fd))
 
 x <- c(1,3,1,NA)
 fd <- list(name="foo", type="integer", constraints = list(minimum = 1))
-check_constraint_minimum(x, fd)
+expect_istrue(check_constraint_minimum(x, fd))
 
 x <- c(1,3,1,NA)
 fd <- list(name="foo", type="integer", constraints = list(minimum = NA))
-check_constraint_minimum(x, fd)
+expect_nistrue(check_constraint_minimum(x, fd))
 
 x <- c(1,3,1,NA)
 fd <- list(name="foo", type="integer", constraints = list(minimum = 1:3))
-check_constraint_minimum(x, fd)
+expect_nistrue(check_constraint_minimum(x, fd))
 
 x <- c(1,3,1,NA)
 fd <- list(name="foo", type="integer")
