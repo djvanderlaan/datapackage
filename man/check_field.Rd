@@ -3,6 +3,7 @@
 \name{check_field}
 \alias{check_field}
 \alias{check_integer}
+\alias{check_number}
 \title{Check if a vector is valid given a field descriptor}
 \usage{
 check_field(
@@ -13,6 +14,13 @@ check_field(
 )
 
 check_integer(
+  x,
+  fielddescriptor,
+  constraints = TRUE,
+  tolerance = sqrt(.Machine$double.eps)
+)
+
+check_number(
   x,
   fielddescriptor,
   constraints = TRUE,

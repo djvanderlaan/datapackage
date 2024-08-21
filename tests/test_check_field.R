@@ -25,6 +25,10 @@ expect_nistrue(check_integer("3", fd))
 expect_istrue( check_integer(logical(0), fd))
 expect_nistrue(check_integer(TRUE, fd))
 
+# Check for correct type in fielddescriptor
+fd <- list(name = "foo", type = "number")
+expect_nistrue(check_integer(1:3, fd))
+
 # INTEGER: Factor and categories
 fx <- factor(c(2,1,NA), levels=1:2, labels=c("a","b"))
 cat <- list(list(value = 1, label = "a"), list(value = 2, label = "b"))
@@ -81,5 +85,59 @@ y <- check_integer(x, fd)
 expect_equal(is.character(y), TRUE)
 expect_equal(length(y), 2)
 
+
+
+# =============================================================================
+# NUMBER: Basic without constraints
+fd <- list(name = "foo", type = "number")
+expect_istrue( check_number(c(1,3,2,NA), fd))
+expect_istrue( check_number(NA, fd))
+expect_istrue( check_number(numeric(0), fd))
+expect_istrue(check_number(1.3, fd))
+expect_istrue(check_number(0.7, fd))
+expect_nistrue(check_number("3", fd))
+expect_istrue( check_number(logical(0), fd))
+expect_nistrue(check_number(TRUE, fd))
+
+# Check for correct type in fielddescriptor
+fd <- list(name = "foo", type = "integer")
+expect_nistrue(check_number(1:3, fd))
+
+# NUMBER: Constraints
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="number", constraints = list(minimum = 2))
+expect_nistrue(check_number(x, fd))
+expect_istrue(check_number(x, fd, constraints = FALSE))
+
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="number", constraints = list(maximum = 2))
+expect_nistrue(check_number(x, fd))
+expect_istrue(check_number(x, fd, constraints = FALSE))
+
+x <- c(1,NA,3,1,NA)
+fd <- list(name="foo", type="number", constraints = list(unique = TRUE))
+expect_nistrue(check_number(x, fd))
+expect_istrue(check_number(x, fd, constraints = FALSE))
+
+x <- c(1,NA,3,1,NA)
+fd <- list(name="foo", type="number", constraints = list(required = TRUE))
+expect_nistrue(check_number(x, fd))
+expect_istrue(check_number(x, fd, constraints = FALSE))
+
+x <- c(1,NA,3,1,NA)
+fd <- list(name="foo", type="number", constraints = list(exclusiveMaximum = 3))
+expect_nistrue(check_number(x, fd))
+expect_istrue(check_number(x, fd, constraints = FALSE))
+
+x <- c(1,NA,3,1,NA)
+fd <- list(name="foo", type="number", constraints = list(exclusiveMinimum = 1))
+expect_nistrue(check_number(x, fd))
+expect_istrue(check_number(x, fd, constraints = FALSE))
+
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="number", constraints = list(minimum = 2, maximum = 2))
+y <- check_number(x, fd)
+expect_equal(is.character(y), TRUE)
+expect_equal(length(y), 2)
 
 
