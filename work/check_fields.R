@@ -60,29 +60,43 @@ check_constraint_maximum <- function(x, fielddescriptor) {
 }
 
 
-fd <- list(name = "foo", type = "integer")
-check_integer(c(1,3,2,NA), fd)
-check_integer(NA, fd)
-check_integer(integer(0), fd)
-check_integer(1.3, fd)
-check_integer(0.7, fd)
-check_integer(1.3, fd, tolerance = 0.31)
-check_integer(0.7, fd, tolerance = 0.31)
-check_integer("3", fd)
-check_integer(logical(0), fd)
-check_integer(TRUE, fd)
+source("tests/helpers.R")
+expect_istrue <- function(x, ...) {
+  expect_equal( isTRUE(x), TRUE)
+}
+expect_nistrue <- function(x, ...) {
+  expect_equal( isTRUE(x), FALSE)
+}
 
+# Basic without constraints
+fd <- list(name = "foo", type = "integer")
+expect_istrue( check_integer(c(1,3,2,NA), fd))
+expect_istrue( check_integer(NA, fd))
+expect_istrue( check_integer(integer(0), fd))
+expect_nistrue(check_integer(1.3, fd))
+expect_nistrue(check_integer(0.7, fd))
+expect_istrue( check_integer(1.3, fd, tolerance = 0.31))
+expect_istrue( check_integer(0.7, fd, tolerance = 0.31))
+expect_nistrue(check_integer("3", fd))
+expect_istrue( check_integer(logical(0), fd))
+expect_nistrue(check_integer(TRUE, fd))
+
+# Factor and categories
 fx <- factor(c(2,1,NA), levels=1:2, labels=c("a","b"))
 cat <- list(list(value = 1, label = "a"), list(value = 2, label = "b"))
 fd <- list(name="foo", type="integer", categories = cat)
-check_integer(fx, fd)
+expect_istrue(check_integer(fx, fd))
+
 fx2 <- factor(c(2,1,NA), levels=1:2, labels=c("c","b"))
-check_integer(fx2, fd)
+expect_nistrue(check_integer(fx2, fd))
+
 cat2 <- list(list(value = "1", label = "a"), list(value = "2", label = "b"))
 fd2 <- list(name="foo", type="integer", categories = cat2)
-check_integer(fx, fd2)
+expect_nistrue(check_integer(fx2, fd2))
+
 fx2 <- factor(c(NA_integer_), levels=1:2, labels=c("a","b"))
 check_integer(fx2, fd)
+
 fd2 <- list(name="foo", type="integer")
 check_integer(fx, fd2)
 
