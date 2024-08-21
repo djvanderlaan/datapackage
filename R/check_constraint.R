@@ -1,7 +1,7 @@
 
 
 check_constraint_required <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
+  constraints <- dpproperty.fielddescriptor(fielddescriptor, "constraints")
   name <- fielddescriptor$name
   if (!is.null(constraints) && !is.null(constraints$required) && constraints$required && anyNA(x)) {
     paste0("'", name, "' contains missing values.")
@@ -9,7 +9,7 @@ check_constraint_required <- function(x, fielddescriptor) {
 }
 
 check_constraint_unique <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
+  constraints <- dpproperty.fielddescriptor(fielddescriptor, "constraints")
   name <- fielddescriptor$name
   if (!is.null(constraints) && !is.null(constraints$unique) && constraints$unique && anyDuplicated(x)) {
     paste0("'", name, "' contains duplicated values.")
@@ -18,7 +18,7 @@ check_constraint_unique <- function(x, fielddescriptor) {
 
 
 check_constraint_minimum <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
+  constraints <- dpproperty.fielddescriptor(fielddescriptor, "constraints")
   name <- fielddescriptor$name
   if (!is.null(constraints) && !is.null(constraints$minimum)) {
     minimum <- constraints$minimum
@@ -31,7 +31,7 @@ check_constraint_minimum <- function(x, fielddescriptor) {
 }
 
 check_constraint_maximum <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
+  constraints <- dpproperty.fielddescriptor(fielddescriptor, "constraints")
   name <- fielddescriptor$name
   if (!is.null(constraints) && !is.null(constraints$maximum)) {
     maximum <- constraints$maximum
@@ -44,7 +44,7 @@ check_constraint_maximum <- function(x, fielddescriptor) {
 }
 
 check_constraint_exclusiveminimum <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
+  constraints <- dpproperty.fielddescriptor(fielddescriptor, "constraints")
   name <- fielddescriptor$name
   if (!is.null(constraints) && !is.null(constraints$exclusiveMinimum)) {
     minimum <- constraints$exclusiveMinimum
@@ -56,10 +56,10 @@ check_constraint_exclusiveminimum <- function(x, fielddescriptor) {
   } else TRUE
 }
 
-check_constraint_exclusiveMaximum <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
+check_constraint_exclusivemaximum <- function(x, fielddescriptor) {
+  constraints <- dpproperty.fielddescriptor(fielddescriptor, "constraints")
   name <- fielddescriptor$name
-  if (!is.null(constraints) && !is.null(constraints$exclusiveMaxumum)) {
+  if (!is.null(constraints) && !is.null(constraints$exclusiveMaximum)) {
     maximum <- constraints$exclusiveMaximum
     if (!is.numeric(maximum) || length(maximum) != 1 || is.na(maximum)) {
       paste0("Constraint exclusiveMaximum for '", name, "' is not a numeric of length  1.")
@@ -70,7 +70,7 @@ check_constraint_exclusiveMaximum <- function(x, fielddescriptor) {
 }
 
 check_constraint_enum <- function(x, fielddescriptor) {
-  constraints <- datapackage:::dpproperty.fielddescriptor(fielddescriptor, "constraints")
+  constraints <- dpproperty.fielddescriptor(fielddescriptor, "constraints")
   name <- fielddescriptor$name
   if (!is.null(constraints) && !is.null(constraints$enum)) {
     enum <- constraints$enum
