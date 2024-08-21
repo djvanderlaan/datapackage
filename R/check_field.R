@@ -1,0 +1,63 @@
+
+#' Check if a vector is valid given a field descriptor
+#'
+#' @param x vector to test
+#' @param fielddescriptor field descriptor to test the vector against
+#' @param constraints also check relevant constraints in the field descriptor. 
+#' @param tolerance numerical tolerance used in some of the tests
+#'
+#' @return
+#' Returns \code{TRUE} when the field is valid. Returns a character vector with
+#' length >= 1 if the field is not valid. The text in the character values 
+#' indicates why the field is not valid.
+#'
+#' @seealso
+#' Use \code{\link{isTRUE}} to check if the test was successful. 
+#'
+#' @rdname check_field
+#' @export
+check_field <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+  # TODO
+  TRUE
+}
+
+
+#' @rdname check_field
+#' @export
+check_integer <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+  has_categories <- !is.null(dpproperty.fielddescriptor(fielddescriptor, "categories") )
+  name <- fielddescriptor$name
+  # Convert factor back to integer for further tests
+  if (is.factor(x) && has_categories) {
+    categorieslist <- dpcategorieslist.fielddescriptor(fielddescriptor)
+    if (is.null(categorieslist)) 
+      return(paste0("categories of '", name, "' not found."))
+    # TODO: get correct column using labelColumn
+    if (length(intersect(levels(x), categorieslist$label)) != nlevels(x))
+      return(paste0("Levels of '", name, "' do not match categorieslist."))
+    x <- categorieslist$value[match(x, categorieslist$label)]
+  }
+  # We expect numeric
+  is_numeric <- is.numeric(x)
+  # handle the case of all NA; which by default gets converted to logical by R
+  all_na <- is.logical(x) && all(is.na(x))
+  # check if x correct type
+  if (!is_numeric && !all_na) 
+    return(paste0("field '", name, "' is of wrong type."))
+  if (is_numeric && !is.integer(x) && any( abs(x - round(x)) > tolerance, na.rm = TRUE) )
+    return(paste0("field '", name, "' has non integer values."))
+  if (constraints) {
+    res <- list(
+      check_constraint_unique(x, fielddescriptor),
+      check_constraint_required(x, fielddescriptor),
+      check_constraint_minimum(x, fielddescriptor),
+      check_constraint_maximum(x, fielddescriptor),
+      check_constraint_exclusiveminimum(x, fielddescriptor),
+      check_constraint_exclusivemaximum(x, fielddescriptor)
+    )
+    fail <- sapply(res, \(x) !isTRUE(x)) 
+    if (any(fail)) return(unlist(res[fail]))
+  }
+  TRUE
+}
+
