@@ -57,7 +57,8 @@ check_integer <- function(x, fielddescriptor, constraints = TRUE, tolerance = sq
       check_constraint_minimum(x, fielddescriptor),
       check_constraint_maximum(x, fielddescriptor),
       check_constraint_exclusiveminimum(x, fielddescriptor),
-      check_constraint_exclusivemaximum(x, fielddescriptor)
+      check_constraint_exclusivemaximum(x, fielddescriptor),
+      check_constraint_enum(x, fielddescriptor)
     )
     fail <- sapply(res, \(x) !isTRUE(x)) 
     if (any(fail)) return(unlist(res[fail]))
@@ -88,7 +89,8 @@ check_number <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqr
       check_constraint_minimum(x, fielddescriptor),
       check_constraint_maximum(x, fielddescriptor),
       check_constraint_exclusiveminimum(x, fielddescriptor),
-      check_constraint_exclusivemaximum(x, fielddescriptor)
+      check_constraint_exclusivemaximum(x, fielddescriptor),
+      check_constraint_enum(x, fielddescriptor)
     )
     fail <- sapply(res, \(x) !isTRUE(x)) 
     if (any(fail)) return(unlist(res[fail]))

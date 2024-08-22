@@ -79,6 +79,11 @@ fd <- list(name="foo", type="integer", constraints = list(exclusiveMinimum = 1))
 expect_nistrue(check_integer(x, fd))
 expect_istrue(check_integer(x, fd, constraints = FALSE))
 
+x <- c(1,NA,3,1,NA)
+fd <- list(name="foo", type="integer", constraints = list(enum = c(2,3)))
+expect_nistrue(check_integer(x, fd))
+expect_istrue(check_integer(x, fd, constraints = FALSE))
+
 x <- c(1,3,1,NA)
 fd <- list(name="foo", type="integer", constraints = list(minimum = 2, maximum = 2))
 y <- check_integer(x, fd)
@@ -131,6 +136,11 @@ expect_istrue(check_number(x, fd, constraints = FALSE))
 
 x <- c(1,NA,3,1,NA)
 fd <- list(name="foo", type="number", constraints = list(exclusiveMinimum = 1))
+expect_nistrue(check_number(x, fd))
+expect_istrue(check_number(x, fd, constraints = FALSE))
+
+x <- c(1,NA,3,1,NA)
+fd <- list(name="foo", type="number", constraints = list(enum = c(2,3)))
 expect_nistrue(check_number(x, fd))
 expect_istrue(check_number(x, fd, constraints = FALSE))
 

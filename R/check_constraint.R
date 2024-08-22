@@ -74,7 +74,8 @@ check_constraint_enum <- function(x, fielddescriptor) {
   name <- fielddescriptor$name
   if (!is.null(constraints) && !is.null(constraints$enum)) {
     enum <- constraints$enum
-    if (!all(x %in% enum)) {
+    if (any(is.na(match(x, enum)) & !is.na(x))) {
+    #if (!all(x %in% enum)) {
       paste0("'", name, "' contains values not specified in the enum constraint.")
     } else TRUE
   } else TRUE

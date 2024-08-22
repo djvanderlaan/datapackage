@@ -205,4 +205,44 @@ x <- c(NA_integer_, NA_integer_)
 fd <- list(name="foo", type="integer")
 expect_istrue(datapackage:::check_constraint_exclusivemaximum(x, fd))
 
+# =============================================================================
+# ENUM
+
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="integer", constraints = list(enum = c(1,3)))
+expect_istrue(datapackage:::check_constraint_enum(x, fd))
+
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="integer", constraints = list(enum = c(1,3,4)))
+expect_istrue(datapackage:::check_constraint_enum(x, fd))
+
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="integer", constraints = list(enum = c(1,3,NA)))
+expect_istrue(datapackage:::check_constraint_enum(x, fd))
+
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="integer", constraints = list(enum = c(2,3)))
+expect_nistrue(datapackage:::check_constraint_enum(x, fd))
+
+x <- integer(0)
+fd <- list(name="foo", type="integer", constraints = list(enum = c(2,3)))
+expect_istrue(datapackage:::check_constraint_enum(x, fd))
+
+x <- NA_integer_
+fd <- list(name="foo", type="integer", constraints = list(enum = c(2,3)))
+expect_istrue(datapackage:::check_constraint_enum(x, fd))
+
+x <- integer(0)
+fd <- list(name="foo", type="integer", constraints = list(enum = integer(0)))
+expect_istrue(datapackage:::check_constraint_enum(x, fd))
+
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="integer")
+expect_istrue(datapackage:::check_constraint_enum(x, fd))
+
+
+
+
+
+
 
