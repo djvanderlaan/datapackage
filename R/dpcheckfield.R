@@ -14,9 +14,9 @@
 #' @seealso
 #' Use \code{\link{isTRUE}} to check if the test was successful. 
 #'
-#' @rdname check_field
+#' @rdname dpcheckfield
 #' @export
-check_field <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+dpcheckfield <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
   type <- dpproperty.fielddescriptor(fielddescriptor, "type")
   name <- dpproperty.fielddescriptor(fielddescriptor, "name")
   if (is.null(type))
@@ -38,8 +38,6 @@ check_field <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt
 }
 
 
-#' @rdname check_field
-#' @export
 check_integer <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
   has_categories <- !is.null(dpproperty.fielddescriptor(fielddescriptor, "categories") )
   name <- fielddescriptor$name
@@ -82,8 +80,6 @@ check_integer <- function(x, fielddescriptor, constraints = TRUE, tolerance = sq
   TRUE
 }
 
-#' @rdname check_field
-#' @export
 check_number <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
   if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
@@ -113,8 +109,6 @@ check_number <- function(x, fielddescriptor, constraints = TRUE)  {
   TRUE
 }
 
-#' @rdname check_field
-#' @export
 check_string <- function(x, fielddescriptor, constraints = TRUE)  {
   has_categories <- !is.null(dpproperty.fielddescriptor(fielddescriptor, "categories") )
   name <- fielddescriptor$name
@@ -151,8 +145,6 @@ check_string <- function(x, fielddescriptor, constraints = TRUE)  {
   TRUE
 }
 
-#' @rdname check_field
-#' @export
 check_boolean <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
   if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
@@ -174,8 +166,6 @@ check_boolean <- function(x, fielddescriptor, constraints = TRUE)  {
   TRUE
 }
 
-#' @rdname check_field
-#' @export
 check_date <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
   if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
