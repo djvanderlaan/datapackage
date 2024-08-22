@@ -1,0 +1,191 @@
+library(datapackage)
+
+source("helpers.R")
+
+# Some additional checks; we have functions returning a character in case of
+# an error and TRUE otherwise.
+expect_istrue <- function(x, ...) {
+  expect_equal( isTRUE(x), TRUE)
+}
+expect_nistrue <- function(x, ...) {
+  expect_equal( isTRUE(x), FALSE)
+}
+
+
+# =============================================================================
+# Check is all columns are present and not too many columns are present 
+
+dr <- list(
+    name = "test",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, b = letters[1:3])
+expect_istrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "exact",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, b = letters[1:3])
+expect_istrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "exact",
+    schema = list(
+      fields = list(
+          list(name = "b", type = "string"),
+          list(name = "a", type = "integer")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, b = letters[1:3])
+expect_nistrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "equal",
+    schema = list(
+      fields = list(
+          list(name = "b", type = "string"),
+          list(name = "a", type = "integer")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, b = letters[1:3])
+expect_istrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "equal",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3)
+expect_nistrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "subset",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3)
+expect_istrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "equal",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, b = letters[1:3], c = letters[1:3])
+expect_nistrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "superset",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, b = letters[1:3], c = letters[1:3])
+expect_istrue(dpcheckdataresource(dta, dr))
+
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "superset",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, c = letters[1:3])
+expect_nistrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "partial",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, c = letters[1:3])
+expect_istrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    fieldsMatch = "partial",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(d = 1:3, c = letters[1:3])
+expect_nistrue(dpcheckdataresource(dta, dr))
+
+# =============================================================================
+# Check if dpcheckfields is called correctly; we will not check all option of
+# dpcheckfields as this function is tested seperately
+
+dr <- list(
+    name = "test",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "string"),
+          list(name = "b", type = "string")
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = 1:3, b = letters[1:3])
+expect_nistrue(dpcheckdataresource(dta, dr))
+
+dr <- list(
+    name = "test",
+    schema = list(
+      fields = list(
+          list(name = "a", type = "integer", constraints = list(required = TRUE)),
+          list(name = "b", type = "string", constraints = list(required = TRUE))
+        )
+      )
+  ) |> structure(class = "dataresource")
+dta <- data.frame(a = c(1:3,NA), b = c(letters[1:3], NA))
+expect_nistrue(dpcheckdataresource(dta, dr))
+
+expect_error(dpcheckdataresource(dta, dr, throw = TRUE))
+
+
