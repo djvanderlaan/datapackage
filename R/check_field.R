@@ -17,8 +17,24 @@
 #' @rdname check_field
 #' @export
 check_field <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
-  # TODO
-  TRUE
+  type <- dpproperty.fielddescriptor(fielddescriptor, "type")
+  name <- dpproperty.fielddescriptor(fielddescriptor, "name")
+  if (is.null(type))
+    stop("Type missing from fielddescriptor of field '", name, "'.")
+  if (type == "boolean") {
+    check_boolean(x, fielddescriptor, constraints)
+  } else if (type == "date") {
+    check_date(x, fielddescriptor, constraints)
+  } else if (type == "integer") {
+    check_integer(x, fielddescriptor, constraints, tolerance = tolerance)
+  } else if (type == "number") {
+    check_number(x, fielddescriptor, constraints)
+  } else if (type == "string") {
+    check_string(x, fielddescriptor, constraints)
+  } else {
+    warning("Field '", name, "' has a type that cannot be checked.")
+    TRUE
+  }
 }
 
 
@@ -68,7 +84,7 @@ check_integer <- function(x, fielddescriptor, constraints = TRUE, tolerance = sq
 
 #' @rdname check_field
 #' @export
-check_number <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+check_number <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
   if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
       dpproperty.fielddescriptor(fielddescriptor, "type") != "number") {
@@ -99,7 +115,7 @@ check_number <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqr
 
 #' @rdname check_field
 #' @export
-check_string <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+check_string <- function(x, fielddescriptor, constraints = TRUE)  {
   has_categories <- !is.null(dpproperty.fielddescriptor(fielddescriptor, "categories") )
   name <- fielddescriptor$name
   if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
@@ -137,7 +153,7 @@ check_string <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqr
 
 #' @rdname check_field
 #' @export
-check_boolean <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+check_boolean <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
   if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
       dpproperty.fielddescriptor(fielddescriptor, "type") != "boolean") {
@@ -160,7 +176,7 @@ check_boolean <- function(x, fielddescriptor, constraints = TRUE, tolerance = sq
 
 #' @rdname check_field
 #' @export
-check_date <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+check_date <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
   if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
       dpproperty.fielddescriptor(fielddescriptor, "type") != "date") {

@@ -23,33 +23,13 @@ check_integer(
   tolerance = sqrt(.Machine$double.eps)
 )
 
-check_number(
-  x,
-  fielddescriptor,
-  constraints = TRUE,
-  tolerance = sqrt(.Machine$double.eps)
-)
+check_number(x, fielddescriptor, constraints = TRUE)
 
-check_string(
-  x,
-  fielddescriptor,
-  constraints = TRUE,
-  tolerance = sqrt(.Machine$double.eps)
-)
+check_string(x, fielddescriptor, constraints = TRUE)
 
-check_boolean(
-  x,
-  fielddescriptor,
-  constraints = TRUE,
-  tolerance = sqrt(.Machine$double.eps)
-)
+check_boolean(x, fielddescriptor, constraints = TRUE)
 
-check_date(
-  x,
-  fielddescriptor,
-  constraints = TRUE,
-  tolerance = sqrt(.Machine$double.eps)
-)
+check_date(x, fielddescriptor, constraints = TRUE)
 }
 \arguments{
 \item{x}{vector to test}
