@@ -4,6 +4,9 @@
 \alias{check_field}
 \alias{check_integer}
 \alias{check_number}
+\alias{check_string}
+\alias{check_boolean}
+\alias{check_date}
 \title{Check if a vector is valid given a field descriptor}
 \usage{
 check_field(
@@ -21,6 +24,27 @@ check_integer(
 )
 
 check_number(
+  x,
+  fielddescriptor,
+  constraints = TRUE,
+  tolerance = sqrt(.Machine$double.eps)
+)
+
+check_string(
+  x,
+  fielddescriptor,
+  constraints = TRUE,
+  tolerance = sqrt(.Machine$double.eps)
+)
+
+check_boolean(
+  x,
+  fielddescriptor,
+  constraints = TRUE,
+  tolerance = sqrt(.Machine$double.eps)
+)
+
+check_date(
   x,
   fielddescriptor,
   constraints = TRUE,

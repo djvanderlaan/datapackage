@@ -69,7 +69,6 @@ check_integer <- function(x, fielddescriptor, constraints = TRUE, tolerance = sq
 #' @rdname check_field
 #' @export
 check_number <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
-  has_categories <- !is.null(dpproperty.fielddescriptor(fielddescriptor, "categories") )
   name <- fielddescriptor$name
   if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
       dpproperty.fielddescriptor(fielddescriptor, "type") != "number") {
@@ -83,6 +82,103 @@ check_number <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqr
   if (!is_numeric && !all_na) 
     return(paste0("field '", name, "' is of wrong type."))
   if (constraints) {
+    res <- list(
+      check_constraint_unique(x, fielddescriptor),
+      check_constraint_required(x, fielddescriptor),
+      check_constraint_minimum(x, fielddescriptor),
+      check_constraint_maximum(x, fielddescriptor),
+      check_constraint_exclusiveminimum(x, fielddescriptor),
+      check_constraint_exclusivemaximum(x, fielddescriptor),
+      check_constraint_enum(x, fielddescriptor)
+    )
+    fail <- sapply(res, \(x) !isTRUE(x)) 
+    if (any(fail)) return(unlist(res[fail]))
+  }
+  TRUE
+}
+
+#' @rdname check_field
+#' @export
+check_string <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+  has_categories <- !is.null(dpproperty.fielddescriptor(fielddescriptor, "categories") )
+  name <- fielddescriptor$name
+  if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
+      dpproperty.fielddescriptor(fielddescriptor, "type") != "string") {
+    return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
+  }
+  # Convert factor back to integer for further tests
+  if (is.factor(x) && has_categories) {
+    categorieslist <- dpcategorieslist.fielddescriptor(fielddescriptor)
+    if (is.null(categorieslist)) 
+      return(paste0("categories of '", name, "' not found."))
+    # TODO: get correct column using labelColumn
+    if (length(intersect(levels(x), categorieslist$label)) != nlevels(x))
+      return(paste0("Levels of '", name, "' do not match categorieslist."))
+    x <- categorieslist$value[match(x, categorieslist$label)]
+  }
+  # We expect numeric
+  is_character <- is.character(x)
+  # handle the case of all NA; which by default gets converted to logical by R
+  all_na <- is.logical(x) && all(is.na(x))
+  # check if x correct type
+  if (!is_character && !all_na) 
+    return(paste0("field '", name, "' is of wrong type."))
+  if (constraints) {
+    res <- list(
+      check_constraint_unique(x, fielddescriptor),
+      check_constraint_required(x, fielddescriptor),
+      check_constraint_enum(x, fielddescriptor)
+    )
+    fail <- sapply(res, \(x) !isTRUE(x)) 
+    if (any(fail)) return(unlist(res[fail]))
+  }
+  TRUE
+}
+
+#' @rdname check_field
+#' @export
+check_boolean <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+  name <- fielddescriptor$name
+  if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
+      dpproperty.fielddescriptor(fielddescriptor, "type") != "boolean") {
+    return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
+  }
+  # check if x correct type
+  if (!is.logical(x))
+    return(paste0("field '", name, "' is of wrong type."))
+  if (constraints) {
+    res <- list(
+      check_constraint_unique(x, fielddescriptor),
+      check_constraint_required(x, fielddescriptor),
+      check_constraint_enum(x, fielddescriptor)
+    )
+    fail <- sapply(res, \(x) !isTRUE(x)) 
+    if (any(fail)) return(unlist(res[fail]))
+  }
+  TRUE
+}
+
+#' @rdname check_field
+#' @export
+check_date <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+  name <- fielddescriptor$name
+  if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
+      dpproperty.fielddescriptor(fielddescriptor, "type") != "date") {
+    return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
+  }
+  # We expect Date
+  is_date <- methods::is(x, "Date") || methods::is(x, "POSIXt")
+  # handle the case of all NA; which by default gets converted to logical by R
+  all_na <- is.logical(x) && all(is.na(x))
+  # check if x correct type
+  if (!is_date && !all_na) 
+    return(paste0("field '", name, "' is of wrong type."))
+  if (constraints) {
+    # For testing we convert to integer dates; otherwise tests like
+    # > might give weird results 
+    # d <- as.Date("2024-01-01")
+    # (d+0.2) > d # while d+0.2 is the same date as d
+    if (methods::is(x, "POSIXt")) x <- as.Date(x) else x <- trunc(x)
     res <- list(
       check_constraint_unique(x, fielddescriptor),
       check_constraint_required(x, fielddescriptor),
