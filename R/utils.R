@@ -1,9 +1,9 @@
 
 isabsolutepath <- function(path) {
   # Starts with text followed by : (eg http: or c:)
-  grepl("^[[:alpha:]]*[:]", path) || 
+  grepl("^[[:alpha:]]*[:]", path) | 
   # Starts with \ or /
-    grepl("^[/\\\\]", path) ||
+    grepl("^[/\\\\]", path) |
   # Has a ../ somewhere
     grepl("\\.\\.[/\\\\]", path)
 }
