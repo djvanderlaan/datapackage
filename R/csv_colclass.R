@@ -12,7 +12,12 @@
 csv_colclass <- function(fielddescriptor, ...) {
   type <- fielddescriptor$type
   fun <- paste0("csv_colclass_", type)
-  if (!exists(fun)) stop(fun, " does not exist.")
+  #if (!exists(fun)) stop(fun, " does not exist.")
+  if (!exists(fun)) {
+    warning(fun, " does not exist.")
+    fun <- csv_colclass_string
+
+  }
   do.call(fun, c(list(fielddescriptor), list(...)))
 }
 

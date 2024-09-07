@@ -31,8 +31,14 @@ dpapplyschema <- function(dta, resource, to_factor = FALSE, ...) {
   for (field in fieldnames) {
     fielddescriptor <- dpfield(resource, field)
     fun <- paste0("to_", fielddescriptor$type)
-    stopifnot(exists(fun))
-    fun <- get(fun)
+    if (!exists(fun)) {
+      warning("'", fun, "' does not exist; not converting field '", field, "'.")
+      fun <- function(x, fielddescriptor = list(), ...) {
+        structure(x, fielddescriptor = fielddescriptor)
+      }
+    } else fun <- get(fun)
+    #stopifnot(exists(fun))
+    #fun <- get(fun)
     res <- fun(dta[[field]], fielddescriptor, ...)
     if (to_factor) res <- dptofactor(res, warn = FALSE)
     if (is_data_table) {

@@ -77,6 +77,13 @@ to_integer.character <- function(x, fielddescriptor = list(), ...) {
   structure(res, fielddescriptor = fielddescriptor)
 }
 
+#' @export
+to_integer.integer64 <- function(x, fielddescriptor = list(), ...) {
+  # integer64 is automaticall used by fread for large numbers
+  fielddescriptor <- complete_fielddescriptor_integer(fielddescriptor)
+  structure(x, fielddescriptor = fielddescriptor)
+}
+
 
 # @rdname csv_colclass
 # @export

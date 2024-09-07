@@ -103,7 +103,7 @@ csv_read_base <- function(filename,
     if (!requireNamespace("data.table")) stop("In order to use ", 
         "'use_fread=TRUE' the data.table package needs to be installed.")
     lapply(filename, function(fn) {
-      d <- data.table::fread(filename, sep = delimiter, quote = quoteChar, 
+      d <- data.table::fread(fn, sep = delimiter, quote = quoteChar, 
         dec = decimalChar, header = header, 
         strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
         colClasses = colClasses, na.strings = nullSequence, ...)
@@ -112,7 +112,7 @@ csv_read_base <- function(filename,
     }) |> data.table::rbindlist()
   } else {
     dta <- lapply(filename, function(fn) {
-      d <- utils::read.table(filename, sep = delimiter, quote = quoteChar, 
+      d <- utils::read.table(fn, sep = delimiter, quote = quoteChar, 
         dec = decimalChar, header = header, comment.char = commentChar, 
         strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
         colClasses = colClasses, na.strings = nullSequence, ...)
