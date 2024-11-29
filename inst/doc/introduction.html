@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -86,24 +86,23 @@ code span.va { color: #19177c; }
 code span.vs { color: #4070a0; } 
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
-  <style type="text/css">
-body {
+  <style type="text/css">body {
 max-width: 50rem;
 margin-left: auto;
 margin-right: auto;
 font-family: system-ui;
-color: lightgray;
-background: #555555;
+color: black;
+background: white;
 }
 p, li {
 text-align: justify;
 }
 pre {
-background: #444;
+background: #eeeeee;
 padding: 0.5rem;
 }
 h1, h2, h3, h4, h5 {
-color: orange;
+color: #444444;
 font-weight: bold;
 }
 h4, h5 {
@@ -113,42 +112,28 @@ h2 {
 margin-top: 3rem;
 }
 a {
-color: orange;
+color: black;
 }
 a:hover {
 color: lightblue;
 }
 pre code {
-color: white;
+color: black;
 background: inherit;
 padding: 0;
 }
 code {
-color: #e5c892;
-background: #444;
+color: black;
+background: #eeeeee;
 padding: 0.2rem;
 }
-
 p.author {
 font-weight : bold;
-color: orange;
+color: #444444;
 }
-
 code {
-color : lightgray;
+color : black;
 }
-code span.op {
-color: #cccccc;
-}
-code span.kw, code span.cf {
-color: #30bd58;
-}
-code span.st {
-color: #76a9db; }
-code span.dv, code span.ot, code span.fl{
-color: #7fd0a8; }
-code span.dt, code span.er {
-color: #ee8c70; }
 </style>
 </head>
 <body>
@@ -232,7 +217,7 @@ package:</p>
 <span id="g1-7"><a href="#g1-7" aria-hidden="true" tabindex="-1"></a>A description</span>
 <span id="g1-8"><a href="#g1-8" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="g1-9"><a href="#g1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpfFQGPc<span class="sc">/</span>Rinstd3a91618af6e<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>iris<span class="sc">&gt;</span></span>
+<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpccAGpb<span class="sc">/</span>Rinst34822556a74272<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>iris<span class="sc">&gt;</span></span>
 <span id="g1-11"><a href="#g1-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
 <span id="g1-12"><a href="#g1-12" aria-hidden="true" tabindex="-1"></a>[iris] The iris data set</span>
 <span id="g1-13"><a href="#g1-13" aria-hidden="true" tabindex="-1"></a>[complex] A complex example dataset</span>
@@ -311,9 +296,9 @@ is located or a URL. To open a file inside the Data Package one also
 needs the location of the Data Package. This is stored in the
 <code>path</code> attribute of the Data Package and Resource:</p>
 <div class="sourceCode" id="g9"><pre class="sourceCode R"><code class="sourceCode r"><span id="g9-1"><a href="#g9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">attr</span>(dp, <span class="st">&quot;path&quot;</span>)</span>
-<span id="g9-2"><a href="#g9-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpfFQGPc/Rinstd3a91618af6e/datapackage/examples/iris&quot;</span></span>
+<span id="g9-2"><a href="#g9-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpccAGpb/Rinst34822556a74272/datapackage/examples/iris&quot;</span></span>
 <span id="g9-3"><a href="#g9-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">attr</span>(iris, <span class="st">&quot;path&quot;</span>)</span>
-<span id="g9-4"><a href="#g9-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpfFQGPc/Rinstd3a91618af6e/datapackage/examples/iris&quot;</span></span></code></pre></div>
+<span id="g9-4"><a href="#g9-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpccAGpb/Rinst34822556a74272/datapackage/examples/iris&quot;</span></span></code></pre></div>
 <p>Using the <code>fullpath = TRUE</code> argument, <code>path</code>
 will return the full path to the file:</p>
 <div class="sourceCode" id="g10"><pre class="sourceCode R"><code class="sourceCode r"><span id="g10-1"><a href="#g10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> fn <span class="ot">&lt;-</span> <span class="fu">dppath</span>(iris, <span class="at">fullpath =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
@@ -391,7 +376,7 @@ when one wants to use the path to read the data.</p>
 <div class="sourceCode" id="r3"><pre class="sourceCode R"><code class="sourceCode r"><span id="r3-1"><a href="#r3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dppath</span>(iris)</span>
 <span id="r3-2"><a href="#r3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;iris.csv&quot;</span></span>
 <span id="r3-3"><a href="#r3-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dppath</span>(iris, <span class="at">fullpath =</span> <span class="cn">TRUE</span>)</span>
-<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpfFQGPc/Rinstd3a91618af6e/datapackage/examples/iris/iris.csv&quot;</span></span></code></pre></div>
+<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpccAGpb/Rinst34822556a74272/datapackage/examples/iris/iris.csv&quot;</span></span></code></pre></div>
 <p>It is also possible to get other properties than the ones explicitly
 mentioned above using the <code>dpproperty</code> method:</p>
 <div class="sourceCode" id="r4"><pre class="sourceCode R"><code class="sourceCode r"><span id="r4-1"><a href="#r4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dpproperty</span>(iris, <span class="st">&quot;encoding&quot;</span>)</span>

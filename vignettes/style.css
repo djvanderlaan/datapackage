@@ -1,22 +1,20 @@
-
-
 body {
   max-width: 50rem;
   margin-left: auto;
   margin-right: auto;
   font-family: system-ui;
-  color: lightgray;
-  background: #555555;
+  color: black;
+  background: white;
 }
 p, li {
   text-align: justify;
 }
 pre {
-  background: #444;
+  background: #eeeeee;
   padding: 0.5rem;
 }
 h1, h2, h3, h4, h5 {
-  color: orange;
+  color: #444444;
   font-weight: bold;
 }
 h4, h5 {
@@ -26,44 +24,26 @@ h2 {
   margin-top: 3rem;
 }
 a {
-  color: orange;
+  color: black;
 }
 a:hover {
   color: lightblue;
 }
 pre code {
-  color: white;
+  color: black;
   background: inherit;
   padding: 0;
 }
 code {
-  color: #e5c892;
-  background: #444;
+  color: black;
+  background: #eeeeee;
   padding: 0.2rem;
 }
-
-/* Specific styling */
 p.author {
   font-weight : bold;
-  color: orange;
+  color: #444444;
+}
+code {
+  color : black;
 }
 
-/* Code */
-code {
-  color : lightgray;
-}
-code span.op {
-  color: #cccccc;
-}
-code span.kw, code span.cf {
-  color: #30bd58;
-}
-code span.st {
-  color: #76a9db; 
-}
-code span.dv, code span.ot, code span.fl{
-  color: #7fd0a8; 
-}
-code span.dt, code span.er {
-  color: #ee8c70; 
-}
