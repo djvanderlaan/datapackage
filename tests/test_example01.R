@@ -35,7 +35,7 @@ expect_equal(dptofactor(dta$factor1),
   attributes = FALSE
 )
 
-dta <- dpgetdata(res, to_factor = TRUE)
+dta <- dpgetdata(res, convert_categories = "to_factor")
 # We expect that other fields than the factor fields are ok; we tested that
 # previously. Here test only the factor variables
 expect_equal(dta$factor1, 
@@ -61,7 +61,7 @@ expect_equal(sapply(dta, class),
   date1 = "Date", factor1 = "integer", factor2 = "character")
 )
 
-dta <- dp |> dpresource("complex-empty") |> dpgetdata(to_factor = TRUE)
+dta <- dp |> dpresource("complex-empty") |> dpgetdata(convert_categories = "to_factor")
 # We expect that other fields than the factor fields are ok; we tested that
 # previously. Here test only the factor variables
 expect_equal(dta$factor1, 

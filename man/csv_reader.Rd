@@ -8,7 +8,7 @@ csv_reader(
   path,
   resource,
   use_fread = FALSE,
-  to_factor = FALSE,
+  convert_categories = c("no", "to_factor"),
   as_connection = FALSE,
   ...
 )
@@ -21,8 +21,9 @@ csv_reader(
 \item{use_fread}{use the \code{\link[data.table]{fread}} function instead of
 \code{\link[utils]{read.csv}} and return a \code{data.table}.}
 
-\item{to_factor}{convert columns to factor if the schema has a categories
-field for the column. Passed on to \code{\link{dpapplyschema}}.}
+\item{convert_categories}{how to handle columns for which the field
+descriptor has a \code{categories} property. Passed on to
+\code{\link{dpapplyschema}}.}
 
 \item{as_connection}{This argument is ignored. The function will always
 return a \code{data.frame}.}

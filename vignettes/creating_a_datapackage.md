@@ -119,7 +119,7 @@ readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
 And of course we can open the datapackage and read the data back in:
 ```{.R #a70}
 dp2 <- opendatapackage(dir)
-iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
+iris2 <- dp2 |> dpresource("iris") |> dpgetdata(convert_categories = "to_factor")
 all.equal(iris, iris2, check.attributes = FALSE)
 ```
 

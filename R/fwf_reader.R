@@ -3,11 +3,10 @@
 #' @param path path to the data set. 
 #' 
 #' @param resource a Data Resource.
-#' @param to_factor convert columns to factor if the schema has a categories
-#'   property for the column.
 #'
-#' @param to_factor convert columns to factor if the schema has a categories
-#'   field for the column. Passed on to \code{\link{dpapplyschema}}.
+#' @param convert_categories how to handle columns for which the field
+#'   descriptor has a \code{categories} property. Passed on to
+#'   \code{\link{dpapplyschema}}.
 #'
 #' @param ... additional arguments are passed on to \code{\link{dpapplyschema}}.
 #'
@@ -18,7 +17,7 @@
 #' Returns a \code{data.frame} with the data.
 #'
 #' @export
-fwf_reader <- function(path, resource, to_factor = FALSE, ...) {
+fwf_reader <- function(path, resource, convert_categories = c("no", "to_factor"), ...) {
   # Read fwfspec
   fwfspec <- dpproperty(resource, "fwfspec")
   if (is.null(fwfspec)) stop("Required fwfspec is missing from resource meta.")
@@ -69,7 +68,7 @@ fwf_reader <- function(path, resource, to_factor = FALSE, ...) {
     if (is.character(dta[[col]])) Encoding(dta[[col]]) <- encoding
   # apply schema
   if (!is.null(schema)) {
-    dta <- dpapplyschema(dta, resource, to_factor = to_factor, 
+    dta <- dpapplyschema(dta, resource, convert_categories = convert_categories, 
       decimalChar = dec, ...)
   }
   structure(dta, resource = resource)

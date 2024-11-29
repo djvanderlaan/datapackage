@@ -6,7 +6,7 @@ dir <- tempfile()
 
 dpsaveasdatapackage(iris, dir)
 
-iris2 <- dploadfromdatapackage(dir, to_factor = TRUE)
+iris2 <- dploadfromdatapackage(dir, convert_categories = "to_factor")
 
 
 expect_equal(iris,iris2, attributes = FALSE)
@@ -18,7 +18,7 @@ ignore <- file.remove(list.files(dir, full.names = TRUE))
 
 dpsaveasdatapackage(tmp, dir, categories_type = "resource")
 
-tmp2 <- dploadfromdatapackage(dir, to_factor = TRUE)
+tmp2 <- dploadfromdatapackage(dir, convert_categories = "to_factor")
 expect_equal(tmp, tmp2, attributes = FALSE)
 expect_equal(levels(tmp$Species), levels(tmp2$Species))
 

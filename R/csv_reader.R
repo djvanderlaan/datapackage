@@ -6,8 +6,9 @@
 #' @param resource a Data Resource.
 #' @param use_fread use the \code{\link[data.table]{fread}} function instead of
 #'   \code{\link[utils]{read.csv}} and return a \code{data.table}.
-#' @param to_factor convert columns to factor if the schema has a categories
-#'   field for the column. Passed on to \code{\link{dpapplyschema}}.
+#' @param convert_categories how to handle columns for which the field
+#'   descriptor has a \code{categories} property. Passed on to
+#'   \code{\link{dpapplyschema}}.
 #' @param as_connection This argument is ignored. The function will always
 #'   return a \code{data.frame}.
 #' @param ... additional arguments are passed on to \code{\link{read.csv}} or
@@ -22,8 +23,8 @@
 #' Returns a \code{data.frame} with the data.
 #'
 #' @export
-csv_reader <- function(path, resource, use_fread = FALSE, to_factor = FALSE, 
-    as_connection = FALSE, ...) {
+csv_reader <- function(path, resource, use_fread = FALSE, 
+    convert_categories = c("no", "to_factor"), as_connection = FALSE, ...) {
   schema <- dpschema(resource)
   if (is.null(schema)) {
     dta <- csv_read_base(path, use_fread = use_fread, ...)
@@ -35,8 +36,8 @@ csv_reader <- function(path, resource, use_fread = FALSE, to_factor = FALSE,
     # TODO: missing values/na.strings
     dta <- csv_read_base(path, decimalChar = dec, colClasses = colclasses, 
       use_fread = use_fread, csv_dialect = dialect, ...)
-    dta <- dpapplyschema(dta, resource, to_factor = to_factor, decimalChar = dec)
-    #dta <- convert_using_schema(dta, schema, to_factor = to_factor, decimalChar = dec)
+    dta <- dpapplyschema(dta, resource, convert_categories = convert_categories, 
+      decimalChar = dec)
   }
   structure(dta, resource = resource)
 }

@@ -18,7 +18,7 @@ dpwritedata(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 
 # OPen the new datapacakge, read the data and check
 dp2 <- opendatapackage(dir)
-iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
+iris2 <- dp2 |> dpresource("iris") |> dpgetdata(convert_categories = "to_factor")
 expect_equal(iris, iris2, attributes = FALSE)
 
 # Clean up
@@ -49,7 +49,7 @@ dpwritedata(dp, resourcename = "iris", data = iris, write_categories = FALSE)
 
 # Open the new datapacakge, read the data and check
 dp2 <- opendatapackage(dir)
-iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
+iris2 <- dp2 |> dpresource("iris") |> dpgetdata(convert_categories = "to_factor")
 # Check the levels
 expect_equal(levels(iris2$Species), c("setosa", "virginica", "versicolor"))
 # We need to convert to character as the levels are in a differnet order
@@ -59,7 +59,7 @@ iris2$Species <- as.character(iris2$Species)
 expect_equal(iris, iris2, attributes = FALSE)
 
 # Check if the file has the correct codes
-iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = FALSE)
+iris2 <- dp2 |> dpresource("iris") |> dpgetdata(convert_categories = "no")
 expect_equal(unique(iris2$Species), c(101, 103, 102))
 
 for (f in list.files(dir, full.names = TRUE)) file.remove(f)
@@ -81,7 +81,7 @@ dpresources(dp) <- res
 dpwritedata(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 # OPen the new datapacakge, read the data and check
 dp2 <- opendatapackage(dir)
-iris2 <- dp2 |> dpresource("iris") |> dpgetdata(to_factor = TRUE)
+iris2 <- dp2 |> dpresource("iris") |> dpgetdata(convert_categories = "to_factor")
 expect_equal(iris, iris2, attributes = FALSE)
 # Clean up
 for (f in list.files(dir, full.names = TRUE)) file.remove(f)

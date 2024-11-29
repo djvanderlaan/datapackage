@@ -44,11 +44,11 @@ expect_equal(csv, expected)
 # without to_factor
 dp2 <- opendatapackage(newdir)
 dta <- dp |> dpresource("complex") |> dpgetdata()
-dta2 <- dp2 |> dpresource("complex") |> dpgetdata(to_factor = FALSE)
+dta2 <- dp2 |> dpresource("complex") |> dpgetdata(convert_categories = "no")
 expect_equal(dta, dta2, attributes = FALSE)
 # with to_factor
-dta <- dpgetdata(dp, "complex", to_factor = TRUE)
-dta2 <- dp2 |> dpresource("complex") |> dpgetdata(to_factor = TRUE)
+dta <- dpgetdata(dp, "complex", convert_categories = "to_factor")
+dta2 <- dp2 |> dpresource("complex") |> dpgetdata(convert_categories = "to_factor")
 expect_equal(dta, dta2, attributes = FALSE)
 
 
@@ -114,11 +114,11 @@ expect_equal(csv, expected)
 # without to_factor
 dp2 <- opendatapackage(newdir)
 dta <- dp |> dpresource("complex") |> dpgetdata()
-dta2 <- dp2 |> dpresource("complex") |> dpgetdata(to_factor = FALSE)
+dta2 <- dp2 |> dpresource("complex") |> dpgetdata(convert_categories = "no")
 expect_equal(dta, dta2, attributes = FALSE)
 # with to_factor
-dta <- dpgetdata(dp, "complex", to_factor = TRUE)
-dta2 <- dp2 |> dpresource("complex") |> dpgetdata(to_factor = TRUE)
+dta <- dpgetdata(dp, "complex", convert_categories = "to_factor")
+dta2 <- dp2 |> dpresource("complex") |> dpgetdata(convert_categories = "to_factor")
 expect_equal(dta, dta2, attributes = FALSE)
 
 

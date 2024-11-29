@@ -242,10 +242,11 @@ This list of categories can also be used to convert the field to factor:
 ```{.R #c3}
 dptofactor(complex$factor1)
 ```
-Using the `to_factor = TRUE` argument of the `csv_reader` it is also possible to
+Using the `convert_categories = "to_factor"` argument of the `csv_reader` it is also possible to
 convert all fields which have an associated 'categories' field to factor:
 ```{.R #c4}
-complex <- dpresource(dp, "complex") |> dpgetdata(to_factor = TRUE)
+complex <- dpresource(dp, "complex") |> 
+  dpgetdata(convert_categories = "to_factor")
 print(complex)
 ```
 
@@ -276,7 +277,8 @@ name of the Data Resource that should be read. Additional arguments are passed
 on to `dpgetdata`:
 
 ```{.R #q2}
-dploadfromdatapackage(dir, "iris", to_factor = TRUE, use_fread = TRUE)
+dploadfromdatapackage(dir, "iris", convert_categories = "to_factor", 
+  use_fread = TRUE)
 ```
 
 ```{.R #n5 echo=FALSE results=FALSE}

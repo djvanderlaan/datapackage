@@ -4,18 +4,25 @@
 \alias{dpapplyschema}
 \title{Convert columns of data.frame to their correct types using table schema}
 \usage{
-dpapplyschema(dta, resource, to_factor = FALSE, ...)
+dpapplyschema(dta, resource, convert_categories = c("no", "to_factor"), ...)
 }
 \arguments{
 \item{dta}{a \code{data.frame} or \code{data.table}.}
 
 \item{resource}{an object with the Data Resource of the data set.}
 
-\item{to_factor}{convert columns to factor if the field descriptor had a
-\code{categories} field for the column.}
+\item{convert_categories}{how to handle columns for which the field
+descriptor has a \code{categories} property.  This should either be the
+strings "no", "to_factor", the name of a function or a function. The
+function receives each column and should convert the column. For example,
+in case of "to_factor" the function \code{\link{dptofactor}} is called on
+the column.}
 
 \item{...}{additional arguments are passed on to the \code{to_<fieldtype>} 
 functions (e.g. \code{\link{to_number}}).}
+
+\item{to_factor}{convert columns to factor if the field descriptor had a
+\code{categories} field for the column.}
 }
 \description{
 Convert columns of data.frame to their correct types using table schema

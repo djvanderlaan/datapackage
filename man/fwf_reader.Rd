@@ -4,15 +4,16 @@
 \alias{fwf_reader}
 \title{Read the FWF-data for a Data Resource}
 \usage{
-fwf_reader(path, resource, to_factor = FALSE, ...)
+fwf_reader(path, resource, convert_categories = c("no", "to_factor"), ...)
 }
 \arguments{
 \item{path}{path to the data set.}
 
 \item{resource}{a Data Resource.}
 
-\item{to_factor}{convert columns to factor if the schema has a categories
-field for the column. Passed on to \code{\link{dpapplyschema}}.}
+\item{convert_categories}{how to handle columns for which the field
+descriptor has a \code{categories} property. Passed on to
+\code{\link{dpapplyschema}}.}
 
 \item{...}{additional arguments are passed on to \code{\link{dpapplyschema}}.}
 }

@@ -74,7 +74,7 @@ expect_equal(dpproperty(tmp, "codelist"), NULL)
 
 
 # ==================================================================
-dta <- dp |> dpresource("complex") |> dpgetdata(to_factor = TRUE)
+dta <- dp |> dpresource("complex") |> dpgetdata(convert_categories = "to_factor")
 
 tmp <- dpgeneratefielddescriptor(dta$factor1, "f1")
 expect_equal(dpproperty(tmp, "name"), "f1")

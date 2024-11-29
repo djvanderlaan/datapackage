@@ -7,6 +7,7 @@ dp <- opendatapackage(fn)
 dp
 
 dta <- dp |> dpgetdata("complex", to_factor = FALSE)
+dta
 
 dp |> dpgetdata("complex", to_factor = TRUE)
 
@@ -32,6 +33,8 @@ dptocoded <- function(x, categorieslist = dpcategorieslist(x), ..., warn = FALSE
   codelist <- codelist(categorieslist, code = "value", label = "label", ...)
   coded(x, codelist = codelist)
 }
+
+dp |> dpresource("complex") |> dpgetdata(to_factor = TRUE, convert_categories = "dptocoded")
 
 dptocoded(dta$factor1)
 
