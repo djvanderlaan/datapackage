@@ -1,0 +1,93 @@
+{
+  "name": "employment",
+  "resources": [
+    {
+      "name": "employment",
+      "path": "employment.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "employmentstatus",
+            "type": "integer",
+            "categories": {
+              "resource": "employmentstatus-categories"
+            }
+          },
+          {
+            "name": "age",
+            "type": "number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "employmentstatus-categories",
+      "path": "employmentstatus-categories.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "categoryFieldMap": {
+        "value": "value",
+        "label": "label"
+      },
+      "schema": {
+        "fields": [
+          {
+            "name": "value",
+            "type": "integer"
+          },
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "label2",
+            "type": "string"
+          },
+          {
+            "name": "missing",
+            "type": "boolean"
+          }
+        ]
+      }
+    },
+    {
+      "name": "employmentstatus-categories2",
+      "path": "employmentstatus-categories.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "categoryFieldMap": {
+        "value": "value",
+        "label": "label2"
+      },
+      "schema": {
+        "fields": [
+          {
+            "name": "code",
+            "type": "integer"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "label2",
+            "type": "string"
+          },
+          {
+            "name": "missing",
+            "type": "boolean"
+          }
+        ]
+      }
+    }
+  ]
+}
