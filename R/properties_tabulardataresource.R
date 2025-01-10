@@ -5,13 +5,13 @@
 
 #' @export
 #' @rdname properties_dataresource
-dpschema <- function(x) {
-  UseMethod("dpschema")
+dp_schema <- function(x) {
+  UseMethod("dp_schema")
 }
 
 #' @export
 #' @rdname properties_dataresource
-dpschema.dataresource <- function(x) {
+dp_schema.dataresource <- function(x) {
   schema <- dp_property(x, "schema")
   if (is.null(schema)) return(schema)
   # Handle the case that schema is a string e.g. a path

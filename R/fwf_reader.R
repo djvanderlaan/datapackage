@@ -24,7 +24,7 @@ fwf_reader <- function(path, resource, convert_categories = c("no", "to_factor")
   lengths <- sapply(fwfspec, \(x) x$length)
   names   <- sapply(fwfspec, \(x) x$name)
   # Get schema
-  schema  <- dpschema(resource)
+  schema  <- dp_schema(resource)
   # 
   dec <- "."
   column_types <- rep("string", length(lengths))

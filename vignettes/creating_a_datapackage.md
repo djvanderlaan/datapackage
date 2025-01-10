@@ -52,10 +52,10 @@ The following methods a currently (when writing the vignette) supported:
 - `dp_title<-`
 - `dp_contributors<-` and `dp_add_contributor<-`
 - `dp_description<-`
-- `dpid<-`
+- `dp_id<-`
 - `dp_name<-`
-- `dpcreated<-`
-- `dpkeywords<-`
+- `dp_created<-`
+- `dp_keywords<-`
 - `dp_property<-`: this function also allow custom properties.
 
 For an up to data list run the following:
@@ -205,8 +205,8 @@ argument when opening the Data Package:
 ```{.R #e00}
 edit <- open_datapackage(dir, readonly = FALSE)
  
-dpid(edit) <- "iris_chkwts"
-dpcreated(edit) <- Sys.time() |> as.Date()
+dp_id(edit) <- "iris_chkwts"
+dp_created(edit) <- Sys.time() |> as.Date()
 ```
 
 Showing the complete `datapackage.json` file after all of the edits in this

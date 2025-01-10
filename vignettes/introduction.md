@@ -181,9 +181,9 @@ For `datapackage` objects there are currently defined the following methods:
 - `dp_name`
 - `dp_title`
 - `dp_description`
-- `dpkeywords`
-- `dpcreated`
-- `dpid`
+- `dp_keywords`
+- `dp_created`
+- `dp_id`
 - `dp_contributors`
 
 For `dataresource` objects there are currently defined the following methods

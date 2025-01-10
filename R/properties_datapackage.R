@@ -132,25 +132,25 @@ dp_description.datapackage <- function(x, ..., firstparagraph = FALSE,
 
 #' @export
 #' @rdname properties_datapackage
-dpkeywords <- function(x, ...) {
-  UseMethod("dpkeywords")
+dp_keywords <- function(x, ...) {
+  UseMethod("dp_keywords")
 }
 
 #' @export
 #' @rdname properties_datapackage
-dpkeywords.datapackage <- function(x, ...) {
+dp_keywords.datapackage <- function(x, ...) {
   dp_property(x, "keywords")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpkeywords<-` <- function(x, value) {
-  UseMethod("dpkeywords<-")
+`dp_keywords<-` <- function(x, value) {
+  UseMethod("dp_keywords<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpkeywords<-.datapackage` <- function(x, value) {
+`dp_keywords<-.datapackage` <- function(x, value) {
   if (!is.null(value) && !is.character(value)) 
     stop("value should be a character vector")
   dp_property(x, "keywords") <- value
@@ -163,25 +163,25 @@ dpkeywords.datapackage <- function(x, ...) {
 
 #' @export
 #' @rdname properties_datapackage
-dpcreated <- function(x, ...) {
-  UseMethod("dpcreated")
+dp_created <- function(x, ...) {
+  UseMethod("dp_created")
 }
 
 #' @export
 #' @rdname properties_datapackage
-dpcreated.datapackage <- function(x, ...) {
+dp_created.datapackage <- function(x, ...) {
   dp_property(x, "created")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpcreated<-` <- function(x, value) {
-  UseMethod("dpcreated<-")
+`dp_created<-` <- function(x, value) {
+  UseMethod("dp_created<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpcreated<-.datapackage` <- function(x, value) {
+`dp_created<-.datapackage` <- function(x, value) {
   if (!is.null(value) && !(methods::is(value, "Date") && length(value) == 1) )
     stop("value should be a Date vector of length 1.")
   dp_property(x, "created") <- value
@@ -194,25 +194,25 @@ dpcreated.datapackage <- function(x, ...) {
 
 #' @export
 #' @rdname properties_datapackage
-dpid <- function(x, ...) {
-  UseMethod("dpid")
+dp_id <- function(x, ...) {
+  UseMethod("dp_id")
 }
 
 #' @export
 #' @rdname properties_datapackage
-dpid.datapackage <- function(x, ...) {
+dp_id.datapackage <- function(x, ...) {
   dp_property(x, "id")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpid<-` <- function(x, value) {
-  UseMethod("dpid<-")
+`dp_id<-` <- function(x, value) {
+  UseMethod("dp_id<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpid<-.datapackage` <- function(x, value) {
+`dp_id<-.datapackage` <- function(x, value) {
   if (!is.null(value) && !(isname(value)))
     stop("value should be a character vector of length 1.")
   dp_property(x, "id") <- value

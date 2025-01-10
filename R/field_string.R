@@ -6,7 +6,6 @@
 #' @return
 #' Returns \code{fielddescriptor} with the required fields added. 
 #'
-#' @export
 complete_fielddescriptor_string <- function(fielddescriptor) {
   if (!exists("type", fielddescriptor)) 
     fielddescriptor[["type"]] <- "string"

@@ -25,7 +25,7 @@
 #' @export
 csv_reader <- function(path, resource, use_fread = FALSE, 
     convert_categories = c("no", "to_factor"), as_connection = FALSE, ...) {
-  schema <- dpschema(resource)
+  schema <- dp_schema(resource)
   if (is.null(schema)) {
     dta <- csv_read_base(path, use_fread = use_fread, ...)
   } else {

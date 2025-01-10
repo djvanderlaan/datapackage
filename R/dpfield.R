@@ -28,7 +28,7 @@ dp_field.tableschema <- function(x, fieldname) {
 
 #' @export
 dp_field.dataresource <- function(x, fieldname) {
-  schema <- dpschema(x)
+  schema <- dp_schema(x)
   if (is.null(schema)) stop("Data Resource does not have a schema property.")
   dp_field(schema, fieldname)
 }
