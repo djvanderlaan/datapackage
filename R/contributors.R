@@ -18,21 +18,21 @@
 #' @param value a contributor object
 #'
 #' @return
-#' \code{newcontributor} returns a list with the given properties. This function
+#' \code{new_contributor} returns a list with the given properties. This function
 #' is meant to assist in creating valid contributors. 
 #'
 #' @examples
-#' dp <- opendatapackage(system.file(package = "datapackage", "examples/iris")) 
-#' dpcontributors(dp)
-#' dpcontributors(dp) <- list(
-#'   newcontributor("John Doe", email = "j.doe@somewhere.org"),
+#' dp <- open_datapackage(system.file(package = "datapackage", "examples/iris")) 
+#' dp_contributors(dp)
+#' dp_contributors(dp) <- list(
+#'   new_contributor("John Doe", email = "j.doe@somewhere.org"),
 #'   list(title = "Jane Doe", role = "maintainer")
 #' )
-#' dpaddcontributor(dp) <- newcontributor("Janet Doe")
+#' dp_add_contributor(dp) <- new_contributor("Janet Doe")
 #'
 #' @export
 #' @rdname contributor
-newcontributor <- function(title, 
+new_contributor <- function(title, 
     role = c("contributor", "author", "publisher", "maintainer", "wrangler"), 
     path = NULL, email = NULL, organisation = NULL) {
   stopifnot(isstring(title))
@@ -48,7 +48,7 @@ newcontributor <- function(title,
   res
 }
 
-iscontributor <- function(x) {
+is_contributor <- function(x) {
   is.list(x) && exists("title", x) && isstring(x$title) &&
     (!exists("path", x) || isurl(x$path)) &&
     (!exists("email", x) || isstring(x$email)) &&
@@ -86,9 +86,9 @@ str.contributors <- function(object, ...) {
 
 #' @export
 #' @rdname contributor
-dpaddcontributor <- function(x, contributor) {
-  if (!iscontributor(contributor)) stop("Invalid contributor.")
-  contributors <- dpcontributors(x)
+dp_add_contributor <- function(x, contributor) {
+  if (!is_contributor(contributor)) stop("Invalid contributor.")
+  contributors <- dp_contributors(x)
   if (is.null(contributors)) {
     contributors <- list(contributor)
   } else {
@@ -100,35 +100,35 @@ dpaddcontributor <- function(x, contributor) {
 
 #' @export
 #' @rdname contributor
-`dpaddcontributor<-` <- function(x, value) {
-  dpaddcontributor(x, value)
+`dp_add_contributor<-` <- function(x, value) {
+  dp_add_contributor(x, value)
 }
 
 
 #' @export
 #' @rdname properties_datapackage
-dpcontributors <- function(x, ...) {
-  UseMethod("dpcontributors")
+dp_contributors <- function(x, ...) {
+  UseMethod("dp_contributors")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpcontributors<-` <- function(x, value) {
-  UseMethod("dpcontributors<-")
+`dp_contributors<-` <- function(x, value) {
+  UseMethod("dp_contributors<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-dpcontributors.datapackage <- function(x, ...) {
+dp_contributors.datapackage <- function(x, ...) {
   res <- dp_property(x, "contributors")
   if (is.null(res)) res else structure(res, class = "contributors")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpcontributors<-.datapackage` <- function(x, value) {
+`dp_contributors<-.datapackage` <- function(x, value) {
   if (!is.list(value) || !is.null(names(value)) || 
-      !all(sapply(value, iscontributor))) {
+      !all(sapply(value, is_contributor))) {
     stop("value should be an unnamed list of contributors.")
   }
   value <- lapply(value, stripattributes)

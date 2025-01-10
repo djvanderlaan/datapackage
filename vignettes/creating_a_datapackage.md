@@ -13,13 +13,13 @@ This vignette will show how to create and edit Data Packages.
 
 ## Creating a Data Package
 
-The `newdatapackage` function creates a new Data Package
+The `new_datapackage` function creates a new Data Package
 
 ```{.R #n1}
 library(datapackage)
 
 dir <- tempfile()
-dp <- newdatapackage(dir, name = "example", 
+dp <- new_datapackage(dir, name = "example", 
   title = "An Example Data Package")
 print(dp)
 ```
@@ -33,27 +33,27 @@ Package.
 list.files(dir)
 ```
 
-Using methods such as `dptitle` and `dpdescription` the properties of the Data
+Using methods such as `dp_title` and `dp_description` the properties of the Data
 Package can be modified.
 
 ```{.R #n3}
-dpdescription(dp) <- "This is a description of the Data Package"
+dp_description(dp) <- "This is a description of the Data Package"
 ```
 The `description<-` also accepts a character vector of length > 1. This makes it
 easy to read the contents of the description from file as it can be difficult to
 write long descriptions directly from R-code. It is possible to use markdown in
 the description.
 ```{.R #n4 eval=FALSE}
-dpdescription(dp) <- readLines("description.md")
+dp_description(dp) <- readLines("description.md")
 ```
 
 The following methods a currently (when writing the vignette) supported:
 
-- `dptitle<-`
-- `dpcontributors<-` and `dpaddcontributor<-`
-- `dpdescription<-`
+- `dp_title<-`
+- `dp_contributors<-` and `dp_add_contributor<-`
+- `dp_description<-`
 - `dpid<-`
-- `dpname<-`
+- `dp_name<-`
 - `dpcreated<-`
 - `dpkeywords<-`
 - `dp_property<-`: this function also allow custom properties.
@@ -65,7 +65,7 @@ methods(class = "datapackage") |> (\(x) x[grep("<-", x)])()
 ```
 Below an example of adding a contributor to the package
 ```{.R #n6}
-dpaddcontributor(dp) <- newcontributor("Jane Doe", role = "author",
+dp_add_contributor(dp) <- new_contributor("Jane Doe", role = "author",
   email = "j.doe@organisation.org")
 ```
 
@@ -89,10 +89,10 @@ generate a skeleton Data Resource for a given dataset:
 ```{.R #a10}
 res <- dp_generate_dataresource(iris, "iris") 
 ```
-Again these can be further modified using methods such as `dptitle` and
+Again these can be further modified using methods such as `dp_title` and
 `dp_property`:
 ```{.R #a30}
-dptitle(res) <- "The Iris dataset"
+dp_title(res) <- "The Iris dataset"
 ```
 
 Let's add the resources to the datapackage.
@@ -118,7 +118,7 @@ readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
 
 And of course we can open the datapackage and read the data back in:
 ```{.R #a70}
-dp2 <- opendatapackage(dir)
+dp2 <- open_datapackage(dir)
 iris2 <- dp2 |> dp_resource("iris") |> dp_get_data(convert_categories = "to_factor")
 all.equal(iris, iris2, check.attributes = FALSE)
 ```
@@ -203,7 +203,7 @@ Editing of existing Data Packages is also possible. Use the `readonly = TRUE`
 argument when opening the Data Package:
 
 ```{.R #e00}
-edit <- opendatapackage(dir, readonly = FALSE)
+edit <- open_datapackage(dir, readonly = FALSE)
  
 dpid(edit) <- "iris_chkwts"
 dpcreated(edit) <- Sys.time() |> as.Date()

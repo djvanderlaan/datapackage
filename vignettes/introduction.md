@@ -67,7 +67,7 @@ Below we open an example Data Package that comes with the package:
 ```{.R #g1}
 library(datapackage, warn.conflicts = FALSE)
 dir <- system.file("examples/iris", package = "datapackage")
-dp <- opendatapackage(dir)
+dp <- open_datapackage(dir)
 print(dp)
 ```
 The print statement shows the name of the package, `iris-example`, the title, 
@@ -118,7 +118,7 @@ argument of `dp_get_data`. However, it is also possible to import the data
 Data Resource can be obtained using the `path` method:
 
 ```{.R #g8}
-dppath(iris)
+dp_path(iris)
 ```
 By default this will return the path as defined in the Data Package. This either
 a path relative to the directory in which the Data Package is located or a URL.
@@ -134,7 +134,7 @@ Using the `fullpath = TRUE` argument, `path` will return the full path to the
 file:
 
 ```{.R #g10}
-fn <- dppath(iris, fullpath = TRUE)
+fn <- dp_path(iris, fullpath = TRUE)
 ```
 This path can be used to open the file manually:
 
@@ -162,52 +162,52 @@ For many of the standard fields of a Data Packages, methods are defined to
 obtain the values of these fields:
 
 ```{.R #r1}
-dpname(dp)
-dpdescription(dp)
-dpdescription(dp, firstparagraph = TRUE)
-dptitle(dp)
+dp_name(dp)
+dp_description(dp)
+dp_description(dp, firstparagraph = TRUE)
+dp_title(dp)
 ```
 
 The same holds for Data Resources:
 
 ```{.R #r2}
-dptitle(iris)
-dp_resource(dp, "inline") |> dptitle()
+dp_title(iris)
+dp_resource(dp, "inline") |> dp_title()
 ```
 
 For `datapackage` objects there are currently defined the following methods:
 (this list can be obtained using `?properties_datapackage`)
 
-- `dpname`
-- `dptitle`
-- `dpdescription`
+- `dp_name`
+- `dp_title`
+- `dp_description`
 - `dpkeywords`
 - `dpcreated`
 - `dpid`
-- `dpcontributors`
+- `dp_contributors`
 
 For `dataresource` objects there are currently defined the following methods
 (this list can be obtained using `?properties_dataresource`)
 
-- `dpname`
-- `dptitle`
-- `dpdescription`
-- `dppath`
-- `dpformat`
-- `dpmediatype`
-- `dpencoding`
-- `dpbytes`
-- `dphash`
+- `dp_name`
+- `dp_title`
+- `dp_description`
+- `dp_path`
+- `dp_format`
+- `dp_mediatype`
+- `dp_encoding`
+- `dp_bytes`
+- `dp_hash`
 
 
-The `dppath` method has a `fullpath` argument that, when used, returns the full
+The `dp_path` method has a `fullpath` argument that, when used, returns the full
 path to the Data Resources data and not just the path relative to the Data
 Package. The full path is needed when one wants to use the path to read the
 data.
 
 ```{.R #r3}
-dppath(iris)
-dppath(iris, fullpath = TRUE)
+dp_path(iris)
+dp_path(iris, fullpath = TRUE)
 ```
 
 It is also possible to get other properties than the ones explicitly mentioned

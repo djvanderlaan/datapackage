@@ -8,7 +8,7 @@
 #' @param ... passed on to \code{\link{dp_get_data}}.
 #'
 #' @details
-#' This function is a wrapper around \code{\link{opendatapackage}} and
+#' This function is a wrapper around \code{\link{open_datapackage}} and
 #' \code{\link{dp_get_data}}. It offers a quick way to read in a dataset from a
 #' Data Package.
 #'
@@ -18,8 +18,8 @@
 #' @export
 dp_load_from_datapackage <- function(path, name, ...) {
   missingname <- missing(name)
-  dp <- opendatapackage(path)
-  if (missingname) name <- dpname(dp)
+  dp <- open_datapackage(path)
+  if (missingname) name <- dp_name(dp)
   resourcenames <- dp_resource_names(dp)
   if (length(dp_resource_names) == 0) 
     stop("Data Package does not contain any resources.")

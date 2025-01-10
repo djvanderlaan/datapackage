@@ -19,10 +19,10 @@
 #'
 #' @examples
 #' dir <- tempdir()
-#' dp <- newdatapackage(dir, name = "test-package")
+#' dp <- new_datapackage(dir, name = "test-package")
 #' 
-#' dptitle(dp) <- "A Test Data Package"
-#' dpaddcontributor(dp) <- newcontributor(title = "John Doe")
+#' dp_title(dp) <- "A Test Data Package"
+#' dp_add_contributor(dp) <- new_contributor(title = "John Doe")
 #' 
 #' \dontshow{
 #' file.remove(file.path(dir, "datapackage.json"))
@@ -30,7 +30,7 @@
 #' }
 #' 
 #' @export
-newdatapackage <- function(path, name = NULL, title = NULL, description = NULL, ...) {
+new_datapackage <- function(path, name = NULL, title = NULL, description = NULL, ...) {
   stopifnot(missing(name) || isname(name))
   stopifnot(missing(title) || isstring(title))
   stopifnot(missing(description) || isstring(description))
@@ -57,6 +57,6 @@ newdatapackage <- function(path, name = NULL, title = NULL, description = NULL, 
   # Write the datapackage
   dir.create(path, recursive = TRUE, showWarnings = FALSE)
   writedatapackage(res, path = path, filename = filename)
-  opendatapackage(path, readonly = FALSE)
+  open_datapackage(path, readonly = FALSE)
 }
 

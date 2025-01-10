@@ -44,10 +44,10 @@ dp_resource.datapackage <- function(x, resourcename) {
     index <- dp_nresources(x)+1L
   }
   # TODO: check if valid resource
-  if (dpname(value) != resourcename) {
+  if (dp_name(value) != resourcename) {
     warning("Name of data resource does not match the value of the ", 
       "resourcename argument. Updating the name of the data resource.")
-    dpname(value) <- resourcename
+    dp_name(value) <- resourcename
   }
   # Remove all attributes from the dataresource
   attr(value, "path") <- NULL

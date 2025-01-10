@@ -7,8 +7,8 @@
 #' @param value the new value of the property.
 #'
 #' @seealso
-#' See \code{\link{dpname}} etc. for methods for specific properties for Data
-#' Packages and \code{\link{dpencoding}} etc. for specific properties for Data
+#' See \code{\link{dp_name}} etc. for methods for specific properties for Data
+#' Packages and \code{\link{dp_encoding}} etc. for specific properties for Data
 #' Resources. These specific methods also check if the input is valid for the
 #' given property.
 #'

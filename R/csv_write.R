@@ -42,9 +42,9 @@ csv_write <- function(x, resourcename, datapackage,
   for (i in names(x)) 
     x[[i]] <- csv_format(x[[i]], dp_field(dataresource, i))
   # How to write missing values
-  encoding <- dpencoding(dataresource, "encoding")
+  encoding <- dp_encoding(dataresource, "encoding")
   if (is.null(encoding)) encoding <- "UTF-8"
-  path <- dppath(dataresource, fullpath = TRUE)
+  path <- dp_path(dataresource, fullpath = TRUE)
   if (is.null(path)) stop("Path is missing in dataresource.")
   if (isurl(path)) stop("Path is an URL; writing to a URL is not supported.")
   # Write

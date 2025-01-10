@@ -74,9 +74,9 @@ dp_write_data.dataresource <- function(x, data, datapackage = dp_get_datapackage
   }
   # Determine reader
   if (is.character(writer) && writer[1] == "guess") 
-    writer <- getwriter(dpformat(x), dpmediatype(x))
+    writer <- getwriter(dp_format(x), dp_mediatype(x))
   stopifnot(is.function(writer))
-  writer(data, resourcename = dpname(x), datapackage = datapackage, ...)
+  writer(data, resourcename = dp_name(x), datapackage = datapackage, ...)
 }
 
 getwriter <- function(format, mediatype) {

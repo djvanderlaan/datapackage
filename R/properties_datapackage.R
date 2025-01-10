@@ -28,26 +28,26 @@
 #'
 #' @export
 #' @rdname properties_datapackage
-dpname <- function(x) {
-  UseMethod("dpname")
+dp_name <- function(x) {
+  UseMethod("dp_name")
 }
 
 #' @export
 #' @rdname properties_datapackage
-dpname.datapackage <- function(x) {
+dp_name.datapackage <- function(x) {
   # Name is optional for data package
   dp_property(x, "name")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpname<-` <- function(x, value) {
-  UseMethod("dpname<-")
+`dp_name<-` <- function(x, value) {
+  UseMethod("dp_name<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpname<-.datapackage` <- function(x, value) {
+`dp_name<-.datapackage` <- function(x, value) {
   value <- paste0(value)
   if (!is.null(value) && !isname(value)) stop("name should consists only of ", 
     "lower case letters, numbers, '-', '.' or '_' or NULL.")
@@ -61,25 +61,25 @@ dpname.datapackage <- function(x) {
 
 #' @export
 #' @rdname properties_datapackage
-dptitle <- function(x) {
-  UseMethod("dptitle")
+dp_title <- function(x) {
+  UseMethod("dp_title")
 }
 
 #' @export
 #' @rdname properties_datapackage
-dptitle.datapackage <- function(x) {
+dp_title.datapackage <- function(x) {
   dp_property(x, "title")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dptitle<-` <- function(x, value) {
-  UseMethod("dptitle<-")
+`dp_title<-` <- function(x, value) {
+  UseMethod("dp_title<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dptitle<-.datapackage` <- function(x, value) {
+`dp_title<-.datapackage` <- function(x, value) {
   value <- paste0(value)
   if (!is.null(value) && !isstring(value)) 
     stop("value should be a character of length 1 or NULL.")
@@ -93,8 +93,8 @@ dptitle.datapackage <- function(x) {
 
 #' @export
 #' @rdname properties_datapackage
-dpdescription <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
-  UseMethod("dpdescription")
+dp_description <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
+  UseMethod("dp_description")
 }
 
 #' @param firstparagraph Only return the first paragraph of the description.
@@ -104,7 +104,7 @@ dpdescription <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
 #'
 #' @export
 #' @rdname properties_datapackage
-dpdescription.datapackage <- function(x, ..., firstparagraph = FALSE, 
+dp_description.datapackage <- function(x, ..., firstparagraph = FALSE, 
     dots = FALSE) {
   res <- dp_property(x, "description")
   if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
@@ -112,13 +112,13 @@ dpdescription.datapackage <- function(x, ..., firstparagraph = FALSE,
 
 #' @export
 #' @rdname properties_datapackage
-`dpdescription<-` <- function(x, value) {
-  UseMethod("dpdescription<-")
+`dp_description<-` <- function(x, value) {
+  UseMethod("dp_description<-")
 }
 
 #' @export
 #' @rdname properties_datapackage
-`dpdescription<-.datapackage` <- function(x, value) {
+`dp_description<-.datapackage` <- function(x, value) {
   if (!is.null(value)) value <- paste0(value, collapse = "\n")
   # Because of the paste0 above value will always be a string
   dp_property(x, "description") <- value

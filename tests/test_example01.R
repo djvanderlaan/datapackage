@@ -4,19 +4,19 @@ source("helpers.R")
 dir <- system.file("tests/test01", package = "datapackage")
 if (dir == "") dir <- "../inst/tests/test01"
 
-dp <- opendatapackage(dir)
+dp <- open_datapackage(dir)
 
-expect_equal(dpname(dp), "test01")
-expect_equal(dptitle(dp), "Test datapackage 01")
-expect_equal(dpdescription(dp), "A data package to test if tooling functions correctly")
+expect_equal(dp_name(dp), "test01")
+expect_equal(dp_title(dp), "Test datapackage 01")
+expect_equal(dp_description(dp), "A data package to test if tooling functions correctly")
 expect_equal(dp_resource_names(dp), c("complex", "complex-empty", "codelist-factor1", 
     "codelist-factor2", "inline", "fixed-width", "fixed-width-latin1"))
 
 res <- dp_resource(dp, "complex")
-expect_equal(dppath(res), "complex.csv")
-expect_equal(dpencoding(res), "utf-8")
-expect_equal(dpmediatype(res), "text/csv")
-expect_equal(dpformat(res), "csv")
+expect_equal(dp_path(res), "complex.csv")
+expect_equal(dp_encoding(res), "utf-8")
+expect_equal(dp_mediatype(res), "text/csv")
+expect_equal(dp_format(res), "csv")
 expect_equal(dp_field_names(res), c("string1", "integer1", "boolean1", 
     "number1", "number2", "boolean2", "date1", "factor1", "factor2"))
 

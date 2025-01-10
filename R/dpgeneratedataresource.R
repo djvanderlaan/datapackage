@@ -50,7 +50,7 @@ dp_generate_dataresource <- function(x, name, path = paste0(name, getextension(f
       categories_type = categories_type)
     fields[[i]] <- fd
   }
-  res <- newdataresource(name = name, format = format, mediatype = mediatype, 
+  res <- new_dataresource(name = name, format = format, mediatype = mediatype, 
     path = path, encoding = "utf-8", schema = list(fields = fields))
   # Generate categoriesFieldMap
   if (categorieslist) {

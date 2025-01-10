@@ -20,7 +20,7 @@
 #' # Add a very simple writer for json
 #' json_writer <- function(data, resourcename, datapackage, ...) {
 #'   dataresource <- dp_resource(datapackage, resourcename)
-#'   path <- dppath(dataresource, fullpath = TRUE)
+#'   path <- dp_path(dataresource, fullpath = TRUE)
 #'   jsonlite::write_json(data, path)
 #' }
 #'

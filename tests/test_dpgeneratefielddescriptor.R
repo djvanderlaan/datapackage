@@ -4,7 +4,7 @@ source("helpers.R")
 dir <- system.file("tests/test01", package = "datapackage")
 if (dir == "") dir <- "../inst/tests/test01"
 
-dp <- opendatapackage(dir)
+dp <- open_datapackage(dir)
 dta <- dp |> dp_resource("complex") |> dp_get_data()
 
 # ==================================================================

@@ -24,7 +24,7 @@
 #' attributes of the result.
 #' 
 #' @export
-opendatapackage <- function(path, readonly = TRUE) {
+open_datapackage <- function(path, readonly = TRUE) {
   # Split path into the filename of the descriptor and the path of the 
   # datapackage
   ext <- tools::file_ext(path)

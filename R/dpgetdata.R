@@ -54,10 +54,10 @@ dp_get_data.dataresource <- function(x, reader = "guess", ..., as_connection = F
     structure(res, resource = x)
   } else {
     # Determine path to data
-    filename <- dppath(x, fullpath = TRUE)
+    filename <- dp_path(x, fullpath = TRUE)
     # Determine reader
     if (is.character(reader) && reader[1] == "guess") 
-      reader <- guessreader(dpformat(x), dpmediatype(x), dppath(x))
+      reader <- guessreader(dp_format(x), dp_mediatype(x), dp_path(x))
     stopifnot(is.function(reader))
     # Read
     reader(filename, x, ..., as_connection = as_connection)

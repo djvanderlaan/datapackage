@@ -4,18 +4,18 @@ source("helpers.R")
 dir <- system.file("tests/test01", package = "datapackage")
 if (dir == "") dir <- "../inst/tests/test01"
 
-dp <- opendatapackage(dir)
+dp <- open_datapackage(dir)
 
 dta <- dp |> dp_resource("complex") |> dp_get_data()
 
 newdir <- tempdir()
 
-newdp <- newdatapackage(newdir)
-dpname(newdp) <- "test"
+newdp <- new_datapackage(newdir)
+dp_name(newdp) <- "test"
 
 res <- dp_generate_dataresource(dta, "complex")
 # We expect one resource
-expect_equal(dpname(res), "complex")
+expect_equal(dp_name(res), "complex")
 
 # Needed because we have "" in a string field which by default will not
 # be recognized as missing value;
@@ -42,7 +42,7 @@ expect_equal(csv, expected)
 # When we read the data back in again from the new datapackage we should get the
 # same data as from the original package
 # without to_factor
-dp2 <- opendatapackage(newdir)
+dp2 <- open_datapackage(newdir)
 dta <- dp |> dp_resource("complex") |> dp_get_data()
 dta2 <- dp2 |> dp_resource("complex") |> dp_get_data(convert_categories = "no")
 expect_equal(dta, dta2, attributes = FALSE)
@@ -61,19 +61,19 @@ ignore <- file.remove(newdir)
 # =======================================================================================
 # Keep old meta
 
-dp <- opendatapackage(dir)
+dp <- open_datapackage(dir)
 
 dta <- dp |> dp_resource("complex") |> dp_get_data()
 
 newdir <- tempdir()
 
 
-newdp <- newdatapackage(newdir)
-dpname(newdp) <- "test"
+newdp <- new_datapackage(newdir)
+dp_name(newdp) <- "test"
 
 res <- dp_generate_dataresource(dta, "complex", use_existing = TRUE)
 # We expect one resource
-expect_equal(dpname(res), "complex")
+expect_equal(dp_name(res), "complex")
 
 # Needed because we have "" in a string field which by default will not
 # be recognized as missing value;
@@ -112,7 +112,7 @@ expect_equal(csv, expected)
 # When we read the data back in again from the new datapackage we should get the
 # same data as from the original package
 # without to_factor
-dp2 <- opendatapackage(newdir)
+dp2 <- open_datapackage(newdir)
 dta <- dp |> dp_resource("complex") |> dp_get_data()
 dta2 <- dp2 |> dp_resource("complex") |> dp_get_data(convert_categories = "no")
 expect_equal(dta, dta2, attributes = FALSE)

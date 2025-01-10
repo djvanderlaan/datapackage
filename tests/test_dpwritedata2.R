@@ -11,13 +11,13 @@ dir <- tempdir()
 data(iris)
 
 # Create the datapackage
-dp <- newdatapackage(dir, name = "iris")
+dp <- new_datapackage(dir, name = "iris")
 res <- dp_generate_dataresource(iris, "iris") 
 dp_resources(dp) <- res
 dp_write_data(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 
 # OPen the new datapacakge, read the data and check
-dp2 <- opendatapackage(dir)
+dp2 <- open_datapackage(dir)
 iris2 <- dp2 |> dp_resource("iris") |> dp_get_data(convert_categories = "to_factor")
 expect_equal(iris, iris2, attributes = FALSE)
 
@@ -31,7 +31,7 @@ ignore <- file.remove(dir)
 dir <- tempdir()
 
 # Create the datapackage
-dp <- newdatapackage(dir, name = "iris")
+dp <- new_datapackage(dir, name = "iris")
 res <- dp_generate_dataresource(iris, "iris", categories_type = "resource") 
 dp_resources(dp) <- res
 
@@ -48,7 +48,7 @@ dp_write_data(dp, "species-categories", data = codelist, write_categories = FALS
 dp_write_data(dp, resourcename = "iris", data = iris, write_categories = FALSE)
 
 # Open the new datapacakge, read the data and check
-dp2 <- opendatapackage(dir)
+dp2 <- open_datapackage(dir)
 iris2 <- dp2 |> dp_resource("iris") |> dp_get_data(convert_categories = "to_factor")
 # Check the levels
 expect_equal(levels(iris2$Species), c("setosa", "virginica", "versicolor"))
@@ -74,13 +74,13 @@ data(iris)
 for (col in names(iris)) iris[[col]][sample(nrow(iris), 10)] <- NA
 
 # Create the datapackage
-dp <- newdatapackage(dir, name = "iris")
+dp <- new_datapackage(dir, name = "iris")
 res <- dp_generate_dataresource(iris, "iris") 
 dp_property(res, "dialect") <- list(nullSequence = "FOO")
 dp_resources(dp) <- res
 dp_write_data(dp, resourcename = "iris", data = iris, write_categories = TRUE)
 # OPen the new datapacakge, read the data and check
-dp2 <- opendatapackage(dir)
+dp2 <- open_datapackage(dir)
 iris2 <- dp2 |> dp_resource("iris") |> dp_get_data(convert_categories = "to_factor")
 expect_equal(iris, iris2, attributes = FALSE)
 # Clean up

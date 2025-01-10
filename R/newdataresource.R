@@ -28,12 +28,12 @@
 #'
 #' @examples
 #' dir <- tempdir()
-#' dp <- newdatapackage(dir, name = "test-package")
+#' dp <- new_datapackage(dir, name = "test-package")
 #'
-#' res <- newdataresource(name = "iris")
-#' dptitle(res) <- "The Iris Data Set"
-#' dpencoding(res) <- "UTF-8"
-#' dpmediatype(res) <- "text/csv"
+#' res <- new_dataresource(name = "iris")
+#' dp_title(res) <- "The Iris Data Set"
+#' dp_encoding(res) <- "UTF-8"
+#' dp_mediatype(res) <- "text/csv"
 #' 
 #' # resource adds a resource if it doesn't yet exist or updates
 #' # an existing resource
@@ -46,28 +46,28 @@
 #' 
 #'
 #' @export
-newdataresource <- function(name, title = NULL, description = NULL, 
+new_dataresource <- function(name, title = NULL, description = NULL, 
     path = NULL, format = NULL, mediatype = NULL, encoding = NULL, 
     bytes = NULL, hash = NULL, ...) {
   # Build object
   res <- structure(list(), class = 'dataresource')
-  dpname(res) <- name
+  dp_name(res) <- name
   if (!missing(title) && !is.null(title)) 
-    dptitle(res) <- title
+    dp_title(res) <- title
   if (!missing(description) && !is.null(description)) 
-    dpdescription(res) <- description
+    dp_description(res) <- description
   if (!missing(path) && !is.null(path)) 
-    dppath(res) <- path
+    dp_path(res) <- path
   if (!missing(format) && !is.null(format)) 
-    dpformat(res) <- format
+    dp_format(res) <- format
   if (!missing(mediatype) && !is.null(mediatype)) 
-    dpmediatype(res) <- mediatype
+    dp_mediatype(res) <- mediatype
   if (!missing(encoding) && !is.null(encoding)) 
-    dpencoding(res) <- encoding
+    dp_encoding(res) <- encoding
   if (!missing(bytes) && !is.null(bytes)) 
-    dpbytes(res) <- bytes
+    dp_bytes(res) <- bytes
   if (!missing(hash) && !is.null(hash)) 
-    dphash(res) <- hash
+    dp_hash(res) <- hash
   other <- list(...)
   for (property in names(other)) dp_property(res, property) <- other[[property]]
   # Return

@@ -11,7 +11,7 @@
 #' @export
 `dp_resources<-` <- function(x, value) {
   if (methods::is(value, "dataresource")) {
-    name <- dpname(value)
+    name <- dp_name(value)
     if (is.null(name)) stop("name of data resource is missing")
     dp_resource(x, name) <- value
   } else {
