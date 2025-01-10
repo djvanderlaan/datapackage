@@ -62,17 +62,14 @@ dpcategorieslist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x
       categories <- categorieslist
       categorieslist <- dpgetdata(datapackage, resource)
       stopifnot(is.data.frame(categorieslist))
-      valueField <- if (utils::hasName(categories, "valueField")) 
-        categories$valueField else "value"
-      labelField <- if (utils::hasName(categories, "labelField")) 
-        categories$labelField else "label"
-      if (!(valueField %in% names(categorieslist))) 
-        stop("Categories list does not contain a field '", valueField, "'.")
-      if (!(labelField %in% names(categorieslist))) 
-        stop("Categories list does not contain a field '", labelField, "'.")
+      # Following function checks if value and labels are present in 
+      # the categorieslist. Function defined in dptofactor.R
+      fields <- getfieldsofcategorieslist(categorieslist)
+      # Rename columns
       if (normalised) {
-        names(categorieslist)[names(categorieslist) == valueField] <- "value"
-        names(categorieslist)[names(categorieslist) == labelField] <- "label"
+        oldnames <- names(categorieslist)
+        names(categorieslist)[oldnames == fields$value] <- "value"
+        names(categorieslist)[oldnames == fields$label] <- "label"
       }
     }
   } else if (is.numeric(categorieslist) || is.character(categorieslist) || is.logical(categorieslist)) {

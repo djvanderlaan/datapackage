@@ -10,8 +10,7 @@ dptofactor(x, categorieslist = dpcategorieslist(x), warn = TRUE)
 \item{x}{the variable to recode}
 
 \item{categorieslist}{a \code{data.frame} with the categories as a
-\code{data.frame}. It is assumed that the first column contains the codes
-and the second column the labels.}
+\code{data.frame}.}
 
 \item{warn}{give a warning when there is no code list.}
 }

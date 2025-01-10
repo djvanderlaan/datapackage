@@ -50,7 +50,8 @@ dpgetdata.dataresource <- function(x, reader = "guess", ..., as_connection = FAL
   if (!is.null(d)) {
     # Try to transoform to data.frame 
     df <- d |> jsonlite::toJSON(auto_unbox = TRUE) |> jsonlite::fromJSON(simplifyVector = TRUE)
-    if (is.data.frame(df)) df else d
+    res <- if (is.data.frame(df)) df else d
+    structure(res, resource = x)
   } else {
     # Determine path to data
     filename <- dppath(x, fullpath = TRUE)

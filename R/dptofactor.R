@@ -3,8 +3,7 @@
 #' @param x the variable to recode
 #'
 #' @param categorieslist a \code{data.frame} with the categories as a
-#' \code{data.frame}. It is assumed that the first column contains the codes
-#' and the second column the labels.
+#' \code{data.frame}. 
 #'
 #' @param warn give a warning when there is no code list. 
 #'
@@ -19,10 +18,12 @@ dptofactor <- function(x, categorieslist = dpcategorieslist(x), warn = TRUE) {
     return(x)
   }
   stopifnot(is.data.frame(categorieslist))
-  # TODO: more intelligence in determining which column to use as codes and
-  # labels
-  codes  <- categorieslist[[1]]
-  labels <- categorieslist[[2]]
+  # Determine which columns from the categorieslist contain the 
+  # codes and labels
+  fields <- getfieldsofcategorieslist(categorieslist)
+  # Get the codes and labels
+  codes  <- categorieslist[[fields$value]]
+  labels <- categorieslist[[fields$label]]
   # Handle x == ""; we will treat this as missing values
   if (is.character(x) & !("" %in% codes)) 
     x[!is.na(x) & (x == "")] <- NA_character_
@@ -37,5 +38,33 @@ dptofactor <- function(x, categorieslist = dpcategorieslist(x), warn = TRUE) {
   }
   structure(factor(x, levels = codes, labels = labels), 
     fielddescriptor = attr(x, "fielddescriptor"))
+}
+
+
+getfieldsofcategorieslist <- function(categorieslist) {
+  stopifnot(is.data.frame(categorieslist))
+  # Determine which columns from the categorieslist contain the 
+  # values and labels
+  values <- "value"
+  labels <- "label"
+  if (!is.null(res <- attr(categorieslist, "resource"))) {
+    fieldmap <- dpproperty(res, "categoriesFieldMap")
+    if (!is.null(fieldmap) && utils::hasName(fieldmap, "value"))
+      values <- fieldmap$value
+    if (!is.null(fieldmap) && utils::hasName(fieldmap, "label")) {
+      labels <- fieldmap$label
+      if (!utils::hasName(categorieslist, labels)) 
+        stop("The data resource with the categories does not have a column '", 
+          labels, "'.")
+    }
+  }
+  if (!utils::hasName(categorieslist, values)) 
+    stop("The data resource with the categories does not have a column '", 
+      values, "'.")
+  # When there are no labels; the labels are the values
+  if (!utils::hasName(categorieslist, labels)) 
+    labels <- values
+  # Return what we have found
+  list(value = values, label = labels)
 }
 

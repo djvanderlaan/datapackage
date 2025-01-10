@@ -1,5 +1,7 @@
 
-library(datapackage)
+#library(datapackage)
+
+pkgload::load_all()
 
 dp <- opendatapackage("work/employ")
 dp
@@ -12,5 +14,7 @@ cl
 
 res <- attr(cl, "resource")
 
-dpproperty(res, "categoryFieldMap")
+dpproperty(res, "categoriesFieldMap")
+
+dptofactor(dta$employmentstatus)
 

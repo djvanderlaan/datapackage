@@ -17,7 +17,7 @@
             "name": "employmentstatus",
             "type": "integer",
             "categories": {
-              "resource": "employmentstatus-categories"
+              "resource": "employmentstatus-categories2"
             }
           },
           {
@@ -33,14 +33,14 @@
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
-      "categoryFieldMap": {
-        "value": "value",
+      "categoriesFieldMap": {
+        "value": "code",
         "label": "label"
       },
       "schema": {
         "fields": [
           {
-            "name": "value",
+            "name": "code",
             "type": "integer"
           },
           {
@@ -64,8 +64,8 @@
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
-      "categoryFieldMap": {
-        "value": "value",
+      "categoriesFieldMap": {
+        "value": "code",
         "label": "label2"
       },
       "schema": {
@@ -75,7 +75,7 @@
             "type": "integer"
           },
           {
-            "name": "name",
+            "name": "label",
             "type": "string"
           },
           {
