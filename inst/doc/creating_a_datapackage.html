@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Jan van der Laan" />
+  <title>Creating a Data Package</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">body {
+max-width: 50rem;
+margin-left: auto;
+margin-right: auto;
+font-family: system-ui;
+color: black;
+background: white;
+}
+p, li {
+text-align: justify;
+}
+pre {
+background: #eeeeee;
+padding: 0.5rem;
+}
+h1, h2, h3, h4, h5 {
+color: #444444;
+font-weight: bold;
+}
+h4, h5 {
+color: inherit;
+}
+h2 {
+margin-top: 3rem;
+}
+a {
+color: black;
+}
+a:hover {
+color: lightblue;
+}
+pre code {
+color: black;
+background: inherit;
+padding: 0;
+}
+code {
+color: black;
+background: #eeeeee;
+padding: 0.2rem;
+}
+p.author {
+font-weight : bold;
+color: #444444;
+}
+code {
+color : black;
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Creating a Data Package</h1>
+<p class="author">Jan van der Laan</p>
+</header>
+<!--
+%\VignetteEngine{simplermarkdown::mdweave_to_html}
+%\VignetteIndexEntry{Creating a Data Package}
+-->
+<p>This vignette will show how to create and edit Data Packages.</p>
+<h2 id="creating-a-data-package">Creating a Data Package</h2>
+<p>The <code>new_datapackage</code> function creates a new Data
+Package</p>
+<div class="sourceCode" id="n1"><pre class="sourceCode R"><code class="sourceCode r"><span id="n1-1"><a href="#n1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(datapackage)</span>
+<span id="n1-2"><a href="#n1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dir <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="n1-3"><a href="#n1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp <span class="ot">&lt;-</span> <span class="fu">new_datapackage</span>(dir, <span class="at">name =</span> <span class="st">&quot;example&quot;</span>, </span>
+<span id="n1-4"><a href="#n1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">title =</span> <span class="st">&quot;An Example Data Package&quot;</span>)</span>
+<span id="n1-5"><a href="#n1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(dp)</span>
+<span id="n1-6"><a href="#n1-6" aria-hidden="true" tabindex="-1"></a>[example] An Example Data Package</span>
+<span id="n1-7"><a href="#n1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="n1-8"><a href="#n1-8" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>Rtmp5ZeNvI<span class="sc">/</span>file158ce54d73e41<span class="sc">&gt;</span></span>
+<span id="n1-9"><a href="#n1-9" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>NO RESOURCES<span class="sc">&gt;</span></span></code></pre></div>
+<p>This will return an <code>editabledatapackage</code>. This means that
+any changes to the Data Package are immediately saved to the
+<code>datapackage.json</code> file and when reading any properties these
+are read from the file. It is, therefore, possible to manually edit the
+<code>datapackage.json</code> file while working in R with the Data
+Package.</p>
+<div class="sourceCode" id="n2"><pre class="sourceCode R"><code class="sourceCode r"><span id="n2-1"><a href="#n2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">list.files</span>(dir)</span>
+<span id="n2-2"><a href="#n2-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;datapackage.json&quot;</span></span></code></pre></div>
+<p>Using methods such as <code>dp_title</code> and
+<code>dp_description</code> the properties of the Data Package can be
+modified.</p>
+<div class="sourceCode" id="n3"><pre class="sourceCode R"><code class="sourceCode r"><span id="n3-1"><a href="#n3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_description</span>(dp) <span class="ot">&lt;-</span> <span class="st">&quot;This is a description of the Data Package&quot;</span></span></code></pre></div>
+<p>The <code>description&lt;-</code> also accepts a character vector of
+length &gt; 1. This makes it easy to read the contents of the
+description from file as it can be difficult to write long descriptions
+directly from R-code. It is possible to use markdown in the
+description.</p>
+<div class="sourceCode" id="n4"><pre class="sourceCode R"><code class="sourceCode r"><span id="n4-1"><a href="#n4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dp_description</span>(dp) <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="st">&quot;description.md&quot;</span>)</span></code></pre></div>
+<p>The following methods a currently (when writing the vignette)
+supported:</p>
+<ul>
+<li><code>dp_title&lt;-</code></li>
+<li><code>dp_contributors&lt;-</code> and
+<code>dp_add_contributor&lt;-</code></li>
+<li><code>dp_description&lt;-</code></li>
+<li><code>dp_id&lt;-</code></li>
+<li><code>dp_name&lt;-</code></li>
+<li><code>dp_created&lt;-</code></li>
+<li><code>dp_keywords&lt;-</code></li>
+<li><code>dp_property&lt;-</code>: this function also allow custom
+properties.</li>
+</ul>
+<p>For an up to data list run the following:</p>
+<p><code>[.R #n5} methods(class = &quot;datapackage&quot;) |&gt; (\(x) x[grep(&quot;&lt;-&quot;, x)])()</code>
+Below an example of adding a contributor to the package</p>
+<div class="sourceCode" id="n6"><pre class="sourceCode R"><code class="sourceCode r"><span id="n6-1"><a href="#n6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_add_contributor</span>(dp) <span class="ot">&lt;-</span> <span class="fu">new_contributor</span>(<span class="st">&quot;Jane Doe&quot;</span>, <span class="at">role =</span> <span class="st">&quot;author&quot;</span>,</span>
+<span id="n6-2"><a href="#n6-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">email =</span> <span class="st">&quot;j.doe@organisation.org&quot;</span>)</span></code></pre></div>
+<h2 id="adding-a-dataset-to-the-datapackage">Adding a dataset to the
+datapackage</h2>
+<p>In this example we will save the <code>iris</code> dataset to a new
+datapackage.</p>
+<div class="sourceCode" id="a1"><pre class="sourceCode R"><code class="sourceCode r"><span id="a1-1"><a href="#a1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">data</span>(iris)</span>
+<span id="a1-2"><a href="#a1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">head</span>(iris)</span>
+<span id="a1-3"><a href="#a1-3" aria-hidden="true" tabindex="-1"></a>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
+<span id="a1-4"><a href="#a1-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>          <span class="fl">5.1</span>         <span class="fl">3.5</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-5"><a href="#a1-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>          <span class="fl">4.9</span>         <span class="fl">3.0</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-6"><a href="#a1-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>          <span class="fl">4.7</span>         <span class="fl">3.2</span>          <span class="fl">1.3</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-7"><a href="#a1-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>          <span class="fl">4.6</span>         <span class="fl">3.1</span>          <span class="fl">1.5</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-8"><a href="#a1-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>          <span class="fl">5.0</span>         <span class="fl">3.6</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
+<span id="a1-9"><a href="#a1-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>          <span class="fl">5.4</span>         <span class="fl">3.9</span>          <span class="fl">1.7</span>         <span class="fl">0.4</span>  setosa</span></code></pre></div>
+<p>In order to store a new dataset in a Data Package we need to do two
+things. First, we need to create a new Data Resource in the package.
+Second, using the specifation of the Data Resource we need to save the
+actual dataset at the location specified in the Data Resource.</p>
+<p>It is possible to edit the <code>datapackage.json</code> file to
+create the new Data Resource. The package also has a function
+<code>dp_generate_dataresource</code> to generate a skeleton Data
+Resource for a given dataset:</p>
+<div class="sourceCode" id="a10"><pre class="sourceCode R"><code class="sourceCode r"><span id="a10-1"><a href="#a10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> res <span class="ot">&lt;-</span> <span class="fu">dp_generate_dataresource</span>(iris, <span class="st">&quot;iris&quot;</span>) </span></code></pre></div>
+<p>Again these can be further modified using methods such as
+<code>dp_title</code> and <code>dp_property</code>:</p>
+<div class="sourceCode" id="a30"><pre class="sourceCode R"><code class="sourceCode r"><span id="a30-1"><a href="#a30-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_title</span>(res) <span class="ot">&lt;-</span> <span class="st">&quot;The Iris dataset&quot;</span></span></code></pre></div>
+<p>Let’s add the resources to the datapackage.</p>
+<div class="sourceCode" id="a40"><pre class="sourceCode R"><code class="sourceCode r"><span id="a40-1"><a href="#a40-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resources</span>(dp) <span class="ot">&lt;-</span> res</span></code></pre></div>
+<p>In this case the datapackage does not yet contain dataresources.
+Should the datapackage contain dataresources with the same name, these
+will be overwritten by the new dataresources.</p>
+<p>We are now ready to write the dataset. For this we can use the
+<code>dp_write_data</code> method:</p>
+<div class="sourceCode" id="a50"><pre class="sourceCode R"><code class="sourceCode r"><span id="a50-1"><a href="#a50-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(dp, <span class="at">resourcename =</span> <span class="st">&quot;iris&quot;</span>, <span class="at">data =</span> iris)</span></code></pre></div>
+<p>When some of the field in the Data Resource have categories that are
+stored in a separate Data Resource, this function will by default also
+write any codelists associated with the dataresource.</p>
+<div class="sourceCode" id="a60"><pre class="sourceCode R"><code class="sourceCode r"><span id="a60-1"><a href="#a60-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">readLines</span>(<span class="fu">file.path</span>(dir, <span class="st">&quot;iris.csv&quot;</span>), <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span>
+<span id="a60-2"><a href="#a60-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Sepal.Length&quot;</span>,<span class="st">&quot;Sepal.Width&quot;</span>,<span class="st">&quot;Petal.Length&quot;</span>,<span class="st">&quot;Petal.Width&quot;</span>,<span class="st">&quot;Species&quot;</span></span>
+<span id="a60-3"><a href="#a60-3" aria-hidden="true" tabindex="-1"></a><span class="fl">5.1</span>,<span class="fl">3.5</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-4"><a href="#a60-4" aria-hidden="true" tabindex="-1"></a><span class="fl">4.9</span>,<span class="dv">3</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-5"><a href="#a60-5" aria-hidden="true" tabindex="-1"></a><span class="fl">4.7</span>,<span class="fl">3.2</span>,<span class="fl">1.3</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-6"><a href="#a60-6" aria-hidden="true" tabindex="-1"></a><span class="fl">4.6</span>,<span class="fl">3.1</span>,<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-7"><a href="#a60-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>,<span class="fl">3.6</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-8"><a href="#a60-8" aria-hidden="true" tabindex="-1"></a><span class="fl">5.4</span>,<span class="fl">3.9</span>,<span class="fl">1.7</span>,<span class="fl">0.4</span>,<span class="dv">1</span></span>
+<span id="a60-9"><a href="#a60-9" aria-hidden="true" tabindex="-1"></a><span class="fl">4.6</span>,<span class="fl">3.4</span>,<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">1</span></span>
+<span id="a60-10"><a href="#a60-10" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>,<span class="fl">3.4</span>,<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
+<span id="a60-11"><a href="#a60-11" aria-hidden="true" tabindex="-1"></a><span class="fl">4.4</span>,<span class="fl">2.9</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span></code></pre></div>
+<p>And of course we can open the datapackage and read the data back
+in:</p>
+<div class="sourceCode" id="a70"><pre class="sourceCode R"><code class="sourceCode r"><span id="a70-1"><a href="#a70-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp2 <span class="ot">&lt;-</span> <span class="fu">open_datapackage</span>(dir)</span>
+<span id="a70-2"><a href="#a70-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> iris2 <span class="ot">&lt;-</span> dp2 <span class="sc">|&gt;</span> <span class="fu">dp_resource</span>(<span class="st">&quot;iris&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_get_data</span>(<span class="at">convert_categories =</span> <span class="st">&quot;to_factor&quot;</span>)</span>
+<span id="a70-3"><a href="#a70-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">all.equal</span>(iris, iris2, <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
+<span id="a70-4"><a href="#a70-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">TRUE</span></span></code></pre></div>
+<h2 id="more-on-categories">More on categories</h2>
+<p>By default <code>dp_generate_dataresource</code> will generate
+<code>categories</code> properties for factor fields:</p>
+<div class="sourceCode" id="c00"><pre class="sourceCode R"><code class="sourceCode r"><span id="c00-1"><a href="#c00-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">data</span>(chickwts)</span>
+<span id="c00-2"><a href="#c00-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> res <span class="ot">&lt;-</span> <span class="fu">dp_generate_dataresource</span>(chickwts, <span class="st">&quot;chickwts&quot;</span>) </span>
+<span id="c00-3"><a href="#c00-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resources</span>(dp) <span class="ot">&lt;-</span> res</span>
+<span id="c00-4"><a href="#c00-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> (feed_name <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;chickwts&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="c00-5"><a href="#c00-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">dp_field</span>(<span class="st">&quot;feed&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_property</span>(<span class="st">&quot;categories&quot;</span>))</span>
+<span id="c00-6"><a href="#c00-6" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">1</span>]]</span>
+<span id="c00-7"><a href="#c00-7" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">1</span>]]<span class="sc">$</span>value</span>
+<span id="c00-8"><a href="#c00-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">1</span></span>
+<span id="c00-9"><a href="#c00-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-10"><a href="#c00-10" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">1</span>]]<span class="sc">$</span>label</span>
+<span id="c00-11"><a href="#c00-11" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;casein&quot;</span></span>
+<span id="c00-12"><a href="#c00-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-13"><a href="#c00-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-14"><a href="#c00-14" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">2</span>]]</span>
+<span id="c00-15"><a href="#c00-15" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">2</span>]]<span class="sc">$</span>value</span>
+<span id="c00-16"><a href="#c00-16" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2</span></span>
+<span id="c00-17"><a href="#c00-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-18"><a href="#c00-18" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">2</span>]]<span class="sc">$</span>label</span>
+<span id="c00-19"><a href="#c00-19" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;horsebean&quot;</span></span>
+<span id="c00-20"><a href="#c00-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-21"><a href="#c00-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-22"><a href="#c00-22" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">3</span>]]</span>
+<span id="c00-23"><a href="#c00-23" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">3</span>]]<span class="sc">$</span>value</span>
+<span id="c00-24"><a href="#c00-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3</span></span>
+<span id="c00-25"><a href="#c00-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-26"><a href="#c00-26" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">3</span>]]<span class="sc">$</span>label</span>
+<span id="c00-27"><a href="#c00-27" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;linseed&quot;</span></span>
+<span id="c00-28"><a href="#c00-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-29"><a href="#c00-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-30"><a href="#c00-30" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">4</span>]]</span>
+<span id="c00-31"><a href="#c00-31" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">4</span>]]<span class="sc">$</span>value</span>
+<span id="c00-32"><a href="#c00-32" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">4</span></span>
+<span id="c00-33"><a href="#c00-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-34"><a href="#c00-34" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">4</span>]]<span class="sc">$</span>label</span>
+<span id="c00-35"><a href="#c00-35" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;meatmeal&quot;</span></span>
+<span id="c00-36"><a href="#c00-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-37"><a href="#c00-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-38"><a href="#c00-38" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">5</span>]]</span>
+<span id="c00-39"><a href="#c00-39" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">5</span>]]<span class="sc">$</span>value</span>
+<span id="c00-40"><a href="#c00-40" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">5</span></span>
+<span id="c00-41"><a href="#c00-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-42"><a href="#c00-42" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">5</span>]]<span class="sc">$</span>label</span>
+<span id="c00-43"><a href="#c00-43" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;soybean&quot;</span></span>
+<span id="c00-44"><a href="#c00-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-45"><a href="#c00-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-46"><a href="#c00-46" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">6</span>]]</span>
+<span id="c00-47"><a href="#c00-47" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">6</span>]]<span class="sc">$</span>value</span>
+<span id="c00-48"><a href="#c00-48" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">6</span></span>
+<span id="c00-49"><a href="#c00-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c00-50"><a href="#c00-50" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">6</span>]]<span class="sc">$</span>label</span>
+<span id="c00-51"><a href="#c00-51" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;sunflower&quot;</span></span></code></pre></div>
+<p>Here, the list of categories is stored directly in the
+<code>categories</code> property. It is also possible to store the list
+of categories in a Data Resource</p>
+<div class="sourceCode" id="c01"><pre class="sourceCode R"><code class="sourceCode r"><span id="c01-1"><a href="#c01-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> res <span class="ot">&lt;-</span> <span class="fu">dp_generate_dataresource</span>(chickwts, <span class="st">&quot;chickwts&quot;</span>, </span>
+<span id="c01-2"><a href="#c01-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">categories_type =</span> <span class="st">&quot;resource&quot;</span>) </span>
+<span id="c01-3"><a href="#c01-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resources</span>(dp) <span class="ot">&lt;-</span> res</span>
+<span id="c01-4"><a href="#c01-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> (feed_name <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;chickwts&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="c01-5"><a href="#c01-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">dp_field</span>(<span class="st">&quot;feed&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_property</span>(<span class="st">&quot;categories&quot;</span>))</span>
+<span id="c01-6"><a href="#c01-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>resource</span>
+<span id="c01-7"><a href="#c01-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;feed-categories&quot;</span></span></code></pre></div>
+<p>Here the <code>categories</code> property points to Data Resource.
+<code>dp_write_data</code> will automatically create this resource by
+default when writing the data:</p>
+<div class="sourceCode" id="c02"><pre class="sourceCode R"><code class="sourceCode r"><span id="c02-1"><a href="#c02-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(<span class="fu">dp_resource</span>(dp, <span class="st">&quot;chickwts&quot;</span>), <span class="at">data =</span> chickwts, <span class="at">write_categories =</span> <span class="cn">TRUE</span>)</span>
+<span id="c02-2"><a href="#c02-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">list.files</span>(dir)</span>
+<span id="c02-3"><a href="#c02-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;chickwts.csv&quot;</span>        <span class="st">&quot;datapackage.json&quot;</span>    <span class="st">&quot;feed-categories.csv&quot;</span></span>
+<span id="c02-4"><a href="#c02-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">4</span>] <span class="st">&quot;iris.csv&quot;</span>           </span>
+<span id="c02-5"><a href="#c02-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;feed-categories&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_get_data</span>()</span>
+<span id="c02-6"><a href="#c02-6" aria-hidden="true" tabindex="-1"></a>  value     label</span>
+<span id="c02-7"><a href="#c02-7" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span>    casein</span>
+<span id="c02-8"><a href="#c02-8" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">2</span> horsebean</span>
+<span id="c02-9"><a href="#c02-9" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">3</span>   linseed</span>
+<span id="c02-10"><a href="#c02-10" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>     <span class="dv">4</span>  meatmeal</span>
+<span id="c02-11"><a href="#c02-11" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>     <span class="dv">5</span>   soybean</span>
+<span id="c02-12"><a href="#c02-12" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>     <span class="dv">6</span> sunflower</span></code></pre></div>
+<p>By default the package will generate a list of categories for factor
+variables. The levels will be numbered using sequential integers
+starting from 1. The example below shows how different codes can be
+used.</p>
+<p>In order to write the correct codes we will also first have to
+generate the and save the dataset with the correct codes. In the example
+below we do this using R, but it is of course also possible to generate
+the CSV using other methods (e.g. manual editing):</p>
+<div class="sourceCode" id="c10"><pre class="sourceCode R"><code class="sourceCode r"><span id="c10-1"><a href="#c10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> codelist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="c10-2"><a href="#c10-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">101</span>, <span class="dv">102</span>, <span class="dv">103</span>, <span class="dv">202</span>, <span class="dv">203</span>, <span class="dv">204</span>),</span>
+<span id="c10-3"><a href="#c10-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">label =</span> <span class="fu">c</span>(<span class="st">&quot;casein&quot;</span>, <span class="st">&quot;horsebean&quot;</span>, <span class="st">&quot;linseed&quot;</span>, <span class="st">&quot;meatmeal&quot;</span>, </span>
+<span id="c10-4"><a href="#c10-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="st">&quot;soybean&quot;</span>, <span class="st">&quot;sunflower&quot;</span>)</span>
+<span id="c10-5"><a href="#c10-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> )</span>
+<span id="c10-6"><a href="#c10-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> res <span class="ot">&lt;-</span> <span class="fu">dp_generate_dataresource</span>(codelist, <span class="st">&quot;feed-categories&quot;</span>)</span>
+<span id="c10-7"><a href="#c10-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> res</span>
+<span id="c10-8"><a href="#c10-8" aria-hidden="true" tabindex="-1"></a>[feed<span class="sc">-</span>categories] </span>
+<span id="c10-9"><a href="#c10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c10-10"><a href="#c10-10" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
+<span id="c10-11"><a href="#c10-11" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;feed-categories.csv&quot;</span></span>
+<span id="c10-12"><a href="#c10-12" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
+<span id="c10-13"><a href="#c10-13" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
+<span id="c10-14"><a href="#c10-14" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="c10-15"><a href="#c10-15" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">2</span>] <span class="st">&quot;value&quot;</span> <span class="st">&quot;label&quot;</span></span>
+<span id="c10-16"><a href="#c10-16" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resources</span>(dp) <span class="ot">&lt;-</span> res</span>
+<span id="c10-17"><a href="#c10-17" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> codelistres <span class="ot">&lt;-</span> dp <span class="sc">|&gt;</span> <span class="fu">dp_resource</span>(<span class="st">&quot;feed-categories&quot;</span>)</span>
+<span id="c10-18"><a href="#c10-18" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(codelistres, <span class="at">data =</span> codelist, <span class="at">write_categories =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>This creates the correct CSV-files:</p>
+<div class="sourceCode" id="c20"><pre class="sourceCode R"><code class="sourceCode r"><span id="c20-1"><a href="#c20-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">readLines</span>(<span class="fu">file.path</span>(dir, <span class="st">&quot;feed-categories.csv&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span>
+<span id="c20-2"><a href="#c20-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;value&quot;</span>,<span class="st">&quot;label&quot;</span></span>
+<span id="c20-3"><a href="#c20-3" aria-hidden="true" tabindex="-1"></a><span class="dv">101</span>,<span class="st">&quot;casein&quot;</span></span>
+<span id="c20-4"><a href="#c20-4" aria-hidden="true" tabindex="-1"></a><span class="dv">102</span>,<span class="st">&quot;horsebean&quot;</span></span>
+<span id="c20-5"><a href="#c20-5" aria-hidden="true" tabindex="-1"></a><span class="dv">103</span>,<span class="st">&quot;linseed&quot;</span></span>
+<span id="c20-6"><a href="#c20-6" aria-hidden="true" tabindex="-1"></a><span class="dv">202</span>,<span class="st">&quot;meatmeal&quot;</span></span>
+<span id="c20-7"><a href="#c20-7" aria-hidden="true" tabindex="-1"></a><span class="dv">203</span>,<span class="st">&quot;soybean&quot;</span></span>
+<span id="c20-8"><a href="#c20-8" aria-hidden="true" tabindex="-1"></a><span class="dv">204</span>,<span class="st">&quot;sunflower&quot;</span></span></code></pre></div>
+<p>When we now write the dataset to file it will use this dataset - as
+long as we don’t overwrite it. Therefore, the
+<code>write_categories = FALSE</code>:</p>
+<div class="sourceCode" id="c30"><pre class="sourceCode R"><code class="sourceCode r"><span id="c30-1"><a href="#c30-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(dp, <span class="at">resourcename =</span> <span class="st">&quot;chickwts&quot;</span>, <span class="at">data =</span> chickwts, <span class="at">write_categories =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>We can see that the correct codes are used in the CSV-file:</p>
+<div class="sourceCode" id="c40"><pre class="sourceCode R"><code class="sourceCode r"><span id="c40-1"><a href="#c40-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">readLines</span>(<span class="fu">file.path</span>(dir, <span class="st">&quot;chickwts.csv&quot;</span>), <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span>
+<span id="c40-2"><a href="#c40-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;weight&quot;</span>,<span class="st">&quot;feed&quot;</span></span>
+<span id="c40-3"><a href="#c40-3" aria-hidden="true" tabindex="-1"></a><span class="dv">179</span>,<span class="dv">102</span></span>
+<span id="c40-4"><a href="#c40-4" aria-hidden="true" tabindex="-1"></a><span class="dv">160</span>,<span class="dv">102</span></span>
+<span id="c40-5"><a href="#c40-5" aria-hidden="true" tabindex="-1"></a><span class="dv">136</span>,<span class="dv">102</span></span>
+<span id="c40-6"><a href="#c40-6" aria-hidden="true" tabindex="-1"></a><span class="dv">227</span>,<span class="dv">102</span></span>
+<span id="c40-7"><a href="#c40-7" aria-hidden="true" tabindex="-1"></a><span class="dv">217</span>,<span class="dv">102</span></span>
+<span id="c40-8"><a href="#c40-8" aria-hidden="true" tabindex="-1"></a><span class="dv">168</span>,<span class="dv">102</span></span>
+<span id="c40-9"><a href="#c40-9" aria-hidden="true" tabindex="-1"></a><span class="dv">108</span>,<span class="dv">102</span></span>
+<span id="c40-10"><a href="#c40-10" aria-hidden="true" tabindex="-1"></a><span class="dv">124</span>,<span class="dv">102</span></span>
+<span id="c40-11"><a href="#c40-11" aria-hidden="true" tabindex="-1"></a><span class="dv">143</span>,<span class="dv">102</span></span></code></pre></div>
+<h2 id="editing-an-existing-data-package">Editing an existing Data
+Package</h2>
+<p>Editing of existing Data Packages is also possible. Use the
+<code>readonly = TRUE</code> argument when opening the Data Package:</p>
+<div class="sourceCode" id="e00"><pre class="sourceCode R"><code class="sourceCode r"><span id="e00-1"><a href="#e00-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> edit <span class="ot">&lt;-</span> <span class="fu">open_datapackage</span>(dir, <span class="at">readonly =</span> <span class="cn">FALSE</span>)</span>
+<span id="e00-2"><a href="#e00-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_id</span>(edit) <span class="ot">&lt;-</span> <span class="st">&quot;iris_chkwts&quot;</span></span>
+<span id="e00-3"><a href="#e00-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_created</span>(edit) <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="sc">|&gt;</span> <span class="fu">as.Date</span>()</span></code></pre></div>
+<p>Showing the complete <code>datapackage.json</code> file after all of
+the edits in this vignette:</p>
+<div class="sourceCode" id="e10"><pre class="sourceCode R"><code class="sourceCode r"><span id="e10-1"><a href="#e10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">readLines</span>(<span class="fu">file.path</span>(dir, <span class="st">&quot;datapackage.json&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span>
+<span id="e10-2"><a href="#e10-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="e10-3"><a href="#e10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;example&quot;</span>,</span>
+<span id="e10-4"><a href="#e10-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;title&quot;</span><span class="sc">:</span> <span class="st">&quot;An Example Data Package&quot;</span>,</span>
+<span id="e10-5"><a href="#e10-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;resources&quot;</span><span class="sc">:</span> [</span>
+<span id="e10-6"><a href="#e10-6" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="e10-7"><a href="#e10-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;iris&quot;</span>,</span>
+<span id="e10-8"><a href="#e10-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;path&quot;</span><span class="sc">:</span> <span class="st">&quot;iris.csv&quot;</span>,</span>
+<span id="e10-9"><a href="#e10-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;format&quot;</span><span class="sc">:</span> <span class="st">&quot;csv&quot;</span>,</span>
+<span id="e10-10"><a href="#e10-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;mediatype&quot;</span><span class="sc">:</span> <span class="st">&quot;text/csv&quot;</span>,</span>
+<span id="e10-11"><a href="#e10-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;encoding&quot;</span><span class="sc">:</span> <span class="st">&quot;utf-8&quot;</span>,</span>
+<span id="e10-12"><a href="#e10-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;schema&quot;</span><span class="sc">:</span> {</span>
+<span id="e10-13"><a href="#e10-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;fields&quot;</span><span class="sc">:</span> [</span>
+<span id="e10-14"><a href="#e10-14" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-15"><a href="#e10-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;Sepal.Length&quot;</span>,</span>
+<span id="e10-16"><a href="#e10-16" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;number&quot;</span></span>
+<span id="e10-17"><a href="#e10-17" aria-hidden="true" tabindex="-1"></a>          },</span>
+<span id="e10-18"><a href="#e10-18" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-19"><a href="#e10-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;Sepal.Width&quot;</span>,</span>
+<span id="e10-20"><a href="#e10-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;number&quot;</span></span>
+<span id="e10-21"><a href="#e10-21" aria-hidden="true" tabindex="-1"></a>          },</span>
+<span id="e10-22"><a href="#e10-22" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-23"><a href="#e10-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;Petal.Length&quot;</span>,</span>
+<span id="e10-24"><a href="#e10-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;number&quot;</span></span>
+<span id="e10-25"><a href="#e10-25" aria-hidden="true" tabindex="-1"></a>          },</span>
+<span id="e10-26"><a href="#e10-26" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-27"><a href="#e10-27" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;Petal.Width&quot;</span>,</span>
+<span id="e10-28"><a href="#e10-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;number&quot;</span></span>
+<span id="e10-29"><a href="#e10-29" aria-hidden="true" tabindex="-1"></a>          },</span>
+<span id="e10-30"><a href="#e10-30" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-31"><a href="#e10-31" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;Species&quot;</span>,</span>
+<span id="e10-32"><a href="#e10-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;integer&quot;</span>,</span>
+<span id="e10-33"><a href="#e10-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;categories&quot;</span><span class="sc">:</span> [</span>
+<span id="e10-34"><a href="#e10-34" aria-hidden="true" tabindex="-1"></a>              {</span>
+<span id="e10-35"><a href="#e10-35" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;value&quot;</span><span class="sc">:</span> <span class="dv">1</span>,</span>
+<span id="e10-36"><a href="#e10-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;label&quot;</span><span class="sc">:</span> <span class="st">&quot;setosa&quot;</span></span>
+<span id="e10-37"><a href="#e10-37" aria-hidden="true" tabindex="-1"></a>              },</span>
+<span id="e10-38"><a href="#e10-38" aria-hidden="true" tabindex="-1"></a>              {</span>
+<span id="e10-39"><a href="#e10-39" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;value&quot;</span><span class="sc">:</span> <span class="dv">2</span>,</span>
+<span id="e10-40"><a href="#e10-40" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;label&quot;</span><span class="sc">:</span> <span class="st">&quot;versicolor&quot;</span></span>
+<span id="e10-41"><a href="#e10-41" aria-hidden="true" tabindex="-1"></a>              },</span>
+<span id="e10-42"><a href="#e10-42" aria-hidden="true" tabindex="-1"></a>              {</span>
+<span id="e10-43"><a href="#e10-43" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;value&quot;</span><span class="sc">:</span> <span class="dv">3</span>,</span>
+<span id="e10-44"><a href="#e10-44" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;label&quot;</span><span class="sc">:</span> <span class="st">&quot;virginica&quot;</span></span>
+<span id="e10-45"><a href="#e10-45" aria-hidden="true" tabindex="-1"></a>              }</span>
+<span id="e10-46"><a href="#e10-46" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="e10-47"><a href="#e10-47" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="e10-48"><a href="#e10-48" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="e10-49"><a href="#e10-49" aria-hidden="true" tabindex="-1"></a>      },</span>
+<span id="e10-50"><a href="#e10-50" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;title&quot;</span><span class="sc">:</span> <span class="st">&quot;The Iris dataset&quot;</span></span>
+<span id="e10-51"><a href="#e10-51" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="e10-52"><a href="#e10-52" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="e10-53"><a href="#e10-53" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;chickwts&quot;</span>,</span>
+<span id="e10-54"><a href="#e10-54" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;path&quot;</span><span class="sc">:</span> <span class="st">&quot;chickwts.csv&quot;</span>,</span>
+<span id="e10-55"><a href="#e10-55" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;format&quot;</span><span class="sc">:</span> <span class="st">&quot;csv&quot;</span>,</span>
+<span id="e10-56"><a href="#e10-56" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;mediatype&quot;</span><span class="sc">:</span> <span class="st">&quot;text/csv&quot;</span>,</span>
+<span id="e10-57"><a href="#e10-57" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;encoding&quot;</span><span class="sc">:</span> <span class="st">&quot;utf-8&quot;</span>,</span>
+<span id="e10-58"><a href="#e10-58" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;schema&quot;</span><span class="sc">:</span> {</span>
+<span id="e10-59"><a href="#e10-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;fields&quot;</span><span class="sc">:</span> [</span>
+<span id="e10-60"><a href="#e10-60" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-61"><a href="#e10-61" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;weight&quot;</span>,</span>
+<span id="e10-62"><a href="#e10-62" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;number&quot;</span></span>
+<span id="e10-63"><a href="#e10-63" aria-hidden="true" tabindex="-1"></a>          },</span>
+<span id="e10-64"><a href="#e10-64" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-65"><a href="#e10-65" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;feed&quot;</span>,</span>
+<span id="e10-66"><a href="#e10-66" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;integer&quot;</span>,</span>
+<span id="e10-67"><a href="#e10-67" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;categories&quot;</span><span class="sc">:</span> {</span>
+<span id="e10-68"><a href="#e10-68" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;resource&quot;</span><span class="sc">:</span> <span class="st">&quot;feed-categories&quot;</span></span>
+<span id="e10-69"><a href="#e10-69" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="e10-70"><a href="#e10-70" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="e10-71"><a href="#e10-71" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="e10-72"><a href="#e10-72" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="e10-73"><a href="#e10-73" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="e10-74"><a href="#e10-74" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="e10-75"><a href="#e10-75" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;feed-categories&quot;</span>,</span>
+<span id="e10-76"><a href="#e10-76" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;path&quot;</span><span class="sc">:</span> <span class="st">&quot;feed-categories.csv&quot;</span>,</span>
+<span id="e10-77"><a href="#e10-77" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;format&quot;</span><span class="sc">:</span> <span class="st">&quot;csv&quot;</span>,</span>
+<span id="e10-78"><a href="#e10-78" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;mediatype&quot;</span><span class="sc">:</span> <span class="st">&quot;text/csv&quot;</span>,</span>
+<span id="e10-79"><a href="#e10-79" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;encoding&quot;</span><span class="sc">:</span> <span class="st">&quot;utf-8&quot;</span>,</span>
+<span id="e10-80"><a href="#e10-80" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;schema&quot;</span><span class="sc">:</span> {</span>
+<span id="e10-81"><a href="#e10-81" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;fields&quot;</span><span class="sc">:</span> [</span>
+<span id="e10-82"><a href="#e10-82" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-83"><a href="#e10-83" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;value&quot;</span>,</span>
+<span id="e10-84"><a href="#e10-84" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;number&quot;</span></span>
+<span id="e10-85"><a href="#e10-85" aria-hidden="true" tabindex="-1"></a>          },</span>
+<span id="e10-86"><a href="#e10-86" aria-hidden="true" tabindex="-1"></a>          {</span>
+<span id="e10-87"><a href="#e10-87" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;name&quot;</span><span class="sc">:</span> <span class="st">&quot;label&quot;</span>,</span>
+<span id="e10-88"><a href="#e10-88" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;type&quot;</span><span class="sc">:</span> <span class="st">&quot;string&quot;</span></span>
+<span id="e10-89"><a href="#e10-89" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="e10-90"><a href="#e10-90" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="e10-91"><a href="#e10-91" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="e10-92"><a href="#e10-92" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="e10-93"><a href="#e10-93" aria-hidden="true" tabindex="-1"></a>  ],</span>
+<span id="e10-94"><a href="#e10-94" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;description&quot;</span><span class="sc">:</span> <span class="st">&quot;This is a description of the Data Package&quot;</span>,</span>
+<span id="e10-95"><a href="#e10-95" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;contributors&quot;</span><span class="sc">:</span> [</span>
+<span id="e10-96"><a href="#e10-96" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="e10-97"><a href="#e10-97" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;title&quot;</span><span class="sc">:</span> <span class="st">&quot;Jane Doe&quot;</span>,</span>
+<span id="e10-98"><a href="#e10-98" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;role&quot;</span><span class="sc">:</span> <span class="st">&quot;author&quot;</span>,</span>
+<span id="e10-99"><a href="#e10-99" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;email&quot;</span><span class="sc">:</span> <span class="st">&quot;j.doe@organisation.org&quot;</span></span>
+<span id="e10-100"><a href="#e10-100" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="e10-101"><a href="#e10-101" aria-hidden="true" tabindex="-1"></a>  ],</span>
+<span id="e10-102"><a href="#e10-102" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;id&quot;</span><span class="sc">:</span> <span class="st">&quot;iris_chkwts&quot;</span>,</span>
+<span id="e10-103"><a href="#e10-103" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;created&quot;</span><span class="sc">:</span> <span class="st">&quot;2025-01-10&quot;</span></span>
+<span id="e10-104"><a href="#e10-104" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</body>
+</html>
