@@ -15,15 +15,15 @@
 #' @return
 #' Returns a \code{fielddescriptor}. 
 #'
-#' @rdname dpgeneratefielddescriptor
+#' @rdname dp_generate_fielddescriptor
 #' @export
-dpgeneratefielddescriptor <- function(x, name, ...) {
-  UseMethod("dpgeneratefielddescriptor")
+dp_generate_fielddescriptor <- function(x, name, ...) {
+  UseMethod("dp_generate_fielddescriptor")
 }
 
-#' @rdname dpgeneratefielddescriptor
+#' @rdname dp_generate_fielddescriptor
 #' @export
-dpgeneratefielddescriptor.default <- function(x, name, ...) {
+dp_generate_fielddescriptor.default <- function(x, name, ...) {
   fielddescriptor <- list(
     name = name,
     type = "string"
@@ -31,9 +31,9 @@ dpgeneratefielddescriptor.default <- function(x, name, ...) {
   fielddescriptor
 }
 
-#' @rdname dpgeneratefielddescriptor
+#' @rdname dp_generate_fielddescriptor
 #' @export
-dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE, 
+dp_generate_fielddescriptor.numeric <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
   hasfielddescriptor <- !is.null(fielddescriptor)
@@ -45,15 +45,15 @@ dpgeneratefielddescriptor.numeric <- function(x, name, use_existing = TRUE,
       type = "number"
     )
   }
-  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+  fielddescriptor <- dp_generate_fielddescriptor_handle_categories(x, 
     fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
 
-#' @rdname dpgeneratefielddescriptor
+#' @rdname dp_generate_fielddescriptor
 #' @export
-dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE, 
+dp_generate_fielddescriptor.integer <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
   hasfielddescriptor <- !is.null(fielddescriptor)
@@ -65,16 +65,16 @@ dpgeneratefielddescriptor.integer <- function(x, name, use_existing = TRUE,
       type = "integer"
     )
   }
-  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+  fielddescriptor <- dp_generate_fielddescriptor_handle_categories(x, 
     fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
 
 
-#' @rdname dpgeneratefielddescriptor
+#' @rdname dp_generate_fielddescriptor
 #' @export
-dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE, 
+dp_generate_fielddescriptor.logical <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
   hasfielddescriptor <- !is.null(fielddescriptor)
@@ -88,15 +88,15 @@ dpgeneratefielddescriptor.logical <- function(x, name, use_existing = TRUE,
       falseValues = "FALSE"
     )
   }
-  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+  fielddescriptor <- dp_generate_fielddescriptor_handle_categories(x, 
     fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
 
-#' @rdname dpgeneratefielddescriptor
+#' @rdname dp_generate_fielddescriptor
 #' @export
-dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE, 
+dp_generate_fielddescriptor.Date <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
   hasfielddescriptor <- !is.null(fielddescriptor)
@@ -108,15 +108,15 @@ dpgeneratefielddescriptor.Date <- function(x, name, use_existing = TRUE,
       type = "date"
     )
   }
-  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+  fielddescriptor <- dp_generate_fielddescriptor_handle_categories(x, 
     fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
 
-#' @rdname dpgeneratefielddescriptor
+#' @rdname dp_generate_fielddescriptor
 #' @export
-dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE, 
+dp_generate_fielddescriptor.character <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
   hasfielddescriptor <- !is.null(fielddescriptor)
@@ -128,16 +128,16 @@ dpgeneratefielddescriptor.character <- function(x, name, use_existing = TRUE,
       type = "string"
     )
   }
-  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+  fielddescriptor <- dp_generate_fielddescriptor_handle_categories(x, 
     fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
 
 
-#' @rdname dpgeneratefielddescriptor
+#' @rdname dp_generate_fielddescriptor
 #' @export
-dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE, 
+dp_generate_fielddescriptor.factor <- function(x, name, use_existing = TRUE, 
     use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
   fielddescriptor <- attr(x, "fielddescriptor")
   hasfielddescriptor <- !is.null(fielddescriptor)
@@ -149,18 +149,18 @@ dpgeneratefielddescriptor.factor <- function(x, name, use_existing = TRUE,
       type = "integer"
     )
   }
-  fielddescriptor <- dpgeneratefielddescriptor_handle_categories(x, 
+  fielddescriptor <- dp_generate_fielddescriptor_handle_categories(x, 
     fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
   class(fielddescriptor) <- "fielddescriptor"
   fielddescriptor
 }
 
 
-dpgeneratefielddescriptor_handle_categories <- function(x, fielddescriptor, use_existing, 
+dp_generate_fielddescriptor_handle_categories <- function(x, fielddescriptor, use_existing, 
     use_categories, categories_type = c("regular", "resource")) {
   if (use_existing) return(fielddescriptor)
   categories_type <- match.arg(categories_type)
-  categorieslist <- dpcategorieslist(x, normalise = TRUE)
+  categorieslist <- dp_categorieslist(x, normalise = TRUE)
   if (!use_categories && is.factor(x)) {
     categorieslist <- data.frame(
       value = seq_len(nlevels(x)),

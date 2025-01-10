@@ -14,11 +14,11 @@
 #' @seealso
 #' Use \code{\link{isTRUE}} to check if the test was successful. 
 #'
-#' @rdname dpcheckfield
+#' @rdname dp_check_field
 #' @export
-dpcheckfield <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
-  type <- dpproperty.fielddescriptor(fielddescriptor, "type")
-  name <- dpproperty.fielddescriptor(fielddescriptor, "name")
+dp_check_field <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+  type <- dp_property.fielddescriptor(fielddescriptor, "type")
+  name <- dp_property.fielddescriptor(fielddescriptor, "name")
   if (is.null(type))
     stop("Type missing from fielddescriptor of field '", name, "'.")
   if (type == "boolean") {
@@ -39,15 +39,15 @@ dpcheckfield <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqr
 
 
 check_integer <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
-  has_categories <- !is.null(dpproperty.fielddescriptor(fielddescriptor, "categories") )
+  has_categories <- !is.null(dp_property.fielddescriptor(fielddescriptor, "categories") )
   name <- fielddescriptor$name
-  if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
-      dpproperty.fielddescriptor(fielddescriptor, "type") != "integer") {
+  if (!is.null(dp_property.fielddescriptor(fielddescriptor, "type")) && 
+      dp_property.fielddescriptor(fielddescriptor, "type") != "integer") {
     return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
   }
   # Convert factor back to integer for further tests
   if (is.factor(x) && has_categories) {
-    categorieslist <- dpcategorieslist.fielddescriptor(fielddescriptor)
+    categorieslist <- dp_categorieslist.fielddescriptor(fielddescriptor)
     if (is.null(categorieslist)) 
       return(paste0("categories of '", name, "' not found."))
     # TODO: get correct column using labelColumn
@@ -82,8 +82,8 @@ check_integer <- function(x, fielddescriptor, constraints = TRUE, tolerance = sq
 
 check_number <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
-  if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
-      dpproperty.fielddescriptor(fielddescriptor, "type") != "number") {
+  if (!is.null(dp_property.fielddescriptor(fielddescriptor, "type")) && 
+      dp_property.fielddescriptor(fielddescriptor, "type") != "number") {
     return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
   }
   # We expect numeric
@@ -110,15 +110,15 @@ check_number <- function(x, fielddescriptor, constraints = TRUE)  {
 }
 
 check_string <- function(x, fielddescriptor, constraints = TRUE)  {
-  has_categories <- !is.null(dpproperty.fielddescriptor(fielddescriptor, "categories") )
+  has_categories <- !is.null(dp_property.fielddescriptor(fielddescriptor, "categories") )
   name <- fielddescriptor$name
-  if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
-      dpproperty.fielddescriptor(fielddescriptor, "type") != "string") {
+  if (!is.null(dp_property.fielddescriptor(fielddescriptor, "type")) && 
+      dp_property.fielddescriptor(fielddescriptor, "type") != "string") {
     return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
   }
   # Convert factor back to integer for further tests
   if (is.factor(x) && has_categories) {
-    categorieslist <- dpcategorieslist.fielddescriptor(fielddescriptor)
+    categorieslist <- dp_categorieslist.fielddescriptor(fielddescriptor)
     if (is.null(categorieslist)) 
       return(paste0("categories of '", name, "' not found."))
     # TODO: get correct column using labelColumn
@@ -147,8 +147,8 @@ check_string <- function(x, fielddescriptor, constraints = TRUE)  {
 
 check_boolean <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
-  if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
-      dpproperty.fielddescriptor(fielddescriptor, "type") != "boolean") {
+  if (!is.null(dp_property.fielddescriptor(fielddescriptor, "type")) && 
+      dp_property.fielddescriptor(fielddescriptor, "type") != "boolean") {
     return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
   }
   # check if x correct type
@@ -168,8 +168,8 @@ check_boolean <- function(x, fielddescriptor, constraints = TRUE)  {
 
 check_date <- function(x, fielddescriptor, constraints = TRUE)  {
   name <- fielddescriptor$name
-  if (!is.null(dpproperty.fielddescriptor(fielddescriptor, "type")) && 
-      dpproperty.fielddescriptor(fielddescriptor, "type") != "date") {
+  if (!is.null(dp_property.fielddescriptor(fielddescriptor, "type")) && 
+      dp_property.fielddescriptor(fielddescriptor, "type") != "date") {
     return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
   }
   # We expect Date

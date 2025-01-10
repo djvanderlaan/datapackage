@@ -2,7 +2,7 @@
 
 #' @export
 print.tableschema <- function(x, properties = NA, ...) {
-  if (length(properties) == 1 && is.na(properties)) properties <- dpproperties(x)
+  if (length(properties) == 1 && is.na(properties)) properties <- dp_properties(x)
   toprint <- intersect(names(x), properties)
   toprint <- x[toprint]
   if (length(toprint)) {

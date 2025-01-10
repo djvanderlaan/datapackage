@@ -37,7 +37,7 @@
 #' 
 #' # resource adds a resource if it doesn't yet exist or updates
 #' # an existing resource
-#' dpresource(dp, "iris") <- res
+#' dp_resource(dp, "iris") <- res
 #' 
 #' \dontshow{
 #' file.remove(file.path(dir, "datapackage.json"))
@@ -69,7 +69,7 @@ newdataresource <- function(name, title = NULL, description = NULL,
   if (!missing(hash) && !is.null(hash)) 
     dphash(res) <- hash
   other <- list(...)
-  for (property in names(other)) dpproperty(res, property) <- other[[property]]
+  for (property in names(other)) dp_property(res, property) <- other[[property]]
   # Return
   res
 }

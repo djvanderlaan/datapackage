@@ -19,15 +19,15 @@
 #' @examples
 #' # Add a very simple writer for json
 #' json_writer <- function(data, resourcename, datapackage, ...) {
-#'   dataresource <- dpresource(datapackage, resourcename)
+#'   dataresource <- dp_resource(datapackage, resourcename)
 #'   path <- dppath(dataresource, fullpath = TRUE)
 #'   jsonlite::write_json(data, path)
 #' }
 #'
-#' dpaddwriter("json", json_writer)
+#' dp_add_writer("json", json_writer)
 #' 
 #' @export
-dpaddwriter <- function(format, writer) {
+dp_add_writer <- function(format, writer) {
   stopifnot(is.character(format), length(format) == 1)
   stopifnot(is.function(writer))
   readers$writers[[format]] <- writer

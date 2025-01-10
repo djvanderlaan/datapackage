@@ -24,22 +24,22 @@
 #' @seealso
 #' Use \code{\link{isTRUE}} to check if the test was successful. 
 #'
-#' @rdname dpcheckfield
+#' @rdname dp_check_field
 #' @export
 
-dpcheckdataresource <- function(x, dataresource = attr(x, "resource"), constraints = TRUE, 
+dp_check_dataresource <- function(x, dataresource = attr(x, "resource"), constraints = TRUE, 
     throw = FALSE, tolerance = sqrt(.Machine$double.eps)) {
   stopifnot(is.data.frame(x))
   if (throw) {
-    res <- dpcheckdataresource(x, dataresource = dataresource, constraints = constraints, 
+    res <- dp_check_dataresource(x, dataresource = dataresource, constraints = constraints, 
       throw = FALSE, tolerance = tolerance)
     if (!isTRUE(res)) stop(paste0(res, collapse = "\n"))
     return(invisible(TRUE))
   }
   # check fieldnames
-  fieldnames  <- dpfieldnames(dataresource)
+  fieldnames  <- dp_field_names(dataresource)
   names       <- names(x)
-  fieldsMatch <- dpproperty(dataresource, "fieldsMatch")
+  fieldsMatch <- dp_property(dataresource, "fieldsMatch")
   if (is.null(fieldsMatch)) fieldsMatch <- "exact"
   if (fieldsMatch == "exact") {
     if (!isTRUE(all.equal(as.character(names), as.character(fieldnames)))) 
@@ -63,7 +63,7 @@ dpcheckdataresource <- function(x, dataresource = attr(x, "resource"), constrain
   result <- character(0)
   all_checks_ok <- TRUE
   for (field in fieldnames) {
-    check <- dpcheckfield(x[[field]], dpfield(dataresource, field), 
+    check <- dp_check_field(x[[field]], dp_field(dataresource, field), 
       constraints = constraints, tolerance = tolerance)
     if (!isTRUE(check)) {
       all_checks_ok <- FALSE

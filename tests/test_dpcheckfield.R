@@ -280,48 +280,48 @@ expect_equal(is.character(y), TRUE)
 expect_equal(length(y), 2)
 
 # =============================================================================
-# GENERAL dpcheckfield
+# GENERAL dp_check_field
 # Most tests will be covered by the tests above; here check for each type a 
 # couple of cases to see if all arguments are passed on the datapackage:::check_<type> 
 # functions
 
 x <- c(TRUE, FALSE, TRUE, NA)
-expect_istrue(dpcheckfield(x, list(name = "foo", type = "boolean")))
-expect_nistrue(dpcheckfield(as.character(x), list(name = "foo", type = "boolean")))
-expect_nistrue(dpcheckfield(x, list(name = "foo", type = "boolean", 
+expect_istrue(dp_check_field(x, list(name = "foo", type = "boolean")))
+expect_nistrue(dp_check_field(as.character(x), list(name = "foo", type = "boolean")))
+expect_nistrue(dp_check_field(x, list(name = "foo", type = "boolean", 
     constraints = list(unique = TRUE))))
 
 x <- as.Date(c("2024-01-01", "2024-03-01", "2024-01-01", NA))
-expect_istrue(dpcheckfield(x, list(name = "foo", type = "date")))
-expect_nistrue(dpcheckfield(as.character(x), list(name = "foo", type = "date")))
-expect_nistrue(dpcheckfield(x, list(name = "foo", type = "date", 
+expect_istrue(dp_check_field(x, list(name = "foo", type = "date")))
+expect_nistrue(dp_check_field(as.character(x), list(name = "foo", type = "date")))
+expect_nistrue(dp_check_field(x, list(name = "foo", type = "date", 
     constraints = list(unique = TRUE))))
 
 x <- c(1, 3, 1, NA)
-expect_istrue(dpcheckfield(x, list(name = "foo", type = "integer")))
-expect_nistrue(dpcheckfield(as.character(x), list(name = "foo", type = "integer")))
-expect_nistrue(dpcheckfield(x, list(name = "foo", type = "integer", 
+expect_istrue(dp_check_field(x, list(name = "foo", type = "integer")))
+expect_nistrue(dp_check_field(as.character(x), list(name = "foo", type = "integer")))
+expect_nistrue(dp_check_field(x, list(name = "foo", type = "integer", 
     constraints = list(minimum = 2))))
-expect_nistrue(dpcheckfield(x+0.1, list(name = "foo", type = "integer")))
-expect_istrue(dpcheckfield(x+0.1, list(name = "foo", type = "integer"), 
+expect_nistrue(dp_check_field(x+0.1, list(name = "foo", type = "integer")))
+expect_istrue(dp_check_field(x+0.1, list(name = "foo", type = "integer"), 
   tolerance = 0.3))
 
 x <- c(1, 3, 1, NA) + 0.1
-expect_istrue(dpcheckfield(x, list(name = "foo", type = "number")))
-expect_nistrue(dpcheckfield(as.character(x), list(name = "foo", type = "number")))
-expect_nistrue(dpcheckfield(x, list(name = "foo", type = "number", 
+expect_istrue(dp_check_field(x, list(name = "foo", type = "number")))
+expect_nistrue(dp_check_field(as.character(x), list(name = "foo", type = "number")))
+expect_nistrue(dp_check_field(x, list(name = "foo", type = "number", 
     constraints = list(minimum = 2))))
 
 x <- as.character(c(1, 3, 1, NA))
-expect_istrue(dpcheckfield(x, list(name = "foo", type = "string")))
-expect_nistrue(dpcheckfield(as.integer(x), list(name = "foo", type = "string")))
-expect_nistrue(dpcheckfield(x, list(name = "foo", type = "string", 
+expect_istrue(dp_check_field(x, list(name = "foo", type = "string")))
+expect_nistrue(dp_check_field(as.integer(x), list(name = "foo", type = "string")))
+expect_nistrue(dp_check_field(x, list(name = "foo", type = "string", 
     constraints = list(required = TRUE))))
 
 # Unknown type
-expect_warning(ut <- dpcheckfield(x, list(name = "foo", type = "foobar")))
+expect_warning(ut <- dp_check_field(x, list(name = "foo", type = "foobar")))
 expect_istrue(ut)
 
 # missing type
-expect_error(dpcheckfield(x, list(name = "foo")))
+expect_error(dp_check_field(x, list(name = "foo")))
 

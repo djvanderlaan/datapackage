@@ -8,12 +8,12 @@
 #' An object of type \code{fielddescriptor}.
 #'
 #' @export
-dpfield <- function(x, fieldname) {
-  UseMethod("dpfield")
+dp_field <- function(x, fieldname) {
+  UseMethod("dp_field")
 }
 
 #' @export
-dpfield.tableschema <- function(x, fieldname) {
+dp_field.tableschema <- function(x, fieldname) {
   fields <- x$fields
   if (is.null(fields)) stop("Fields are missing from Table Schema.")
   for (i in seq_along(fields)) {
@@ -27,9 +27,9 @@ dpfield.tableschema <- function(x, fieldname) {
 }
 
 #' @export
-dpfield.dataresource <- function(x, fieldname) {
+dp_field.dataresource <- function(x, fieldname) {
   schema <- dpschema(x)
   if (is.null(schema)) stop("Data Resource does not have a schema property.")
-  dpfield(schema, fieldname)
+  dp_field(schema, fieldname)
 }
 

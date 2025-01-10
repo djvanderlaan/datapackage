@@ -6,12 +6,12 @@
 #'
 #' @param convert_categories how to handle columns for which the field
 #'   descriptor has a \code{categories} property. Passed on to
-#'   \code{\link{dpapplyschema}}.
+#'   \code{\link{dp_apply_schema}}.
 #'
-#' @param ... additional arguments are passed on to \code{\link{dpapplyschema}}.
+#' @param ... additional arguments are passed on to \code{\link{dp_apply_schema}}.
 #'
 #' @seealso
-#' Generally used by calling \code{\link{dpgetdata}}.
+#' Generally used by calling \code{\link{dp_get_data}}.
 #'
 #' @return
 #' Returns a \code{data.frame} with the data.
@@ -19,7 +19,7 @@
 #' @export
 fwf_reader <- function(path, resource, convert_categories = c("no", "to_factor"), ...) {
   # Read fwfspec
-  fwfspec <- dpproperty(resource, "fwfspec")
+  fwfspec <- dp_property(resource, "fwfspec")
   if (is.null(fwfspec)) stop("Required fwfspec is missing from resource meta.")
   lengths <- sapply(fwfspec, \(x) x$length)
   names   <- sapply(fwfspec, \(x) x$name)
@@ -53,7 +53,7 @@ fwf_reader <- function(path, resource, convert_categories = c("no", "to_factor")
   #on.exit(close(con))
   dta <- con[,]
   # handle encoding
-  encoding <- dpproperty(resource, "encoding") |> tolower()
+  encoding <- dp_property(resource, "encoding") |> tolower()
   if (is.null(encoding)) encoding <- "latin1"
   if (encoding == "utf-8") encoding <- "UTF-8"
   if (encoding == "latin-1") encoding <- "latin1"
@@ -68,7 +68,7 @@ fwf_reader <- function(path, resource, convert_categories = c("no", "to_factor")
     if (is.character(dta[[col]])) Encoding(dta[[col]]) <- encoding
   # apply schema
   if (!is.null(schema)) {
-    dta <- dpapplyschema(dta, resource, convert_categories = convert_categories, 
+    dta <- dp_apply_schema(dta, resource, convert_categories = convert_categories, 
       decimalChar = dec, ...)
   }
   structure(dta, resource = resource)

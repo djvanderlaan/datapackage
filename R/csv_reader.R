@@ -8,7 +8,7 @@
 #'   \code{\link[utils]{read.csv}} and return a \code{data.table}.
 #' @param convert_categories how to handle columns for which the field
 #'   descriptor has a \code{categories} property. Passed on to
-#'   \code{\link{dpapplyschema}}.
+#'   \code{\link{dp_apply_schema}}.
 #' @param as_connection This argument is ignored. The function will always
 #'   return a \code{data.frame}.
 #' @param ... additional arguments are passed on to \code{\link{read.csv}} or
@@ -17,7 +17,7 @@
 #'   additional arguments.
 #'
 #' @seealso
-#' Generally used by calling \code{\link{dpgetdata}}.
+#' Generally used by calling \code{\link{dp_get_data}}.
 #'
 #' @return
 #' Returns a \code{data.frame} with the data.
@@ -31,12 +31,12 @@ csv_reader <- function(path, resource, use_fread = FALSE,
   } else {
     dec <- determine_decimalchar(schema$fields)
     colclasses <- sapply(schema$fields, csv_colclass, decimalChar = dec)
-    dialect <- dpproperty(resource, "dialect")
+    dialect <- dp_property(resource, "dialect")
     if (is.null(dialect)) dialect <- list()
     # TODO: missing values/na.strings
     dta <- csv_read_base(path, decimalChar = dec, colClasses = colclasses, 
       use_fread = use_fread, csv_dialect = dialect, ...)
-    dta <- dpapplyschema(dta, resource, convert_categories = convert_categories, 
+    dta <- dp_apply_schema(dta, resource, convert_categories = convert_categories, 
       decimalChar = dec)
   }
   structure(dta, resource = resource)

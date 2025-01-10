@@ -9,14 +9,14 @@
 #' Returns a modified \code{x}.
 #'
 #' @export
-`dpresources<-` <- function(x, value) {
+`dp_resources<-` <- function(x, value) {
   if (methods::is(value, "dataresource")) {
     name <- dpname(value)
     if (is.null(name)) stop("name of data resource is missing")
-    dpresource(x, name) <- value
+    dp_resource(x, name) <- value
   } else {
     for (i in seq_along(value)) {
-      dpresources(x) <- value[[i]]
+      dp_resources(x) <- value[[i]]
     }
   }
   x

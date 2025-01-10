@@ -19,13 +19,13 @@
 #' @export
 csv_write <- function(x, resourcename, datapackage, 
     use_fwrite = FALSE, ...) {
-  dataresource <- dpresource(datapackage, resourcename)
+  dataresource <- dp_resource(datapackage, resourcename)
   if (is.null(dataresource)) 
     stop("Data resource '", resourcename, "' does not exist in data package")
   # First check to see of dataresourc fits data
-  stopifnot(setequal(names(x), dpfieldnames(dataresource)))
+  stopifnot(setequal(names(x), dp_field_names(dataresource)))
   # Write dataset; but first process arguments
-  csvdialect <- dpproperty(dataresource, "dialect")
+  csvdialect <- dp_property(dataresource, "dialect")
   decimalChar <- decimalchars(dataresource) |> utils::head(1)
   delimiter <- "," 
   if (!is.null(csvdialect) && !is.null(csvdialect$delimiter))
@@ -40,7 +40,7 @@ csv_write <- function(x, resourcename, datapackage,
   quote <- which(sapply(x, is.character))
   # Format the fields (if necessary)
   for (i in names(x)) 
-    x[[i]] <- csv_format(x[[i]], dpfield(dataresource, i))
+    x[[i]] <- csv_format(x[[i]], dp_field(dataresource, i))
   # How to write missing values
   encoding <- dpencoding(dataresource, "encoding")
   if (is.null(encoding)) encoding <- "UTF-8"
@@ -120,10 +120,10 @@ csv_write_base <- function(x, filename,
 
 
 decimalchars <- function(x) {
-  decimalChars <- sapply(dpfieldnames(x), \(fn) {
-    char <- dpfield(x, fn) |> dpproperty("decimalChar")
+  decimalChars <- sapply(dp_field_names(x), \(fn) {
+    char <- dp_field(x, fn) |> dp_property("decimalChar")
     if (is.null(char)) {
-      type <- dpfield(x, fn) |> dpproperty("type")
+      type <- dp_field(x, fn) |> dp_property("type")
       if (type == "number") NA_character_ else '.'
     } else {
       char

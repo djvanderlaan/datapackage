@@ -7,13 +7,13 @@
 #' Returns a character vector with the fields in the Data Resource.
 #'
 #' @export
-dpfieldnames <- function(x) {
-  UseMethod("dpfieldnames")
+dp_field_names <- function(x) {
+  UseMethod("dp_field_names")
 }
 
 #' @export
-dpfieldnames.tableschema <- function(x) {
-  # TODO: convert to dpproperty
+dp_field_names.tableschema <- function(x) {
+  # TODO: convert to dp_property
   fields <- x$fields
   if (is.null(fields)) stop("Fields are missing from Table Schema of Data Resource.")
   sapply(fields, function(f) {
@@ -23,9 +23,9 @@ dpfieldnames.tableschema <- function(x) {
 }
 
 #' @export
-dpfieldnames.dataresource <- function(x) {
+dp_field_names.dataresource <- function(x) {
   schema <- dpschema(x)
   if (is.null(schema)) stop("Data Resource does not have a schema property.")
-  dpfieldnames(schema)
+  dp_field_names(schema)
 }
 

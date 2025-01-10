@@ -23,7 +23,7 @@ csv_reader(
 
 \item{convert_categories}{how to handle columns for which the field
 descriptor has a \code{categories} property. Passed on to
-\code{\link{dpapplyschema}}.}
+\code{\link{dp_apply_schema}}.}
 
 \item{as_connection}{This argument is ignored. The function will always
 return a \code{data.frame}.}
@@ -40,5 +40,5 @@ Returns a \code{data.frame} with the data.
 Read the CSV-data for a Data Resource
 }
 \seealso{
-Generally used by calling \code{\link{dpgetdata}}.
+Generally used by calling \code{\link{dp_get_data}}.
 }

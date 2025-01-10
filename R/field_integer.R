@@ -49,7 +49,7 @@ to_integer.numeric <- function(x, fielddescriptor = list(), ...) {
 #' @export
 to_integer.factor <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_integer(fielddescriptor)
-  categorieslist <- dpcategorieslist(fielddescriptor)
+  categorieslist <- dp_categorieslist(fielddescriptor)
   if (is.null(categorieslist)) {
     x <- as.integer(x)
   } else {

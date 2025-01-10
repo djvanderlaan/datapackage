@@ -22,11 +22,11 @@
 #' be provided unless the data is stored inside the Data Resource object.
 #'
 #' It is also possible to assign default readers for data formats. For that see
-#' \code{\link{dpaddreader}}.
+#' \code{\link{dp_add_reader}}.
 #'
 #' @seealso
-#' \code{dpgetconnection} is a wrapper around 
-#' \code{dpgetdata(..., as_connection = TRUE)}. 
+#' \code{dp_get_connection} is a wrapper around 
+#' \code{dp_get_data(..., as_connection = TRUE)}. 
 #'
 #' @return
 #' Will return the data. This will generally be a \code{data.frame} but
@@ -36,17 +36,17 @@
 #' return a connection to the data. This depends on the reader. When the reader
 #' does not support returning connections it will return the data.
 #
-#' @rdname dpgetdata
+#' @rdname dp_get_data
 #' @export
-dpgetdata <- function(x, ..., as_connection = FALSE) {
-  UseMethod("dpgetdata")
+dp_get_data <- function(x, ..., as_connection = FALSE) {
+  UseMethod("dp_get_data")
 }
 
-#' @rdname dpgetdata
+#' @rdname dp_get_data
 #' @export
-dpgetdata.dataresource <- function(x, reader = "guess", ..., as_connection = FALSE) {
+dp_get_data.dataresource <- function(x, reader = "guess", ..., as_connection = FALSE) {
   # Check if resource includes data; ifso return that
-  d <- dpproperty(x, "data")
+  d <- dp_property(x, "data")
   if (!is.null(d)) {
     # Try to transoform to data.frame 
     df <- d |> jsonlite::toJSON(auto_unbox = TRUE) |> jsonlite::fromJSON(simplifyVector = TRUE)
@@ -64,11 +64,11 @@ dpgetdata.dataresource <- function(x, reader = "guess", ..., as_connection = FAL
   }
 }
 
-#' @rdname dpgetdata
+#' @rdname dp_get_data
 #' @export
-dpgetdata.datapackage <- function(x, resourcename, reader = "guess", ..., as_connection = FALSE) {
-  resource <- dpresource(x, resourcename)
+dp_get_data.datapackage <- function(x, resourcename, reader = "guess", ..., as_connection = FALSE) {
+  resource <- dp_resource(x, resourcename)
   if (is.null(resource)) stop("Resource '", resourcename, "' not found.")
-  dpgetdata(resource, reader = reader, ..., as_connection = as_connection)
+  dp_get_data(resource, reader = reader, ..., as_connection = as_connection)
 }
 

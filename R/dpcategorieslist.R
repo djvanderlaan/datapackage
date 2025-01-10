@@ -14,18 +14,18 @@
 #' Returns a \code{data.frame} with the categories or \code{NULL} when none could
 #' be found.
 #'
-#' @rdname dpcategorieslist
+#' @rdname dp_categorieslist
 #' @export
-dpcategorieslist <- function(x, ...) {
-  UseMethod("dpcategorieslist")
+dp_categorieslist <- function(x, ...) {
+  UseMethod("dp_categorieslist")
 }
 
-#' @rdname dpcategorieslist
+#' @rdname dp_categorieslist
 #' @export
-dpcategorieslist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"), 
-    datapackage = dpgetdatapackage(fielddescriptor), ...) {
+dp_categorieslist.default <- function(x, fielddescriptor = attr(x, "fielddescriptor"), 
+    datapackage = dp_get_datapackage(fielddescriptor), ...) {
   res <- NULL
-  if (!is.null(fielddescriptor)) res <- dpcategorieslist(fielddescriptor, ...)
+  if (!is.null(fielddescriptor)) res <- dp_categorieslist(fielddescriptor, ...)
   if (is.null(res) && is.factor(x)) {
     res <- data.frame(
       value = seq_len(nlevels(x)),
@@ -35,9 +35,9 @@ dpcategorieslist.default <- function(x, fielddescriptor = attr(x, "fielddescript
   res
 }
 
-#' @rdname dpcategorieslist
+#' @rdname dp_categorieslist
 #' @export
-dpcategorieslist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x), 
+dp_categorieslist.fielddescriptor <- function(x, datapackage = dp_get_datapackage(x), 
     normalised = FALSE, ...) {
   categorieslist <- x$categories
   if (is.null(categorieslist)) {
@@ -60,10 +60,10 @@ dpcategorieslist.fielddescriptor <- function(x, datapackage = dpgetdatapackage(x
         stop("'resource' field missing from categories.")
       resource <- categorieslist$resource
       categories <- categorieslist
-      categorieslist <- dpgetdata(datapackage, resource)
+      categorieslist <- dp_get_data(datapackage, resource)
       stopifnot(is.data.frame(categorieslist))
       # Following function checks if value and labels are present in 
-      # the categorieslist. Function defined in dptofactor.R
+      # the categorieslist. Function defined in dp_to_factor.R
       fields <- getfieldsofcategorieslist(categorieslist)
       # Rename columns
       if (normalised) {

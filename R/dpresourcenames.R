@@ -9,8 +9,8 @@
 #' Package.
 #'
 #' @export
-dpresourcenames <- function(dp) {
-  resources <- sapply(dpproperty(dp, "resources"), function(r) {
+dp_resource_names <- function(dp) {
+  resources <- sapply(dp_property(dp, "resources"), function(r) {
     if (!exists("name", r)) stop("Resource without name.")
     r$name
   })

@@ -57,7 +57,7 @@ dpmediatype(res) <- "text/csv"
 
 # resource adds a resource if it doesn't yet exist or updates
 # an existing resource
-dpresource(dp, "iris") <- res
+dp_resource(dp, "iris") <- res
 
 \dontshow{
 file.remove(file.path(dir, "datapackage.json"))

@@ -27,31 +27,31 @@
 #' The function doesn't return anything. It is called for it's side effect of
 #' creating files in the directory of the Data Package.
 #'
-#' @rdname dpwritedata
+#' @rdname dp_write_data
 #' @export
-dpwritedata <- function(x, ..., write_categories = TRUE) {
-  UseMethod("dpwritedata")
+dp_write_data <- function(x, ..., write_categories = TRUE) {
+  UseMethod("dp_write_data")
 }
 
-#' @rdname dpwritedata
+#' @rdname dp_write_data
 #' @export
-dpwritedata.datapackage <- function(x, resourcename, data, writer = "guess", ..., 
+dp_write_data.datapackage <- function(x, resourcename, data, writer = "guess", ..., 
     write_categories = TRUE) {
-  resource <- dpresource(x, resourcename)
-  dpwritedata(resource, data = data, datapackage = x, writer = writer, ..., 
+  resource <- dp_resource(x, resourcename)
+  dp_write_data(resource, data = data, datapackage = x, writer = writer, ..., 
     write_categories = write_categories)
 }
 
-#' @rdname dpwritedata
+#' @rdname dp_write_data
 #' @export
-dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x), 
+dp_write_data.dataresource <- function(x, data, datapackage = dp_get_datapackage(x), 
     writer = "guess", ..., write_categories = TRUE) {
   # First check to see of dataresource fits data
-  stopifnot(setequal(names(data), dpfieldnames(x)))
+  stopifnot(setequal(names(data), dp_field_names(x)))
   # Save categories lists
   if (write_categories) {
-    for (field in dpfieldnames(x)) {
-      categories <- dpfield(x, field) |> dpproperty("categories")
+    for (field in dp_field_names(x)) {
+      categories <- dp_field(x, field) |> dp_property("categories")
       if (!is.null(categories) && categoriestype(categories) == "dataresource") {
         categories_resource <- categories$resource
         if (is.null(categories_resource)) 
@@ -59,15 +59,15 @@ dpwritedata.dataresource <- function(x, data, datapackage = dpgetdatapackage(x),
         cl <- NULL
         suppressWarnings(try({
           # This could fail if the categories list is not already saved
-          cl <- dpcategorieslist(dpfield(x, field))
+          cl <- dp_categorieslist(dp_field(x, field))
         }, silent = TRUE))
-        if (is.null(cl)) cl <- dpcategorieslist(data[[field]])
+        if (is.null(cl)) cl <- dp_categorieslist(data[[field]])
         # Check if a resource for the categories list already exists; if not create it
-        if (!(categories_resource %in% dpresourcenames(datapackage))) {
-          res <- dpgeneratedataresource(cl, categories_resource, categorieslist = TRUE)
-          dpresources(datapackage) <- res
+        if (!(categories_resource %in% dp_resource_names(datapackage))) {
+          res <- dp_generate_dataresource(cl, categories_resource, categorieslist = TRUE)
+          dp_resources(datapackage) <- res
         }
-        dpwritedata(data = cl, resourcename = categories_resource, datapackage, 
+        dp_write_data(data = cl, resourcename = categories_resource, datapackage, 
           write_categories = FALSE, ...)
       }
     }

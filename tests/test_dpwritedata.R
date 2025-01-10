@@ -6,14 +6,14 @@ if (dir == "") dir <- "../inst/tests/test01"
 
 dp <- opendatapackage(dir)
 
-dta <- dp |> dpresource("complex") |> dpgetdata()
+dta <- dp |> dp_resource("complex") |> dp_get_data()
 
 newdir <- tempdir()
 
 newdp <- newdatapackage(newdir)
 dpname(newdp) <- "test"
 
-res <- dpgeneratedataresource(dta, "complex")
+res <- dp_generate_dataresource(dta, "complex")
 # We expect one resource
 expect_equal(dpname(res), "complex")
 
@@ -21,13 +21,13 @@ expect_equal(dpname(res), "complex")
 # be recognized as missing value;
 res$schema$fields[[9]]$missingValues <- list("")
 
-dpresources(newdp) <- res
-expect_equal(dpresourcenames(newdp), c("complex"))
+dp_resources(newdp) <- res
+expect_equal(dp_resource_names(newdp), c("complex"))
 
 # We only expect the datapackage.json file in dir
 expect_equal(list.files(newdir), "datapackage.json")
 
-dpwritedata(newdp, "complex", data = dta)
+dp_write_data(newdp, "complex", data = dta)
 expect_equal(list.files(newdir), sort(c("datapackage.json", "complex.csv")))
 
 # Check each of the CSV-files
@@ -43,12 +43,12 @@ expect_equal(csv, expected)
 # same data as from the original package
 # without to_factor
 dp2 <- opendatapackage(newdir)
-dta <- dp |> dpresource("complex") |> dpgetdata()
-dta2 <- dp2 |> dpresource("complex") |> dpgetdata(convert_categories = "no")
+dta <- dp |> dp_resource("complex") |> dp_get_data()
+dta2 <- dp2 |> dp_resource("complex") |> dp_get_data(convert_categories = "no")
 expect_equal(dta, dta2, attributes = FALSE)
 # with to_factor
-dta <- dpgetdata(dp, "complex", convert_categories = "to_factor")
-dta2 <- dp2 |> dpresource("complex") |> dpgetdata(convert_categories = "to_factor")
+dta <- dp_get_data(dp, "complex", convert_categories = "to_factor")
+dta2 <- dp2 |> dp_resource("complex") |> dp_get_data(convert_categories = "to_factor")
 expect_equal(dta, dta2, attributes = FALSE)
 
 
@@ -63,7 +63,7 @@ ignore <- file.remove(newdir)
 
 dp <- opendatapackage(dir)
 
-dta <- dp |> dpresource("complex") |> dpgetdata()
+dta <- dp |> dp_resource("complex") |> dp_get_data()
 
 newdir <- tempdir()
 
@@ -71,20 +71,20 @@ newdir <- tempdir()
 newdp <- newdatapackage(newdir)
 dpname(newdp) <- "test"
 
-res <- dpgeneratedataresource(dta, "complex", use_existing = TRUE)
+res <- dp_generate_dataresource(dta, "complex", use_existing = TRUE)
 # We expect one resource
 expect_equal(dpname(res), "complex")
 
 # Needed because we have "" in a string field which by default will not
 # be recognized as missing value;
 
-dpresources(newdp) <- res
-expect_equal(dpresourcenames(newdp), c("complex"))
+dp_resources(newdp) <- res
+expect_equal(dp_resource_names(newdp), c("complex"))
 
 # We only expect the datapackage.json file in dir
 expect_equal(list.files(newdir), "datapackage.json")
 
-dpwritedata(newdp, "complex", data = dta)
+dp_write_data(newdp, "complex", data = dta)
 
 expect_equal(list.files(newdir), sort(c("codelist-factor1.csv", 
       "codelist-factor2.csv", "datapackage.json", "complex.csv")))
@@ -113,12 +113,12 @@ expect_equal(csv, expected)
 # same data as from the original package
 # without to_factor
 dp2 <- opendatapackage(newdir)
-dta <- dp |> dpresource("complex") |> dpgetdata()
-dta2 <- dp2 |> dpresource("complex") |> dpgetdata(convert_categories = "no")
+dta <- dp |> dp_resource("complex") |> dp_get_data()
+dta2 <- dp2 |> dp_resource("complex") |> dp_get_data(convert_categories = "no")
 expect_equal(dta, dta2, attributes = FALSE)
 # with to_factor
-dta <- dpgetdata(dp, "complex", convert_categories = "to_factor")
-dta2 <- dp2 |> dpresource("complex") |> dpgetdata(convert_categories = "to_factor")
+dta <- dp_get_data(dp, "complex", convert_categories = "to_factor")
+dta2 <- dp2 |> dp_resource("complex") |> dp_get_data(convert_categories = "to_factor")
 expect_equal(dta, dta2, attributes = FALSE)
 
 

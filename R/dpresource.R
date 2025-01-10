@@ -14,34 +14,34 @@
 #' @return 
 #' Either returns a Data Resource object or modifies the Data Package.
 #'
-#' @rdname dpresource
+#' @rdname dp_resource
 #' @export
-dpresource <- function(x, resourcename) {
-  UseMethod("dpresource")
+dp_resource <- function(x, resourcename) {
+  UseMethod("dp_resource")
 }
 
-#' @rdname dpresource
+#' @rdname dp_resource
 #' @export
-dpresource.datapackage <- function(x, resourcename) {
-  resources <- dpproperty(x, "resources")
+dp_resource.datapackage <- function(x, resourcename) {
+  resources <- dp_property(x, "resources")
   index <- getresourceindex(x, resourcename, resources = resources)
   r <- resources[[index]]
   structure(r, class="dataresource", path=attr(x, "path"), datapackage = x)
 }
 
-#' @rdname dpresource
+#' @rdname dp_resource
 #' @export
-`dpresource<-` <- function(x, resourcename, value) {
-  UseMethod("dpresource<-")
+`dp_resource<-` <- function(x, resourcename, value) {
+  UseMethod("dp_resource<-")
 }
 
-#' @rdname dpresource
+#' @rdname dp_resource
 #' @export
-`dpresource<-.readonlydatapackage` <- function(x, resourcename, value) {
+`dp_resource<-.readonlydatapackage` <- function(x, resourcename, value) {
   index <- getresourceindex(x, resourcename, stop = FALSE)
   # If not found add a new resource
   if (is.null(index)) {
-    index <- dpnresources(x)+1L
+    index <- dp_nresources(x)+1L
   }
   # TODO: check if valid resource
   if (dpname(value) != resourcename) {
@@ -56,19 +56,19 @@ dpresource.datapackage <- function(x, resourcename) {
   x
 }
 
-#' @rdname dpresource
+#' @rdname dp_resource
 #' @export
-`dpresource<-.editabledatapackage` <- function(x, resourcename, value) {
+`dp_resource<-.editabledatapackage` <- function(x, resourcename, value) {
   dp <- readdatapackage(attr(x, "path"), attr(x, "filename"))
-  dpresource(dp, resourcename) <- value
+  dp_resource(dp, resourcename) <- value
   writedatapackage(dp) 
   x
 }
 
 getresourceindex <- function(dp, resourcename, resources = NULL, stop = TRUE) {
   if (missing(resources) || is.null(resources))
-    resources <- dpproperty(dp, "resources")
-  for (i in seq_len(dpnresources(dp))) {
+    resources <- dp_property(dp, "resources")
+  for (i in seq_len(dp_nresources(dp))) {
     r <- resources[[i]]
     if (exists("name", r)) {
       if (r$name == resourcename) {

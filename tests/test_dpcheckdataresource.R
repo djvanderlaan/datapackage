@@ -25,7 +25,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, b = letters[1:3])
-expect_istrue(dpcheckdataresource(dta, dr))
+expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -38,7 +38,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, b = letters[1:3])
-expect_istrue(dpcheckdataresource(dta, dr))
+expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -51,7 +51,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, b = letters[1:3])
-expect_nistrue(dpcheckdataresource(dta, dr))
+expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -64,7 +64,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, b = letters[1:3])
-expect_istrue(dpcheckdataresource(dta, dr))
+expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -77,7 +77,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3)
-expect_nistrue(dpcheckdataresource(dta, dr))
+expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -90,7 +90,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3)
-expect_istrue(dpcheckdataresource(dta, dr))
+expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -103,7 +103,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, b = letters[1:3], c = letters[1:3])
-expect_nistrue(dpcheckdataresource(dta, dr))
+expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -116,7 +116,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, b = letters[1:3], c = letters[1:3])
-expect_istrue(dpcheckdataresource(dta, dr))
+expect_istrue(dp_check_dataresource(dta, dr))
 
 
 dr <- list(
@@ -130,7 +130,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, c = letters[1:3])
-expect_nistrue(dpcheckdataresource(dta, dr))
+expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -143,7 +143,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, c = letters[1:3])
-expect_istrue(dpcheckdataresource(dta, dr))
+expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -156,11 +156,11 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(d = 1:3, c = letters[1:3])
-expect_nistrue(dpcheckdataresource(dta, dr))
+expect_nistrue(dp_check_dataresource(dta, dr))
 
 # =============================================================================
-# Check if dpcheckfields is called correctly; we will not check all option of
-# dpcheckfields as this function is tested seperately
+# Check if dp_check_fields is called correctly; we will not check all option of
+# dp_check_fields as this function is tested seperately
 
 dr <- list(
     name = "test",
@@ -172,7 +172,7 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = 1:3, b = letters[1:3])
-expect_nistrue(dpcheckdataresource(dta, dr))
+expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
@@ -184,8 +184,8 @@ dr <- list(
       )
   ) |> structure(class = "dataresource")
 dta <- data.frame(a = c(1:3,NA), b = c(letters[1:3], NA))
-expect_nistrue(dpcheckdataresource(dta, dr))
+expect_nistrue(dp_check_dataresource(dta, dr))
 
-expect_error(dpcheckdataresource(dta, dr, throw = TRUE))
+expect_error(dp_check_dataresource(dta, dr, throw = TRUE))
 
 

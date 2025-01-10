@@ -16,40 +16,40 @@
 #' Either returns the property or modifies the object.
 #' 
 #' @export
-#' @rdname dpproperty
-dpproperty <- function(x, attribute) {
-  UseMethod("dpproperty")
+#' @rdname dp_property
+dp_property <- function(x, attribute) {
+  UseMethod("dp_property")
 }
 
 #' @export
-#' @rdname dpproperty
-dpproperty.readonlydatapackage <- function(x, attribute) {
+#' @rdname dp_property
+dp_property.readonlydatapackage <- function(x, attribute) {
   x[[attribute]]
 }
 
 #' @export
-#' @rdname dpproperty
-dpproperty.editabledatapackage <- function(x, attribute) {
+#' @rdname dp_property
+dp_property.editabledatapackage <- function(x, attribute) {
   dp <- readdatapackage(attr(x, "path"), attr(x, "filename"))
-  dpproperty(dp, attribute)
+  dp_property(dp, attribute)
 }
 
 #' @export
-#' @rdname dpproperty
-`dpproperty<-` <- function(x, attribute, value) {
-  UseMethod("dpproperty<-")
+#' @rdname dp_property
+`dp_property<-` <- function(x, attribute, value) {
+  UseMethod("dp_property<-")
 }
 
 #' @export
-#' @rdname dpproperty
-`dpproperty<-.readonlydatapackage` <- function(x, attribute, value) {
+#' @rdname dp_property
+`dp_property<-.readonlydatapackage` <- function(x, attribute, value) {
   x[[attribute]] <- value
   x
 }
 
 #' @export
-#' @rdname dpproperty
-`dpproperty<-.editabledatapackage` <- function(x, attribute, value) {
+#' @rdname dp_property
+`dp_property<-.editabledatapackage` <- function(x, attribute, value) {
   dp <- readdatapackage(attr(x, "path"), attr(x, "filename"))
   dp[[attribute]] <- value
   writedatapackage(dp) 
@@ -57,40 +57,40 @@ dpproperty.editabledatapackage <- function(x, attribute) {
 }
 
 #' @export
-#' @rdname dpproperty
-dpproperty.dataresource <- function(x, attribute) {
+#' @rdname dp_property
+dp_property.dataresource <- function(x, attribute) {
   x[[attribute]]
 }
 
 #' @export
-#' @rdname dpproperty
-`dpproperty<-.dataresource` <- function(x, attribute, value) {
+#' @rdname dp_property
+`dp_property<-.dataresource` <- function(x, attribute, value) {
   x[[attribute]] <- value
   x
 }
 
 #' @export
-#' @rdname dpproperty
-dpproperty.tableschema <- function(x, attribute) {
+#' @rdname dp_property
+dp_property.tableschema <- function(x, attribute) {
   x[[attribute]]
 }
 
 #' @export
-#' @rdname dpproperty
-`dpproperty<-.tableschema` <- function(x, attribute, value) {
+#' @rdname dp_property
+`dp_property<-.tableschema` <- function(x, attribute, value) {
   x[[attribute]] <- value
   x
 }
 
 #' @export
-#' @rdname dpproperty
-dpproperty.fielddescriptor <- function(x, attribute) {
+#' @rdname dp_property
+dp_property.fielddescriptor <- function(x, attribute) {
   x[[attribute]]
 }
 
 #' @export
-#' @rdname dpproperty
-`dpproperty<-.fielddescriptor` <- function(x, attribute, value) {
+#' @rdname dp_property
+`dp_property<-.fielddescriptor` <- function(x, attribute, value) {
   x[[attribute]] <- value
   x
 }

@@ -56,7 +56,7 @@ The following methods a currently (when writing the vignette) supported:
 - `dpname<-`
 - `dpcreated<-`
 - `dpkeywords<-`
-- `dpproperty<-`: this function also allow custom properties.
+- `dp_property<-`: this function also allow custom properties.
 
 For an up to data list run the following:
 
@@ -84,29 +84,29 @@ specifation of the Data Resource we need to save the actual dataset at the
 location specified in the Data Resource.
 
 It is possible to edit the `datapackage.json` file to create the new
-Data Resource. The package also has a function `dpgeneratedataresource` to
+Data Resource. The package also has a function `dp_generate_dataresource` to
 generate a skeleton Data Resource for a given dataset:
 ```{.R #a10}
-res <- dpgeneratedataresource(iris, "iris") 
+res <- dp_generate_dataresource(iris, "iris") 
 ```
 Again these can be further modified using methods such as `dptitle` and
-`dpproperty`:
+`dp_property`:
 ```{.R #a30}
 dptitle(res) <- "The Iris dataset"
 ```
 
 Let's add the resources to the datapackage.
 ```{.R #a40}
-dpresources(dp) <- res
+dp_resources(dp) <- res
 ```
 In this case the datapackage does not yet contain dataresources. Should the
 datapackage contain dataresources with the same name, these will be overwritten
 by the new dataresources.
 
-We are now ready to write the dataset. For this we can use the `dpwritedata`
+We are now ready to write the dataset. For this we can use the `dp_write_data`
 method:
 ```{.R #a50}
-dpwritedata(dp, resourcename = "iris", data = iris)
+dp_write_data(dp, resourcename = "iris", data = iris)
 ```
 When some of the field in the Data Resource have categories that are stored in
 a separate Data Resource, this function will by default also write any
@@ -119,45 +119,45 @@ readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
 And of course we can open the datapackage and read the data back in:
 ```{.R #a70}
 dp2 <- opendatapackage(dir)
-iris2 <- dp2 |> dpresource("iris") |> dpgetdata(convert_categories = "to_factor")
+iris2 <- dp2 |> dp_resource("iris") |> dp_get_data(convert_categories = "to_factor")
 all.equal(iris, iris2, check.attributes = FALSE)
 ```
 
 
 ## More on categories
 
-By default `dpgeneratedataresource` will generate `categories` properties for
+By default `dp_generate_dataresource` will generate `categories` properties for
 factor fields:
 
 ```{.R #c00}
 data(chickwts)
 
-res <- dpgeneratedataresource(chickwts, "chickwts") 
-dpresources(dp) <- res
+res <- dp_generate_dataresource(chickwts, "chickwts") 
+dp_resources(dp) <- res
 
-(feed_name <- dpresource(dp, "chickwts") |> 
-  dpfield("feed") |> dpproperty("categories"))
+(feed_name <- dp_resource(dp, "chickwts") |> 
+  dp_field("feed") |> dp_property("categories"))
 ```
 
 Here, the list of categories is stored directly in the `categories` property. It
 is also possible to store the list of categories in a Data Resource
 
 ```{.R #c01}
-res <- dpgeneratedataresource(chickwts, "chickwts", 
+res <- dp_generate_dataresource(chickwts, "chickwts", 
   categories_type = "resource") 
-dpresources(dp) <- res
+dp_resources(dp) <- res
 
-(feed_name <- dpresource(dp, "chickwts") |> 
-  dpfield("feed") |> dpproperty("categories"))
+(feed_name <- dp_resource(dp, "chickwts") |> 
+  dp_field("feed") |> dp_property("categories"))
 ```
-Here the `categories` property points to Data Resource. `dpwritedata` will
+Here the `categories` property points to Data Resource. `dp_write_data` will
 automatically create this resource by default when writing the data:
 
 ```{.R #c02}
-dpwritedata(dpresource(dp, "chickwts"), data = chickwts, write_categories = TRUE)
+dp_write_data(dp_resource(dp, "chickwts"), data = chickwts, write_categories = TRUE)
 list.files(dir)
 
-dpresource(dp, "feed-categories") |> dpgetdata()
+dp_resource(dp, "feed-categories") |> dp_get_data()
 ```
 
 By default the package will generate a list of categories for factor variables.
@@ -174,12 +174,12 @@ codelist <- data.frame(
   label = c("casein", "horsebean", "linseed", "meatmeal", 
     "soybean", "sunflower")
 )
-res <- dpgeneratedataresource(codelist, "feed-categories")
+res <- dp_generate_dataresource(codelist, "feed-categories")
 res
-dpresources(dp) <- res
+dp_resources(dp) <- res
 
-codelistres <- dp |> dpresource("feed-categories")
-dpwritedata(codelistres, data = codelist, write_categories = FALSE)
+codelistres <- dp |> dp_resource("feed-categories")
+dp_write_data(codelistres, data = codelist, write_categories = FALSE)
 ```
 This creates the correct CSV-files:
 
@@ -189,7 +189,7 @@ readLines(file.path(dir, "feed-categories.csv")) |> writeLines()
 When we now write the dataset to file it will use this dataset - as long as we
 don't overwrite it. Therefore, the `write_categories = FALSE`: 
 ```{.R #c30}
-dpwritedata(dp, resourcename = "chickwts", data = chickwts, write_categories = FALSE)
+dp_write_data(dp, resourcename = "chickwts", data = chickwts, write_categories = FALSE)
 ```
 We can see that the correct codes are used in the CSV-file:
 ```{.R #c40}

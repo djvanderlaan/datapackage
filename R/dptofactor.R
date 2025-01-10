@@ -12,7 +12,7 @@
 #' (\code{categorieslist = NULL}).
 #'
 #' @export
-dptofactor <- function(x, categorieslist = dpcategorieslist(x), warn = TRUE) {
+dp_to_factor <- function(x, categorieslist = dp_categorieslist(x), warn = TRUE) {
   if (is.null(categorieslist)) {
     if (warn) warning("Field does not have an associated code list. Returning original vector.")
     return(x)
@@ -48,7 +48,7 @@ getfieldsofcategorieslist <- function(categorieslist) {
   values <- "value"
   labels <- "label"
   if (!is.null(res <- attr(categorieslist, "resource"))) {
-    fieldmap <- dpproperty(res, "categoriesFieldMap")
+    fieldmap <- dp_property(res, "categoriesFieldMap")
     if (!is.null(fieldmap) && utils::hasName(fieldmap, "value"))
       values <- fieldmap$value
     if (!is.null(fieldmap) && utils::hasName(fieldmap, "label")) {

@@ -13,27 +13,27 @@
 #' found.
 #' 
 #' @export
-dpgetdatapackage <- function(x) {
-  UseMethod("dpgetdatapackage")
+dp_get_datapackage <- function(x) {
+  UseMethod("dp_get_datapackage")
 }
 
 #' @export
-dpgetdatapackage.datapackage <- function(x) {
+dp_get_datapackage.datapackage <- function(x) {
   x
 }
 
 #' @export
-dpgetdatapackage.dataresource <- function(x) {
+dp_get_datapackage.dataresource <- function(x) {
   attr(x, "datapackage")
 }
 
 #' @export
-dpgetdatapackage.fielddescriptor <- function(x) {
+dp_get_datapackage.fielddescriptor <- function(x) {
   resource <- attr(x, "dataresource")
   if (is.null(resource)) {
     NULL
   } else {
-    dpgetdatapackage(resource)
+    dp_get_datapackage(resource)
   }
 }
 

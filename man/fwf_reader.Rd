@@ -13,9 +13,9 @@ fwf_reader(path, resource, convert_categories = c("no", "to_factor"), ...)
 
 \item{convert_categories}{how to handle columns for which the field
 descriptor has a \code{categories} property. Passed on to
-\code{\link{dpapplyschema}}.}
+\code{\link{dp_apply_schema}}.}
 
-\item{...}{additional arguments are passed on to \code{\link{dpapplyschema}}.}
+\item{...}{additional arguments are passed on to \code{\link{dp_apply_schema}}.}
 }
 \value{
 Returns a \code{data.frame} with the data.
@@ -24,5 +24,5 @@ Returns a \code{data.frame} with the data.
 Read the FWF-data for a Data Resource
 }
 \seealso{
-Generally used by calling \code{\link{dpgetdata}}.
+Generally used by calling \code{\link{dp_get_data}}.
 }

@@ -4,11 +4,11 @@
 #' @param path directory in which to create the datapackage
 #' @param name name of the Data Resource. When omitted a name is generated.
 #' @param categories_type how should categories be stored. See 
-#'   \code{\link{dpgeneratefielddescriptor}}.
+#'   \code{\link{dp_generate_fielddescriptor}}.
 #'
 #' @details
 #' This function is a wrapper function around \code{\link{newdatapackage}},
-#' \code{\link{dpgeneratedataresource}} and \code{\link{dpwritedata}}. These
+#' \code{\link{dp_generate_dataresource}} and \code{\link{dp_write_data}}. These
 #' functions are called with the default arguments. This allows for a quick way
 #' to save a data set with any necessary data needed to read the dataset. 
 #'
@@ -18,12 +18,12 @@
 #' complete Data Package.
 #'
 #' @export
-dpsaveasdatapackage <- function(data, path, name, categories_type = c("regular", "resource")) {
+dp_save_as_datapackage <- function(data, path, name, categories_type = c("regular", "resource")) {
   if (missing(name))
     name <- deparse(substitute(data)) |> 
       gsub(pattern = "[^[:alnum:].-]", replacement = ".")
   dp <- newdatapackage(path, name)
-  res <- dpgeneratedataresource(data, name, categories_type = categories_type)
-  dpresources(dp) <- res
-  dp |> dpresource(name) |> dpwritedata(data)
+  res <- dp_generate_dataresource(data, name, categories_type = categories_type)
+  dp_resources(dp) <- res
+  dp |> dp_resource(name) |> dp_write_data(data)
 }

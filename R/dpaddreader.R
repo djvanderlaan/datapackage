@@ -9,10 +9,10 @@
 #' Adds a reader for a given format. The reader is added to a list of reades
 #' references by the format. It is also possible to assign mediatypes and file
 #' extensions to the format. When the format for a given Data Resource is
-#' missing, \code{\link{dpgetdata}} will first check if a mediatype is
+#' missing, \code{\link{dp_get_data}} will first check if a mediatype is
 #' associated with the resource and will try to look up which format belongs to
 #' the fiven mediatype. If that doesn't result in a valid format,
-#' \code{\link{dpgetdata}} will try the same with the extension of the file.
+#' \code{\link{dp_get_data}} will try the same with the extension of the file.
 #'
 #' Note that adding a reader for an existing format will overwrite the existing
 #' reader.
@@ -28,10 +28,10 @@
 #'   })
 #' }
 #'
-#' dpaddreader("json", json_reader, c("application/json"), "json")
+#' dp_add_reader("json", json_reader, c("application/json"), "json")
 #' 
 #' @export
-dpaddreader <- function(format, reader, mediatypes = character(0), extensions = character(0)) {
+dp_add_reader <- function(format, reader, mediatypes = character(0), extensions = character(0)) {
   stopifnot(is.character(format), length(format) == 1)
   stopifnot(is.function(reader))
   stopifnot(is.character(mediatypes))

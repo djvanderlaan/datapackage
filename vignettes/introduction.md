@@ -75,17 +75,17 @@ the first paragraph of the description, the location of the Data Package and
 the Data Resources in the package. In this case there are two Data Resources:
 
 ```{.R #g2}
-dpnresources(dp)
+dp_nresources(dp)
 ```
 
 The names are
 ```{.R #g3}
-dpresourcenames(dp)
+dp_resource_names(dp)
 ```
 
 Using the `resource` methode on can obtain the Data Resource
 ```{.R #g4}
-iris <- dpresource(dp, "iris")
+iris <- dp_resource(dp, "iris")
 print(iris)
 ```
 The `print` statement again shows the name, title and description. It also shows
@@ -96,12 +96,12 @@ a few properties of the Data Resource. To show all properties:
 print(iris, properties = NA)
 ```
 Using this information it should be possible to open the dataset. The data can
-be opened in R using the `dpgetdata` method. Based on the information in the Data
+be opened in R using the `dp_get_data` method. Based on the information in the Data
 Resource this function will try to open the dataset using the correct functions
 in R (in this case `read.csv`):
 
 ```{.R #g6}
-dta <- dpgetdata(iris)
+dta <- dp_get_data(iris)
 head(dta)
 ```
 
@@ -109,11 +109,11 @@ It is also possible to import the data directly from the Data Package object by
 specifying the resource for which the data needs to be imported.
 
 ```{.R #g7}
-dta <- dpgetdata(dp, "iris")
+dta <- dp_get_data(dp, "iris")
 ```
-The `dpgetdata` method only supports a limited set of data formats.  It is
+The `dp_get_data` method only supports a limited set of data formats.  It is
 possible to also provide a custum function to read the data using the `reader`
-argument of `dpgetdata`. However, it is also possible to import the data
+argument of `dp_get_data`. However, it is also possible to import the data
 'manually' using the information in the Data Package. The path of the file in a
 Data Resource can be obtained using the `path` method:
 
@@ -152,7 +152,7 @@ Here we use the pipe operator to chain the various commands to import the
 Package.
 
 ```{.R #g12}
-dta <- dpresource(dp, "inline") |> dpgetdata()
+dta <- dp_resource(dp, "inline") |> dp_get_data()
 head(dta)
 ```
 
@@ -172,7 +172,7 @@ The same holds for Data Resources:
 
 ```{.R #r2}
 dptitle(iris)
-dpresource(dp, "inline") |> dptitle()
+dp_resource(dp, "inline") |> dptitle()
 ```
 
 For `datapackage` objects there are currently defined the following methods:
@@ -211,10 +211,10 @@ dppath(iris, fullpath = TRUE)
 ```
 
 It is also possible to get other properties than the ones explicitly mentioned
-above using the `dpproperty` method:
+above using the `dp_property` method:
 
 ```{.R #r4}
-dpproperty(iris, "encoding")
+dp_property(iris, "encoding")
 ```
 
 ## Working with categories
@@ -228,7 +228,7 @@ not part of the datapackage standard).
 In the 'complex' example resource, there is a column 'factor1':
 
 ```{.R #c1}
-complex <- dpresource(dp, "complex") |> dpgetdata()
+complex <- dp_resource(dp, "complex") |> dp_get_data()
 print(complex)
 ```
 
@@ -236,17 +236,17 @@ This is an integer column but it has an 'categories' property set which points
 to a Data Resource in the Data Package. It is possible te get this list of
 categories
 ```{.R #c2}
-dpcategorieslist(complex$factor1)
+dp_categorieslist(complex$factor1)
 ```
 This list of categories can also be used to convert the field to factor:
 ```{.R #c3}
-dptofactor(complex$factor1)
+dp_to_factor(complex$factor1)
 ```
 Using the `convert_categories = "to_factor"` argument of the `csv_reader` it is also possible to
 convert all fields which have an associated 'categories' field to factor:
 ```{.R #c4}
-complex <- dpresource(dp, "complex") |> 
-  dpgetdata(convert_categories = "to_factor")
+complex <- dp_resource(dp, "complex") |> 
+  dp_get_data(convert_categories = "to_factor")
 print(complex)
 ```
 
@@ -257,27 +257,27 @@ This is shown in a seperate vignette `Creating a Data Package`
 ## Quickly saving to and reading from a Data Package
 
 A quick way to create a Data Package from a given dataset is with the
-`dpsaveasdatapackage` function:
+`dp_save_as_datapackage` function:
 
 ```{.R #q1}
 dir <- tempfile()
 data(iris)
-dpsaveasdatapackage(iris, dir)
+dp_save_as_datapackage(iris, dir)
 ```
 
 And for reading:
 
 ```{.R #q2}
-dploadfromdatapackage(dir) |> head()
+dp_load_from_datapackage(dir) |> head()
 ```
 
 This will either load the Data Resource with the same name as the Data Package
 or the first resource in the Data Package.  It is also possible to specify the
 name of the Data Resource that should be read. Additional arguments are passed
-on to `dpgetdata`:
+on to `dp_get_data`:
 
 ```{.R #q2}
-dploadfromdatapackage(dir, "iris", convert_categories = "to_factor", 
+dp_load_from_datapackage(dir, "iris", convert_categories = "to_factor", 
   use_fread = TRUE)
 ```
 

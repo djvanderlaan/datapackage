@@ -94,7 +94,7 @@ dpaddcontributor <- function(x, contributor) {
   } else {
     contributors[[length(contributors)+1]] <- contributor
   }
-  dpproperty(x, "contributors") <- contributors
+  dp_property(x, "contributors") <- contributors
   x
 }
 
@@ -120,7 +120,7 @@ dpcontributors <- function(x, ...) {
 #' @export
 #' @rdname properties_datapackage
 dpcontributors.datapackage <- function(x, ...) {
-  res <- dpproperty(x, "contributors")
+  res <- dp_property(x, "contributors")
   if (is.null(res)) res else structure(res, class = "contributors")
 }
 
@@ -132,7 +132,7 @@ dpcontributors.datapackage <- function(x, ...) {
     stop("value should be an unnamed list of contributors.")
   }
   value <- lapply(value, stripattributes)
-  dpproperty(x, "contributors") <- stripattributes(value, keep = character(0L))
+  dp_property(x, "contributors") <- stripattributes(value, keep = character(0L))
   x
 }
 

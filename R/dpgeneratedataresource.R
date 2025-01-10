@@ -17,7 +17,7 @@
 #' @param use_existing use existing field descriptors if present.
 #' 
 #' @param categories_type how should categories be stored. See 
-#'   \code{\link{dpgeneratefielddescriptor}}.
+#'   \code{\link{dp_generate_fielddescriptor}}.
 #' 
 #' @param categorieslist does the data resource function as a categories list
 #' for fields in another data resource
@@ -34,11 +34,11 @@
 #' @examples
 #' # generate an example dataset
 #' dta <- data.frame(a = 1:3, b = factor(letters[1:3]))
-#' resource <- dpgeneratedataresource(dta, "example")
+#' resource <- dp_generate_dataresource(dta, "example")
 #' print(resource)
 #' 
 #' @export
-dpgeneratedataresource <- function(x, name, path = paste0(name, getextension(format)), 
+dp_generate_dataresource <- function(x, name, path = paste0(name, getextension(format)), 
     format = "csv", mediatype = getmediatype(format), 
     use_existing = FALSE, categories_type = c("regular", "resource"),
     categorieslist = iscategorieslist(x), ...) {
@@ -46,7 +46,7 @@ dpgeneratedataresource <- function(x, name, path = paste0(name, getextension(for
   # Generate the table schema
   fields <- vector("list", ncol(x))
   for (i in seq_along(x)) {
-    fd <- dpgeneratefielddescriptor(x[[i]], names(x)[i], use_existing = use_existing, 
+    fd <- dp_generate_fielddescriptor(x[[i]], names(x)[i], use_existing = use_existing, 
       categories_type = categories_type)
     fields[[i]] <- fd
   }
@@ -61,7 +61,7 @@ dpgeneratedataresource <- function(x, name, path = paste0(name, getextension(for
 
 iscategorieslist <- function(x) {
   if (!is.null(res <- attr(x, "resource"))) {
-    fieldmap <- dpproperty(res, "categoriesFieldMap")
+    fieldmap <- dp_property(res, "categoriesFieldMap")
     !is.null(fieldmap) 
   } else {
     FALSE
@@ -94,7 +94,7 @@ getmediatype <- function(format) {
 
 generatecategoriesfieldmap <- function(x) {
   if (!is.null(res <- attr(x, "resource"))) {
-    fieldmap <- dpproperty(res, "categoriesFieldMap")
+    fieldmap <- dp_property(res, "categoriesFieldMap")
     if (!is.null(fieldmap)) { 
       if (utils::hasName(fieldmap, "value") && !utils::hasName(x, fieldmap$value))
         stop("Dataresource does not have a column '", fieldmap$value, 

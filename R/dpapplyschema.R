@@ -8,7 +8,7 @@
 #'   descriptor has a \code{categories} property.  This should either be the
 #'   strings "no", "to_factor", the name of a function or a function. The
 #'   function receives each column and should convert the column. For example,
-#'   in case of "to_factor" the function \code{\link{dptofactor}} is called on
+#'   in case of "to_factor" the function \code{\link{dp_to_factor}} is called on
 #'   the column. 
 #' @param ... additional arguments are passed on to the \code{to_<fieldtype>} 
 #'   functions (e.g. \code{\link{to_number}}). 
@@ -27,16 +27,16 @@
 #' and \code{\link{to_date}}.
 #'
 #'@export
-dpapplyschema <- function(dta, resource, convert_categories = c("no", "to_factor"), ...) {
+dp_apply_schema <- function(dta, resource, convert_categories = c("no", "to_factor"), ...) {
   # Check columnnames
-  fieldnames <- dpfieldnames(resource)
+  fieldnames <- dp_field_names(resource)
   if (!all(names(dta) == fieldnames)) 
     stop("Column names of dta do not match those in the table schema")
   catconvfun <- get_convert_categories(convert_categories)
   # Convert columns to correct type
   is_data_table <- methods::is(dta, "data.table")
   for (field in fieldnames) {
-    fielddescriptor <- dpfield(resource, field)
+    fielddescriptor <- dp_field(resource, field)
     fun <- paste0("to_", fielddescriptor$type)
     if (!exists(fun)) {
       warning("'", fun, "' does not exist; not converting field '", field, "'.")
@@ -72,7 +72,7 @@ get_convert_categories <- function(convert_categories) {
     convert_categories  <- convert_categories[1]
     stopifnot(!is.na(convert_categories))
     if (convert_categories == "no") return(FALSE)
-    if (convert_categories == "to_factor") return(datapackage::dptofactor)
+    if (convert_categories == "to_factor") return(datapackage::dp_to_factor)
     if (!exists(convert_categories)) 
       stop("'", convert_categories, "' does not exist; not converting categories.")
     fun <- get(convert_categories)

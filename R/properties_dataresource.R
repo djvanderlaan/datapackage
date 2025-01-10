@@ -21,7 +21,7 @@
 #' @export
 #' @rdname properties_dataresource
 dpname.dataresource <- function(x) {
-  res <- dpproperty(x, "name")
+  res <- dp_property(x, "name")
   # Name is required for data resource
   if (is.null(res))
     stop("Required attribute 'name' is missing from Data Resource.")
@@ -34,7 +34,7 @@ dpname.dataresource <- function(x) {
   value <- paste0(value)
   if (!isname(value)) stop("name should consists only of lower case letters, ",
       "numbers, '-', '.' or '_'.")
-  dpproperty(x, "name") <- value
+  dp_property(x, "name") <- value
   x
 }
 
@@ -45,7 +45,7 @@ dpname.dataresource <- function(x) {
 #' @export
 #' @rdname properties_dataresource
 dptitle.dataresource <- function(x) {
-  dpproperty(x, "title")
+  dp_property(x, "title")
 }
 
 #' @export
@@ -55,7 +55,7 @@ dptitle.dataresource <- function(x) {
     value <- paste0(value)
     if (!isstring(value)) stop("value should be a character of length 1.")
   }
-  dpproperty(x, "title") <- value
+  dp_property(x, "title") <- value
   x
 }
 
@@ -72,7 +72,7 @@ dptitle.dataresource <- function(x) {
 #' @rdname properties_dataresource
 dpdescription.dataresource <- function(x, ..., firstparagraph = FALSE, 
     dots = FALSE) {
-  res <- dpproperty(x, "description")
+  res <- dp_property(x, "description")
   if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
 }
 
@@ -83,7 +83,7 @@ dpdescription.dataresource <- function(x, ..., firstparagraph = FALSE,
     value <- paste0(value, collapse = "\n")
     # Because of the paste0 above value will always be a string
   }
-  dpproperty(x, "description") <- value
+  dp_property(x, "description") <- value
   x
 }
 
@@ -115,7 +115,7 @@ dppath <- function(x, ...) {
 #' @rdname properties_dataresource
 dppath.dataresource <- function(x, fullpath = FALSE, ...) {
   # Determine path to data
-  filename <- dpproperty(x, "path")
+  filename <- dp_property(x, "path")
   if (is.null(filename)) return(NULL)
   stopifnot(is.character(filename))
   if (fullpath) {
@@ -156,7 +156,7 @@ dppath.dataresource <- function(x, fullpath = FALSE, ...) {
     #  warning("TODO")
     #}
   }
-  dpproperty(x, "path") <- value
+  dp_property(x, "path") <- value
   x
 }
 
@@ -179,7 +179,7 @@ dpformat <- function(x, ...) {
 #' @export
 #' @rdname properties_dataresource
 dpformat.dataresource <- function(x, default = FALSE, ...) {
-  res <- dpproperty(x, "format")
+  res <- dp_property(x, "format")
   if (is.null(res) && default) {
     path <- dppath(x)
     if (!is.null(path)) {
@@ -197,7 +197,7 @@ dpformat.dataresource <- function(x, default = FALSE, ...) {
 `dpformat<-.dataresource` <- function(x, value) {
   if (!is.null(value) && !isstring(value))
     stop("value should be length 1 character vector or NULL.")
-  dpproperty(x, "format") <- value
+  dp_property(x, "format") <- value
   x
 }
 
@@ -220,7 +220,7 @@ dpmediatype <- function(x, ...) {
 #' @export
 #' @rdname properties_dataresource
 dpmediatype.dataresource <- function(x, ...) {
-  dpproperty(x, "mediatype")
+  dp_property(x, "mediatype")
 }
 
 #' @export
@@ -228,7 +228,7 @@ dpmediatype.dataresource <- function(x, ...) {
 `dpmediatype<-.dataresource` <- function(x, value) {
   if (!is.null(value) && !isstring(value))
     stop("value should be length 1 character vector or NULL.")
-  dpproperty(x, "mediatype") <- value
+  dp_property(x, "mediatype") <- value
   x
 }
 
@@ -251,7 +251,7 @@ dpencoding <- function(x, default = FALSE, ...) {
 #' @export
 #' @rdname properties_dataresource
 dpencoding.dataresource <- function(x, default = FALSE, ...) {
-  res <- dpproperty(x, "encoding")
+  res <- dp_property(x, "encoding")
   if (is.null(res) && default) res <- "UTF-8"
   res
 }
@@ -261,7 +261,7 @@ dpencoding.dataresource <- function(x, default = FALSE, ...) {
 `dpencoding<-.dataresource` <- function(x, value) {
   if (!is.null(value) && !isstring(value))
     stop("value should be length 1 character vector or NULL.")
-  dpproperty(x, "encoding") <- value
+  dp_property(x, "encoding") <- value
   x
 }
 
@@ -284,7 +284,7 @@ dpbytes <- function(x, ...) {
 #' @export
 #' @rdname properties_dataresource
 dpbytes.dataresource <- function(x, ...) {
-  dpproperty(x, "bytes")
+  dp_property(x, "bytes")
 }
 
 #' @export
@@ -292,7 +292,7 @@ dpbytes.dataresource <- function(x, ...) {
 `dpbytes<-.dataresource` <- function(x, value) {
   if (!is.null(value) && !isinteger(value))
     stop("value should be length 1 integer vector or NULL.")
-  dpproperty(x, "bytes") <- value
+  dp_property(x, "bytes") <- value
   x
 }
 
@@ -315,7 +315,7 @@ dphash <- function(x, ...) {
 #' @export
 #' @rdname properties_dataresource
 dphash.dataresource <- function(x, ...) {
-  dpproperty(x, "hash")
+  dp_property(x, "hash")
 }
 
 #' @export
@@ -323,7 +323,7 @@ dphash.dataresource <- function(x, ...) {
 `dphash<-.dataresource` <- function(x, value) {
   if (!is.null(value) && !isstring(value))
     stop("value should be length 1 character vector or NULL.")
-  dpproperty(x, "hash") <- value
+  dp_property(x, "hash") <- value
   x
 }
 

@@ -106,6 +106,6 @@ Either returns the property or modifies the object.
 Getting and setting properties of Data Packages
 }
 \seealso{
-See \code{\link{dpresource}} for methods for getting and setting the resources
+See \code{\link{dp_resource}} for methods for getting and setting the resources
 of a Data Package.
 }

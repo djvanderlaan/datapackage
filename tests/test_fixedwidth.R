@@ -6,8 +6,8 @@ if (dir == "") dir <- "../inst/tests/test01"
 
 dp <- opendatapackage(dir)
 
-res <- dpresource(dp, "fixed-width")
-dta <- dpgetdata(res)
+res <- dp_resource(dp, "fixed-width")
+dta <- dp_get_data(res)
 expect_equal(dta$foo, 1:4, attributes = FALSE)
 expect_equal(dta$bar, c(12.34, 1.00, 5.66, 4.55), 
   attributes = FALSE)
@@ -17,8 +17,8 @@ expect_equal(dta$date,
 expect_equal(dta$name, c("jan", "pier", "tjorrès", "cornee"), 
   attributes = FALSE)
 
-res <- dpresource(dp, "fixed-width-latin1")
-dta <- dpgetdata(res)
+res <- dp_resource(dp, "fixed-width-latin1")
+dta <- dp_get_data(res)
 expect_equal(dta$foo, 1:4, attributes = FALSE)
 expect_equal(dta$bar, c(12.34, 1.00, 5.66, 4.55), 
   attributes = FALSE)
@@ -29,42 +29,42 @@ expect_equal(dta$name, c("jan", "pier", "tjorrès", "cornee"),
   attributes = FALSE)
 
 # Alternative name for encoding
-dpproperty(res, "encoding") <- "CP-1252"
-expect_warning(dta <- dpgetdata(res))
+dp_property(res, "encoding") <- "CP-1252"
+expect_warning(dta <- dp_get_data(res))
 expect_equal(dta$name, c("jan", "pier", "tjorrès", "cornee"), 
   attributes = FALSE)
 
 # Alternative name for encoding
-dpproperty(res, "encoding") <- "Windows-1252"
-expect_warning(dta <- dpgetdata(res))
+dp_property(res, "encoding") <- "Windows-1252"
+expect_warning(dta <- dp_get_data(res))
 expect_equal(dta$name, c("jan", "pier", "tjorrès", "cornee"), 
   attributes = FALSE)
 
 # Alternatice for format
-res <- dpresource(dp, "fixed-width")
-dpproperty(res, "format") <- "fwf"
-dta <- dpgetdata(res)
+res <- dp_resource(dp, "fixed-width")
+dp_property(res, "format") <- "fwf"
+dta <- dp_get_data(res)
 expect_equal(dta$name, c("jan", "pier", "tjorrès", "cornee"), 
   attributes = FALSE)
-dpproperty(res, "format") <- "asc"
-dta <- dpgetdata(res)
+dp_property(res, "format") <- "asc"
+dta <- dp_get_data(res)
 expect_equal(dta$name, c("jan", "pier", "tjorrès", "cornee"), 
   attributes = FALSE)
 
 # No format should also work and use mediatype
-dpproperty(res, "format") <- NULL
-dta <- dpgetdata(res)
+dp_property(res, "format") <- NULL
+dta <- dp_get_data(res)
 expect_equal(dta$name, c("jan", "pier", "tjorrès", "cornee"), 
   attributes = FALSE)
 
 # No format or mediatype should also work and use extension
-dpproperty(res, "format") <- NULL
-dpproperty(res, "mediatype") <- NULL
-dta <- dpgetdata(res)
+dp_property(res, "format") <- NULL
+dp_property(res, "mediatype") <- NULL
+dta <- dp_get_data(res)
 expect_equal(dta$name, c("jan", "pier", "tjorrès", "cornee"), 
   attributes = FALSE)
 
 # Invalid format should give error
-dpproperty(res, "format") <- "nonexistingformat"
-expect_error(dta <- dpgetdata(res))
+dp_property(res, "format") <- "nonexistingformat"
+expect_error(dta <- dp_get_data(res))
 
