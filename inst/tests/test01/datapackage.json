@@ -42,16 +42,14 @@
             "name" : "factor1",
             "type" : "integer",
             "categories" : {
-              "resource" : "codelist-factor1",
-              "valueField" : "code"
+              "resource" : "codelist-factor1"
             }
           }, {
             "name" : "factor2",
             "type" : "string",
             "missingValues": "",
             "categories" : {
-              "resource" : "codelist-factor2",
-              "valueField" : "code"
+              "resource" : "codelist-factor2"
             }
           }
         ]
@@ -95,16 +93,14 @@
             "name" : "factor1",
             "type" : "integer",
             "categories" : {
-              "resource" : "codelist-factor1",
-              "valueField" : "code"
+              "resource" : "codelist-factor1"
             }
           }, {
             "name" : "factor2",
             "type" : "string",
             "missingValues": "",
             "categories" : {
-              "resource" : "codelist-factor2",
-              "valueField" : "code"
+              "resource" : "codelist-factor2"
             }
           }
         ]
@@ -116,6 +112,9 @@
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
+      "categoriesFieldMap": {
+        "value": "code"
+      },
       "schema": {
         "fields" : [ 
           {
@@ -130,6 +129,9 @@
 
     }, {
       "name": "codelist-factor2",
+      "categoriesFieldMap": {
+        "value": "code"
+      },
       "data": [
         {"code": "101", "label": "circle"},
         {"code": "102", "label": "square"},

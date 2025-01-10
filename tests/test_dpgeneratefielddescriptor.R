@@ -11,7 +11,7 @@ dta <- dp |> dpresource("complex") |> dpgetdata()
 tmp <- dpgeneratefielddescriptor(dta$factor1, "f1")
 expect_equal(dpproperty(tmp, "name"), "f1")
 expect_equal(dpproperty(tmp, "type"), "integer")
-expect_equal(dpproperty(tmp, "categories"), list(resource="codelist-factor1", valueField="code"))
+expect_equal(dpproperty(tmp, "categories"), list(resource="codelist-factor1"))
 
 tmp <- dpgeneratefielddescriptor(dta$factor1, "f1", use_existing = FALSE)
 expect_equal(dpproperty(tmp, "name"), "f1")
@@ -79,7 +79,7 @@ dta <- dp |> dpresource("complex") |> dpgetdata(convert_categories = "to_factor"
 tmp <- dpgeneratefielddescriptor(dta$factor1, "f1")
 expect_equal(dpproperty(tmp, "name"), "f1")
 expect_equal(dpproperty(tmp, "type"), "integer")
-expect_equal(dpproperty(tmp, "categories"), list(resource="codelist-factor1", valueField = "code"))
+expect_equal(dpproperty(tmp, "categories"), list(resource="codelist-factor1"))
 
 tmp <- dpgeneratefielddescriptor(dta$factor1, "f1", use_existing = FALSE)
 expect_equal(dpproperty(tmp, "name"), "f1")

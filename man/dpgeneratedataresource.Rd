@@ -12,6 +12,7 @@ dpgeneratedataresource(
   mediatype = getmediatype(format),
   use_existing = FALSE,
   categories_type = c("regular", "resource"),
+  categorieslist = iscategorieslist(x),
   ...
 )
 }
@@ -32,6 +33,9 @@ which the Data Resource will be stored.}
 
 \item{categories_type}{how should categories be stored. See 
 \code{\link{dpgeneratefielddescriptor}}.}
+
+\item{categorieslist}{does the data resource function as a categories list
+for fields in another data resource}
 
 \item{...}{Currently ignored}
 }

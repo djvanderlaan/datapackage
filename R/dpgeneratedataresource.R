@@ -1,19 +1,29 @@
-# TODO: specify format
 # TODO: allow for addtional properties using ...
 
 #' Generate Data Resource for a dataset
 #'
 #' @param x \code{data.frame} for which to generate the Data Resources.
+#' 
 #' @param name name of the Data Resource
+#' 
 #' @param path name of the file in which to store the dataset. This should be a
 #' path relative to the location of the directory in which the Data Package in
 #' which the Data Resource will be stored. 
+#' 
 #' @param format the data format in which the data is stored.
+#' 
 #' @param mediatype mediatype of the data
+#' 
 #' @param use_existing use existing field descriptors if present.
+#' 
 #' @param categories_type how should categories be stored. See 
 #'   \code{\link{dpgeneratefielddescriptor}}.
+#' 
+#' @param categorieslist does the data resource function as a categories list
+#' for fields in another data resource
+#' 
 #' @param ... Currently ignored
+#' 
 #'
 #' @return
 #' Returns a Data Resource object. 
@@ -31,7 +41,7 @@
 dpgeneratedataresource <- function(x, name, path = paste0(name, getextension(format)), 
     format = "csv", mediatype = getmediatype(format), 
     use_existing = FALSE, categories_type = c("regular", "resource"),
-    ...) {
+    categorieslist = iscategorieslist(x), ...) {
   stopifnot(is.data.frame(x))
   # Generate the table schema
   fields <- vector("list", ncol(x))
@@ -42,7 +52,20 @@ dpgeneratedataresource <- function(x, name, path = paste0(name, getextension(for
   }
   res <- newdataresource(name = name, format = format, mediatype = mediatype, 
     path = path, encoding = "utf-8", schema = list(fields = fields))
+  # Generate categoriesFieldMap
+  if (categorieslist) {
+    res$categoriesFieldMap <- generatecategoriesfieldmap(x)
+  }
   res
+}
+
+iscategorieslist <- function(x) {
+  if (!is.null(res <- attr(x, "resource"))) {
+    fieldmap <- dpproperty(res, "categoriesFieldMap")
+    !is.null(fieldmap) 
+  } else {
+    FALSE
+  }
 }
 
 getextension <- function(format, withdot = TRUE) {
@@ -67,5 +90,26 @@ getmediatype <- function(format) {
     }
   }
   result
+}
+
+generatecategoriesfieldmap <- function(x) {
+  if (!is.null(res <- attr(x, "resource"))) {
+    fieldmap <- dpproperty(res, "categoriesFieldMap")
+    if (!is.null(fieldmap)) { 
+      if (utils::hasName(fieldmap, "value") && !utils::hasName(x, fieldmap$value))
+        stop("Dataresource does not have a column '", fieldmap$value, 
+          "' which should contain the values of a categorieslist.")
+      if (utils::hasName(fieldmap, "label") && !utils::hasName(x, fieldmap$label))
+        stop("Dataresource does not have a column '", fieldmap$value, 
+          "' which should contain the labels of a categorieslist.")
+      return(fieldmap)
+    }
+  }
+  stopifnot(ncol(x) > 0)
+  value <- names(x)[1]
+  if (utils::hasName(x, "value")) value <- "value"
+  label <- names(x)[max(1, length(x))]
+  if (utils::hasName(x, "label")) label <- "label"
+  list(value = value, label = label)
 }
 
