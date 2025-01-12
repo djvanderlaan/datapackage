@@ -2,8 +2,6 @@
 #'
 #' @param dta a \code{data.frame} or \code{data.table}.
 #' @param resource an object with the Data Resource of the data set.
-#' @param to_factor convert columns to factor if the field descriptor had a
-#'   \code{categories} field for the column.
 #' @param convert_categories how to handle columns for which the field
 #'   descriptor has a \code{categories} property.  This should either be the
 #'   strings "no", "to_factor", the name of a function or a function. The
