@@ -1,20 +1,24 @@
 library(datapackage)
 
-dp_to_coded <- function(x, categorieslist = dp_categorieslist(x), ..., warn = FALSE) {
+dp_to_coded <- function(x, categorieslist = dp_categorieslist(x), ..., 
+    warn = FALSE) {
   if (!requireNamespace("codelist")) {
-    stop("In order to use 'dp_to_coded' the 'codelist' package needs to be installed.")
+    stop("In order to use 'dp_to_coded' the 'codelist' package needs ",
+      "to be installed.")
   }
   if (is.null(categorieslist)) {
-    if (warn) warning("Field does not have an associated code list. Returning original vector.")
+    if (warn) warning("Field does not have an associated code list. ", 
+      "Returning original vector.")
     return(x)
   }
   stopifnot(is.data.frame(categorieslist))
   # Determine which columns from the categorieslist contain the 
   # codes and labels
   fields <- datapackage:::getfieldsofcategorieslist(categorieslist)
-  print(fields)
-  codelist <- codelist::as.codelist(categorieslist, code = fields$value, label = fields$label, ...)
-  codelist::coded(x, codelist = codelist)
+  codelist <- codelist::as.codelist(categorieslist, code = fields$value, 
+    label = fields$label, ...)
+  res <- codelist::coded(x, codelist = codelist)
+  structure(res, fielddescriptor = attr(x, "fielddescriptor"))
 }
 
 fn <- system.file("examples/iris", package = "datapackage")
@@ -45,5 +49,4 @@ dta
 table(labels(dta$employmentstatus, FALSE), useNA = "ifany")
 
 table(labels(dta$employmentstatus), useNA = "ifany")
-
 

@@ -14,7 +14,8 @@
 #' @export
 dp_to_factor <- function(x, categorieslist = dp_categorieslist(x), warn = TRUE) {
   if (is.null(categorieslist)) {
-    if (warn) warning("Field does not have an associated code list. Returning original vector.")
+    if (warn) warning("Field does not have an associated code list. ",
+      "Returning original vector.")
     return(x)
   }
   stopifnot(is.data.frame(categorieslist))
