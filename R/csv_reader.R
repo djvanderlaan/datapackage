@@ -105,7 +105,7 @@ csv_read_base <- function(filename,
         "'use_fread=TRUE' the data.table package needs to be installed.")
     lapply(filename, function(fn) {
       d <- data.table::fread(fn, sep = delimiter, quote = quoteChar, 
-        dec = decimalChar, header = header, 
+        dec = decimalChar, header = header, check.names = FALSE, 
         strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
         colClasses = colClasses, na.strings = nullSequence, ...)
       #if (!caseSensitiveHeader) names(d) <- tolower(names(d))
@@ -114,9 +114,10 @@ csv_read_base <- function(filename,
   } else {
     dta <- lapply(filename, function(fn) {
       d <- utils::read.table(fn, sep = delimiter, quote = quoteChar, 
-        dec = decimalChar, header = header, comment.char = commentChar, 
-        strip.white = skipInitialSpace, stringsAsFactors = FALSE, 
-        colClasses = colClasses, na.strings = nullSequence, ...)
+        dec = decimalChar, header = header, check.names =FALSE, 
+        comment.char = commentChar, strip.white = skipInitialSpace, 
+        stringsAsFactors = FALSE, colClasses = colClasses, 
+        na.strings = nullSequence, ...)
       #if (!caseSensitiveHeader) names(d) <- tolower(names(d))
       d
     })
