@@ -30,6 +30,10 @@ open_datapackage <- function(path, readonly = TRUE) {
   ext <- tools::file_ext(path)
   if (ext != "json" && ext != "yaml") {
     filename <- "datapackage.json"
+    if (!file_exists(file.path(path, filename)) && 
+        file_exists(file.path(path, "datapackage.yaml"))) {
+      filename <- "datapackage.yaml"
+    }
   } else {
     filename <- basename(path)
     path <- dirname(path)
@@ -47,4 +51,15 @@ open_datapackage <- function(path, readonly = TRUE) {
       path = path, filename = filename)
   }
 }
+
+
+file_exists <- function(fn) {
+  res <- FALSE
+  suppressWarnings(try({
+      .ignore <-  readLines(fn) 
+      res <- TRUE
+  }, silent = TRUE))
+  res
+}
+
 
