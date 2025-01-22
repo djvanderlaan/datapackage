@@ -19,7 +19,7 @@ tst2 <- res$schema
 attr(tst2$fields[[1]], "class") <- NULL
 attr(tst2$fields[[2]], "class") <- NULL
 expect_equal(tst1, tst2)
-expect_equal(res$categoriesFieldMap, NULL)
+expect_equal(res$categoryFieldMap, NULL)
 
 dta <- data.frame(value = 1:3, label = letters[1:3])
 res <- dp_generate_dataresource(dta, "foo", categorieslist = TRUE)
@@ -35,7 +35,7 @@ tst2 <- res$schema
 attr(tst2$fields[[1]], "class") <- NULL
 attr(tst2$fields[[2]], "class") <- NULL
 expect_equal(tst1, tst2)
-expect_equal(res$categoriesFieldMap, list(
+expect_equal(res$categoryFieldMap, list(
     value = "value", label = "label"))
 
 dta <- data.frame(value = 1:3)
@@ -50,12 +50,12 @@ tst1 <- list(fields = list(
 tst2 <- res$schema
 attr(tst2$fields[[1]], "class") <- NULL
 expect_equal(tst1, tst2)
-expect_equal(res$categoriesFieldMap, list(
+expect_equal(res$categoryFieldMap, list(
     value = "value", label = "value"))
 
 dta <- data.frame(codes = 1:3, labels = letters[1:3])
 attr(dta, "resource") <- structure(list(
-  categoriesFieldMap = list(value = "codes", label = "labels")),
+  categoryFieldMap = list(value = "codes", label = "labels")),
   class = "dataresource")
 res <- dp_generate_dataresource(dta, "foo", categorieslist = TRUE)
 expect_equal(res$path, "foo.csv")
@@ -70,7 +70,7 @@ tst2 <- res$schema
 attr(tst2$fields[[1]], "class") <- NULL
 attr(tst2$fields[[2]], "class") <- NULL
 expect_equal(tst1, tst2)
-expect_equal(res$categoriesFieldMap, list(
+expect_equal(res$categoryFieldMap, list(
     value = "codes", label = "labels"))
 
 
@@ -88,19 +88,19 @@ tst2 <- res$schema
 attr(tst2$fields[[1]], "class") <- NULL
 attr(tst2$fields[[2]], "class") <- NULL
 expect_equal(tst1, tst2)
-expect_equal(res$categoriesFieldMap, list(
+expect_equal(res$categoryFieldMap, list(
     value = "codes", label = "labels"))
 
 
 dta <- data.frame(codes = 1:3, labels = letters[1:3])
 attr(dta, "resource") <- structure(list(
-  categoriesFieldMap = list(value = "foo", label = "labels")),
+  categoryFieldMap = list(value = "foo", label = "labels")),
   class = "dataresource")
 expect_error(res <- dp_generate_dataresource(dta, "foo", categorieslist = TRUE))
 
 dta <- data.frame(codes = 1:3, labels = letters[1:3])
 attr(dta, "resource") <- structure(list(
-  categoriesFieldMap = list(value = "codes", label = "foo")),
+  categoryFieldMap = list(value = "codes", label = "foo")),
   class = "dataresource")
 expect_error(res <- dp_generate_dataresource(dta, "foo", categorieslist = TRUE))
 

@@ -48,7 +48,7 @@ getfieldsofcategorieslist <- function(categorieslist) {
   values <- "value"
   labels <- "label"
   if (!is.null(res <- attr(categorieslist, "resource"))) {
-    fieldmap <- dp_property(res, "categoriesFieldMap")
+    fieldmap <- dp_property(res, "categoryFieldMap")
     if (!is.null(fieldmap) && utils::hasName(fieldmap, "value"))
       values <- fieldmap$value
     if (!is.null(fieldmap) && utils::hasName(fieldmap, "label")) {

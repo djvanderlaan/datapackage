@@ -69,7 +69,7 @@
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
-      "categoriesFieldMap": {
+      "categoryFieldMap": {
         "value": "code"
       },
       "schema": {
@@ -86,7 +86,7 @@
 
     }, {
       "name": "codelist-factor2",
-      "categoriesFieldMap": {
+      "categoryFieldMap": {
         "value": "code"
       },
       "data": [

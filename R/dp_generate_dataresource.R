@@ -52,16 +52,16 @@ dp_generate_dataresource <- function(x, name, path = paste0(name, getextension(f
   }
   res <- new_dataresource(name = name, format = format, mediatype = mediatype, 
     path = path, encoding = "utf-8", schema = list(fields = fields))
-  # Generate categoriesFieldMap
+  # Generate categoryFieldMap
   if (categorieslist) {
-    res$categoriesFieldMap <- generatecategoriesfieldmap(x)
+    res$categoryFieldMap <- generatecategoriesfieldmap(x)
   }
   res
 }
 
 iscategorieslist <- function(x) {
   if (!is.null(res <- attr(x, "resource"))) {
-    fieldmap <- dp_property(res, "categoriesFieldMap")
+    fieldmap <- dp_property(res, "categoryFieldMap")
     !is.null(fieldmap) 
   } else {
     FALSE
@@ -94,7 +94,7 @@ getmediatype <- function(format) {
 
 generatecategoriesfieldmap <- function(x) {
   if (!is.null(res <- attr(x, "resource"))) {
-    fieldmap <- dp_property(res, "categoriesFieldMap")
+    fieldmap <- dp_property(res, "categoryFieldMap")
     if (!is.null(fieldmap)) { 
       if (utils::hasName(fieldmap, "value") && !utils::hasName(x, fieldmap$value))
         stop("Dataresource does not have a column '", fieldmap$value, 
