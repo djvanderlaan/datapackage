@@ -107,18 +107,18 @@ dp_path <- function(x, ...) {
   UseMethod("dp_path<-")
 }
 
-#' @param fullpath Return the full path including the path to the Data Package
+#' @param full_path Return the full path including the path to the Data Package
 #' and not only the path relative to the Data Package. This is only relevant for
 #' relative paths.
 #' 
 #' @export
 #' @rdname properties_dataresource
-dp_path.dataresource <- function(x, fullpath = FALSE, ...) {
+dp_path.dataresource <- function(x, full_path = FALSE, ...) {
   # Determine path to data
   filename <- dp_property(x, "path")
   if (is.null(filename)) return(NULL)
   stopifnot(is.character(filename))
-  if (fullpath) {
+  if (full_path) {
     # Check if path is valid; note path may be a vector of paths
     rel <- isrelativepath(filename)
     url <- isurl(filename)

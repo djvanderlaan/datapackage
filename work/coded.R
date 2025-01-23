@@ -1,9 +1,9 @@
 library(datapackage)
 
-dp_to_coded <- function(x, categorieslist = dp_categorieslist(x), ..., 
+dp_to_code <- function(x, categorieslist = dp_categorieslist(x), ..., 
     warn = FALSE) {
   if (!requireNamespace("codelist")) {
-    stop("In order to use 'dp_to_coded' the 'codelist' package needs ",
+    stop("In order to use 'dp_to_code' the 'codelist' package needs ",
       "to be installed.")
   }
   if (is.null(categorieslist)) {
@@ -17,7 +17,7 @@ dp_to_coded <- function(x, categorieslist = dp_categorieslist(x), ...,
   fields <- datapackage:::getfieldsofcategorieslist(categorieslist)
   codelist <- codelist::as.codelist(categorieslist, code = fields$value, 
     label = fields$label, ...)
-  res <- codelist::coded(x, codelist = codelist)
+  res <- codelist::code(x, codelist = codelist)
   structure(res, fielddescriptor = attr(x, "fielddescriptor"))
 }
 

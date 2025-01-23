@@ -52,7 +52,7 @@ dp_path(x, ...)
 
 dp_path(x) <- value
 
-\method{dp_path}{dataresource}(x, fullpath = FALSE, ...)
+\method{dp_path}{dataresource}(x, full_path = FALSE, ...)
 
 \method{dp_path}{dataresource}(x) <- value
 
@@ -112,7 +112,7 @@ dp_schema(x)
 \item{dots}{When returning only the first paragraph indicate missing
 paragraphs with \code{...}.}
 
-\item{fullpath}{Return the full path including the path to the Data Package
+\item{full_path}{Return the full path including the path to the Data Package
 and not only the path relative to the Data Package. This is only relevant for
 relative paths.}
 
