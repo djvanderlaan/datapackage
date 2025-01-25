@@ -32,7 +32,7 @@ attr(dp, "path")
 attr(iris, "path")
 
 # g10
-fn <- dp_path(iris, fullpath = TRUE)
+fn <- dp_path(iris, full_path = TRUE)
 
 # g11
 dta <- read.csv(fn)
@@ -54,7 +54,7 @@ dp_resource(dp, "inline") |> dp_title()
 
 # r3
 dp_path(iris)
-dp_path(iris, fullpath = TRUE)
+dp_path(iris, full_path = TRUE)
 
 # r4
 dp_property(iris, "encoding")

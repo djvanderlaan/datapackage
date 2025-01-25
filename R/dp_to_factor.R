@@ -11,6 +11,18 @@
 #' Returns a factor vector or \code{x} when no categories could be found
 #' (\code{categorieslist = NULL}).
 #'
+#' @seealso
+#' An alternative is the \code{\link{dp_to_code}} function to convert to
+#' 'code' object from the 'codelist' package. 
+#'
+#' @examples
+#' fn <- system.file("examples/iris", package = "datapackage")
+#' dp <- open_datapackage(fn)
+#' dta <- dp |> dp_get_data("complex", convert_categories = "no")
+#' dp_to_factor(dta$factor1)
+#'
+#' dp |> dp_get_data("complex", convert_categories = "to_factor")
+#'
 #' @export
 dp_to_factor <- function(x, categorieslist = dp_categorieslist(x), warn = TRUE) {
   if (is.null(categorieslist)) {

@@ -1,15 +1,21 @@
 #' Convert columns of data.frame to their correct types using table schema
 #'
 #' @param dta a \code{data.frame} or \code{data.table}.
+#'
 #' @param resource an object with the Data Resource of the data set.
+#'
 #' @param convert_categories how to handle columns for which the field
-#'   descriptor has a \code{categories} property.  This should either be the
-#'   strings "no", "to_factor", the name of a function or a function. The
-#'   function receives each column and should convert the column. For example,
-#'   in case of "to_factor" the function \code{\link{dp_to_factor}} is called on
-#'   the column. 
-#' @param ... additional arguments are passed on to the \code{to_<fieldtype>} 
-#'   functions (e.g. \code{\link{to_number}}). 
+#' descriptor has a \code{categories} property.  This should either be the
+#' strings "no", "to_factor", "to_code", the name of a function or a function.
+#' When equal to "no" the field is returned as is; when equal to "to_factor"
+#' each column is transformed using \code{\link{dp_to_factor}}; when equal to
+#' "to_code" each column is transformed using \code{\link{dp_to_code}}. In
+#' other cased the function is called with the column as its first parameter and
+#' \code{warn = FALSE} as its second argument. The result of this function call
+#' is added to the resulting data set.
+#'
+#' @param ... additional arguments are passed on to the \code{to_<fieldtype>}
+#' functions (e.g. \code{\link{to_number}}). 
 #'
 #' @details
 #' Converts each column in \code{dta} to the correct R-type using the type
@@ -25,7 +31,8 @@
 #' and \code{\link{to_date}}.
 #'
 #'@export
-dp_apply_schema <- function(dta, resource, convert_categories = c("no", "to_factor"), ...) {
+dp_apply_schema <- function(dta, resource, 
+    convert_categories = c("no", "to_factor", "to_code"), ...) {
   # Check columnnames
   fieldnames <- dp_field_names(resource)
   if (!all(names(dta) == fieldnames)) 
@@ -71,6 +78,7 @@ get_convert_categories <- function(convert_categories) {
     stopifnot(!is.na(convert_categories))
     if (convert_categories == "no") return(FALSE)
     if (convert_categories == "to_factor") return(datapackage::dp_to_factor)
+    if (convert_categories == "to_code") return(datapackage::dp_to_code)
     if (!exists(convert_categories)) 
       stop("'", convert_categories, "' does not exist; not converting categories.")
     fun <- get(convert_categories)

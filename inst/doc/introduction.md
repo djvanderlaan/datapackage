@@ -130,11 +130,11 @@ Resource:
 attr(dp, "path")
 attr(iris, "path")
 ```
-Using the `fullpath = TRUE` argument, `path` will return the full path to the
+Using the `full_path = TRUE` argument, `path` will return the full path to the
 file:
 
 ```{.R #g10}
-fn <- dp_path(iris, fullpath = TRUE)
+fn <- dp_path(iris, full_path = TRUE)
 ```
 This path can be used to open the file manually:
 
@@ -200,14 +200,14 @@ For `dataresource` objects there are currently defined the following methods
 - `dp_hash`
 
 
-The `dp_path` method has a `fullpath` argument that, when used, returns the full
+The `dp_path` method has a `full_path` argument that, when used, returns the full
 path to the Data Resources data and not just the path relative to the Data
 Package. The full path is needed when one wants to use the path to read the
 data.
 
 ```{.R #r3}
 dp_path(iris)
-dp_path(iris, fullpath = TRUE)
+dp_path(iris, full_path = TRUE)
 ```
 
 It is also possible to get other properties than the ones explicitly mentioned
