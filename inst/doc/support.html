@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Jan van der Laan" />
+  <title>Overview of support for the Datapackage Specification v2</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 46em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+th, td {
+vertical-align: top;
+}
+.incomplete {
+background: #EFBDBE;
+font-size: 80%;
+}
+.complete {
+background: #BEEFBD;
+font-size: 80%;
+}
+.partial {
+background: #EFEEBD;
+font-size: 80%;
+}
+.irrelevant {
+background: #EEEEEE;
+font-size: 80%;
+}
+tr.sub td:first-of-type {
+padding-left: 2em;
+}
+p {
+text-align: justify;
+}
+header p {
+text-align: center;
+}
+pre {
+background: #eeeeee;
+padding: 0.5rem;
+}
+pre code {
+color: black;
+background: inherit;
+padding: 0;
+}
+code {
+color: black;
+background: #eeeeee;
+padding: 0.2rem;
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Overview of support for the Datapackage Specification
+v2</h1>
+<p class="author">Jan van der Laan</p>
+</header>
+<!--
+%\VignetteEngine{simplermarkdown::mdweave_to_html}
+%\VignetteIndexEntry{Overview of support for the Data Package specification v2}
+-->
+<p>Note that any property can always be obtained and set using
+<code>dpproperty()</code> and <code>dpproperty&lt;-()</code>
+respectively. Therefore, when specific support for a property is missing
+from the table below, this poperty can still be obtained and set.</p>
+<h2 id="data-package">Data Package</h2>
+<table>
+<thead>
+<tr>
+<th>
+Property
+</th>
+<th>
+Getting
+</th>
+<th>
+Setting
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>resources</code>
+</td>
+<td class="complete">
+<code>dp_resource()</code>, <code>dp_resource_names()</code>
+</td>
+<td class="complete">
+<code>dp_resource&lt;-()</code>, <code>cp_resources&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>$schema</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code>
+</td>
+<td class="complete">
+<code>dp_name()</code>
+</td>
+<td class="complete">
+<code>dp_name&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>id </code>
+</td>
+<td class="complete">
+<code>dp_id()</code>
+</td>
+<td class="complete">
+<code>dp_id&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>licenses</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>title</code>
+</td>
+<td class="complete">
+<code>dp_title()</code>
+</td>
+<td class="complete">
+<code>dp_title&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code>
+</td>
+<td class="complete">
+<code>dp_description()</code>
+</td>
+<td class="complete">
+<code>dp_description&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>homepage</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>image</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>created</code>
+</td>
+<td class="complete">
+<code>dp_created()</code>
+</td>
+<td class="complete">
+<code>dp_created&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>keywords</code>
+</td>
+<td class="complete">
+<code>dp_keywords()</code>
+</td>
+<td class="complete">
+<code>dp_keywords&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>contributors</code>
+</td>
+<td class="complete">
+<code>dp_contributors()</code>
+</td>
+<td class="complete">
+<code>dp_contributors&lt;-()</code>, <code>dp_add_contributor()</code>,
+<code>dp_new_contributor()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>sources</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-resource">Data Resource</h2>
+<table>
+<thead>
+<tr>
+<th>
+Property
+</th>
+<th>
+Getting
+</th>
+<th>
+Setting
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code>
+</td>
+<td class="complete">
+<code>dp_name()</code>
+</td>
+<td class="complete">
+<code>dp_name&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>path</code>
+</td>
+<td class="complete">
+<code>dp_path()</code>
+</td>
+<td class="complete">
+<code>dp_path&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>data</code>
+</td>
+<td class="complete">
+<code>dp_get_data()</code> returns data either from ‘data’ property or
+by reading from the ‘path’.
+</td>
+<td class="partial">
+It is possible to write data to file using <code>dp_write_data()</code>,
+but not to the ‘data’ property inside the <code>datapackage.json</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>$schema</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>title</code>
+</td>
+<td class="complete">
+<code>dp_title()</code>
+</td>
+<td class="complete">
+<code>dp_title&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code>
+</td>
+<td class="complete">
+<code>dp_description()</code>
+</td>
+<td class="complete">
+<code>dp_description&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code>
+</td>
+<td class="complete">
+<code>dp_format()</code>, <code>dp_get_data()</code> will use the
+‘format’ as the primary determinant for the reader to use to read the
+data.
+</td>
+<td class="complete">
+<code>dp_format&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>mediatype</code>
+</td>
+<td class="complete">
+<code>dp_mediatype()</code>, when ‘format’ is missing ‘mediatype’ will
+be used to determine which reader to use for reading the data by
+<code>dp_get_data()</code>
+</td>
+<td class="complete">
+<code>dp_mediatype&lt;-()</code>,
+<code>dp_generate_dataresource()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>encoding</code>
+</td>
+<td class="complete">
+<code>dp_encoding()</code>
+</td>
+<td class="complete">
+<code>dp_encoding&lt;-()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>bytes</code>
+</td>
+<td class="complete">
+<code>dp_bytes()</code><sup>a</sup>
+</td>
+<td class="complete">
+<code>dp_bytes&lt;-()</code><sup>a</sup>
+</td>
+</tr>
+<tr>
+<td>
+<code>hash</code>
+</td>
+<td class="complete">
+<code>dp_hash()</code><sup>a</sup>
+</td>
+<td class="complete">
+<code>dp_hash&lt;-()</code><sup>a</sup>
+</td>
+</tr>
+<tr>
+<td>
+<code>sources</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>licences</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+</tbody>
+</table>
+<p><sup>a</sup> The number of bytes and the hash can be set and get.
+There is no functionality to check is the file indeed has the specified
+number of bytes or hash and/or to automatically calculate this from the
+given file(s).</p>
+<h2 id="tabular-data-resource">Tabular Data Resource</h2>
+<table>
+<thead>
+<tr>
+<th>
+Property
+</th>
+<th>
+Getting
+</th>
+<th>
+Setting
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>dialect</code>
+</td>
+<td class="partial">
+See ‘Table Dialect’. There is no function to specifically get the
+‘dialect’ information. The data resource is passed to the reader
+functions that will access this information.
+</td>
+<td class="partial">
+See ‘Table Dialect’. The writer functions will use this information when
+writing. There is no specific function to change this information. By
+default the, safe, default values will be used.
+</td>
+</tr>
+<tr>
+<td>
+<code>schema</code>
+</td>
+<td class="complete">
+<code>dp_schema()</code>, also see ‘Table Schema’
+</td>
+<td class="partial">
+<code>dp_generate_dataresource()</code> will generate appropiate schema
+for a given data set.
+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="table-dialect">Table Dialect</h2>
+<p>As mentioned above, the ‘dialect’ property cannot be directly set.
+The table below indicates what properties are recognised when reading
+and writing data. The items are marked as support or not or irrelevant
+based on the support by the CSV reader and writer.</p>
+<table>
+<thead>
+<tr>
+<th>
+Property
+</th>
+<th>
+Reading
+</th>
+<th>
+Writing
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>$schema</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>header</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr>
+<td>
+<code>headerRows</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>headerJoin</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>commentRows</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>commentChar</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr>
+<td>
+<code>delimiter</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr>
+<td>
+<code>lineTerminator</code>
+</td>
+<td class="complete">
+CSV<sup>a</sup>
+</td>
+<td class="complete">
+CSV<sup>a</sup>
+</td>
+</tr>
+<tr>
+<td>
+<code>quoteChar</code>
+</td>
+<td class="complete">
+CSV<sup>b</sup>
+</td>
+<td class="complete">
+CSV<sup>b</sup>
+</td>
+</tr>
+<tr>
+<td>
+<code>doubleQuote</code>
+</td>
+<td class="complete">
+CSV<sup>c</sup>
+</td>
+<td class="complete">
+CSV<sup>c</sup>
+</td>
+</tr>
+<tr>
+<td>
+<code>escapeChar</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>nullSequence</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr>
+<td>
+<code>skipInitialSpace</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr>
+<td>
+<code>property</code>
+</td>
+<td class="irrelevant">
+</td>
+<td class="irrelevant">
+</td>
+</tr>
+<tr>
+<td>
+<code>itemType</code>
+</td>
+<td class="irrelevant">
+</td>
+<td class="irrelevant">
+</td>
+</tr>
+<tr>
+<td>
+<code>itemKeys</code>
+</td>
+<td class="irrelevant">
+</td>
+<td class="irrelevant">
+</td>
+</tr>
+<tr>
+<td>
+<code>sheetNumber</code>
+</td>
+<td class="irrelevant">
+</td>
+<td class="irrelevant">
+</td>
+</tr>
+<tr>
+<td>
+<code>sheetName</code>
+</td>
+<td class="irrelevant">
+</td>
+<td class="irrelevant">
+</td>
+</tr>
+<tr>
+<td>
+<code>table</code>
+</td>
+<td class="irrelevant">
+</td>
+<td class="irrelevant">
+</td>
+</tr>
+</tbody>
+</table>
+<p><sup>a</sup> Only <code>\n</code>/<code>\r</code> or
+<code>\r\n</code> is accepted.</p>
+<p><sup>b</sup> Only ‘<code>“</code>’ is accepted.</p>
+<p><sup>c</sup> Only ‘<code>true</code>’ is accepted.</p>
+<h2 id="table-schema">Table Schema</h2>
+<table>
+<thead>
+<tr>
+<th>
+Property
+</th>
+<th>
+Getting
+</th>
+<th>
+Setting
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>$schema</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>fields</code>
+</td>
+<td class="complete">
+<code>dp_field()</code>, <code>dp_field_names()</code>
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>fieldsMatch</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>missingValues</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKeys</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>uniqueKeys</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>foreignKeys</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="field-descriptor">Field Descriptor</h2>
+<table>
+<thead>
+<tr>
+<th>
+Property
+</th>
+<th>
+Getting
+</th>
+<th>
+Setting
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code>
+</td>
+<td class="partial">
+Used by <code>dp_get_data()</code>.
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code>
+</td>
+<td class="partial">
+Used by <code>dp_get_data()</code>.
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>title</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>example</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>constraints</code>
+</td>
+<td class="partial">
+Used by <code>dp_check_field()</code> and
+<code>dp_check_dataresource()</code>; see ‘Field Constraints’.
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>categories</code>
+</td>
+<td class="partial">
+Used by <code>dp_get_data()</code>.
+</td>
+<td class="partial">
+Used by <code>dp_write_data()</code> and
+<code>dp_generate_dataresource()</code>.
+</td>
+</tr>
+<tr>
+<td>
+<code>categoriesOrdered</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>missingValues</code>
+</td>
+<td class="partial">
+Used by <code>dp_get_data()</code>.
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>refType</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="field-types">Field Types</h2>
+<p>As mentioned above, the field descriptors cannot be directly modified
+or read from. The table below indicates what properties are recognised
+when reading and writing data. The items are marked as support or not or
+irrelevant based on the support by the CSV reader and writer.</p>
+<p>When a type is not supported the data will be read as a character
+string.</p>
+<table>
+<thead>
+<tr>
+<th>
+Property
+</th>
+<th>
+Reading
+</th>
+<th>
+Writing
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>string</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>format</code>
+</td>
+<td class="irrelevant">
+</td>
+<td class="irrelevant">
+</td>
+</tr>
+<tr>
+<td>
+<code>number</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>NaN, INF, -INF</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>exponent</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>decimalChar</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>groupChar</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>bareNumber</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>integer</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>groupChar</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>bareNumber</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>boolean</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>trueValues</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>falseValues</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr>
+<td>
+<code>object</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>array</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>list</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>delimiter</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>itemType</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>datetime</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>format (“default”, “<PATTERN>”, “any”)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>date</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>format (“default”, “<PATTERN>”, “any”)</code>
+</td>
+<td class="complete">
+CSV
+</td>
+<td class="complete">
+CSV
+</td>
+</tr>
+<tr>
+<td>
+<code>time</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>format (“default”, “<PATTERN>”, “any”)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>year</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>yearmonth</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>duration</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>geopoint</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>format (“default”, “array”, “object”)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>geojson</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr class="sub">
+<td>
+<code>format (“default”, “topojson”)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>any</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="field-constraints">Field Constraints</h2>
+<p>The functions <code>dp_check_dataresource()</code> and
+<code>dp_check_field()</code> checks if a given <code>data.frame</code>
+or vector is valid given the Data Resource or Field Descriptor. By
+default these will also check any constraints of fields. The default CSV
+and fixed width readers will not run these checks.</p>
+<table>
+<thead>
+<tr>
+<th>
+Property
+</th>
+<th>
+Checking constraints
+</th>
+<th>
+Getting
+</th>
+<th>
+Setting
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>required</code>
+</td>
+<td class="complete">
+<code>dp_check_field()</code>, <code>dp_check_dataresource(…,
+constraints = TRUE)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>unique</code>
+</td>
+<td class="complete">
+<code>dp_check_field()</code>, <code>dp_check_dataresource(…,
+constraints = TRUE)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>minLength</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>maxLength</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>minimum</code>
+</td>
+<td class="complete">
+<code>dp_check_field()</code>, <code>dp_check_dataresource(…,
+constraints = TRUE)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>maximum</code>
+</td>
+<td class="complete">
+<code>dp_check_field()</code>, <code>dp_check_dataresource(…,
+constraints = TRUE)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>exclusiveMinimum</code>
+</td>
+<td class="complete">
+<code>dp_check_field()</code>, <code>dp_check_dataresource(…,
+constraints = TRUE)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>exclusiveMaximum</code>
+</td>
+<td class="complete">
+<code>dp_check_field()</code>, <code>dp_check_dataresource(…,
+constraints = TRUE)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>jsonSchema</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>pattern</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+<tr>
+<td>
+<code>enum</code>
+</td>
+<td class="complete">
+<code>dp_check_field()</code>, <code>dp_check_dataresource(…,
+constraints = TRUE)</code>
+</td>
+<td class="incomplete">
+</td>
+<td class="incomplete">
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
