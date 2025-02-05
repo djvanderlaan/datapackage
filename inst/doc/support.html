@@ -934,10 +934,11 @@ Setting
 <td>
 <code>name</code>
 </td>
-<td class="partial">
-Used by <code>dp_get_data()</code>.
+<td class="complete">
+<code>dp_name()</code>; also used by <code>dp_get_data()</code>.
 </td>
-<td class="incomplete">
+<td class="complete">
+<code>dp_name&lt;-()</code>
 </td>
 </tr>
 <tr>
@@ -954,27 +955,33 @@ Used by <code>dp_get_data()</code>.
 <td>
 <code>format</code>
 </td>
-<td class="incomplete">
+<td class="complete">
+<code>dp_format()</code>
 </td>
-<td class="incomplete">
+<td class="complete">
+<code>dp_format&lt;-()</code>
 </td>
 </tr>
 <tr>
 <td>
 <code>title</code>
 </td>
-<td class="incomplete">
+<td class="complete">
+<code>dp_title()</code>
 </td>
-<td class="incomplete">
+<td class="complete">
+<code>dp_title&lt;-()</code>
 </td>
 </tr>
 <tr>
 <td>
 <code>description</code>
 </td>
-<td class="incomplete">
+<td class="complete">
+<code>dp_description()</code>
 </td>
-<td class="incomplete">
+<td class="complete">
+<code>dp_description&lt;-()</code>
 </td>
 </tr>
 <tr>
@@ -1002,7 +1009,7 @@ Used by <code>dp_check_field()</code> and
 <code>categories</code>
 </td>
 <td class="partial">
-Used by <code>dp_get_data()</code>.
+Used by <code>dp_categorieslist()</code> and <code>dp_get_data()</code>.
 </td>
 <td class="partial">
 Used by <code>dp_write_data()</code> and

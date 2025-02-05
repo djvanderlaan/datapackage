@@ -327,24 +327,24 @@ CSV reader and writer.
   </thead><tbody>
     <tr>
       <td><code>name</code></td>
-      <td class="partial">Used by <code>dp_get_data()</code>.</td>
-      <td class="incomplete"></td>
+      <td class="complete"><code>dp_name()</code>; also used by <code>dp_get_data()</code>.</td>
+      <td class="complete"><code>dp_name<-()</code></td>
     </tr><tr>
       <td><code>type</code></td>
       <td class="partial">Used by <code>dp_get_data()</code>.</td>
       <td class="incomplete"></td>
     </tr><tr>
       <td><code>format</code></td>
-      <td class="incomplete"></td>
-      <td class="incomplete"></td>
+      <td class="complete"><code>dp_format()</code></td>
+      <td class="complete"><code>dp_format<-()</code></td>
     </tr><tr>
       <td><code>title</code></td>
-      <td class="incomplete"></td>
-      <td class="incomplete"></td>
+      <td class="complete"><code>dp_title()</code></td>
+      <td class="complete"><code>dp_title<-()</code></td>
     </tr><tr>
       <td><code>description</code></td>
-      <td class="incomplete"></td>
-      <td class="incomplete"></td>
+      <td class="complete"><code>dp_description()</code></td>
+      <td class="complete"><code>dp_description<-()</code></td>
     </tr><tr>
       <td><code>example</code></td>
       <td class="incomplete"></td>
@@ -356,7 +356,7 @@ CSV reader and writer.
       <td class="incomplete"></td>
     </tr><tr>
       <td><code>categories</code></td>
-      <td class="partial">Used by <code>dp_get_data()</code>.</td>
+      <td class="partial">Used by <code>dp_categorieslist()</code> and <code>dp_get_data()</code>.</td>
       <td class="partial">Used by <code>dp_write_data()</code> and
       <code>dp_generate_dataresource()</code>.</td>
     </tr><tr>
