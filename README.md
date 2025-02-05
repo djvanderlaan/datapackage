@@ -13,6 +13,7 @@ in the vignettes of the package:
 
 - [Introduction to `datapackage`](https://htmlpreview.github.io/?https://github.com/djvanderlaan/datapackage/blob/main/inst/doc/introduction.html)
 - [Creating a Data Package](https://htmlpreview.github.io/?https://github.com/djvanderlaan/datapackage/blob/main/inst/doc/creating_a_datapackage.html)
+- [Overview of support for the Data Package v2 specification](https://htmlpreview.github.io/?https://github.com/djvanderlaan/datapackage/blob/main/inst/doc/support.html)
 
 The package supports CSV-files out of the box. Other file formats are supported
 through plugins. 
