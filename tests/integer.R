@@ -63,6 +63,33 @@ res <- to_integer(c("10","--", "11", NA), fielddescriptor)
 expect_equal(res, c(10, NA, 11, NA), attributes = FALSE)
 expect_error(res <- to_integer(c("10","---", "11", NA), fielddescriptor))
 
+# === BareNumber
+fielddescriptor <- list(
+  name = "integer",
+  title = "A integer field",
+  description = "A description",
+  type = "integer",
+  bareNumber = FALSE
+)
+res <- datapackage:::to_integer.character(c("€10", "-100%", "", NA), 
+  fielddescriptor = fielddescriptor)
+expect_equal(res, c(10L, -100L, NA_integer_, NA_integer_), attributes = FALSE)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
+res <- datapackage:::to_integer.integer(c(10, -100, NA), 
+  fielddescriptor = fielddescriptor)
+expect_equal(res, c(10L, -100L, NA_integer_), attributes = FALSE)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
+
+# true -> €10 = error
+fielddescriptor <- list(
+  name = "integer",
+  title = "A integer field",
+  description = "A description",
+  type = "integer",
+  bareNumber = TRUE
+)
+expect_error(datapackage:::to_integer.character(c("€10", "-100%", "", NA), 
+  fielddescriptor = fielddescriptor))
 
 
 # =============================================================================

@@ -109,6 +109,20 @@ res <- to_number(c("10","--", "11", NA), fielddescriptor)
 expect_equal(res, c(10, NA, 11, NA), attributes = FALSE)
 expect_error(res <- to_number(c("10","---", "11", NA), fielddescriptor))
 
+# === BareNumber
+fielddescriptor <- list(
+  name = "number",
+  title = "A number field",
+  description = "A description",
+  type = "number",
+  bareNumber = FALSE
+)
+res <- to_number(c("10%", "EUR -100.3", "Inf", "-Inf", "NaN", "", "€-1.3E+6", 
+    "+4.3E-5", NA), fielddescriptor = fielddescriptor)
+expect_equal(res, c(10, -100.3, Inf, -Inf, NaN, NA, -1.3E6, 4.3E-5, NA), 
+  attributes = FALSE)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
+
 # =============================================================================
 # csv_colclass
 

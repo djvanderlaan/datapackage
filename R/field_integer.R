@@ -69,6 +69,13 @@ to_integer.character <- function(x, fielddescriptor = list(), ...) {
     fielddescriptor$missingValues else ""
   na <- x %in% na_values | is.na(x);
   x[x %in% na_values] <- NA
+  # handle bareNumber
+  if (!is.null(fielddescriptor$bareNumber) && 
+      (fielddescriptor$bareNumber == FALSE)) {
+    res <- bareNumber(x, warn = FALSE)
+    x <- res$remainder
+  }
+  # Convert
   res <- suppressWarnings(as.integer(x))
   invalid <- is.na(res) & !na
   if (any(invalid)) 

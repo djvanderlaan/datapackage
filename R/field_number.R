@@ -40,6 +40,7 @@ to_number.numeric <- function(x, fielddescriptor = list(),  decimalChar = ".", .
 
 #' @export
 to_number.character <- function(x, fielddescriptor = list(), decimalChar = ".", ...) {
+  x_orig <- x
   fielddescriptor <- complete_fielddescriptor_number(fielddescriptor)
   decimalChar <- if (is.null(fielddescriptor$decimalChar)) 
     decimalChar else fielddescriptor$decimalChar
@@ -48,6 +49,13 @@ to_number.character <- function(x, fielddescriptor = list(), decimalChar = ".", 
     fielddescriptor$missingValues else ""
   na <- x %in% na_values | is.na(x);
   x[x %in% na_values] <- NA
+  # handle bareNumber
+  if (!is.null(fielddescriptor$bareNumber) && 
+      (fielddescriptor$bareNumber == FALSE)) {
+    res <- bareNumber(x, warn = FALSE)
+    x <- res$remainder
+  }
+  # groupChar
   if (!is.null(fielddescriptor$groupChar)) 
     x <- gsub(fielddescriptor$groupChar, "", x, fixed = TRUE)
   if (decimalChar != ".") 
@@ -55,7 +63,8 @@ to_number.character <- function(x, fielddescriptor = list(), decimalChar = ".", 
   res <- suppressWarnings(as.numeric(x))
   invalid <- is.na(res) & !na & !is.nan(res)
   if (any(invalid)) 
-    stop("Invalid values found: '", x[utils::head(which(invalid), 1)], "'.")
+    stop("Invalid values found: '", x_orig[utils::head(which(invalid), 1)], 
+      "'.")
   structure(res, fielddescriptor = fielddescriptor)
 }
 
