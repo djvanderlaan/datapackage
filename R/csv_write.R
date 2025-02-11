@@ -26,10 +26,12 @@ csv_write <- function(x, resourcename, datapackage,
   stopifnot(setequal(names(x), dp_field_names(dataresource)))
   # Write dataset; but first process arguments
   csvdialect <- dp_property(dataresource, "dialect")
-  decimalChar <- decimalchars(dataresource) |> utils::head(1)
+  if (is.null(csvdialect)) csvdialect <- list()
+  decimalChar <- csvdialect$decimalChar
+  if (is.null(decimalChar))
+    decimalChar <- decimalchars(dataresource) |> utils::head(1)
   delimiter <- "," 
-  if (!is.null(csvdialect) && !is.null(csvdialect$delimiter))
-    delimiter <- csvdialect$delimiter
+  if (!is.null(csvdialect$delimiter)) delimiter <- csvdialect$delimiter
   # Check if delimiter equal to decimalchar; ifso we will have issues reading
   delimiter_ok <- all(decimalchars(dataresource) != delimiter)
   if (delimiter == decimalChar || !delimiter_ok)
@@ -40,10 +42,10 @@ csv_write <- function(x, resourcename, datapackage,
   quote <- which(sapply(x, is.character))
   # Format the fields (if necessary)
   for (i in names(x)) 
-    x[[i]] <- csv_format(x[[i]], dp_field(dataresource, i))
+    x[[i]] <- csv_format(x[[i]], dp_field(dataresource, i), 
+      decimalChar = decimalChar)
   # How to write missing values
-  encoding <- dp_encoding(dataresource, "encoding")
-  if (is.null(encoding)) encoding <- "UTF-8"
+  encoding <- dp_encoding(dataresource, default = TRUE)
   path <- dp_path(dataresource, full_path = TRUE)
   if (is.null(path)) stop("Path is missing in dataresource.")
   if (isurl(path)) stop("Path is an URL; writing to a URL is not supported.")
