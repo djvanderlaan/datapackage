@@ -72,14 +72,20 @@ to_number.character <- function(x, fielddescriptor = list(), decimalChar = ".", 
 # @rdname csv_colclass
 # @export
 csv_colclass_number <- function(fielddescriptor = list(), decimalChar = ".", ...) {
+  colclass <- "numeric"
   fielddescriptor <- complete_fielddescriptor_number(fielddescriptor)
   dec <- if (is.null(fielddescriptor$decimalChar)) 
     decimalChar else fielddescriptor$decimalChar
   if (!is.null(fielddescriptor$groupChar) || dec != decimalChar || 
       !is.null(fielddescriptor$missingValues)) {
-    "character"
+    colclass <- "character"
   } else {
-    "numeric"
+    colclass <- "numeric"
   }
+  # When the field can contain additional text; e.g. "50%" we have to 
+  # read as character
+  if (!is.null(fielddescriptor$bareNumber) && 
+      (fielddescriptor$bareNumber == FALSE)) colclass <- "character"
+  colclass
 }
 

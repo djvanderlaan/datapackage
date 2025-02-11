@@ -94,9 +94,15 @@ to_integer.integer64 <- function(x, fielddescriptor = list(), ...) {
 # @rdname csv_colclass
 # @export
 csv_colclass_integer <- function(fielddescriptor = list(), ...) {
+  colclass <- "integer"
   # When there are specific strings that encode a missing values we have to
   # read the field as character; otherwise we can leave the conversion to
   # integer to the csv reader.
-  if (!is.null(fielddescriptor$missingValues)) "character" else "integer"
+  if (!is.null(fielddescriptor$missingValues)) colclass <- "character"
+  # When the field can contain additional text; e.g. "50%" we have to 
+  # read as character
+  if (!is.null(fielddescriptor$bareNumber) && 
+      (fielddescriptor$bareNumber == FALSE)) colclass <- "character"
+  colclass
 }
 

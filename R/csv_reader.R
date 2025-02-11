@@ -29,10 +29,11 @@ csv_reader <- function(path, resource, use_fread = FALSE,
   if (is.null(schema)) {
     dta <- csv_read_base(path, use_fread = use_fread, ...)
   } else {
-    dec <- determine_decimalchar(schema$fields)
-    colclasses <- sapply(schema$fields, csv_colclass, decimalChar = dec)
     dialect <- dp_property(resource, "dialect")
     if (is.null(dialect)) dialect <- list()
+    dec <- if (!is.null(dialect$decimalChar)) dialect$decimalChar else
+      determine_decimalchar(schema$fields)
+    colclasses <- sapply(schema$fields, csv_colclass, decimalChar = dec)
     # TODO: missing values/na.strings
     dta <- csv_read_base(path, decimalChar = dec, colClasses = colclasses, 
       use_fread = use_fread, csv_dialect = dialect, ...)
