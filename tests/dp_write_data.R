@@ -34,9 +34,12 @@ expect_equal(list.files(newdir), sort(c("datapackage.json", "complex.csv")))
 # complex.csv
 csv <- readLines(file.path(newdir, "complex.csv")) 
 expected <- c("\"string1\",\"integer1\",\"boolean1\",\"number1\",\"number2\",\"boolean2\",\"date1\",\"factor1\",\"factor2\"", 
-  "\"a\",1,TRUE,1.2,1.2,TRUE,2020-01-01,1,\"101\"", "\"b\",-100,FALSE,-1e-04,-0.001,FALSE,2022-01-12,2,\"102\"", 
-  "\"c\",,TRUE,Inf,1100,TRUE,,1,\"101\"", "\"\",100,TRUE,10000,-11000.4,,1950-10-10,3,\"103\"", 
-  "\"f\",0,,,,FALSE,1920-12-10,,\"102\"", "\"g\",0,FALSE,,0,TRUE,2002-02-20,3,")
+  "\"a\",1,TRUE,1.2,1.2,TRUE,\"2020-01-01\",1,\"101\"", 
+  "\"b\",-100,FALSE,-1e-04,-0.001,FALSE,\"2022-01-12\",2,\"102\"", 
+  "\"c\",,TRUE,Inf,1100,TRUE,,1,\"101\"", 
+  "\"\",100,TRUE,10000,-11000.4,,\"1950-10-10\",3,\"103\"", 
+  "\"f\",0,,,,FALSE,\"1920-12-10\",,\"102\"", 
+  "\"g\",0,FALSE,,0,TRUE,\"2002-02-20\",3,")
 expect_equal(csv, expected)
 
 # When we read the data back in again from the new datapackage we should get the
@@ -103,10 +106,14 @@ expect_equal(csv, expected)
 # complex.csv
 csv <- readLines(file.path(newdir, "complex.csv")) 
 expected <- c("\"string1\",\"integer1\",\"boolean1\",\"number1\",\"number2\",\"boolean2\",\"date1\",\"factor1\",\"factor2\"", 
-  "\"a\",1,TRUE,1.2,1$2,TRUE,2020-01-01,1,\"101\"", "\"b\",-100,FALSE,-1e-04,-0$001,FALSE,2022-01-12,2,\"102\"", 
-  "\"c\",,TRUE,Inf,1 100,TRUE,,1,\"101\"", "\"\",100,TRUE,10000,-11 000$4,,1950-10-10,3,\"103\"", 
-  "\"f\",0,,,,FALSE,1920-12-10,,\"102\"", "\"g\",0,FALSE,,0,TRUE,2002-02-20,3,")
+  "\"a\",1,TRUE,1.2,\"1$2\",TRUE,\"2020-01-01\",1,\"101\"", 
+  "\"b\",-100,FALSE,-1e-04,\"-0$001\",FALSE,\"2022-01-12\",2,\"102\"", 
+  "\"c\",,TRUE,Inf,\"1 100\",TRUE,,1,\"101\"", 
+  "\"\",100,TRUE,10000,\"-11 000$4\",,\"1950-10-10\",3,\"103\"", 
+  "\"f\",0,,,,FALSE,\"1920-12-10\",,\"102\"", 
+  "\"g\",0,FALSE,,\"0\",TRUE,\"2002-02-20\",3,")
 expect_equal(csv, expected)
+csv == expected
 
 
 # When we read the data back in again from the new datapackage we should get the
