@@ -84,3 +84,24 @@ csv_format_string <- function(x, fielddescriptor = attr(x, "fielddescriptor"), .
   x
 }
 
+# @rdname csv_format
+# @export
+csv_format_datetime <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...) {
+  format <- "%Y-%m-%dT%H:%M:%S%z"
+  if (is.null(fielddescriptor$format) || fielddescriptor$format == "default" || 
+      fielddescriptor$format == "any") {
+    format <- "%Y-%m-%dT%H:%M:%S%z"
+    res <- format(x, format = format)
+    # iso8601 has the sign of the time zone reversed
+    res <- gsub("[+]([0-9]{2})([0-9]{2})$", "-\\1:\\2", res)
+    res <- gsub("[-]([0-9]{2})([0-9]{2})$", "+\\1:\\2", res)
+  } else {
+    format <- fielddescriptor$format
+    res <- format(x, format = format)
+  }
+  if (!is.null(fielddescriptor$missingValues)) {
+    res[is.na(res)] <- fielddescriptor$missingValues[1]
+  }
+  res
+}
+
