@@ -48,6 +48,11 @@ csv_write(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
+
+
 # === DECIMALCHAR IN FIELD
 data <- data.frame(
   col1 = c(1.22, -2.33),
@@ -76,6 +81,11 @@ expect_equal(res, expected)
 csv_write(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
+
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
+
 
 # === DECIMALCHAR IN DIALECT
 data <- data.frame(
@@ -107,6 +117,11 @@ csv_write(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
+
+
 # === GROUPCHAR
 data <- data.frame(
   col1 = c(1.22, -2.33),
@@ -136,6 +151,10 @@ expect_equal(res, expected)
 csv_write(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
+
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
 
 
 # === NUULSEQUENCE
@@ -167,6 +186,11 @@ csv_write(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
+
+
 # === LOGICAL
 data <- data.frame(
   col1 = c(TRUE, FALSE),
@@ -196,6 +220,10 @@ expect_equal(res, expected)
 csv_write(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
+
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
 
 
 
@@ -231,6 +259,10 @@ csv_write(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
+
 
 # === DATE
 data <- data.frame(
@@ -261,6 +293,10 @@ expect_equal(res, expected)
 csv_write(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
+
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
 
 
 # === DATETIME
