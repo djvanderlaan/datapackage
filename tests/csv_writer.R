@@ -263,6 +263,45 @@ res <- readLines(file.path(fn, "test.csv"))
 expect_equal(res, expected)
 
 
+# === DATETIME
+data <- data.frame(
+  col1 = as.POSIXct(c("2025-01-01 14:15:16", "2024-12-31 13:12:11"), tz = "CET"),
+  col2 = as.POSIXct(c("2000-06-10 00:01:02", NA), tz = "CET")
+)
+resource <- list(
+    name = "test",
+    path = "test.csv",
+    schema = list(
+        fields = list(
+            list(name = "col1", type = "datetime"),
+            list(name = "col2", type = "datetime", format = "%d-%m-%Y %H:%M:%S")
+          )
+      ),
+    dialect = list( 
+        delimiter = ";",
+        decimalChar = ","
+      )
+  )
+expected <- c('"col1";"col2"', '"2025-01-01T14:15:16+01:00";"10-06-2000 00:01:02"', '"2024-12-31T13:12:11+01:00";')
+resource <- structure(resource, class = "dataresource")
+datapackage$resources[[1]] <- resource
+csv_write(data, "test", datapackage)
+res <- readLines(file.path(fn, "test.csv")) 
+expect_equal(res, expected)
+
+csv_write(data, "test", datapackage, use_fwrite = TRUE)
+res <- readLines(file.path(fn, "test.csv")) 
+expect_equal(res, expected)
+
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
+
+
+
+
+# === CLEANUP
+
 files <- list.files(fn, full.names = TRUE)
 ignore <- file.remove(files)
 ignore <- file.remove(fn)

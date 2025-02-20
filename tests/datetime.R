@@ -119,10 +119,10 @@ expect_equal(res, "character")
 # csv_format
 
 res <- datapackage:::csv_format_datetime(as.POSIXct("2020-01-01 12:30", tz = "CET"))
-expect_equal(res, "2020-01-01T12:30:00-01:00")
+expect_equal(res, "2020-01-01T12:30:00+01:00")
 
 res <- datapackage:::csv_format_datetime(as.POSIXct("2020-01-01 12:30", tz = "GMT"))
-expect_equal(res, "2020-01-01T12:30:00-00:00")
+expect_equal(res, "2020-01-01T12:30:00Z")
 
 fielddescriptor <- list(
     type = "datetime",
@@ -130,7 +130,7 @@ fielddescriptor <- list(
   )
 res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30", NA), tz = "GMT"), 
   fielddescriptor = fielddescriptor)
-expect_equal(res, c("2020-01-01T12:30:00-00:00", NA))
+expect_equal(res, c("2020-01-01T12:30:00Z", NA))
 
 fielddescriptor <- list(
     type = "datetime",
@@ -138,7 +138,7 @@ fielddescriptor <- list(
   )
 res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30", NA), tz = "GMT"), 
   fielddescriptor = fielddescriptor)
-expect_equal(res, c("2020-01-01T12:30:00-00:00", NA))
+expect_equal(res, c("2020-01-01T12:30:00Z", NA))
 
 fielddescriptor <- list(
     type = "datetime",
@@ -155,7 +155,7 @@ fielddescriptor <- list(
   )
 res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30", NA), tz = "GMT"), 
   fielddescriptor = fielddescriptor)
-expect_equal(res, c("2020-01-01T12:30:00-00:00", ""))
+expect_equal(res, c("2020-01-01T12:30:00Z", ""))
 
 
 

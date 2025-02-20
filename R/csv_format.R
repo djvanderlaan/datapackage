@@ -92,9 +92,10 @@ csv_format_datetime <- function(x, fielddescriptor = attr(x, "fielddescriptor"),
       fielddescriptor$format == "any") {
     format <- "%Y-%m-%dT%H:%M:%S%z"
     res <- format(x, format = format)
-    # iso8601 has the sign of the time zone reversed
-    res <- gsub("[+]([0-9]{2})([0-9]{2})$", "-\\1:\\2", res)
-    res <- gsub("[-]([0-9]{2})([0-9]{2})$", "+\\1:\\2", res)
+    # iso8601: positive sign time zone = east of gmt
+    res <- gsub("[+]([0-9]{2})([0-9]{2})$", "+\\1:\\2", res)
+    res <- gsub("[-]([0-9]{2})([0-9]{2})$", "-\\1:\\2", res)
+    res <- gsub("[+]00:00$", "Z", res)
   } else {
     format <- fielddescriptor$format
     res <- format(x, format = format)
