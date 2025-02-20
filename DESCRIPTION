@@ -12,7 +12,7 @@ Description: Functions to open and modify Data Packages.
 BugReports: https://github.com/djvanderlaan/datapackage/issues
 URL: https://github.com/djvanderlaan/datapackage
 Depends:
-    R (>= 3.6.0)
+    R (>= 4.1.0)
 Imports:
     yaml,
     jsonlite,
