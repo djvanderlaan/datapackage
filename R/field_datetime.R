@@ -11,7 +11,7 @@ complete_fielddescriptor_datetime <- function(fielddescriptor) {
   fielddescriptor
 }
 
-#' Convert a vector to 'datedime' using the specified field descriptor
+#' Convert a vector to 'datetime' using the specified field descriptor
 #' 
 #' @param x the vector to convert.
 #' @param fielddescriptor the field descriptor for the field.
@@ -25,7 +25,7 @@ complete_fielddescriptor_datetime <- function(fielddescriptor) {
 #' function allows more formats than the Data Package standard prescribes. When 
 #' format equals "any" the default `as.POSIXct` function is used.
 #'
-#' When \code{x} is numberic or integer, it is assumed that these are seconds
+#' When \code{x} is numeric or integer, it is assumed that these are seconds
 #' since the unix time epoch (1970-01-01T00:00:00).
 #'
 #' @return

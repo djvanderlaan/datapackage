@@ -2,7 +2,7 @@
 % Please edit documentation in R/field_datetime.R
 \name{to_datetime}
 \alias{to_datetime}
-\title{Convert a vector to 'datedime' using the specified field descriptor}
+\title{Convert a vector to 'datetime' using the specified field descriptor}
 \usage{
 to_datetime(x, fielddescriptor = list(), ...)
 }
@@ -18,7 +18,7 @@ Will return an \code{POSIXct} vector with \code{fielddescriptor} added as the
 'fielddescriptor' attribute.
 }
 \description{
-Convert a vector to 'datedime' using the specified field descriptor
+Convert a vector to 'datetime' using the specified field descriptor
 }
 \details{
 When \code{fielddescriptor} is missing a default field descriptor is
@@ -28,6 +28,6 @@ For the default format `iso8601::iso8601todatetime` is used to convert. This
 function allows more formats than the Data Package standard prescribes. When 
 format equals "any" the default `as.POSIXct` function is used.
 
-When \code{x} is numberic or integer, it is assumed that these are seconds
+When \code{x} is numeric or integer, it is assumed that these are seconds
 since the unix time epoch (1970-01-01T00:00:00).
 }
