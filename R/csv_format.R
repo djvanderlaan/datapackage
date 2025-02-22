@@ -106,3 +106,15 @@ csv_format_datetime <- function(x, fielddescriptor = attr(x, "fielddescriptor"),
   res
 }
 
+
+# @rdname csv_format
+# @export
+csv_format_yearmonth <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...) {
+  format <- "%Y-%m"
+  res <- format(x, format = format)
+  if (!is.null(fielddescriptor$missingValues)) {
+    res[is.na(res)] <- fielddescriptor$missingValues[1]
+  }
+  res
+}
+

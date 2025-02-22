@@ -67,6 +67,19 @@ to_yearmonth.character <- function(x, fielddescriptor = list(), ...) {
   structure(res, fielddescriptor = fielddescriptor)
 }
 
+#' @export
+to_yearmonth.Date <- function(x, fielddescriptor = list(), ...) {
+  fielddescriptor <- complete_fielddescriptor_yearmonth(fielddescriptor)
+  to_yearmonth(format(x, "%Y-%m"))
+}
+
+#' @export
+to_yearmonth.POSIXt <- function(x, fielddescriptor = list(), ...) {
+  fielddescriptor <- complete_fielddescriptor_yearmonth(fielddescriptor)
+  to_yearmonth(format(x, "%Y-%m"))
+}
+
+
 # @rdname csv_colclass
 # @export
 csv_colclass_yearmonth <- function(fielddescriptor = list(), ...) {

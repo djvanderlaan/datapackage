@@ -467,8 +467,8 @@ When a type is not supported the data will be read as a character string.
       <td class="incomplete"></td>
     </tr><tr>
       <td><code>datetime</code></td>
-      <td class="complete"></td>
-      <td class="complete"></td>
+      <td class="complete">CSV</td>
+      <td class="complete">CSV</td>
     </tr><tr class="sub">
       <td><code>format ("default", "<PATTERN>", "any")</code></td>
       <td class="complete"></td>
@@ -495,8 +495,8 @@ When a type is not supported the data will be read as a character string.
       <td class="incomplete"></td>
     </tr><tr>
       <td><code>yearmonth</code></td>
-      <td class="incomplete"></td>
-      <td class="incomplete"></td>
+      <td class="complete">CSV</td>
+      <td class="complete">CSV</td>
     </tr><tr>
       <td><code>duration</code></td>
       <td class="incomplete"></td>
