@@ -27,18 +27,18 @@ complete_fielddescriptor_integer <- function(fielddescriptor) {
 #' the 'fielddescriptor' attribute.
 #' 
 #' @export
-to_integer <- function(x, fielddescriptor = list(), ...) {
-  UseMethod("to_integer")
+dp_to_integer <- function(x, fielddescriptor = list(), ...) {
+  UseMethod("dp_to_integer")
 }
 
 #' @export
-to_integer.integer <- function(x, fielddescriptor = list(), ...) {
+dp_to_integer.integer <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_integer(fielddescriptor)
   structure(x, fielddescriptor = fielddescriptor)
 }
 
 #' @export
-to_integer.numeric <- function(x, fielddescriptor = list(), ...) {
+dp_to_integer.numeric <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_integer(fielddescriptor)
   # Need to check for rounding errors? Would round(x) be better? 
   x <- as.integer(round(x))
@@ -46,7 +46,7 @@ to_integer.numeric <- function(x, fielddescriptor = list(), ...) {
 }
 
 #' @export
-to_integer.factor <- function(x, fielddescriptor = list(), ...) {
+dp_to_integer.factor <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_integer(fielddescriptor)
   categorieslist <- dp_categorieslist(fielddescriptor)
   if (is.null(categorieslist)) {
@@ -62,7 +62,7 @@ to_integer.factor <- function(x, fielddescriptor = list(), ...) {
 }
 
 #' @export
-to_integer.character <- function(x, fielddescriptor = list(), ...) {
+dp_to_integer.character <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_integer(fielddescriptor)
   # Consider "" as a NA
   na_values <- if (!is.null(fielddescriptor$missingValues)) 
@@ -84,7 +84,7 @@ to_integer.character <- function(x, fielddescriptor = list(), ...) {
 }
 
 #' @export
-to_integer.integer64 <- function(x, fielddescriptor = list(), ...) {
+dp_to_integer.integer64 <- function(x, fielddescriptor = list(), ...) {
   # integer64 is automaticall used by fread for large numbers
   fielddescriptor <- complete_fielddescriptor_integer(fielddescriptor)
   structure(x, fielddescriptor = fielddescriptor)

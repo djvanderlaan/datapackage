@@ -33,24 +33,24 @@ complete_fielddescriptor_datetime <- function(fielddescriptor) {
 #' 'fielddescriptor' attribute.
 #' 
 #' @export
-to_datetime <- function(x, fielddescriptor = list(), ...) {
-  UseMethod("to_datetime")
+dp_to_datetime <- function(x, fielddescriptor = list(), ...) {
+  UseMethod("dp_to_datetime")
 }
 
 #' @export
-to_datetime.integer <- function(x, fielddescriptor = list(), ...) {
+dp_to_datetime.integer <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_datetime(fielddescriptor)
   structure(as.POSIXct(x), fielddescriptor = fielddescriptor)
 }
 
 #' @export
-to_datetime.numeric <- function(x, fielddescriptor = list(), ...) {
+dp_to_datetime.numeric <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_datetime(fielddescriptor)
   structure(as.POSIXct(x), fielddescriptor = fielddescriptor)
 }
 
 #' @export
-to_datetime.character <- function(x, fielddescriptor = list(), ...) {
+dp_to_datetime.character <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_datetime(fielddescriptor)
   # Consider "" as a NA
   na_values <- if (!is.null(fielddescriptor$missingValues)) 
@@ -71,14 +71,14 @@ to_datetime.character <- function(x, fielddescriptor = list(), ...) {
 }
 
 #' @export
-to_datetime.POSIXlt <- function(x, fielddescriptor = list(), ...) {
+dp_to_datetime.POSIXlt <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_datetime(fielddescriptor)
   structure(as.POSIXct(x), fielddescriptor = fielddescriptor)
 }
 
 
 #' @export
-to_datetime.POSIXt <- function(x, fielddescriptor = list(), ...) {
+dp_to_datetime.POSIXt <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_datetime(fielddescriptor)
   # Nothing to do; x is already the correct type 
   structure(x, fielddescriptor = fielddescriptor)

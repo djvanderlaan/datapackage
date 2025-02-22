@@ -30,12 +30,12 @@ complete_fielddescriptor_boolean <- function(fielddescriptor) {
 #' the 'fielddescriptor' attribute.
 #' 
 #' @export
-to_boolean <- function(x, fielddescriptor = list(), ...) {
-  UseMethod("to_boolean")
+dp_to_boolean <- function(x, fielddescriptor = list(), ...) {
+  UseMethod("dp_to_boolean")
 }
 
 #' @export
-to_boolean.integer <- function(x, fielddescriptor = list(), ...) {
+dp_to_boolean.integer <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_boolean(fielddescriptor)
   true_values <- suppressWarnings(as.integer(fielddescriptor$trueValues))
   if (any(is.na(true_values))) 
@@ -62,7 +62,7 @@ to_boolean.integer <- function(x, fielddescriptor = list(), ...) {
 }
 
 #' @export
-to_boolean.character <- function(x, fielddescriptor = list(), ...) {
+dp_to_boolean.character <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_boolean(fielddescriptor)
   # Unless "" is a true of false value we will consider it a missing value
   na_values <- if (!is.null(fielddescriptor$missingValues)) 
@@ -80,7 +80,7 @@ to_boolean.character <- function(x, fielddescriptor = list(), ...) {
 }
 
 #' @export
-to_boolean.logical <- function(x, fielddescriptor = list(), ...) {
+dp_to_boolean.logical <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_boolean(fielddescriptor)
   structure(x, fielddescriptor = fielddescriptor)
 }

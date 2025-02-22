@@ -8,11 +8,11 @@ fielddescriptor <- list(
   description = "A description",
   type = "date"
 )
-res <- to_date(c("2020-01-01", "2022-12-31", "", NA), fielddescriptor = fielddescriptor)
+res <- dp_to_date(c("2020-01-01", "2022-12-31", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, as.Date(c("2020-01-01", "2022-12-31", NA, NA)), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 expect_error(
-  to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
+  dp_to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
 )
 
 fielddescriptor <- list(
@@ -22,11 +22,11 @@ fielddescriptor <- list(
   type = "date",
   format = "default"
 )
-res <- to_date(c("2020-01-01", "2022-12-31", "", NA), fielddescriptor = fielddescriptor)
+res <- dp_to_date(c("2020-01-01", "2022-12-31", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, as.Date(c("2020-01-01", "2022-12-31", NA, NA)), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 expect_error(
-  to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
+  dp_to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
 )
 
 fielddescriptor <- list(
@@ -36,11 +36,11 @@ fielddescriptor <- list(
   type = "date",
   format = "any"
 )
-res <- to_date(c("2020-01-01", "2022-12-31", "", NA), fielddescriptor = fielddescriptor)
+res <- dp_to_date(c("2020-01-01", "2022-12-31", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, as.Date(c("2020-01-01", "2022-12-31", NA, NA)), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 expect_error(
-  to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
+  dp_to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
 )
 
 fielddescriptor <- list(
@@ -50,11 +50,11 @@ fielddescriptor <- list(
   type = "date",
   format = "%Y%m%d"
 )
-res <- to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
+res <- dp_to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, as.Date(c("2020-01-01", "2022-12-31", NA, NA)), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 expect_error(
-  to_date(c("2020-01-01", "2022-12-31", "", NA), fielddescriptor = fielddescriptor)
+  dp_to_date(c("2020-01-01", "2022-12-31", "", NA), fielddescriptor = fielddescriptor)
 )
 
 
@@ -62,11 +62,11 @@ expect_error(
 fielddescriptor <- list(
   type = "date"
 )
-res <- to_date(c("2020-01-01", "2022-12-31", "", NA))
+res <- dp_to_date(c("2020-01-01", "2022-12-31", "", NA))
 expect_equal(res, as.Date(c("2020-01-01", "2022-12-31", NA, NA)), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 expect_error(
-  to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
+  dp_to_date(c("20200101", "20221231", "", NA), fielddescriptor = fielddescriptor)
 )
 
 # === NA
@@ -74,9 +74,9 @@ fielddescriptor <- list(
   name = "date",
   missingValues = c("--")
 )
-res <- to_date(c("2020-01-01","--", "2022-12-31", NA), fielddescriptor)
+res <- dp_to_date(c("2020-01-01","--", "2022-12-31", NA), fielddescriptor)
 expect_equal(res, as.Date(c("2020-01-01", NA, "2022-12-31", NA)), attributes = FALSE)
-expect_error(res <- to_date(c("2020-01-01","---", "2022-12-31", NA), fielddescriptor))
+expect_error(res <- dp_to_date(c("2020-01-01","---", "2022-12-31", NA), fielddescriptor))
 
 # =============================================================================
 # csv_colclass

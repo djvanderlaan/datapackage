@@ -7,7 +7,7 @@ fielddescriptor <- list(
   description = "A description",
   type = "string"
 )
-res <- datapackage:::to_string.character(c("a", "b", "", NA), 
+res <- datapackage:::dp_to_string.character(c("a", "b", "", NA), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c("a", "b", "", NA), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
@@ -19,7 +19,7 @@ fielddescriptor <- list(
   description = "A description",
   type = "string"
 )
-res <- to_string(c("a", "b", "", NA), fielddescriptor = fielddescriptor)
+res <- dp_to_string(c("a", "b", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c("a", "b", "", NA), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 
@@ -27,12 +27,12 @@ expect_attribute(res, "fielddescriptor", fielddescriptor)
 fielddescriptor <- list(
   type = "string"
 )
-res <- to_string(c("a", "b", "", NA), fielddescriptor = fielddescriptor)
+res <- dp_to_string(c("a", "b", "", NA), fielddescriptor = fielddescriptor)
 expect_equal(res, c("a", "b", "", NA), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # === Empty input
-res <- to_string(character(0))
+res <- dp_to_string(character(0))
 expect_equal(res, character(0), attributes = FALSE)
 
 # === NA
@@ -40,7 +40,7 @@ fielddescriptor <- list(
   type = "string",
   missingValues = c("NA", "<NA>")
 )
-res <- to_string(c("a", "NA", "<NA>", NA), fielddescriptor)
+res <- dp_to_string(c("a", "NA", "<NA>", NA), fielddescriptor)
 expect_equal(res, c("a", NA, NA, NA), attributes = FALSE)
 
 # =============================================================================

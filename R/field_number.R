@@ -28,18 +28,18 @@ complete_fielddescriptor_number <- function(fielddescriptor) {
 #' the 'fielddescriptor' attribute.
 #' 
 #' @export
-to_number <- function(x, fielddescriptor = list(),  decimalChar = ".", ...) {
-  UseMethod("to_number")
+dp_to_number <- function(x, fielddescriptor = list(),  decimalChar = ".", ...) {
+  UseMethod("dp_to_number")
 }
 
 #' @export
-to_number.numeric <- function(x, fielddescriptor = list(),  decimalChar = ".", ...) {
+dp_to_number.numeric <- function(x, fielddescriptor = list(),  decimalChar = ".", ...) {
   fielddescriptor <- complete_fielddescriptor_number(fielddescriptor)
   structure(x, fielddescriptor = fielddescriptor)
 }
 
 #' @export
-to_number.character <- function(x, fielddescriptor = list(), decimalChar = ".", ...) {
+dp_to_number.character <- function(x, fielddescriptor = list(), decimalChar = ".", ...) {
   x_orig <- x
   fielddescriptor <- complete_fielddescriptor_number(fielddescriptor)
   decimalChar <- if (is.null(fielddescriptor$decimalChar)) 

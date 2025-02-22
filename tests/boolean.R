@@ -9,34 +9,34 @@ fielddescriptor <- list(
   type = "boolean"
 )
 
-res <- datapackage:::to_boolean.character(c("TRUE", "FALSE", ""), 
+res <- datapackage:::dp_to_boolean.character(c("TRUE", "FALSE", ""), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", 
   c(fielddescriptor, list(trueValues = c("true", "TRUE", "True", "1"), 
     falseValues = c("false", "FALSE", "False", "0"))))
 
-res <- datapackage:::to_boolean.character(c("True", "False", ""), 
+res <- datapackage:::dp_to_boolean.character(c("True", "False", ""), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
-res <- datapackage:::to_boolean.character(c("true", "false", ""), 
+res <- datapackage:::dp_to_boolean.character(c("true", "false", ""), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
-res <- datapackage:::to_boolean.character(c("1", "0", ""), 
+res <- datapackage:::dp_to_boolean.character(c("1", "0", ""), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
-res <- datapackage:::to_boolean.character(c(), 
+res <- datapackage:::dp_to_boolean.character(c(), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, logical(0), attributes = FALSE)
 
-res <- datapackage:::to_boolean.character(c(""), 
+res <- datapackage:::dp_to_boolean.character(c(""), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, as.logical(NA), attributes = FALSE)
 
-expect_error( datapackage:::to_boolean.character(c("foo", ""), 
+expect_error( datapackage:::dp_to_boolean.character(c("foo", ""), 
     fielddescriptor = fielddescriptor) )
 
 
@@ -50,17 +50,17 @@ fielddescriptor <- list(
   falseValues = "no"
 )
 
-expect_error( datapackage:::to_boolean.character(c("FALSE", "TRUE", ""), 
+expect_error( datapackage:::dp_to_boolean.character(c("FALSE", "TRUE", ""), 
     fielddescriptor = fielddescriptor) )
 
-res <- datapackage:::to_boolean.character(c("yes", "no", "", "yes"), 
+res <- datapackage:::dp_to_boolean.character(c("yes", "no", "", "yes"), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA, TRUE), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # ==== No fielddescriptor
 
-res <- datapackage:::to_boolean.character(c("true", "False", "FALSE", "0", "", NA, "TRUE"))
+res <- datapackage:::dp_to_boolean.character(c("true", "False", "FALSE", "0", "", NA, "TRUE"))
 expect_equal(res, c(TRUE, FALSE, FALSE, FALSE, NA, NA, TRUE), attributes = FALSE)
 
 fielddescriptor <- list(
@@ -71,14 +71,14 @@ fielddescriptor <- list(
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 
 # =============================================================================
-# to_boolean.integer
+# dp_to_boolean.integer
 
 fielddescriptor <- list(
   type = "boolean",
   trueValues = "1",
   falseValues = "0"
 )
-res <- datapackage:::to_boolean.integer(c(1, 0, NA), 
+res <- datapackage:::dp_to_boolean.integer(c(1, 0, NA), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
@@ -88,7 +88,7 @@ fielddescriptor <- list(
   trueValues = "42",
   falseValues = "0"
 )
-res <- datapackage:::to_boolean.integer(c(42, 0, NA), 
+res <- datapackage:::dp_to_boolean.integer(c(42, 0, NA), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
@@ -97,7 +97,7 @@ fielddescriptor <- list(
   trueValues = "42",
   falseValues = "1"
 )
-res <- datapackage:::to_boolean.integer(c(42, 1, NA), 
+res <- datapackage:::dp_to_boolean.integer(c(42, 1, NA), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, FALSE, NA), attributes = FALSE)
 
@@ -106,7 +106,7 @@ fielddescriptor <- list(
   trueValues = c("1", "42"),
   falseValues = "0"
 )
-res <- datapackage:::to_boolean.integer(c(42, 1, 0, NA), 
+res <- datapackage:::dp_to_boolean.integer(c(42, 1, 0, NA), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c(TRUE, TRUE, FALSE, NA), attributes = FALSE)
 
@@ -115,7 +115,7 @@ fielddescriptor <- list(
   trueValues = c("1", "one"),
   falseValues = "0"
 )
-expect_error(datapackage:::to_boolean.integer(c(42, 1, 0, NA), 
+expect_error(datapackage:::dp_to_boolean.integer(c(42, 1, 0, NA), 
     fielddescriptor = fielddescriptor))
 
 fielddescriptor <- list(
@@ -124,7 +124,7 @@ fielddescriptor <- list(
   falseValues = "0"
 )
 expect_warning(
-  res <- datapackage:::to_boolean.integer(c(42, 1, 0, NA, 0), 
+  res <- datapackage:::dp_to_boolean.integer(c(42, 1, 0, NA, 0), 
     fielddescriptor = fielddescriptor)
 )
 expect_equal(res, c(TRUE, TRUE, FALSE, NA, FALSE), attributes = FALSE)
@@ -134,9 +134,9 @@ fielddescriptor <- list(
   name = "boolean",
   missingValues = c("--")
 )
-res <- to_boolean(c("TRUE","--", "FALSE", NA), fielddescriptor)
+res <- dp_to_boolean(c("TRUE","--", "FALSE", NA), fielddescriptor)
 expect_equal(res, c(TRUE, NA, FALSE, NA), attributes = FALSE)
-expect_error(res <- to_boolean(c("TRUE","---", "FALSE", NA), fielddescriptor))
+expect_error(res <- dp_to_boolean(c("TRUE","---", "FALSE", NA), fielddescriptor))
 
 # =============================================================================
 # csv_colclass

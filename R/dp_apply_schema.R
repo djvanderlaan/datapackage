@@ -14,8 +14,8 @@
 #' \code{warn = FALSE} as its second argument. The result of this function call
 #' is added to the resulting data set.
 #'
-#' @param ... additional arguments are passed on to the \code{to_<fieldtype>}
-#' functions (e.g. \code{\link{to_number}}). 
+#' @param ... additional arguments are passed on to the \code{dp_to_<fieldtype>}
+#' functions (e.g. \code{\link{dp_to_number}}). 
 #'
 #' @details
 #' Converts each column in \code{dta} to the correct R-type using the type
@@ -27,8 +27,9 @@
 #'
 #' @seealso
 #' This function calls conversion functions for each of the columns, see 
-#' \code{\link{to_number}}, \code{\link{to_boolean}}, \code{\link{to_integer}}, 
-#' and \code{\link{to_date}}.
+#' \code{\link{dp_to_number}}, \code{\link{dp_to_boolean}}, \code{\link{dp_to_integer}}, 
+#' \code{\link{dp_to_date}}. \code{\link{dp_to_datetime}}, \code{\link{dp_to_yearmonth}}, 
+#' and \code{\link{dp_to_string}}.
 #'
 #'@export
 dp_apply_schema <- function(dta, resource, 
@@ -42,7 +43,7 @@ dp_apply_schema <- function(dta, resource,
   is_data_table <- methods::is(dta, "data.table")
   for (field in fieldnames) {
     fielddescriptor <- dp_field(resource, field)
-    fun <- paste0("to_", fielddescriptor$type)
+    fun <- paste0("dp_to_", fielddescriptor$type)
     if (!exists(fun)) {
       warning("'", fun, "' does not exist; not converting field '", field, "'.")
       fun <- function(x, fielddescriptor = list(), ...) {

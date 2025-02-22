@@ -26,28 +26,28 @@ complete_fielddescriptor_date <- function(fielddescriptor) {
 #' 'fielddescriptor' attribute.
 #' 
 #' @export
-to_date <- function(x, fielddescriptor = list(), ...) {
-  UseMethod("to_date")
+dp_to_date <- function(x, fielddescriptor = list(), ...) {
+  UseMethod("dp_to_date")
 }
 
 #' @export
-to_date.integer <- function(x, fielddescriptor = list(), ...) {
+dp_to_date.integer <- function(x, fielddescriptor = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 20200101 or 01012020-> convert to character and 
   # convert
-  to_date(sprintf("%08d", x))
+  dp_to_date(sprintf("%08d", x))
 }
 
 #' @export
-to_date.numeric <- function(x, fielddescriptor = list(), ...) {
+dp_to_date.numeric <- function(x, fielddescriptor = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 20200101 or 01012020-> convert to character and 
   # convert
-  to_date(sprintf("%08d", x))
+  dp_to_date(sprintf("%08d", x))
 }
 
 #' @export
-to_date.character <- function(x, fielddescriptor = list(), ...) {
+dp_to_date.character <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_date(fielddescriptor)
   # Consider "" as a NA
   na_values <- if (!is.null(fielddescriptor$missingValues)) 
@@ -68,7 +68,7 @@ to_date.character <- function(x, fielddescriptor = list(), ...) {
 }
 
 #' @export
-to_date.Date <- function(x, fielddescriptor = list(), ...) {
+dp_to_date.Date <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_date(fielddescriptor)
   # Nothing to do; x is already a Data 
   structure(x, fielddescriptor = fielddescriptor)

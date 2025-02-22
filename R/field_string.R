@@ -27,12 +27,12 @@ complete_fielddescriptor_string <- function(fielddescriptor) {
 #' the 'fielddescriptor' attribute.
 #' 
 #' @export
-to_string <- function(x, fielddescriptor = list(), ...) {
-  UseMethod("to_string")
+dp_to_string <- function(x, fielddescriptor = list(), ...) {
+  UseMethod("dp_to_string")
 }
 
 #' @export
-to_string.character <- function(x, fielddescriptor = list(), ...) {
+dp_to_string.character <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_string(fielddescriptor)
   # Handle missing values
   na_values <- if (!is.null(fielddescriptor$missingValues)) 

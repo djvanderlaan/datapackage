@@ -31,28 +31,28 @@ complete_fielddescriptor_yearmonth <- function(fielddescriptor) {
 #' Therefore, a 'yearmonth' "2024-05" is translated to a date "2024-05-01".
 #' 
 #' @export
-to_yearmonth <- function(x, fielddescriptor = list(), ...) {
-  UseMethod("to_yearmonth")
+dp_to_yearmonth <- function(x, fielddescriptor = list(), ...) {
+  UseMethod("dp_to_yearmonth")
 }
 
 #' @export
-to_yearmonth.integer <- function(x, fielddescriptor = list(), ...) {
+dp_to_yearmonth.integer <- function(x, fielddescriptor = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 202001 -> convert to character and 
   # convert
-  to_yearmonth(sprintf("%06d", x))
+  dp_to_yearmonth(sprintf("%06d", x))
 }
 
 #' @export
-to_yearmonth.numeric <- function(x, fielddescriptor = list(), ...) {
+dp_to_yearmonth.numeric <- function(x, fielddescriptor = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 202001 -> convert to character and 
   # convert
-  to_yearmonth(sprintf("%06d", x))
+  dp_to_yearmonth(sprintf("%06d", x))
 }
 
 #' @export
-to_yearmonth.character <- function(x, fielddescriptor = list(), ...) {
+dp_to_yearmonth.character <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_yearmonth(fielddescriptor)
   # Consider "" as a NA
   na_values <- if (!is.null(fielddescriptor$missingValues)) 
@@ -68,15 +68,15 @@ to_yearmonth.character <- function(x, fielddescriptor = list(), ...) {
 }
 
 #' @export
-to_yearmonth.Date <- function(x, fielddescriptor = list(), ...) {
+dp_to_yearmonth.Date <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_yearmonth(fielddescriptor)
-  to_yearmonth(format(x, "%Y-%m"))
+  dp_to_yearmonth(format(x, "%Y-%m"))
 }
 
 #' @export
-to_yearmonth.POSIXt <- function(x, fielddescriptor = list(), ...) {
+dp_to_yearmonth.POSIXt <- function(x, fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_yearmonth(fielddescriptor)
-  to_yearmonth(format(x, "%Y-%m"))
+  dp_to_yearmonth(format(x, "%Y-%m"))
 }
 
 

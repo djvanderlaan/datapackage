@@ -9,7 +9,7 @@ fielddescriptor <- list(
   description = "A description",
   type = "yearmonth"
 )
-res <- to_yearmonth(c("2020-01", "202212", "", NA), 
+res <- dp_to_yearmonth(c("2020-01", "202212", "", NA), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, as.Date(c("2020-01-01", "2022-12-01", NA, NA)), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
@@ -21,7 +21,7 @@ suppressWarnings(expect_error(
 fielddescriptor <- list(
   type = "yearmonth"
 )
-res <- to_yearmonth(c("2020-01", "202212", "", NA))
+res <- dp_to_yearmonth(c("2020-01", "202212", "", NA))
 expect_equal(res, as.Date(c("2020-01-01", "2022-12-01", NA, NA)), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 suppressWarnings(expect_error(
@@ -36,12 +36,12 @@ fielddescriptor <- list(
   type = "yearmonth",
   missingValues = "0000-00"
 )
-res <- to_yearmonth(c("2020-01", "202212", "0000-00", NA), 
+res <- dp_to_yearmonth(c("2020-01", "202212", "0000-00", NA), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, as.Date(c("2020-01-01", "2022-12-01", NA, NA)), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 suppressWarnings(expect_error(
-  res <- to_yearmonth(c("2020-01", "202212", "-------", NA), 
+  res <- dp_to_yearmonth(c("2020-01", "202212", "-------", NA), 
     fielddescriptor = fielddescriptor)
 ))
 
@@ -49,21 +49,21 @@ suppressWarnings(expect_error(
 
 
 # === NUMERIC
-res <- to_yearmonth(197001)
+res <- dp_to_yearmonth(197001)
 expect_equal(res, as.Date("1970-01-01"), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", list(type = "yearmonth"))
 
 
 # === DATE
-res <- to_yearmonth(as.Date("1980-01-06"))
+res <- dp_to_yearmonth(as.Date("1980-01-06"))
 expect_equal(res, as.Date("1980-01-01"), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", list(type = "yearmonth"))
 
 # === TIME
-res <- to_yearmonth(as.POSIXct("1980-01-06 14:15"))
+res <- dp_to_yearmonth(as.POSIXct("1980-01-06 14:15"))
 expect_equal(res, as.Date("1980-01-01"), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", list(type = "yearmonth"))
-res <- to_yearmonth(as.POSIXlt("1980-01-06 14:15"))
+res <- dp_to_yearmonth(as.POSIXlt("1980-01-06 14:15"))
 expect_equal(res, as.Date("1980-01-01"), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", list(type = "yearmonth"))
 

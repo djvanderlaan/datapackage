@@ -26,8 +26,8 @@ other cased the function is called with the column as its first parameter and
 \code{warn = FALSE} as its second argument. The result of this function call
 is added to the resulting data set.}
 
-\item{...}{additional arguments are passed on to the \code{to_<fieldtype>}
-functions (e.g. \code{\link{to_number}}).}
+\item{...}{additional arguments are passed on to the \code{dp_to_<fieldtype>}
+functions (e.g. \code{\link{dp_to_number}}).}
 }
 \description{
 Convert columns of data.frame to their correct types using table schema
@@ -42,6 +42,7 @@ for these if not).
 }
 \seealso{
 This function calls conversion functions for each of the columns, see 
-\code{\link{to_number}}, \code{\link{to_boolean}}, \code{\link{to_integer}}, 
-and \code{\link{to_date}}.
+\code{\link{dp_to_number}}, \code{\link{dp_to_boolean}}, \code{\link{dp_to_integer}}, 
+\code{\link{dp_to_date}}. \code{\link{dp_to_datetime}}, \code{\link{dp_to_yearmonth}}, 
+and \code{\link{dp_to_string}}.
 }
