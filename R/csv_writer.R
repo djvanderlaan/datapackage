@@ -17,7 +17,7 @@
 #' creating CSV-files in the directory of the data package.
 #'
 #' @export
-csv_write <- function(x, resourcename, datapackage, 
+csv_writer <- function(x, resourcename, datapackage, 
     use_fwrite = FALSE, ...) {
   dataresource <- dp_resource(datapackage, resourcename)
   if (is.null(dataresource)) 

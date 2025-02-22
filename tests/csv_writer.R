@@ -41,10 +41,10 @@ resource <- list(
 expected <- c('"col1";"col2"', '1;"A"', '2;"B"')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
@@ -74,11 +74,11 @@ resource <- list(
 expected <- c('"col1";"col2"', '1,22;1000,1', '-2,33;')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
@@ -109,11 +109,11 @@ resource <- list(
 expected <- c('"col1";"col2"', '1,22;1000,1', '-2,33;')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
@@ -144,11 +144,11 @@ resource <- list(
 expected <- c('"col1";"col2"', '"1,22";"1 000,1"', '"-2,33";')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
@@ -178,11 +178,11 @@ resource <- list(
 expected <- c('"col1","col2"', '1.22,1000.1', '-2.33,FOO')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
@@ -213,11 +213,11 @@ resource <- list(
 expected <- c('"col1";"col2"', 'TRUE;TRUE', 'FALSE;')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
@@ -251,11 +251,11 @@ resource <- list(
 expected <- c('"col1";"col2"', '"RIGHT";TRUE', '"NOT RIGHT";')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
@@ -286,11 +286,11 @@ resource <- list(
 expected <- c('"col1";"col2"', '"2025-01-01";"10-06-2000"', '"2024-12-31";')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
@@ -321,11 +321,11 @@ resource <- list(
 expected <- c('"col1";"col2"', '"2025-01-01T14:15:16+01:00";"10-06-2000 00:01:02"', '"2024-12-31T13:12:11+01:00";')
 resource <- structure(resource, class = "dataresource")
 datapackage$resources[[1]] <- resource
-csv_write(data, "test", datapackage)
+csv_writer(data, "test", datapackage)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 
-csv_write(data, "test", datapackage, use_fwrite = TRUE)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
 res <- readLines(file.path(fn, "test.csv")) 
 expect_equal(res, expected)
 

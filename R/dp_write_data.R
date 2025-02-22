@@ -92,7 +92,7 @@ getwriter <- function(format, mediatype) {
     if (is.null(format)) format <- ""
   }
   writer <- readers$writers[[format]]
-  if (is.null(writer)) writer <- csv_write
+  if (is.null(writer)) writer <- csv_writer
   writer
 }
 

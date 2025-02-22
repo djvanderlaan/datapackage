@@ -20,5 +20,5 @@ dp_add_reader("fixed", fwf_reader,
   extensions = c("fwf", "asc"))
 
 
-dp_add_writer("csv", csv_write)
+dp_add_writer("csv", csv_writer)
 
