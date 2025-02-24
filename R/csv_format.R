@@ -118,3 +118,15 @@ csv_format_yearmonth <- function(x, fielddescriptor = attr(x, "fielddescriptor")
   res
 }
 
+# @rdname csv_format
+# @export
+csv_format_year <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...) {
+  if (!is.null(fielddescriptor$missingValues)) {
+    res <- as.character(x)
+    res[is.na(res)] <- fielddescriptor$missingValues[1]
+    res
+  } else {
+    as.integer(x)
+  }
+}
+
