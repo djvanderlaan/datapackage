@@ -89,18 +89,20 @@ dp_to_boolean.logical <- function(x, fielddescriptor = list(), ...) {
 # @export
 csv_colclass_boolean <- function(fielddescriptor = list(), ...) {
   fielddescriptor <- complete_fielddescriptor_boolean(fielddescriptor)
+  if (!is.null(fielddescriptor$missingValues)) return("character")
+  trueValues <- if (is.null(fielddescriptor$trueValues)) "TRUE" else 
+    utils::head(fielddescriptor$trueValues, 1)
+  falseValues <- if (is.null(fielddescriptor$falseValues)) "FALSE" else 
+    utils::head(fielddescriptor$falseValues, 1)
   res <- "character"
-  if (is.null(fielddescriptor$missingValues) && length(fielddescriptor$trueValues) == 1 && 
-      length(fielddescriptor$falseValues) == 1) {
-    if (fielddescriptor$trueValues == "TRUE" && fielddescriptor$falseValues == "FALSE")
-      res <- "logical"
-    if (fielddescriptor$trueValues == "True" && fielddescriptor$falseValues == "False")
-      res <- "logical"
-    if (fielddescriptor$trueValues == "true" && fielddescriptor$falseValues == "false")
-      res <- "logical"
-    if (fielddescriptor$trueValues == "1" && fielddescriptor$falseValues == "0")
-      res <- "integer"
-  }
+  if (trueValues == "TRUE" && falseValues == "FALSE")
+    res <- "logical"
+  if (trueValues == "True" && falseValues == "False")
+    res <- "logical"
+  if (trueValues == "true" && falseValues == "false")
+    res <- "logical"
+  if (trueValues == "1" && falseValues == "0")
+    res <- "integer"
   res
 }
 

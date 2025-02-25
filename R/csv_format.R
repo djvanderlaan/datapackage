@@ -24,7 +24,6 @@ csv_format <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...) {
 # @rdname csv_format
 # @export
 csv_format_boolean <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...) {
-
   if (is.null(fielddescriptor$trueValues))
     fielddescriptor$trueValues <- c("true", "True", "TRUE", "1")
   if (is.null(fielddescriptor$falseValues))
@@ -32,13 +31,18 @@ csv_format_boolean <- function(x, fielddescriptor = attr(x, "fielddescriptor"), 
   if (is.logical(x) && ("TRUE" %in% fielddescriptor$trueValues) && 
       ("FALSE" %in% fielddescriptor$falseValues)) {
     # We can as is as R writes TRUE/FALSE by default
-    x
+    res <- x
   } else {
     trueval <- utils::head(fielddescriptor$trueValues, 1)
     falseval <- utils::head(fielddescriptor$falseValues, 1)
     # When x is not logical; we let ifelse handle that
-    ifelse(x, trueval, falseval)
+    res <- ifelse(x, trueval, falseval)
   }
+  if (!is.null(fielddescriptor$missingValues)) {
+    res <- as.character(res)
+    res[is.na(res)] <- fielddescriptor$missingValues[1]
+  }
+  res
 }
 
 # @rdname csv_format

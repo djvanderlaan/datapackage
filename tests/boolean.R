@@ -141,25 +141,65 @@ expect_error(res <- dp_to_boolean(c("TRUE","---", "FALSE", NA), fielddescriptor)
 # =============================================================================
 # csv_colclass
 
-# TODO
-#res <-csv_colclass_boolean(list(trueValues = "True", falseValues = "False"))
-#expect_equal(res, "logical")
-#res <-csv_colclass_boolean(list(trueValues = "true", falseValues = "false"))
-#expect_equal(res, "logical")
-#res <-csv_colclass_boolean(list(trueValues = "TRUE", falseValues = "FALSE"))
-#expect_equal(res, "logical")
-#res <-csv_colclass_boolean(list(trueValues = "1", falseValues = "0"))
-#expect_equal(res, "integer")
-#res <-csv_colclass_boolean()
-#expect_equal(res, "character")
-#res <-csv_colclass_boolean(list(trueValues = "TRUE", falseValues = "false"))
-#expect_equal(res, "character")
-#res <-csv_colclass_boolean(list(trueValues = "TRUE"))
-#expect_equal(res, "character")
-#res <-csv_colclass_boolean(list(falseValues = "FALSE"))
-#expect_equal(res, "character")
-#res <-csv_colclass_boolean(list(trueValues = c("true", "TRUE"), falseValues = "FALSE"))
-#expect_equal(res, "character")
-#res <-csv_colclass_boolean(list(missingValues = c("--")))
-#expect_equal(res, "character")
+res <- datapackage:::csv_colclass_boolean(
+  list(trueValues = "True", falseValues = "False"))
+expect_equal(res, "logical")
+
+res <- datapackage:::csv_colclass_boolean(
+  list(trueValues = "true", falseValues = "false"))
+expect_equal(res, "logical")
+
+res <- datapackage:::csv_colclass_boolean(
+  list(trueValues = "TRUE", falseValues = "FALSE"))
+expect_equal(res, "logical")
+
+res <- datapackage:::csv_colclass_boolean(
+  list(trueValues = "1", falseValues = "0"))
+expect_equal(res, "integer")
+
+res <- datapackage:::csv_colclass_boolean()
+expect_equal(res, "logical")
+
+res <- datapackage:::csv_colclass_boolean(
+  list(trueValues = "TRUE", falseValues = "false"))
+expect_equal(res, "character")
+
+res <- datapackage:::csv_colclass_boolean(
+  list(trueValues = "TRUE"))
+expect_equal(res, "character")
+
+res <- datapackage:::csv_colclass_boolean(
+  list(falseValues = "FALSE"))
+expect_equal(res, "character")
+
+res <- datapackage:::csv_colclass_boolean(
+  list(trueValues = c("true", "TRUE"), falseValues = "FALSE"))
+expect_equal(res, "character")
+
+res <- datapackage:::csv_colclass_boolean(
+  list(missingValues = c("--")))
+expect_equal(res, "character")
+
+
+# =============================================================================
+# csv_format
+
+res <- datapackage:::csv_format_boolean(c(TRUE, FALSE, NA))
+expect_equal(res, c(TRUE, FALSE, NA))
+
+res <- datapackage:::csv_format_boolean(c(TRUE, FALSE, NA), 
+  fielddescriptor = list(missingValues = c("X", "-")))
+expect_equal(res, c("TRUE", "FALSE", "X"))
+
+res <- datapackage:::csv_format_boolean(c(TRUE, FALSE, NA), 
+  fielddescriptor = list(trueValues = c("WAAR", "TRUE"),
+    falseValues = c("ONWAAR", "FALSE")))
+expect_equal(res, c(TRUE, FALSE, NA))
+
+res <- datapackage:::csv_format_boolean(c(TRUE, FALSE, NA), 
+  fielddescriptor = list(trueValues = c("WAAR"),
+    falseValues = c("ONWAAR")))
+expect_equal(res, c("WAAR", "ONWAAR", NA))
+
+
 
