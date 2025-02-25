@@ -79,8 +79,12 @@ csv_format_number <- function(x, fielddescriptor = attr(x, "fielddescriptor"), d
     x <- formatC(x, big.mark = groupchar, decimal.mark = decimalchar, 
      format = "fg", digits = 15, width = 1)
     x[na] <- NA
-    x
-  } else x
+  } 
+  if (!is.null(fielddescriptor$missingValues)) {
+    x <- as.character(x)
+    x[is.na(x)] <- fielddescriptor$missingValues[1]
+  } 
+  x
 }
 
 # @rdname csv_format

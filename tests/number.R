@@ -126,25 +126,71 @@ expect_attribute(res, "fielddescriptor", fielddescriptor)
 # =============================================================================
 # csv_colclass
 
-# TODO
-#res <- csv_colclass_number(list()) 
-#expect_equal(res, "numeric")
-#
-#fielddescriptor <- list(
-#  name = "number",
-#  title = "A number field",
-#  description = "A description",
-#  type = "number",
-#  decimalChar = ",",
-#  groupChar = "."
-#)
-#res <- csv_colclass_number(fielddescriptor) 
-#expect_equal(res, "character")
-#
-## === NA
-#fielddescriptor <- list(
-#  name = "number",
-#  missingValues = c("--")
-#)
-#res <- csv_colclass_number(fielddescriptor)
-#expect_equal(res, "character")
+res <- datapackage:::csv_colclass_number(list()) 
+expect_equal(res, "numeric")
+
+fielddescriptor <- list(
+  name = "number",
+  missingValues = c("--")
+)
+res <- datapackage:::csv_colclass_number(fielddescriptor)
+expect_equal(res, "character")
+
+fielddescriptor <- list(
+  name = "number",
+  bareNumber = FALSE
+)
+res <- datapackage:::csv_colclass_number(fielddescriptor)
+expect_equal(res, "character")
+
+fielddescriptor <- list(
+  name = "number",
+  bareNumber = TRUE
+)
+res <- datapackage:::csv_colclass_number(fielddescriptor)
+expect_equal(res, "numeric")
+
+fielddescriptor <- list(
+  name = "number",
+  decimalChar = ","
+)
+res <- datapackage:::csv_colclass_number(fielddescriptor)
+expect_equal(res, "character")
+
+fielddescriptor <- list(
+  name = "number",
+  groupChar = " "
+)
+res <- datapackage:::csv_colclass_number(fielddescriptor)
+expect_equal(res, "character")
+
+# =============================================================================
+# csv_format
+
+res <- datapackage:::csv_format_number(c(12, NA))
+expect_equal(res, c(12, NA))
+
+res <- datapackage:::csv_format_number(c(12.12, NA), 
+  fielddescriptor = list(bareNumber = FALSE))
+expect_equal(res, c(12.12, NA))
+
+res <- datapackage:::csv_format_number(c(12.12, NA), 
+  fielddescriptor = list(decimalChar = ","))
+expect_equal(res, c("12,12", NA))
+
+res <- datapackage:::csv_format_number(c(12.12, NA), 
+  fielddescriptor = list(decimalChar = ","), decimalChar = ",")
+expect_equal(res, c(12.12, NA))
+
+res <- datapackage:::csv_format_number(c(1200.12, NA), 
+  fielddescriptor = list(groupChar = " "))
+expect_equal(res, c("1 200.12", NA))
+
+res <- datapackage:::csv_format_number(c(1200.12, NA), 
+  fielddescriptor = list(groupChar = " ", decimalChar = "," ))
+expect_equal(res, c("1 200,12", NA))
+
+res <- datapackage:::csv_format_number(c(12.12, NA), 
+  fielddescriptor = list(missingValues = c("X", "0")))
+expect_equal(res, c("12.12", "X"))
+
