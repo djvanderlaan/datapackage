@@ -54,7 +54,12 @@ csv_format_date <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...
   } else {
     format <- fielddescriptor$format
   }
-  format(x, format = format)
+  res <- format(x, format = format)
+  if (!is.null(fielddescriptor$missingValues)) {
+    res <- as.character(res)
+    res[is.na(res)] <- fielddescriptor$missingValues[1]
+  }
+  res
 }
 
 # @rdname csv_format

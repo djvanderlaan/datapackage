@@ -80,20 +80,46 @@ expect_error(res <- dp_to_date(c("2020-01-01","---", "2022-12-31", NA), fielddes
 
 # =============================================================================
 # csv_colclass
-#TODO
-#res <- csv_colclass_date(list()) 
-#expect_equal(res, "character")
-#res <- csv_colclass_date(list(missingValues = "--")) 
-#expect_equal(res, "character")
+
+res <- datapackage:::csv_colclass_date(list()) 
+expect_equal(res, "character")
+
+res <- datapackage:::csv_colclass_date(list(missingValues = "--")) 
+expect_equal(res, "character")
 
 # =============================================================================
 # csv_format
-#res <- csv_format_date(as.Date(c("2020-01-01", "2022-12-21", NA, NA)))
-#expect_equal(res, c("2020-01-01", "2022-12-21", NA, NA), attributes = FALSE)
-#
-#fielddescriptor <- list(
-#  type = "date",
-#  format = "%Y%m%d"
-#)
-#res <- csv_format_date(as.Date(c("2020-01-01", "2022-12-21", NA, NA)), fielddescriptor = fielddescriptor)
-#expect_equal(res, c("20200101", "20221221", NA, NA), attributes = FALSE)
+
+res <- datapackage:::csv_format_date(
+  as.Date(c("2020-01-01", "2022-12-21", NA, NA)))
+expect_equal(res, c("2020-01-01", "2022-12-21", NA, NA))
+
+fielddescriptor <- list(
+  type = "date",
+  format = "%Y%m%d"
+)
+res <- datapackage:::csv_format_date(
+  as.Date(c("2020-01-01", "2022-12-21", NA, NA)), 
+  fielddescriptor = fielddescriptor)
+expect_equal(res, c("20200101", "20221221", NA, NA))
+
+fielddescriptor <- list(
+  type = "date",
+  format = "any"
+)
+res <- datapackage:::csv_format_date(
+  as.Date(c("2020-01-01", "2022-12-21", NA, NA)), 
+  fielddescriptor = fielddescriptor)
+expect_equal(res, c("2020-01-01", "2022-12-21", NA, NA))
+
+fielddescriptor <- list(
+  type = "date",
+  format = "default",
+  missingValues = c("--")
+)
+res <- datapackage:::csv_format_date(
+  as.Date(c("2020-01-01", "2022-12-21", NA, NA)), 
+  fielddescriptor = fielddescriptor)
+expect_equal(res, c("2020-01-01", "2022-12-21", "--", "--"))
+
+
