@@ -95,15 +95,42 @@ expect_error(datapackage:::dp_to_integer.character(c("€10", "-100%", "", NA),
 # =============================================================================
 # csv_colclass
 
-# TODO
-#res <- csv_colclass_integer(list()) 
-#expect_equal(res, "integer")
-#
-## === NA
-#fielddescriptor <- list(
-#  name = "integer",
-#  missingValues = c("--")
-#)
-#res <- csv_colclass_integer(fielddescriptor)
-#expect_equal(res, "character")
+res <- datapackage:::csv_colclass_integer(list()) 
+expect_equal(res, "integer")
+
+fielddescriptor <- list(
+  name = "integer",
+  missingValues = c("--")
+)
+res <- datapackage:::csv_colclass_integer(fielddescriptor)
+expect_equal(res, "character")
+
+fielddescriptor <- list(
+  name = "integer",
+  bareNumber = FALSE
+)
+res <- datapackage:::csv_colclass_integer(fielddescriptor)
+expect_equal(res, "character")
+
+fielddescriptor <- list(
+  name = "integer",
+  bareNumber = TRUE
+)
+res <- datapackage:::csv_colclass_integer(fielddescriptor)
+expect_equal(res, "integer")
+
+# =============================================================================
+# csv_format
+
+res <- datapackage:::csv_format_integer(c(12, NA))
+expect_equal(res, c(12L, NA_integer_))
+
+res <- datapackage:::csv_format_integer(c(12, NA), 
+  fielddescriptor = list(missingValues = c("X", "0")))
+expect_equal(res, c("12", "X"))
+
+res <- datapackage:::csv_format_integer(c(12, NA), 
+  fielddescriptor = list(bareNumber = FALSE))
+expect_equal(res, c(12L, NA_integer_))
+
 

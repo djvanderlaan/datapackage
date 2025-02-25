@@ -56,7 +56,13 @@ csv_format_date <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...
 # @rdname csv_format
 # @export
 csv_format_integer <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...) {
-  as.integer(x)
+  if (!is.null(fielddescriptor$missingValues)) {
+    res <- as.character(x)
+    res[is.na(res)] <- fielddescriptor$missingValues[1]
+    res
+  } else {
+    as.integer(x)
+  }
 }
 
 # @rdname csv_format
