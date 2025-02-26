@@ -18,7 +18,15 @@
 #' Either returns the property or modifies the object. If the property of not
 #' set \code{NULL} is returned (unless \code{default = TRUE}).
 #' 
+#' @seealso
+#' See \link{PropertiesDatapackage} and \link{PropertiesFielddescriptor} for methods
+#' for Data Packages and Field Descriptors respectively. Also see
+#' \code{\link{dp_property}} for a generic method for getting and setting
+#' properties. These functions can also be used to get and set 'unofficial'
+#' properties'
+#' 
 #' @export
+#' @name PropertiesDataresource
 #' @rdname properties_dataresource
 dp_name.dataresource <- function(x) {
   res <- dp_property(x, "name")

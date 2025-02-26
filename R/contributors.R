@@ -106,6 +106,7 @@ dp_add_contributor <- function(x, contributor) {
 
 
 #' @export
+#' @name PropertiesDatapackage
 #' @rdname properties_datapackage
 dp_contributors <- function(x, ...) {
   UseMethod("dp_contributors")

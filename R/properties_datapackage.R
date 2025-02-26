@@ -22,6 +22,13 @@
 #' @seealso
 #' See \code{\link{dp_resource}} for methods for getting and setting the resources
 #' of a Data Package.
+#'
+#' See \link{PropertiesDataresource} and \link{PropertiesFielddescriptor} for methods
+#' for Data Resources and Field Descriptors respectively. Also see
+#' \code{\link{dp_property}} for a generic method for getting and setting
+#' properties. These functions can also be used to get and set 'unofficial'
+#' properties'
+#' 
 #' 
 #' @return
 #' Either returns the property or modifies the object.

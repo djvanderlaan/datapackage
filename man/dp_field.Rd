@@ -4,12 +4,12 @@
 \alias{dp_field}
 \title{Get the Field Descriptor associated with a certain field in a Data Resource}
 \usage{
-dp_field(x, fieldname)
+dp_field(x, field_name)
 }
 \arguments{
 \item{x}{a \code{dataresource} or \code{tableschema} object.}
 
-\item{fieldname}{length one character vector with the name of the field.}
+\item{field_name}{length one character vector with the name of the field.}
 }
 \value{
 An object of type \code{fielddescriptor}.
