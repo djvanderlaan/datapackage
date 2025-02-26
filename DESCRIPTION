@@ -8,7 +8,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "r@eoos.dds.nl",
            comment = c(ORCID = "0000-0002-0693-1514"))
-Description: Functions to open and modify Data Packages.
+Description: Open, read data from and modify Data Packages. Data Packages are
+    an open standard for bundling and describing data sets
+    (<https://datapackage.org>). When data is read from a Data Package care is
+    taken to convert the data as much a possible to R appropriate data types.
+    The package can be extended with plugins for additional data types.
 BugReports: https://github.com/djvanderlaan/datapackage/issues
 URL: https://github.com/djvanderlaan/datapackage
 Depends:
