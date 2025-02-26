@@ -1,5 +1,5 @@
 
-#' Check is dataset is valid given Data Resource
+#' Check if a data set is valid given a Data Resource
 #'
 #' @param x \code{data.frame} to check
 #'
@@ -23,10 +23,9 @@
 #'
 #' @seealso
 #' Use \code{\link{isTRUE}} to check if the test was successful. 
+#' See \code{\link{dp_check_field}} for a function that checks a column or vector.
 #'
-#' @rdname dp_check_field
 #' @export
-
 dp_check_dataresource <- function(x, dataresource = attr(x, "resource"), constraints = TRUE, 
     throw = FALSE, tolerance = sqrt(.Machine$double.eps)) {
   stopifnot(is.data.frame(x))

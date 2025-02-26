@@ -25,6 +25,10 @@
 #' separator and thousands separator specified in the field descriptor (or default values
 #' for these if not). 
 #'
+#' @return
+#' Returns a copy of the input data.frame with columns modified to match the
+#' types given in de table schema.
+#'
 #' @seealso
 #' This function calls conversion functions for each of the columns, see 
 #' \code{\link{dp_to_number}}, \code{\link{dp_to_boolean}}, \code{\link{dp_to_integer}}, 

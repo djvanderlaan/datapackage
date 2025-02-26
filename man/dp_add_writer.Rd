@@ -20,7 +20,7 @@ Add a writer function for a specific format
 \details{
 Adds a writer for a given format. The writer is added to a list of writers
 referenced by the format. The writer function should accept 'data' with
-the data as its first argument, 'resourcename' the name of the resource to
+the data as its first argument, 'resource_name' the name of the resource to
 which the data set belongs, 'datapackage' that datapackage to which the data
 should be written.
 
@@ -29,8 +29,8 @@ writer
 }
 \examples{
 # Add a very simple writer for json
-json_writer <- function(data, resourcename, datapackage, ...) {
-  dataresource <- dp_resource(datapackage, resourcename)
+json_writer <- function(data, resource_name, datapackage, ...) {
+  dataresource <- dp_resource(datapackage, resource_name)
   path <- dp_path(dataresource, full_path = TRUE)
   jsonlite::write_json(data, path)
 }

@@ -55,9 +55,9 @@ dp_title(x) <- value
 
 \method{dp_title}{datapackage}(x) <- value
 
-dp_description(x, ..., firstparagraph = FALSE, dots = FALSE)
+dp_description(x, ..., first_paragraph = FALSE, dots = FALSE)
 
-\method{dp_description}{datapackage}(x, ..., firstparagraph = FALSE, dots = FALSE)
+\method{dp_description}{datapackage}(x, ..., first_paragraph = FALSE, dots = FALSE)
 
 dp_description(x) <- value
 
@@ -94,7 +94,7 @@ dp_id(x) <- value
 
 \item{value}{the new value of the property.}
 
-\item{firstparagraph}{Only return the first paragraph of the description.}
+\item{first_paragraph}{Only return the first paragraph of the description.}
 
 \item{dots}{When returning only the first paragraph indicate missing
 paragraphs with \code{...}.}

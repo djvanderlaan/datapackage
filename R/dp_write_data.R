@@ -5,7 +5,7 @@
 #'
 #' @param data \code{data.frame} with the data to write.
 #'
-#' @param resourcename name of the Data Resource in the Data Package to which
+#' @param resource_name name of the Data Resource in the Data Package to which
 #' the data needs to be written.
 #'
 #' @param datapackage the Data Package to which the data needs to be written.
@@ -35,9 +35,9 @@ dp_write_data <- function(x, ..., write_categories = TRUE) {
 
 #' @rdname dp_write_data
 #' @export
-dp_write_data.datapackage <- function(x, resourcename, data, writer = "guess", ..., 
+dp_write_data.datapackage <- function(x, resource_name, data, writer = "guess", ..., 
     write_categories = TRUE) {
-  resource <- dp_resource(x, resourcename)
+  resource <- dp_resource(x, resource_name)
   dp_write_data(resource, data = data, datapackage = x, writer = writer, ..., 
     write_categories = write_categories)
 }
@@ -67,7 +67,7 @@ dp_write_data.dataresource <- function(x, data, datapackage = dp_get_datapackage
           res <- dp_generate_dataresource(cl, categories_resource, categorieslist = TRUE)
           dp_resources(datapackage) <- res
         }
-        dp_write_data(data = cl, resourcename = categories_resource, datapackage, 
+        dp_write_data(data = cl, resource_name = categories_resource, datapackage, 
           write_categories = FALSE, ...)
       }
     }
@@ -76,7 +76,7 @@ dp_write_data.dataresource <- function(x, data, datapackage = dp_get_datapackage
   if (is.character(writer) && writer[1] == "guess") 
     writer <- getwriter(dp_format(x), dp_mediatype(x))
   stopifnot(is.function(writer))
-  writer(data, resourcename = dp_name(x), datapackage = datapackage, ...)
+  writer(data, resource_name = dp_name(x), datapackage = datapackage, ...)
 }
 
 getwriter <- function(format, mediatype) {

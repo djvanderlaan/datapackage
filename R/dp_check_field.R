@@ -13,8 +13,8 @@
 #'
 #' @seealso
 #' Use \code{\link{isTRUE}} to check if the test was successful. 
+#' See \code{\link{dp_check_dataresource}} for a function that checks a complete data set.
 #'
-#' @rdname dp_check_field
 #' @export
 dp_check_field <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
   type <- dp_property.fielddescriptor(fielddescriptor, "type")

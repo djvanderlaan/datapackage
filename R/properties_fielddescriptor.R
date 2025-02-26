@@ -60,17 +60,17 @@ dp_title.fielddescriptor <- function(x) {
 # DESCRIPTION
 # Optional; string
 
-#' @param firstparagraph Only return the first paragraph of the description.
+#' @param first_paragraph Only return the first paragraph of the description.
 #' 
 #' @param dots When returning only the first paragraph indicate missing
 #' paragraphs with \code{...}.
 #'
 #' @export
 #' @rdname properties_dataresource
-dp_description.fielddescriptor <- function(x, ..., firstparagraph = FALSE, 
+dp_description.fielddescriptor <- function(x, ..., first_paragraph = FALSE, 
     dots = FALSE) {
   res <- dp_property(x, "description")
-  if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
+  if (!is.null(res) && first_paragraph) getfirstparagraph(res, dots) else res
 }
 
 #' @export

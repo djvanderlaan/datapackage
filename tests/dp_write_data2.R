@@ -14,7 +14,7 @@ data(iris)
 dp <- new_datapackage(dir, name = "iris")
 res <- dp_generate_dataresource(iris, "iris") 
 dp_resources(dp) <- res
-dp_write_data(dp, resourcename = "iris", data = iris, write_categories = TRUE)
+dp_write_data(dp, resource_name = "iris", data = iris, write_categories = TRUE)
 
 # OPen the new datapacakge, read the data and check
 dp2 <- open_datapackage(dir)
@@ -45,7 +45,7 @@ dp_resources(dp) <- codelistres
 dp_write_data(dp, "species-categories", data = codelist, write_categories = FALSE)
 
 # Write the dtaset
-dp_write_data(dp, resourcename = "iris", data = iris, write_categories = FALSE)
+dp_write_data(dp, resource_name = "iris", data = iris, write_categories = FALSE)
 
 # Open the new datapacakge, read the data and check
 dp2 <- open_datapackage(dir)
@@ -78,7 +78,7 @@ dp <- new_datapackage(dir, name = "iris")
 res <- dp_generate_dataresource(iris, "iris") 
 dp_property(res, "dialect") <- list(nullSequence = "FOO")
 dp_resources(dp) <- res
-dp_write_data(dp, resourcename = "iris", data = iris, write_categories = TRUE)
+dp_write_data(dp, resource_name = "iris", data = iris, write_categories = TRUE)
 # OPen the new datapacakge, read the data and check
 dp2 <- open_datapackage(dir)
 iris2 <- dp2 |> dp_resource("iris") |> dp_get_data(convert_categories = "to_factor")

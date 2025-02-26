@@ -8,7 +8,7 @@ printdescription <- function(x, description = TRUE, all = FALSE, ...) {
   }
   title <- dp_title(x)
   if (!is.null(title)) cat(title, "\n", sep = "") else cat("\n")
-  descr <- dp_description(x, firstparagraph = TRUE, dots = TRUE)
+  descr <- dp_description(x, first_paragraph = TRUE, dots = TRUE)
   if (description && !is.null(descr)) {
     cat("\n", sep = "")
     cat(descr, "\n", sep="")

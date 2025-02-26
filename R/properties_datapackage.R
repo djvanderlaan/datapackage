@@ -93,21 +93,21 @@ dp_title.datapackage <- function(x) {
 
 #' @export
 #' @rdname properties_datapackage
-dp_description <- function(x, ..., firstparagraph = FALSE, dots = FALSE) {
+dp_description <- function(x, ..., first_paragraph = FALSE, dots = FALSE) {
   UseMethod("dp_description")
 }
 
-#' @param firstparagraph Only return the first paragraph of the description.
+#' @param first_paragraph Only return the first paragraph of the description.
 #' 
 #' @param dots When returning only the first paragraph indicate missing
 #' paragraphs with \code{...}.
 #'
 #' @export
 #' @rdname properties_datapackage
-dp_description.datapackage <- function(x, ..., firstparagraph = FALSE, 
+dp_description.datapackage <- function(x, ..., first_paragraph = FALSE, 
     dots = FALSE) {
   res <- dp_property(x, "description")
-  if (!is.null(res) && firstparagraph) getfirstparagraph(res, dots) else res
+  if (!is.null(res) && first_paragraph) getfirstparagraph(res, dots) else res
 }
 
 #' @export

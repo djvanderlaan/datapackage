@@ -2,7 +2,7 @@
 #'
 #' @param x a \code{dataresource} or \code{datapackage} object.
 #'
-#' @param resourcename the name of the \code{dataresource}.
+#' @param resource_name the name of the \code{dataresource}.
 #'
 #' @param reader the reader to use to read the data. This should be either a
 #' function accepting the path to the data set (a character vector with possibly
@@ -66,9 +66,9 @@ dp_get_data.dataresource <- function(x, reader = "guess", ..., as_connection = F
 
 #' @rdname dp_get_data
 #' @export
-dp_get_data.datapackage <- function(x, resourcename, reader = "guess", ..., as_connection = FALSE) {
-  resource <- dp_resource(x, resourcename)
-  if (is.null(resource)) stop("Resource '", resourcename, "' not found.")
+dp_get_data.datapackage <- function(x, resource_name, reader = "guess", ..., as_connection = FALSE) {
+  resource <- dp_resource(x, resource_name)
+  if (is.null(resource)) stop("Resource '", resource_name, "' not found.")
   dp_get_data(resource, reader = reader, ..., as_connection = as_connection)
 }
 

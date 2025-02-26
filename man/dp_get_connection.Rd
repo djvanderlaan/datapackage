@@ -19,7 +19,7 @@ Some readers will return the data set as a \code{data.frame}.
 Get a connection to the data belonging to a Data Resource
 }
 \details{
-When \code{x} is a Data Package a additional argument \code{resourcename} is
+When \code{x} is a Data Package a additional argument \code{resource_name} is
 needed to identify the correct Data Resource. See \code{\link{dp_get_data}}. 
 
 This function calls \code{dp_get_data} with an additional 

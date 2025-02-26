@@ -29,6 +29,10 @@ is added to the resulting data set.}
 \item{...}{additional arguments are passed on to the \code{dp_to_<fieldtype>}
 functions (e.g. \code{\link{dp_to_number}}).}
 }
+\value{
+Returns a copy of the input data.frame with columns modified to match the
+types given in de table schema.
+}
 \description{
 Convert columns of data.frame to their correct types using table schema
 }

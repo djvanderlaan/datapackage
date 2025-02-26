@@ -3,7 +3,7 @@
 #' 
 #' @param x \code{data.frame} with the data to write
 #'
-#' @param resourcename name of the data resource in the data package.
+#' @param resource_name name of the data resource in the data package.
 #'
 #' @param datapackage the Data Package to which the file should be written.
 #'
@@ -17,11 +17,11 @@
 #' creating CSV-files in the directory of the data package.
 #'
 #' @export
-csv_writer <- function(x, resourcename, datapackage, 
+csv_writer <- function(x, resource_name, datapackage, 
     use_fwrite = FALSE, ...) {
-  dataresource <- dp_resource(datapackage, resourcename)
+  dataresource <- dp_resource(datapackage, resource_name)
   if (is.null(dataresource)) 
-    stop("Data resource '", resourcename, "' does not exist in data package")
+    stop("Data resource '", resource_name, "' does not exist in data package")
   # First check to see of dataresourc fits data
   stopifnot(setequal(names(x), dp_field_names(dataresource)))
   # Write dataset; but first process arguments

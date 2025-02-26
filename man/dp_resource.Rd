@@ -8,20 +8,20 @@
 \alias{dp_resource<-.editabledatapackage}
 \title{Modifying the resources of a Data Package}
 \usage{
-dp_resource(x, resourcename)
+dp_resource(x, resource_name)
 
-\method{dp_resource}{datapackage}(x, resourcename)
+\method{dp_resource}{datapackage}(x, resource_name)
 
-dp_resource(x, resourcename) <- value
+dp_resource(x, resource_name) <- value
 
-\method{dp_resource}{readonlydatapackage}(x, resourcename) <- value
+\method{dp_resource}{readonlydatapackage}(x, resource_name) <- value
 
-\method{dp_resource}{editabledatapackage}(x, resourcename) <- value
+\method{dp_resource}{editabledatapackage}(x, resource_name) <- value
 }
 \arguments{
 \item{x}{a \code{datapackage} object.}
 
-\item{resourcename}{the name of a resource.}
+\item{resource_name}{the name of a resource.}
 
 \item{value}{a \code{dataresource} object.}
 }

@@ -48,7 +48,7 @@
 
 \method{dp_title}{dataresource}(x) <- value
 
-\method{dp_description}{dataresource}(x, ..., firstparagraph = FALSE, dots = FALSE)
+\method{dp_description}{dataresource}(x, ..., first_paragraph = FALSE, dots = FALSE)
 
 \method{dp_description}{dataresource}(x) <- value
 
@@ -104,7 +104,7 @@ dp_hash(x) <- value
 
 \method{dp_title}{fielddescriptor}(x) <- value
 
-\method{dp_description}{fielddescriptor}(x, ..., firstparagraph = FALSE, dots = FALSE)
+\method{dp_description}{fielddescriptor}(x, ..., first_paragraph = FALSE, dots = FALSE)
 
 \method{dp_format}{fielddescriptor}(x) <- value
 
@@ -119,7 +119,7 @@ dp_schema(x)
 
 \item{...}{used to pass additional arguments to other methods.}
 
-\item{firstparagraph}{Only return the first paragraph of the description.}
+\item{first_paragraph}{Only return the first paragraph of the description.}
 
 \item{dots}{When returning only the first paragraph indicate missing
 paragraphs with \code{...}.}

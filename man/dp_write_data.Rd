@@ -10,7 +10,7 @@ dp_write_data(x, ..., write_categories = TRUE)
 
 \method{dp_write_data}{datapackage}(
   x,
-  resourcename,
+  resource_name,
   data,
   writer = "guess",
   ...,
@@ -35,7 +35,7 @@ to.}
 \item{write_categories}{write both the data set \code{x} itself and any
 categories lists of fields in the data set.}
 
-\item{resourcename}{name of the Data Resource in the Data Package to which
+\item{resource_name}{name of the Data Resource in the Data Package to which
 the data needs to be written.}
 
 \item{data}{\code{data.frame} with the data to write.}

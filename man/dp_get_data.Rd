@@ -10,7 +10,7 @@ dp_get_data(x, ..., as_connection = FALSE)
 
 \method{dp_get_data}{dataresource}(x, reader = "guess", ..., as_connection = FALSE)
 
-\method{dp_get_data}{datapackage}(x, resourcename, reader = "guess", ..., as_connection = FALSE)
+\method{dp_get_data}{datapackage}(x, resource_name, reader = "guess", ..., as_connection = FALSE)
 }
 \arguments{
 \item{x}{a \code{dataresource} or \code{datapackage} object.}
@@ -26,7 +26,7 @@ function accepting the path to the data set (a character vector with possibly
 multitple filenames) and the Data Resource as second argument, or the
 character string \code{"guess"}.}
 
-\item{resourcename}{the name of the \code{dataresource}.}
+\item{resource_name}{the name of the \code{dataresource}.}
 }
 \value{
 Will return the data. This will generally be a \code{data.frame} but

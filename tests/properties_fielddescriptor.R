@@ -8,7 +8,7 @@ f <- structure(list(
 expect_equal(dp_name(f), "foo")
 expect_equal(dp_title(f), "Foo")
 expect_equal(dp_description(f), "Foo Bar\n\nFoo")
-expect_equal(dp_description(f, firstparagraph = TRUE), "Foo Bar")
+expect_equal(dp_description(f, first_paragraph = TRUE), "Foo Bar")
 expect_equal(dp_format(f), "bar")
 
 # No properties set
@@ -16,7 +16,7 @@ f <- structure(list(), class = "fielddescriptor")
 expect_error(dp_name(f))
 expect_equal(dp_title(f), NULL)
 expect_equal(dp_description(f), NULL)
-expect_equal(dp_description(f, firstparagraph = TRUE), NULL)
+expect_equal(dp_description(f, first_paragraph = TRUE), NULL)
 expect_equal(dp_format(f), NULL)
 
 # Setting properties

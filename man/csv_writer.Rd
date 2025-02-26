@@ -4,12 +4,12 @@
 \alias{csv_writer}
 \title{Write data of data resource to CSV-file}
 \usage{
-csv_writer(x, resourcename, datapackage, use_fwrite = FALSE, ...)
+csv_writer(x, resource_name, datapackage, use_fwrite = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{data.frame} with the data to write}
 
-\item{resourcename}{name of the data resource in the data package.}
+\item{resource_name}{name of the data resource in the data package.}
 
 \item{datapackage}{the Data Package to which the file should be written.}
 

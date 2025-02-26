@@ -4,12 +4,12 @@
 \alias{dp_load_from_datapackage}
 \title{Quickly read a dataset from a Data Package}
 \usage{
-dp_load_from_datapackage(path, name, ...)
+dp_load_from_datapackage(path, resource_name, ...)
 }
 \arguments{
 \item{path}{the directory with the Data Package}
 
-\item{name}{the name of the Data Resource. When omitted the Data Resource
+\item{resource_name}{the name of the Data Resource. When omitted the Data Resource
 with the same name as the Data Package is read in and when no such resource
 exists the first Data Resource is read in.}
 

@@ -1,7 +1,7 @@
 #' Quickly read a dataset from a Data Package
 #'
 #' @param path the directory with the Data Package
-#' @param name the name of the Data Resource. When omitted the Data Resource
+#' @param resource_name the name of the Data Resource. When omitted the Data Resource
 #' with the same name as the Data Package is read in and when no such resource
 #' exists the first Data Resource is read in.
 #'
@@ -16,18 +16,18 @@
 #' Returns a dataset. Usually a \code{data.frame}.
 #'
 #' @export
-dp_load_from_datapackage <- function(path, name, ...) {
-  missingname <- missing(name)
+dp_load_from_datapackage <- function(path, resource_name, ...) {
+  missingname <- missing(resource_name)
   dp <- open_datapackage(path)
-  if (missingname) name <- dp_name(dp)
+  if (missingname) resource_name <- dp_name(dp)
   resourcenames <- dp_resource_names(dp)
   if (length(dp_resource_names) == 0) 
     stop("Data Package does not contain any resources.")
-  if (is.null(name) | !(name %in% dp_resource_names(dp))) {
-    if (!missingname) stop("Invalid resource name '", name, "'. ", 
+  if (is.null(resource_name) | !(resource_name %in% dp_resource_names(dp))) {
+    if (!missingname) stop("Invalid resource name '", resource_name, "'. ", 
       "Valid names are: ", paste0("'", resourcenames, "'", collapse = ", "))
-    name <- dp_resource_names(dp)[1]
+    resource_name <- dp_resource_names(dp)[1]
     warning("Using first data resource.")
   }
-  dp |> dp_resource(name) |> dp_get_data(...)
+  dp |> dp_resource(resource_name) |> dp_get_data(...)
 }

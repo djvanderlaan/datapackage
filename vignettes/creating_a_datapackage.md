@@ -106,7 +106,7 @@ by the new dataresources.
 We are now ready to write the dataset. For this we can use the `dp_write_data`
 method:
 ```{.R #a50}
-dp_write_data(dp, resourcename = "iris", data = iris)
+dp_write_data(dp, resource_name = "iris", data = iris)
 ```
 When some of the field in the Data Resource have categories that are stored in
 a separate Data Resource, this function will by default also write any
@@ -189,7 +189,7 @@ readLines(file.path(dir, "feed-categories.csv")) |> writeLines()
 When we now write the dataset to file it will use this dataset - as long as we
 don't overwrite it. Therefore, the `write_categories = FALSE`: 
 ```{.R #c30}
-dp_write_data(dp, resourcename = "chickwts", data = chickwts, write_categories = FALSE)
+dp_write_data(dp, resource_name = "chickwts", data = chickwts, write_categories = FALSE)
 ```
 We can see that the correct codes are used in the CSV-file:
 ```{.R #c40}
