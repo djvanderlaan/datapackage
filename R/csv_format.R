@@ -149,3 +149,20 @@ csv_format_year <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...
   }
 }
 
+# @rdname csv_format
+# @export
+csv_format_time <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...) {
+  if (is.null(fielddescriptor$format) || fielddescriptor$format == "default" || 
+      fielddescriptor$format == "any") {
+    format <- "%H:%M:%S"
+    res <- format(x, format = format)
+  } else {
+    format <- fielddescriptor$format
+    res <- format(x, format = format)
+  }
+  if (!is.null(fielddescriptor$missingValues)) {
+    res[is.na(res)] <- fielddescriptor$missingValues[1]
+  }
+  res
+}
+
