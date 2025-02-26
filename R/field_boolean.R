@@ -1,11 +1,11 @@
 
-#' Add required fields to the field descriptor for an boolean column
-#'
-#' @param fielddescriptor should be a list.
-#'
-#' @return
-#' Returns \code{fielddescriptor} with the required fields added. 
-#'
+# Add required fields to the field descriptor for an boolean column
+#
+# @param fielddescriptor should be a list.
+#
+# @return
+# Returns \code{fielddescriptor} with the required fields added. 
+#
 complete_fielddescriptor_boolean <- function(fielddescriptor) {
   if (!exists("type", fielddescriptor)) fielddescriptor[["type"]] <- "boolean"
   if (!exists("trueValues", fielddescriptor))
@@ -23,7 +23,7 @@ complete_fielddescriptor_boolean <- function(fielddescriptor) {
 #'
 #' @details
 #' When \code{fielddescriptor} is missing a default field descriptor is
-#' generated using \code{\link{complete_fielddescriptor_boolean}}. 
+#' generated.
 #'
 #' @return
 #' Will return an \code{logical} vector with \code{fielddescriptor} added as

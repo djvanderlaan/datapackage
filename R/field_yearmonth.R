@@ -1,11 +1,10 @@
-
-#' Add required fields to the fielddescriptor for a yearmonth column
-#'
-#' @param fielddescriptor should be a list.
-#'
-#' @return
-#' Returns \code{fielddescriptor} with the required fields added. 
-#'
+# Add required fields to the fielddescriptor for a yearmonth column
+#
+# @param fielddescriptor should be a list.
+#
+# @return
+# Returns \code{fielddescriptor} with the required fields added. 
+#
 complete_fielddescriptor_yearmonth <- function(fielddescriptor) {
   if (!exists("type", fielddescriptor)) fielddescriptor[["type"]] <- "yearmonth"
   fielddescriptor
@@ -19,7 +18,7 @@ complete_fielddescriptor_yearmonth <- function(fielddescriptor) {
 #'
 #' @details
 #' When \code{fielddescriptor} is missing a default field descriptor is
-#' generated using \code{\link{complete_fielddescriptor_yearmonth}}. 
+#' generated.
 #'
 #' Valid formats are "YYYY-MM" or "YYYYMM". When x is numeric or integer, it is
 #' assumed that it was a yearmonth in the format "YYYYMM" that was accidentally

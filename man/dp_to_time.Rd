@@ -14,20 +14,20 @@ dp_to_time(x, fielddescriptor = list(), ...)
 \item{...}{passed on to other methods.}
 }
 \value{
-Will return an \code{POSIXct} vector with \code{fielddescriptor} added as the
-'fielddescriptor' attribute.
+Will return an \code{Time} vector (see \code{\link[iso8601]{iso8601totime}}
+with \code{fielddescriptor} added as the 'fielddescriptor' attribute.
 }
 \description{
 Convert a vector to 'time' using the specified field descriptor
 }
 \details{
 When \code{fielddescriptor} is missing a default field descriptor is
-generated using \code{\link{complete_fielddescriptor_time}}. 
+generated.
 
 For the default format `iso8601::iso8601totime` is used to convert. This
 function allows more formats than the Data Package standard prescribes. When 
 format equals "any" the default `as.POSIXct` function is used.
 
 When \code{x} is numeric or integer, it is assumed that these are seconds
-since the unix time epoch (1970-01-01T00:00:00).
+since the unix time epoch (1970-01-01T00:00:00Z).
 }

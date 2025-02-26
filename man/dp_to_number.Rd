@@ -25,5 +25,5 @@ Convert a vector to 'number' using the specified field descriptor
 }
 \details{
 When \code{fielddescriptor} is missing a default field descriptor is
-generated using \code{\link{complete_fielddescriptor_number}}.
+generated.
 }

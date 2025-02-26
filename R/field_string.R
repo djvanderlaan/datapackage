@@ -1,11 +1,11 @@
 
-#' Add required fields to the field descriptor for a string column
-#'
-#' @param fielddescriptor should be a list.
-#'
-#' @return
-#' Returns \code{fielddescriptor} with the required fields added. 
-#'
+# Add required fields to the field descriptor for a string column
+#
+# @param fielddescriptor should be a list.
+#
+# @return
+# Returns \code{fielddescriptor} with the required fields added. 
+#
 complete_fielddescriptor_string <- function(fielddescriptor) {
   if (!exists("type", fielddescriptor)) 
     fielddescriptor[["type"]] <- "string"
@@ -20,7 +20,7 @@ complete_fielddescriptor_string <- function(fielddescriptor) {
 #'
 #' @details
 #' When \code{fielddescriptor} is missing a default field descriptor is
-#' generated using \code{\link{complete_fielddescriptor_string}}. 
+#' generated.
 #'
 #' @return
 #' Will return an \code{character} vector with \code{fielddescriptor} added as

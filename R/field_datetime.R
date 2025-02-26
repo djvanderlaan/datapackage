@@ -1,11 +1,11 @@
 
-#' Add required fields to the fielddescriptor for a datetime column
-#'
-#' @param fielddescriptor should be a list.
-#'
-#' @return
-#' Returns \code{fielddescriptor} with the required fields added. 
-#'
+# Add required fields to the fielddescriptor for a datetime column
+#
+# @param fielddescriptor should be a list.
+#
+# @return
+# Returns \code{fielddescriptor} with the required fields added. 
+#
 complete_fielddescriptor_datetime <- function(fielddescriptor) {
   if (!exists("type", fielddescriptor)) fielddescriptor[["type"]] <- "datetime"
   fielddescriptor
@@ -19,7 +19,7 @@ complete_fielddescriptor_datetime <- function(fielddescriptor) {
 #'
 #' @details
 #' When \code{fielddescriptor} is missing a default field descriptor is
-#' generated using \code{\link{complete_fielddescriptor_datetime}}. 
+#' generated.
 #'
 #' For the default format `iso8601::iso8601todatetime` is used to convert. This
 #' function allows more formats than the Data Package standard prescribes. When 

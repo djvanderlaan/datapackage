@@ -22,5 +22,5 @@ Convert a vector to 'date' using the specified field descriptor
 }
 \details{
 When \code{fielddescriptor} is missing a default field descriptor is
-generated using \code{\link{complete_fielddescriptor_date}}.
+generated.
 }

@@ -22,5 +22,5 @@ Convert a vector to 'string' using the specified fielddescriptor
 }
 \details{
 When \code{fielddescriptor} is missing a default field descriptor is
-generated using \code{\link{complete_fielddescriptor_string}}.
+generated.
 }

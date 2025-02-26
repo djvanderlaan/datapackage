@@ -1,11 +1,11 @@
 
-#' Add required fields to the field descriptor for an integer column
-#'
-#' @param fielddescriptor should be a list.
-#'
-#' @return
-#' Returns \code{fielddescriptor} with the required fields added. 
-#'
+# Add required fields to the field descriptor for an integer column
+#
+# @param fielddescriptor should be a list.
+#
+# @return
+# Returns \code{fielddescriptor} with the required fields added. 
+#
 complete_fielddescriptor_integer <- function(fielddescriptor) {
   if (!exists("type", fielddescriptor)) fielddescriptor[["type"]] <- "integer"
   fielddescriptor
@@ -20,7 +20,7 @@ complete_fielddescriptor_integer <- function(fielddescriptor) {
 #'
 #' @details
 #' When \code{fielddescriptor} is missing a default field descriptor is
-#' generated using \code{\link{complete_fielddescriptor_integer}}. 
+#' generated.
 #'
 #' @return
 #' Will return an \code{integer} vector with \code{fielddescriptor} added as

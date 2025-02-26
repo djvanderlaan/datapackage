@@ -23,7 +23,7 @@ Convert a vector to 'yearmonth' using the specified field descriptor
 }
 \details{
 When \code{fielddescriptor} is missing a default field descriptor is
-generated using \code{\link{complete_fielddescriptor_yearmonth}}. 
+generated.
 
 Valid formats are "YYYY-MM" or "YYYYMM". When x is numeric or integer, it is
 assumed that it was a yearmonth in the format "YYYYMM" that was accidentally
