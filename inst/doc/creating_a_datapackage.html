@@ -308,7 +308,7 @@ Package</p>
 <span id="n1-5"><a href="#n1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(dp)</span>
 <span id="n1-6"><a href="#n1-6" aria-hidden="true" tabindex="-1"></a>[example] An Example Data Package</span>
 <span id="n1-7"><a href="#n1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="n1-8"><a href="#n1-8" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>Rtmpl47jTH<span class="sc">/</span>file1b78f167400e7<span class="sc">&gt;</span></span>
+<span id="n1-8"><a href="#n1-8" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpZR8pk6<span class="sc">/</span>file1ea7b577141e8<span class="sc">&gt;</span></span>
 <span id="n1-9"><a href="#n1-9" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>NO RESOURCES<span class="sc">&gt;</span></span></code></pre></div>
 <p>This will return an <code>editabledatapackage</code>. This means that
 any changes to the Data Package are immediately saved to the
@@ -379,7 +379,7 @@ Should the datapackage contain dataresources with the same name, these
 will be overwritten by the new dataresources.</p>
 <p>We are now ready to write the dataset. For this we can use the
 <code>dp_write_data</code> method:</p>
-<div class="sourceCode" id="a50"><pre class="sourceCode R"><code class="sourceCode r"><span id="a50-1"><a href="#a50-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(dp, <span class="at">resourcename =</span> <span class="st">&quot;iris&quot;</span>, <span class="at">data =</span> iris)</span></code></pre></div>
+<div class="sourceCode" id="a50"><pre class="sourceCode R"><code class="sourceCode r"><span id="a50-1"><a href="#a50-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(dp, <span class="at">resource_name =</span> <span class="st">&quot;iris&quot;</span>, <span class="at">data =</span> iris)</span></code></pre></div>
 <p>When some of the field in the Data Resource have categories that are
 stored in a separate Data Resource, this function will by default also
 write any codelists associated with the dataresource.</p>
@@ -517,7 +517,7 @@ the CSV using other methods (e.g. manual editing):</p>
 <p>When we now write the dataset to file it will use this dataset - as
 long as we don’t overwrite it. Therefore, the
 <code>write_categories = FALSE</code>:</p>
-<div class="sourceCode" id="c30"><pre class="sourceCode R"><code class="sourceCode r"><span id="c30-1"><a href="#c30-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(dp, <span class="at">resourcename =</span> <span class="st">&quot;chickwts&quot;</span>, <span class="at">data =</span> chickwts, <span class="at">write_categories =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="c30"><pre class="sourceCode R"><code class="sourceCode r"><span id="c30-1"><a href="#c30-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(dp, <span class="at">resource_name =</span> <span class="st">&quot;chickwts&quot;</span>, <span class="at">data =</span> chickwts, <span class="at">write_categories =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>We can see that the correct codes are used in the CSV-file:</p>
 <div class="sourceCode" id="c40"><pre class="sourceCode R"><code class="sourceCode r"><span id="c40-1"><a href="#c40-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">readLines</span>(<span class="fu">file.path</span>(dir, <span class="st">&quot;chickwts.csv&quot;</span>), <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span>
 <span id="c40-2"><a href="#c40-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;weight&quot;</span>,<span class="st">&quot;feed&quot;</span></span>
@@ -641,7 +641,7 @@ the edits in this vignette:</p>
 <span id="e10-100"><a href="#e10-100" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="e10-101"><a href="#e10-101" aria-hidden="true" tabindex="-1"></a>  ],</span>
 <span id="e10-102"><a href="#e10-102" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;id&quot;</span><span class="sc">:</span> <span class="st">&quot;iris_chkwts&quot;</span>,</span>
-<span id="e10-103"><a href="#e10-103" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;created&quot;</span><span class="sc">:</span> <span class="st">&quot;2025-02-26&quot;</span></span>
+<span id="e10-103"><a href="#e10-103" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;created&quot;</span><span class="sc">:</span> <span class="st">&quot;2025-02-27&quot;</span></span>
 <span id="e10-104"><a href="#e10-104" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </body>
 </html>

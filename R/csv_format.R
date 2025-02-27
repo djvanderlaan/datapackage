@@ -65,13 +65,20 @@ csv_format_date <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...
 # @rdname csv_format
 # @export
 csv_format_integer <- function(x, fielddescriptor = attr(x, "fielddescriptor"), ...) {
-  if (!is.null(fielddescriptor$missingValues)) {
-    res <- as.character(x)
-    res[is.na(res)] <- fielddescriptor$missingValues[1]
-    res
-  } else {
-    as.integer(x)
+  x <- as.integer(x)
+  # bareNumber can be ignored
+  # groupChar
+  if (!is.null(fielddescriptor$groupChar) && fielddescriptor$groupChar != "") {
+    na <- is.na(x)
+    x <- formatC(x, big.mark=fielddescriptor$groupChar, decimal.mark = "")
+    x[na] <- NA
   }
+  # Missing values
+  if (!is.null(fielddescriptor$missingValues)) {
+    x <- as.character(x)
+    x[is.na(x)] <- fielddescriptor$missingValues[1]
+  } 
+  x
 }
 
 # @rdname csv_format

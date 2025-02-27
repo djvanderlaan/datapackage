@@ -80,6 +80,19 @@ res <- datapackage:::dp_to_integer.integer(c(10, -100, NA),
 expect_equal(res, c(10L, -100L, NA_integer_), attributes = FALSE)
 expect_attribute(res, "fielddescriptor", fielddescriptor)
 
+# === Big mark
+fielddescriptor <- list(
+  name = "integer",
+  title = "A integer field",
+  description = "A description",
+  type = "integer",
+  groupChar = "."
+)
+res <- datapackage:::dp_to_integer.character(c("1.234", "-100.123.123", "", NA), 
+  fielddescriptor = fielddescriptor)
+expect_equal(res, c(1234L, -100123123L, NA_integer_, NA_integer_), attributes = FALSE)
+expect_attribute(res, "fielddescriptor", fielddescriptor)
+
 # true -> €10 = error
 fielddescriptor <- list(
   name = "integer",
@@ -119,6 +132,21 @@ fielddescriptor <- list(
 res <- datapackage:::csv_colclass_integer(fielddescriptor)
 expect_equal(res, "integer")
 
+fielddescriptor <- list(
+  name = "integer",
+  groupChar = " "
+)
+res <- datapackage:::csv_colclass_integer(fielddescriptor)
+expect_equal(res, "character")
+
+fielddescriptor <- list(
+  name = "integer",
+  groupChar = ""
+)
+res <- datapackage:::csv_colclass_integer(fielddescriptor)
+expect_equal(res, "integer")
+
+
 # =============================================================================
 # csv_format
 
@@ -132,5 +160,9 @@ expect_equal(res, c("12", "X"))
 res <- datapackage:::csv_format_integer(c(12, NA), 
   fielddescriptor = list(bareNumber = FALSE))
 expect_equal(res, c(12L, NA_integer_))
+
+res <- datapackage:::csv_format_integer(c(12, 12345, NA), 
+  fielddescriptor = list(groupChar = "."))
+expect_equal(res, c("12", "12.345", NA))
 
 

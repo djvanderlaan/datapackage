@@ -45,7 +45,7 @@ head(dta)
 # r1
 dp_name(dp)
 dp_description(dp)
-dp_description(dp, firstparagraph = TRUE)
+dp_description(dp, first_paragraph = TRUE)
 dp_title(dp)
 
 # r2

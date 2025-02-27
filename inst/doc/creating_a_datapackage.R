@@ -33,7 +33,7 @@ dp_title(res) <- "The Iris dataset"
 dp_resources(dp) <- res
 
 # a50
-dp_write_data(dp, resourcename = "iris", data = iris)
+dp_write_data(dp, resource_name = "iris", data = iris)
 
 # a60
 readLines(file.path(dir, "iris.csv"), n = 10) |> writeLines()
@@ -83,7 +83,7 @@ dp_write_data(codelistres, data = codelist, write_categories = FALSE)
 readLines(file.path(dir, "feed-categories.csv")) |> writeLines()
 
 # c30
-dp_write_data(dp, resourcename = "chickwts", data = chickwts, write_categories = FALSE)
+dp_write_data(dp, resource_name = "chickwts", data = chickwts, write_categories = FALSE)
 
 # c40
 readLines(file.path(dir, "chickwts.csv"), n = 10) |> writeLines()

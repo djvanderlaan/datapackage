@@ -75,6 +75,9 @@ dp_to_integer.character <- function(x, fielddescriptor = list(), ...) {
     res <- bareNumber(x, warn = FALSE)
     x <- res$remainder
   }
+  # groupChar
+  if (!is.null(fielddescriptor$groupChar)) 
+    x <- gsub(fielddescriptor$groupChar, "", x, fixed = TRUE)
   # Convert
   res <- suppressWarnings(as.integer(x))
   invalid <- is.na(res) & !na
@@ -103,6 +106,9 @@ csv_colclass_integer <- function(fielddescriptor = list(), ...) {
   # read as character
   if (!is.null(fielddescriptor$bareNumber) && 
       (fielddescriptor$bareNumber == FALSE)) colclass <- "character"
+  # Same for thousands separator
+  if (!is.null(fielddescriptor$groupChar) && 
+      (fielddescriptor$groupChar != "")) colclass <- "character"
   colclass
 }
 
