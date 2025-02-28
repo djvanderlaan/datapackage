@@ -1,0 +1,5 @@
+code;label;missing
+F;Female;FALSE
+M;Male;FALSE
+X;Other;FALSE
+-;Unknown;TRUE

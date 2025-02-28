@@ -1,0 +1,112 @@
+{
+  "name": "example",
+  "title": "Example data set for the codelist package",
+  "resources": [
+    {
+      "name": "employment",
+      "title": "Employment status",
+      "description": "Employment status, income and background properties of sample of persons.\n\nThis data set has a number of differenttypes of data to show how the datapackage package handles these.",
+      "path": "employ.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "dialect": {
+        "decimalChar": ",",
+        "delimiter": ";",
+        "nullSequence": "NA"
+      },
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "integer"
+          }, {
+            "name": "dob",
+            "type": "date"
+          }, {
+            "name": "sex",
+            "type": "string",
+            "categories": {
+              "resource": "codelist-sex"
+            }
+          }, {
+            "name": "employ",
+            "type": "string",
+            "categories": {
+              "resource": "codelist-employ"
+            }
+          }, {
+            "name": "income",
+            "type": "number",
+            "bareNumber": false,
+            "decimalSeparator": ",",
+            "groupChar": " "
+          }, {
+            "name": "haspartner",
+            "type": "boolean",
+            "trueValues": ["Y"],
+            "falseValues": ["N"]
+          }
+        ]
+      }
+    }, {
+      "name": "codelist-sex",
+      "path": "codelist-sex.csv",
+      "format": "csv",
+      "encoding": "utf-8",
+      "dialect": {
+        "decimalChar": ",",
+        "delimiter": ";",
+        "nullSequence": "NA"
+      },
+      "categoryFieldMap": {
+        "value": "code",
+        "label": "label"
+      },
+      "title": "Code list for sex of person",
+      "schema": {
+        "fields": [
+          { 
+            "name": "code", 
+            "type": "string"
+          }, { 
+            "name": "label", 
+            "type": "string"
+          }, { 
+            "name": "missing", 
+            "type": "boolean"
+          }
+        ]
+      }
+    }, {
+      "name": "codelist-employ",
+      "path": "codelist-employ.csv",
+      "format": "csv",
+      "encoding": "utf-8",
+      "dialect": {
+        "decimalChar": ",",
+        "delimiter": ";",
+        "nullSequence": "NA"
+      },
+      "categoryFieldMap": {
+        "value": "code",
+        "label": "label"
+      },
+      "title": "Code list for employment status",
+      "schema": {
+        "fields": [
+          { 
+            "name": "code", 
+            "type": "string"
+          }, { 
+            "name": "label", 
+            "type": "string"
+          }, { 
+            "name": "missing", 
+            "type": "boolean"
+          }
+        ]
+      }
+    }
+  ]
+}
