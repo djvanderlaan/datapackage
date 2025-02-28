@@ -143,11 +143,11 @@ expect_error(res <- dp_to_boolean(c("TRUE","---", "FALSE", NA), fielddescriptor)
 
 res <- datapackage:::csv_colclass_boolean(
   list(trueValues = "True", falseValues = "False"))
-expect_equal(res, "logical")
+expect_equal(res, "character")
 
 res <- datapackage:::csv_colclass_boolean(
   list(trueValues = "true", falseValues = "false"))
-expect_equal(res, "logical")
+expect_equal(res, "character")
 
 res <- datapackage:::csv_colclass_boolean(
   list(trueValues = "TRUE", falseValues = "FALSE"))
@@ -158,7 +158,7 @@ res <- datapackage:::csv_colclass_boolean(
 expect_equal(res, "integer")
 
 res <- datapackage:::csv_colclass_boolean()
-expect_equal(res, "logical")
+expect_equal(res, "character")
 
 res <- datapackage:::csv_colclass_boolean(
   list(trueValues = "TRUE", falseValues = "false"))
