@@ -1,6 +1,7 @@
 {
   "name": "example",
-  "title": "Example data set for the codelist package",
+  "title": "Example data set for the datapackage package",
+  "description": "This is an example data set to show how the datapackage package can be used to import data into R.\n\nIts main data resource is the `employ` resource which contains fictional data about individuals. The other data resources are supporting data sets.",
   "resources": [
     {
       "name": "employment",
@@ -19,30 +20,36 @@
         "fields": [
           {
             "name": "id",
+            "title": "Random personal identifier",
             "type": "integer"
           }, {
             "name": "dob",
+            "title": "Date of Birth",
             "type": "date"
           }, {
-            "name": "sex",
+            "name": "gender",
+            "title": "Gender",
             "type": "string",
             "categories": {
-              "resource": "codelist-sex"
+              "resource": "codelist-gender"
             }
           }, {
             "name": "employ",
+            "title": "Employment status",
             "type": "string",
             "categories": {
               "resource": "codelist-employ"
             }
           }, {
             "name": "income",
+            "title": "Net income",
             "type": "number",
             "bareNumber": false,
             "decimalSeparator": ",",
             "groupChar": " "
           }, {
             "name": "haspartner",
+            "title": "Does person have a partner?",
             "type": "boolean",
             "trueValues": ["Y"],
             "falseValues": ["N"]
@@ -50,8 +57,8 @@
         ]
       }
     }, {
-      "name": "codelist-sex",
-      "path": "codelist-sex.csv",
+      "name": "codelist-gender",
+      "path": "codelist-gender.csv",
       "format": "csv",
       "encoding": "utf-8",
       "dialect": {
@@ -63,7 +70,7 @@
         "value": "code",
         "label": "label"
       },
-      "title": "Code list for sex of person",
+      "title": "Code list for gender of person",
       "schema": {
         "fields": [
           { 
