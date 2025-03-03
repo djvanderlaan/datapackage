@@ -265,7 +265,7 @@ For `datapackage` objects there are currently defined the following methods:
 - `dp_title()`
 
 For `dataresource` objects there are currently defined the following methods
-(this list can be obtained using `?properties_dataresource`)
+(this list can be obtained using `?PropertiesDataresource`)
 
 - `dp_bytes()`
 - `dp_encoding()`

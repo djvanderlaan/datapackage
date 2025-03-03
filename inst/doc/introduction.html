@@ -369,7 +369,7 @@ the data package has three data resources.</p>
 <span id="tldropen-7"><a href="#tldropen-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R.</span>
 <span id="tldropen-8"><a href="#tldropen-8" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="tldropen-9"><a href="#tldropen-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="tldropen-10"><a href="#tldropen-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpzkqrZt<span class="sc">/</span>Rinst2217aa15ae1970<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
+<span id="tldropen-10"><a href="#tldropen-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>Rtmppjepsf<span class="sc">/</span>Rinst221b4450cd991c<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
 <span id="tldropen-11"><a href="#tldropen-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
 <span id="tldropen-12"><a href="#tldropen-12" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="tldropen-13"><a href="#tldropen-13" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>gender] Code list <span class="cf">for</span> gender of person</span>
@@ -494,7 +494,7 @@ package:</p>
 <span id="g1-7"><a href="#g1-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R.</span>
 <span id="g1-8"><a href="#g1-8" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="g1-9"><a href="#g1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpzkqrZt<span class="sc">/</span>Rinst2217aa15ae1970<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
+<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>Rtmppjepsf<span class="sc">/</span>Rinst221b4450cd991c<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
 <span id="g1-11"><a href="#g1-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
 <span id="g1-12"><a href="#g1-12" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="g1-13"><a href="#g1-13" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>gender] Code list <span class="cf">for</span> gender of person</span>
@@ -682,7 +682,7 @@ following methods: (this list can be obtained using
 </ul>
 <p>For <code>dataresource</code> objects there are currently defined the
 following methods (this list can be obtained using
-<code>?properties_dataresource</code>)</p>
+<code>?PropertiesDataresource</code>)</p>
 <ul>
 <li><code>dp_bytes()</code></li>
 <li><code>dp_encoding()</code></li>
@@ -702,7 +702,7 @@ is needed when one wants to use the path to read the data.</p>
 <div class="sourceCode" id="r3"><pre class="sourceCode R"><code class="sourceCode r"><span id="r3-1"><a href="#r3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ)</span>
 <span id="r3-2"><a href="#r3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;employ.csv&quot;</span></span>
 <span id="r3-3"><a href="#r3-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ, <span class="at">full_path =</span> <span class="cn">TRUE</span>)</span>
-<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpzkqrZt/Rinst2217aa15ae1970/datapackage/examples/employ/employ.csv&quot;</span></span></code></pre></div>
+<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/Rtmppjepsf/Rinst221b4450cd991c/datapackage/examples/employ/employ.csv&quot;</span></span></code></pre></div>
 <p>It is also possible to get other properties than the ones explicitly
 mentioned above using the <code>dp_property()</code> method:</p>
 <div class="sourceCode" id="r4"><pre class="sourceCode R"><code class="sourceCode r"><span id="r4-1"><a href="#r4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_property</span>(employ, <span class="st">&quot;encoding&quot;</span>)</span>
