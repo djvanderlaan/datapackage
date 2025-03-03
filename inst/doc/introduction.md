@@ -60,48 +60,105 @@ Below an overview of some of the terminology associated with Data Packages.
 - Has number of properties like, `name` and `type`.
 
 
+## tl;dr
+
+`open_datapackage()` reads the meta data from the `datapackage.json`. From the
+output below you can see that the data package has three data resources.
+
+```{.R #tldropen}
+library(datapackage, warn.conflicts = FALSE)
+dir <- system.file("examples/employ", package = "datapackage")
+dp <- open_datapackage(dir)
+dp
+```
+
+To read the data beloning to one of the data resources:
+
+```{.R #tldrgetdata}
+dta <- dp |> dp_resource("employment") |> dp_get_data()
+dta
+```
+
+When the name of the data resource is known, the data can also be read directly
+from the data package without explicitly opening the Data Package:
+
+```{.R #tldrload}
+dta <- dp_load_from_datapackage(dir, "employment")
+dta
+``` 
+
+With the `convert_categories`  argument categorical variables can be converted
+to factor:
+
+```{.R #tldrloadfactor}
+dta <- dp_load_from_datapackage(dir, "employment", 
+  convert_categories = "to_factor")
+dta
+``` 
+
+Or, they can be converted to the [`code` class from the `codelist`
+package](https://cran.r-project.org/package=codelist). This
+will preserve both the codes and the labels:
+
+```{.R #tldrloadcode}
+library(codelist)
+dta <- dp_load_from_datapackage(dir, "employment", 
+  convert_categories = "to_code")
+dta
+``` 
+
+When the data resource name is omitted from `dp_load_from_datapackage()` either
+the data resource with same name as the data package or the first data resource
+is opened.
+
+
+
 ## Getting information from a Data Package
 
 Below we open an example Data Package that comes with the package:
 
 ```{.R #g1}
 library(datapackage, warn.conflicts = FALSE)
-dir <- system.file("examples/iris", package = "datapackage")
+dir <- system.file("examples/employ", package = "datapackage")
 dp <- open_datapackage(dir)
-print(dp)
+dp
 ```
-The print statement shows the name of the package, `iris-example`, the title, 
+The print statement shows the name of the package, `example`, the title, 
 the first paragraph of the description, the location of the Data Package and
-the Data Resources in the package. In this case there are two Data Resources:
+the Data Resources in the package. In this case there are three Data Resources:
 
 ```{.R #g2}
 dp_nresources(dp)
 ```
 
 The names are
+
 ```{.R #g3}
 dp_resource_names(dp)
 ```
 
-Using the `resource` methode on can obtain the Data Resource
+Using the `resource()` method on the Data Package can obtain the Data Resource
+
 ```{.R #g4}
-iris <- dp_resource(dp, "iris")
-print(iris)
+employ <- dp_resource(dp, "employment")
+employ
 ```
+
 The `print` statement again shows the name, title and description. It also shows
-that the data is in a CSV-file anmes `iris.csv`. Standard the `print` shows only
+that the data is in a CSV-file anmes `employ.csv`. Standard the `print` shows only
 a few properties of the Data Resource. To show all properties:
 
 ```{.R #g5}
-print(iris, properties = NA)
+print(employ, properties = NA)
 ```
+
 Using this information it should be possible to open the dataset. The data can
-be opened in R using the `dp_get_data` method. Based on the information in the Data
-Resource this function will try to open the dataset using the correct functions
-in R (in this case `read.csv`):
+be opened in R using the `dp_get_data()` method. Based on the information in the
+Data Resource this function will try to open the dataset using the correct
+functions in R (in this case `read.csv()`):
 
 ```{.R #g6}
-dta <- dp_get_data(iris)
+dta <- dp_get_data(employ)
 head(dta)
 ```
 
@@ -109,50 +166,71 @@ It is also possible to import the data directly from the Data Package object by
 specifying the resource for which the data needs to be imported.
 
 ```{.R #g7}
-dta <- dp_get_data(dp, "iris")
+dta <- dp_get_data(dp, "employment")
 ```
-The `dp_get_data` method only supports a limited set of data formats.  It is
+
+The `dp_get_data()` method only supports a limited set of data formats.  It is
 possible to also provide a custum function to read the data using the `reader`
-argument of `dp_get_data`. However, it is also possible to import the data
+argument of `dp_get_data()`. However, it is also possible to import the data
 'manually' using the information in the Data Package. The path of the file in a
-Data Resource can be obtained using the `path` method:
+Data Resource can be obtained using the `dp_path()` method:
 
 ```{.R #g8}
-dp_path(iris)
+dp_path(employ)
 ```
+
 By default this will return the path as defined in the Data Package. This either
 a path relative to the directory in which the Data Package is located or a URL.
 To open a file inside the Data Package one also needs the location of the Data
-Package. This is stored in the `path` attribute of the Data Package and
-Resource:
-
-```{.R #g9}
-attr(dp, "path")
-attr(iris, "path")
-```
-Using the `full_path = TRUE` argument, `path` will return the full path to the
-file:
+Package.  Using the `full_path = TRUE` argument, `dp_path()` will return the full
+path to the file:
 
 ```{.R #g10}
-fn <- dp_path(iris, full_path = TRUE)
+fn <- dp_path(employ, full_path = TRUE)
 ```
+
 This path can be used to open the file manually:
 
 ```{.R #g11}
-dta <- read.csv(fn)
+dta <- read.csv2(fn)
 head(dta)
 ```
-Note that the `path` property of a Data Resource can be a vector of paths in
-case a single data set is stored in a set of files. It is assumed then that the
-files have the same format. Therefore, `rbind` should work on these files.
+
+First, note that we had to 'know' that we had to use `read.csv2` since the file
+uses the '`;`' as field separator. Information like this is stored in the
+'dialect' property of a data resource:
+
+```{.R #dialect}
+dp_property(employ, "dialect")
+```
+
+Second, note that the field 'income' is not converted to numeric as this field
+contains euro symbols and used a space as thousands separator. Information like
+this is stored in the field descriptor:
+
+```{.R #income}
+dp_field(employ, "income")
+```
+
+`dp_get_data()` uses the information from the field descriptors and dialect to
+automatically convert variables as much a possible to their most fitting R
+types. This is done using the `dp_apply_schema()` function:
+
+```{.R #dpapplyschema}
+dp_apply_schema(dta, employ)
+```
+
+Finally, note that the `path` property of a Data Resource can be a vector of
+paths in case a single data set is stored in a set of files. It is assumed then
+that the files have the same format. Therefore, `rbind` should work on these
+files.
 
 Below is an alternative way of importing the data belonging to a Data Resource.
 Here we use the pipe operator to chain the various commands to import the
-'inline' data set. In this example data set the data is stored inside the Data
-Package.
+data set. 
 
 ```{.R #g12}
-dta <- dp_resource(dp, "inline") |> dp_get_data()
+dta <- dp_resource(dp, "employment") |> dp_get_data()
 head(dta)
 ```
 
@@ -171,51 +249,52 @@ dp_title(dp)
 The same holds for Data Resources:
 
 ```{.R #r2}
-dp_title(iris)
-dp_resource(dp, "inline") |> dp_title()
+dp_title(employ)
+dp_resource(dp, "codelist-employ") |> dp_title()
 ```
 
 For `datapackage` objects there are currently defined the following methods:
-(this list can be obtained using `?properties_datapackage`)
+(this list can be obtained using `?PropertiesDatapackage`)
 
-- `dp_name`
-- `dp_title`
-- `dp_description`
-- `dp_keywords`
-- `dp_created`
-- `dp_id`
-- `dp_contributors`
+- `dp_contributors()`
+- `dp_created()`
+- `dp_description()`
+- `dp_id()`
+- `dp_keywords()`
+- `dp_name()`
+- `dp_title()`
 
 For `dataresource` objects there are currently defined the following methods
 (this list can be obtained using `?properties_dataresource`)
 
-- `dp_name`
-- `dp_title`
-- `dp_description`
-- `dp_path`
-- `dp_format`
-- `dp_mediatype`
-- `dp_encoding`
-- `dp_bytes`
-- `dp_hash`
+- `dp_bytes()`
+- `dp_encoding()`
+- `dp_description()`
+- `dp_format()`
+- `dp_hash()`
+- `dp_name()`
+- `dp_mediatype()`
+- `dp_path()`
+- `dp_schema()`
+- `dp_title()`
 
-
-The `dp_path` method has a `full_path` argument that, when used, returns the full
+The `dp_path()` method has a `full_path` argument that, when used, returns the full
 path to the Data Resources data and not just the path relative to the Data
 Package. The full path is needed when one wants to use the path to read the
 data.
 
 ```{.R #r3}
-dp_path(iris)
-dp_path(iris, full_path = TRUE)
+dp_path(employ)
+dp_path(employ, full_path = TRUE)
 ```
 
 It is also possible to get other properties than the ones explicitly mentioned
-above using the `dp_property` method:
+above using the `dp_property()` method:
 
 ```{.R #r4}
-dp_property(iris, "encoding")
+dp_property(employ, "encoding")
 ```
+
 
 ## Working with categories
 
@@ -225,30 +304,57 @@ usually stored inside the Field Descriptor. However, the `datapackage` package
 also supports lists of categories stored in a seperate Data Resource (this is
 not part of the datapackage standard).  
 
-In the 'complex' example resource, there is a column 'factor1':
+In the example resource, there is are 'gender' and 'employ' that have categories
+associated with them:
 
 ```{.R #c1}
-complex <- dp_resource(dp, "complex") |> dp_get_data()
-print(complex)
+dta <- dp_resource(dp, "employment") |> dp_get_data()
+dta
 ```
 
-This is an integer column but it has an 'categories' property set which points
+This is string column but it has an 'categories' property set which points
 to a Data Resource in the Data Package. It is possible te get this list of
+
 categories
 ```{.R #c2}
-dp_categorieslist(complex$factor1)
+dp_categorieslist(dta$employ)
 ```
+
 This list of categories can also be used to convert the field to factor:
+
 ```{.R #c3}
-dp_to_factor(complex$factor1)
+dp_to_factor(dta$employ)
 ```
-Using the `convert_categories = "to_factor"` argument of the `csv_reader` it is also possible to
-convert all fields which have an associated 'categories' field to factor:
+
+Using the `convert_categories = "to_factor"` argument of `dp_apply_schema()`
+(which is called by `dp_get_data()`) it is also possible to convert all fields
+which have an associated 'categories' field to factor:
+
 ```{.R #c4}
-complex <- dp_resource(dp, "complex") |> 
+dta <- dp_resource(dp, "employment") |> 
   dp_get_data(convert_categories = "to_factor")
-print(complex)
+dta
 ```
+
+When the [`codelist` package](https://cran.r-project.org/package=codelist) is
+installed, it is also possible to convert the column to a `code` vector:
+
+```{.R #c4}
+dta <- dp_resource(dp, "employment") |> 
+  dp_get_data(convert_categories = "to_code")
+dta
+```
+
+This has the advantage that both the values/codes and the labels are kept
+together and it is possible to use both when coding which can make code safer
+and more readable:
+
+```{.R #codedemo}
+library(codelist)
+dta[dta$gender == "X", ]
+dta[dta$gender == as.label("Other"), ]
+```
+
 
 ## Creating a Data Package
 
@@ -257,7 +363,7 @@ This is shown in a seperate vignette `Creating a Data Package`
 ## Quickly saving to and reading from a Data Package
 
 A quick way to create a Data Package from a given dataset is with the
-`dp_save_as_datapackage` function:
+`dp_save_as_datapackage()` function:
 
 ```{.R #q1}
 dir <- tempfile()
@@ -274,7 +380,7 @@ dp_load_from_datapackage(dir) |> head()
 This will either load the Data Resource with the same name as the Data Package
 or the first resource in the Data Package.  It is also possible to specify the
 name of the Data Resource that should be read. Additional arguments are passed
-on to `dp_get_data`:
+on to `dp_get_data())`:
 
 ```{.R #q2}
 dp_load_from_datapackage(dir, "iris", convert_categories = "to_factor", 

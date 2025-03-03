@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -356,183 +356,356 @@ Descriptor</a></strong></p>
 <li>Has number of properties like, <code>name</code> and
 <code>type</code>.</li>
 </ul>
+<h2 id="tldr">tl;dr</h2>
+<p><code>open_datapackage()</code> reads the meta data from the
+<code>datapackage.json</code>. From the output below you can see that
+the data package has three data resources.</p>
+<div class="sourceCode" id="tldropen"><pre class="sourceCode R"><code class="sourceCode r"><span id="tldropen-1"><a href="#tldropen-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(datapackage, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
+<span id="tldropen-2"><a href="#tldropen-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dir <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;examples/employ&quot;</span>, <span class="at">package =</span> <span class="st">&quot;datapackage&quot;</span>)</span>
+<span id="tldropen-3"><a href="#tldropen-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp <span class="ot">&lt;-</span> <span class="fu">open_datapackage</span>(dir)</span>
+<span id="tldropen-4"><a href="#tldropen-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp</span>
+<span id="tldropen-5"><a href="#tldropen-5" aria-hidden="true" tabindex="-1"></a>[example] Example data set <span class="cf">for</span> the datapackage package</span>
+<span id="tldropen-6"><a href="#tldropen-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="tldropen-7"><a href="#tldropen-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R.</span>
+<span id="tldropen-8"><a href="#tldropen-8" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="tldropen-9"><a href="#tldropen-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="tldropen-10"><a href="#tldropen-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpFfmozZ<span class="sc">/</span>Rinst21a2dc82aa5e1<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
+<span id="tldropen-11"><a href="#tldropen-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
+<span id="tldropen-12"><a href="#tldropen-12" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
+<span id="tldropen-13"><a href="#tldropen-13" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>gender] Code list <span class="cf">for</span> gender of person</span>
+<span id="tldropen-14"><a href="#tldropen-14" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>employ] Code list <span class="cf">for</span> employment status</span></code></pre></div>
+<p>To read the data beloning to one of the data resources:</p>
+<div class="sourceCode" id="tldrgetdata"><pre class="sourceCode R"><code class="sourceCode r"><span id="tldrgetdata-1"><a href="#tldrgetdata-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> dp <span class="sc">|&gt;</span> <span class="fu">dp_resource</span>(<span class="st">&quot;employment&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_get_data</span>()</span>
+<span id="tldrgetdata-2"><a href="#tldrgetdata-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta</span>
+<span id="tldrgetdata-3"><a href="#tldrgetdata-3" aria-hidden="true" tabindex="-1"></a>          id        dob gender employ  income haspartner</span>
+<span id="tldrgetdata-4"><a href="#tldrgetdata-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">368509515</span> <span class="dv">1993-06-14</span>      M      E <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-5"><a href="#tldrgetdata-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">187844355</span> <span class="dv">1961-10-08</span>      X      U      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-6"><a href="#tldrgetdata-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">273040044</span> <span class="dv">1982-06-17</span>      F      E  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-7"><a href="#tldrgetdata-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>  <span class="dv">963831798</span> <span class="dv">1965-02-15</span>      M      E  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-8"><a href="#tldrgetdata-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>  <span class="dv">854856378</span> <span class="dv">1990-01-30</span>      F      E  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="tldrgetdata-9"><a href="#tldrgetdata-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">20072760</span> <span class="dv">1961-08-18</span>      F      E <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-10"><a href="#tldrgetdata-10" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span>  <span class="dv">429782078</span> <span class="dv">2019-09-23</span>      M      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-11"><a href="#tldrgetdata-11" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span>  <span class="dv">711292034</span> <span class="dv">1994-02-16</span>      M      E  <span class="fl">455.98</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-12"><a href="#tldrgetdata-12" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>  <span class="dv">949458305</span> <span class="dv">2005-06-16</span>      F      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-13"><a href="#tldrgetdata-13" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">911459071</span> <span class="dv">2007-02-27</span>      F      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-14"><a href="#tldrgetdata-14" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="dv">921370403</span> <span class="dv">1981-09-14</span>      F      E <span class="fl">1461.36</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-15"><a href="#tldrgetdata-15" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>  <span class="dv">26901869</span> <span class="dv">1981-03-08</span>      F      E <span class="fl">1153.02</span>       <span class="cn">TRUE</span></span>
+<span id="tldrgetdata-16"><a href="#tldrgetdata-16" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> <span class="dv">640668848</span> <span class="dv">1993-08-30</span>      M      E  <span class="fl">708.98</span>       <span class="cn">TRUE</span></span>
+<span id="tldrgetdata-17"><a href="#tldrgetdata-17" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="dv">996464509</span> <span class="dv">1960-12-10</span>      M      E <span class="fl">1088.99</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-18"><a href="#tldrgetdata-18" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span>  <span class="dv">58820512</span> <span class="dv">1962-10-13</span>      M      E <span class="fl">2243.10</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-19"><a href="#tldrgetdata-19" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="dv">288242988</span> <span class="dv">2013-06-11</span>      M      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-20"><a href="#tldrgetdata-20" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="dv">549758863</span> <span class="dv">1990-06-09</span>      M      E  <span class="fl">719.69</span>       <span class="cn">TRUE</span></span>
+<span id="tldrgetdata-21"><a href="#tldrgetdata-21" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="dv">998045846</span> <span class="dv">1973-01-25</span>      F      E <span class="fl">1312.45</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-22"><a href="#tldrgetdata-22" aria-hidden="true" tabindex="-1"></a><span class="dv">19</span> <span class="dv">902078272</span> <span class="dv">1962-05-29</span>      F      E  <span class="fl">618.27</span>      <span class="cn">FALSE</span></span>
+<span id="tldrgetdata-23"><a href="#tldrgetdata-23" aria-hidden="true" tabindex="-1"></a><span class="dv">20</span> <span class="dv">594477489</span> <span class="dv">1952-08-31</span>      <span class="sc">-</span>      N      <span class="cn">NA</span>       <span class="cn">TRUE</span></span></code></pre></div>
+<p>When the name of the data resource is known, the data can also be
+read directly from the data package without explicitly opening the Data
+Package:</p>
+<div class="sourceCode" id="tldrload"><pre class="sourceCode R"><code class="sourceCode r"><span id="tldrload-1"><a href="#tldrload-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_load_from_datapackage</span>(dir, <span class="st">&quot;employment&quot;</span>)</span>
+<span id="tldrload-2"><a href="#tldrload-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta</span>
+<span id="tldrload-3"><a href="#tldrload-3" aria-hidden="true" tabindex="-1"></a>          id        dob gender employ  income haspartner</span>
+<span id="tldrload-4"><a href="#tldrload-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">368509515</span> <span class="dv">1993-06-14</span>      M      E <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-5"><a href="#tldrload-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">187844355</span> <span class="dv">1961-10-08</span>      X      U      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-6"><a href="#tldrload-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">273040044</span> <span class="dv">1982-06-17</span>      F      E  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-7"><a href="#tldrload-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>  <span class="dv">963831798</span> <span class="dv">1965-02-15</span>      M      E  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-8"><a href="#tldrload-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>  <span class="dv">854856378</span> <span class="dv">1990-01-30</span>      F      E  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="tldrload-9"><a href="#tldrload-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">20072760</span> <span class="dv">1961-08-18</span>      F      E <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-10"><a href="#tldrload-10" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span>  <span class="dv">429782078</span> <span class="dv">2019-09-23</span>      M      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-11"><a href="#tldrload-11" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span>  <span class="dv">711292034</span> <span class="dv">1994-02-16</span>      M      E  <span class="fl">455.98</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-12"><a href="#tldrload-12" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>  <span class="dv">949458305</span> <span class="dv">2005-06-16</span>      F      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-13"><a href="#tldrload-13" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">911459071</span> <span class="dv">2007-02-27</span>      F      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-14"><a href="#tldrload-14" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="dv">921370403</span> <span class="dv">1981-09-14</span>      F      E <span class="fl">1461.36</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-15"><a href="#tldrload-15" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>  <span class="dv">26901869</span> <span class="dv">1981-03-08</span>      F      E <span class="fl">1153.02</span>       <span class="cn">TRUE</span></span>
+<span id="tldrload-16"><a href="#tldrload-16" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> <span class="dv">640668848</span> <span class="dv">1993-08-30</span>      M      E  <span class="fl">708.98</span>       <span class="cn">TRUE</span></span>
+<span id="tldrload-17"><a href="#tldrload-17" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="dv">996464509</span> <span class="dv">1960-12-10</span>      M      E <span class="fl">1088.99</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-18"><a href="#tldrload-18" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span>  <span class="dv">58820512</span> <span class="dv">1962-10-13</span>      M      E <span class="fl">2243.10</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-19"><a href="#tldrload-19" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="dv">288242988</span> <span class="dv">2013-06-11</span>      M      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-20"><a href="#tldrload-20" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="dv">549758863</span> <span class="dv">1990-06-09</span>      M      E  <span class="fl">719.69</span>       <span class="cn">TRUE</span></span>
+<span id="tldrload-21"><a href="#tldrload-21" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="dv">998045846</span> <span class="dv">1973-01-25</span>      F      E <span class="fl">1312.45</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-22"><a href="#tldrload-22" aria-hidden="true" tabindex="-1"></a><span class="dv">19</span> <span class="dv">902078272</span> <span class="dv">1962-05-29</span>      F      E  <span class="fl">618.27</span>      <span class="cn">FALSE</span></span>
+<span id="tldrload-23"><a href="#tldrload-23" aria-hidden="true" tabindex="-1"></a><span class="dv">20</span> <span class="dv">594477489</span> <span class="dv">1952-08-31</span>      <span class="sc">-</span>      N      <span class="cn">NA</span>       <span class="cn">TRUE</span></span></code></pre></div>
+<p>With the <code>convert_categories</code> argument categorical
+variables can be converted to factor:</p>
+<div class="sourceCode" id="tldrloadfactor"><pre class="sourceCode R"><code class="sourceCode r"><span id="tldrloadfactor-1"><a href="#tldrloadfactor-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_load_from_datapackage</span>(dir, <span class="st">&quot;employment&quot;</span>, </span>
+<span id="tldrloadfactor-2"><a href="#tldrloadfactor-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">convert_categories =</span> <span class="st">&quot;to_factor&quot;</span>)</span>
+<span id="tldrloadfactor-3"><a href="#tldrloadfactor-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta</span>
+<span id="tldrloadfactor-4"><a href="#tldrloadfactor-4" aria-hidden="true" tabindex="-1"></a>          id        dob  gender                 employ  income haspartner</span>
+<span id="tldrloadfactor-5"><a href="#tldrloadfactor-5" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">368509515</span> <span class="dv">1993-06-14</span>    Male               Employed <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-6"><a href="#tldrloadfactor-6" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">187844355</span> <span class="dv">1961-10-08</span>   Other             Unemployed      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-7"><a href="#tldrloadfactor-7" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">273040044</span> <span class="dv">1982-06-17</span>  Female               Employed  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-8"><a href="#tldrloadfactor-8" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>  <span class="dv">963831798</span> <span class="dv">1965-02-15</span>    Male               Employed  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-9"><a href="#tldrloadfactor-9" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>  <span class="dv">854856378</span> <span class="dv">1990-01-30</span>  Female               Employed  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="tldrloadfactor-10"><a href="#tldrloadfactor-10" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">20072760</span> <span class="dv">1961-08-18</span>  Female               Employed <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-11"><a href="#tldrloadfactor-11" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span>  <span class="dv">429782078</span> <span class="dv">2019-09-23</span>    Male Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-12"><a href="#tldrloadfactor-12" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span>  <span class="dv">711292034</span> <span class="dv">1994-02-16</span>    Male               Employed  <span class="fl">455.98</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-13"><a href="#tldrloadfactor-13" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>  <span class="dv">949458305</span> <span class="dv">2005-06-16</span>  Female Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-14"><a href="#tldrloadfactor-14" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">911459071</span> <span class="dv">2007-02-27</span>  Female Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-15"><a href="#tldrloadfactor-15" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="dv">921370403</span> <span class="dv">1981-09-14</span>  Female               Employed <span class="fl">1461.36</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-16"><a href="#tldrloadfactor-16" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>  <span class="dv">26901869</span> <span class="dv">1981-03-08</span>  Female               Employed <span class="fl">1153.02</span>       <span class="cn">TRUE</span></span>
+<span id="tldrloadfactor-17"><a href="#tldrloadfactor-17" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> <span class="dv">640668848</span> <span class="dv">1993-08-30</span>    Male               Employed  <span class="fl">708.98</span>       <span class="cn">TRUE</span></span>
+<span id="tldrloadfactor-18"><a href="#tldrloadfactor-18" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="dv">996464509</span> <span class="dv">1960-12-10</span>    Male               Employed <span class="fl">1088.99</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-19"><a href="#tldrloadfactor-19" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span>  <span class="dv">58820512</span> <span class="dv">1962-10-13</span>    Male               Employed <span class="fl">2243.10</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-20"><a href="#tldrloadfactor-20" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="dv">288242988</span> <span class="dv">2013-06-11</span>    Male Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-21"><a href="#tldrloadfactor-21" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="dv">549758863</span> <span class="dv">1990-06-09</span>    Male               Employed  <span class="fl">719.69</span>       <span class="cn">TRUE</span></span>
+<span id="tldrloadfactor-22"><a href="#tldrloadfactor-22" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="dv">998045846</span> <span class="dv">1973-01-25</span>  Female               Employed <span class="fl">1312.45</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-23"><a href="#tldrloadfactor-23" aria-hidden="true" tabindex="-1"></a><span class="dv">19</span> <span class="dv">902078272</span> <span class="dv">1962-05-29</span>  Female               Employed  <span class="fl">618.27</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadfactor-24"><a href="#tldrloadfactor-24" aria-hidden="true" tabindex="-1"></a><span class="dv">20</span> <span class="dv">594477489</span> <span class="dv">1952-08-31</span> Unknown Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>       <span class="cn">TRUE</span></span></code></pre></div>
+<p>Or, they can be converted to the <a href="https://cran.r-project.org/package=codelist"><code>code</code>
+class from the <code>codelist</code> package</a>. This will preserve
+both the codes and the labels:</p>
+<div class="sourceCode" id="tldrloadcode"><pre class="sourceCode R"><code class="sourceCode r"><span id="tldrloadcode-1"><a href="#tldrloadcode-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(codelist)</span>
+<span id="tldrloadcode-2"><a href="#tldrloadcode-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_load_from_datapackage</span>(dir, <span class="st">&quot;employment&quot;</span>, </span>
+<span id="tldrloadcode-3"><a href="#tldrloadcode-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">convert_categories =</span> <span class="st">&quot;to_code&quot;</span>)</span>
+<span id="tldrloadcode-4"><a href="#tldrloadcode-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta</span>
+<span id="tldrloadcode-5"><a href="#tldrloadcode-5" aria-hidden="true" tabindex="-1"></a>          id        dob     gender      employ  income haspartner</span>
+<span id="tldrloadcode-6"><a href="#tldrloadcode-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">368509515</span> <span class="dv">1993-06-14</span> M[Male]    E[Employed] <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-7"><a href="#tldrloadcode-7" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">187844355</span> <span class="dv">1961-10-08</span> X[Other]   U[Unemplo…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-8"><a href="#tldrloadcode-8" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">273040044</span> <span class="dv">1982-06-17</span> F[Female]  E[Employed]  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-9"><a href="#tldrloadcode-9" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>  <span class="dv">963831798</span> <span class="dv">1965-02-15</span> M[Male]    E[Employed]  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-10"><a href="#tldrloadcode-10" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>  <span class="dv">854856378</span> <span class="dv">1990-01-30</span> F[Female]  E[Employed]  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="tldrloadcode-11"><a href="#tldrloadcode-11" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">20072760</span> <span class="dv">1961-08-18</span> F[Female]  E[Employed] <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-12"><a href="#tldrloadcode-12" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span>  <span class="dv">429782078</span> <span class="dv">2019-09-23</span> M[Male]    N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-13"><a href="#tldrloadcode-13" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span>  <span class="dv">711292034</span> <span class="dv">1994-02-16</span> M[Male]    E[Employed]  <span class="fl">455.98</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-14"><a href="#tldrloadcode-14" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>  <span class="dv">949458305</span> <span class="dv">2005-06-16</span> F[Female]  N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-15"><a href="#tldrloadcode-15" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">911459071</span> <span class="dv">2007-02-27</span> F[Female]  N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-16"><a href="#tldrloadcode-16" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="dv">921370403</span> <span class="dv">1981-09-14</span> F[Female]  E[Employed] <span class="fl">1461.36</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-17"><a href="#tldrloadcode-17" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>  <span class="dv">26901869</span> <span class="dv">1981-03-08</span> F[Female]  E[Employed] <span class="fl">1153.02</span>       <span class="cn">TRUE</span></span>
+<span id="tldrloadcode-18"><a href="#tldrloadcode-18" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> <span class="dv">640668848</span> <span class="dv">1993-08-30</span> M[Male]    E[Employed]  <span class="fl">708.98</span>       <span class="cn">TRUE</span></span>
+<span id="tldrloadcode-19"><a href="#tldrloadcode-19" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="dv">996464509</span> <span class="dv">1960-12-10</span> M[Male]    E[Employed] <span class="fl">1088.99</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-20"><a href="#tldrloadcode-20" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span>  <span class="dv">58820512</span> <span class="dv">1962-10-13</span> M[Male]    E[Employed] <span class="fl">2243.10</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-21"><a href="#tldrloadcode-21" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="dv">288242988</span> <span class="dv">2013-06-11</span> M[Male]    N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-22"><a href="#tldrloadcode-22" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="dv">549758863</span> <span class="dv">1990-06-09</span> M[Male]    E[Employed]  <span class="fl">719.69</span>       <span class="cn">TRUE</span></span>
+<span id="tldrloadcode-23"><a href="#tldrloadcode-23" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="dv">998045846</span> <span class="dv">1973-01-25</span> F[Female]  E[Employed] <span class="fl">1312.45</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-24"><a href="#tldrloadcode-24" aria-hidden="true" tabindex="-1"></a><span class="dv">19</span> <span class="dv">902078272</span> <span class="dv">1962-05-29</span> F[Female]  E[Employed]  <span class="fl">618.27</span>      <span class="cn">FALSE</span></span>
+<span id="tldrloadcode-25"><a href="#tldrloadcode-25" aria-hidden="true" tabindex="-1"></a><span class="dv">20</span> <span class="dv">594477489</span> <span class="dv">1952-08-31</span> <span class="sc">-</span>[Unknown] N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>       <span class="cn">TRUE</span></span></code></pre></div>
+<p>When the data resource name is omitted from
+<code>dp_load_from_datapackage()</code> either the data resource with
+same name as the data package or the first data resource is opened.</p>
 <h2 id="getting-information-from-a-data-package">Getting information
 from a Data Package</h2>
 <p>Below we open an example Data Package that comes with the
 package:</p>
 <div class="sourceCode" id="g1"><pre class="sourceCode R"><code class="sourceCode r"><span id="g1-1"><a href="#g1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(datapackage, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
-<span id="g1-2"><a href="#g1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dir <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;examples/iris&quot;</span>, <span class="at">package =</span> <span class="st">&quot;datapackage&quot;</span>)</span>
+<span id="g1-2"><a href="#g1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dir <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;examples/employ&quot;</span>, <span class="at">package =</span> <span class="st">&quot;datapackage&quot;</span>)</span>
 <span id="g1-3"><a href="#g1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp <span class="ot">&lt;-</span> <span class="fu">open_datapackage</span>(dir)</span>
-<span id="g1-4"><a href="#g1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(dp)</span>
-<span id="g1-5"><a href="#g1-5" aria-hidden="true" tabindex="-1"></a>[iris<span class="sc">-</span>example] An example data package with the iris data set</span>
+<span id="g1-4"><a href="#g1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp</span>
+<span id="g1-5"><a href="#g1-5" aria-hidden="true" tabindex="-1"></a>[example] Example data set <span class="cf">for</span> the datapackage package</span>
 <span id="g1-6"><a href="#g1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g1-7"><a href="#g1-7" aria-hidden="true" tabindex="-1"></a>A description</span>
+<span id="g1-7"><a href="#g1-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R.</span>
 <span id="g1-8"><a href="#g1-8" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="g1-9"><a href="#g1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpHF8q87<span class="sc">/</span>Rinst1ea3d1bdd030<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>iris<span class="sc">&gt;</span></span>
+<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpFfmozZ<span class="sc">/</span>Rinst21a2dc82aa5e1<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
 <span id="g1-11"><a href="#g1-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
-<span id="g1-12"><a href="#g1-12" aria-hidden="true" tabindex="-1"></a>[iris] The iris data set</span>
-<span id="g1-13"><a href="#g1-13" aria-hidden="true" tabindex="-1"></a>[complex] A complex example dataset</span>
-<span id="g1-14"><a href="#g1-14" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>factor1] Codelist <span class="cf">for</span> the factor1 field <span class="cf">in</span> the complex resource</span>
-<span id="g1-15"><a href="#g1-15" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>factor2] </span>
-<span id="g1-16"><a href="#g1-16" aria-hidden="true" tabindex="-1"></a>[inline] An inline data set</span>
-<span id="g1-17"><a href="#g1-17" aria-hidden="true" tabindex="-1"></a>[fixed<span class="sc">-</span>width] A Fixed Width Example</span></code></pre></div>
+<span id="g1-12"><a href="#g1-12" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
+<span id="g1-13"><a href="#g1-13" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>gender] Code list <span class="cf">for</span> gender of person</span>
+<span id="g1-14"><a href="#g1-14" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>employ] Code list <span class="cf">for</span> employment status</span></code></pre></div>
 <p>The print statement shows the name of the package,
-<code>iris-example</code>, the title, the first paragraph of the
-description, the location of the Data Package and the Data Resources in
-the package. In this case there are two Data Resources:</p>
+<code>example</code>, the title, the first paragraph of the description,
+the location of the Data Package and the Data Resources in the package.
+In this case there are three Data Resources:</p>
 <div class="sourceCode" id="g2"><pre class="sourceCode R"><code class="sourceCode r"><span id="g2-1"><a href="#g2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_nresources</span>(dp)</span>
-<span id="g2-2"><a href="#g2-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">6</span></span></code></pre></div>
+<span id="g2-2"><a href="#g2-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3</span></span></code></pre></div>
 <p>The names are</p>
 <div class="sourceCode" id="g3"><pre class="sourceCode R"><code class="sourceCode r"><span id="g3-1"><a href="#g3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resource_names</span>(dp)</span>
-<span id="g3-2"><a href="#g3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;iris&quot;</span>             <span class="st">&quot;complex&quot;</span>          <span class="st">&quot;codelist-factor1&quot;</span> <span class="st">&quot;codelist-factor2&quot;</span></span>
-<span id="g3-3"><a href="#g3-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">5</span>] <span class="st">&quot;inline&quot;</span>           <span class="st">&quot;fixed-width&quot;</span>     </span></code></pre></div>
-<p>Using the <code>resource</code> methode on can obtain the Data
-Resource</p>
-<div class="sourceCode" id="g4"><pre class="sourceCode R"><code class="sourceCode r"><span id="g4-1"><a href="#g4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> iris <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;iris&quot;</span>)</span>
-<span id="g4-2"><a href="#g4-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(iris)</span>
-<span id="g4-3"><a href="#g4-3" aria-hidden="true" tabindex="-1"></a>[iris] The iris data set</span>
+<span id="g3-2"><a href="#g3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;employment&quot;</span>      <span class="st">&quot;codelist-gender&quot;</span> <span class="st">&quot;codelist-employ&quot;</span></span></code></pre></div>
+<p>Using the <code>resource()</code> method on the Data Package can
+obtain the Data Resource</p>
+<div class="sourceCode" id="g4"><pre class="sourceCode R"><code class="sourceCode r"><span id="g4-1"><a href="#g4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> employ <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;employment&quot;</span>)</span>
+<span id="g4-2"><a href="#g4-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> employ</span>
+<span id="g4-3"><a href="#g4-3" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="g4-4"><a href="#g4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g4-5"><a href="#g4-5" aria-hidden="true" tabindex="-1"></a>A description of the iris data set</span>
+<span id="g4-5"><a href="#g4-5" aria-hidden="true" tabindex="-1"></a>Employment status, income and background properties of sample of persons.</span>
 <span id="g4-6"><a href="#g4-6" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="g4-7"><a href="#g4-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="g4-8"><a href="#g4-8" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
-<span id="g4-9"><a href="#g4-9" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;iris.csv&quot;</span></span>
+<span id="g4-9"><a href="#g4-9" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
 <span id="g4-10"><a href="#g4-10" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
 <span id="g4-11"><a href="#g4-11" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
-<span id="g4-12"><a href="#g4-12" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span></code></pre></div>
+<span id="g4-12"><a href="#g4-12" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="g4-13"><a href="#g4-13" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span>
+<span id="g4-14"><a href="#g4-14" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">6</span>] <span class="st">&quot;id&quot;</span> <span class="st">&quot;dob&quot;</span> <span class="st">&quot;gender&quot;</span> <span class="st">&quot;employ&quot;</span> <span class="st">&quot;income&quot;</span> <span class="st">&quot;haspartner&quot;</span></span></code></pre></div>
 <p>The <code>print</code> statement again shows the name, title and
 description. It also shows that the data is in a CSV-file anmes
-<code>iris.csv</code>. Standard the <code>print</code> shows only a few
-properties of the Data Resource. To show all properties:</p>
-<div class="sourceCode" id="g5"><pre class="sourceCode R"><code class="sourceCode r"><span id="g5-1"><a href="#g5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(iris, <span class="at">properties =</span> <span class="cn">NA</span>)</span>
-<span id="g5-2"><a href="#g5-2" aria-hidden="true" tabindex="-1"></a>[iris] The iris data set</span>
+<code>employ.csv</code>. Standard the <code>print</code> shows only a
+few properties of the Data Resource. To show all properties:</p>
+<div class="sourceCode" id="g5"><pre class="sourceCode R"><code class="sourceCode r"><span id="g5-1"><a href="#g5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(employ, <span class="at">properties =</span> <span class="cn">NA</span>)</span>
+<span id="g5-2"><a href="#g5-2" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="g5-3"><a href="#g5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g5-4"><a href="#g5-4" aria-hidden="true" tabindex="-1"></a>A description of the iris data set</span>
+<span id="g5-4"><a href="#g5-4" aria-hidden="true" tabindex="-1"></a>Employment status, income and background properties of sample of persons.</span>
 <span id="g5-5"><a href="#g5-5" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="g5-6"><a href="#g5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="g5-7"><a href="#g5-7" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
-<span id="g5-8"><a href="#g5-8" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;iris.csv&quot;</span></span>
+<span id="g5-8"><a href="#g5-8" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
 <span id="g5-9"><a href="#g5-9" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
 <span id="g5-10"><a href="#g5-10" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
-<span id="g5-11"><a href="#g5-11" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span></code></pre></div>
+<span id="g5-11"><a href="#g5-11" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="g5-12"><a href="#g5-12" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span>
+<span id="g5-13"><a href="#g5-13" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">6</span>] <span class="st">&quot;id&quot;</span> <span class="st">&quot;dob&quot;</span> <span class="st">&quot;gender&quot;</span> <span class="st">&quot;employ&quot;</span> <span class="st">&quot;income&quot;</span> <span class="st">&quot;haspartner&quot;</span></span></code></pre></div>
 <p>Using this information it should be possible to open the dataset. The
-data can be opened in R using the <code>dp_get_data</code> method. Based
-on the information in the Data Resource this function will try to open
-the dataset using the correct functions in R (in this case
-<code>read.csv</code>):</p>
-<div class="sourceCode" id="g6"><pre class="sourceCode R"><code class="sourceCode r"><span id="g6-1"><a href="#g6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_get_data</span>(iris)</span>
+data can be opened in R using the <code>dp_get_data()</code> method.
+Based on the information in the Data Resource this function will try to
+open the dataset using the correct functions in R (in this case
+<code>read.csv()</code>):</p>
+<div class="sourceCode" id="g6"><pre class="sourceCode R"><code class="sourceCode r"><span id="g6-1"><a href="#g6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_get_data</span>(employ)</span>
 <span id="g6-2"><a href="#g6-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">head</span>(dta)</span>
-<span id="g6-3"><a href="#g6-3" aria-hidden="true" tabindex="-1"></a>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
-<span id="g6-4"><a href="#g6-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>          <span class="fl">5.1</span>         <span class="fl">3.5</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g6-5"><a href="#g6-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>          <span class="fl">4.9</span>           <span class="dv">3</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g6-6"><a href="#g6-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>          <span class="fl">4.7</span>         <span class="fl">3.2</span>          <span class="fl">1.3</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g6-7"><a href="#g6-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>          <span class="fl">4.6</span>         <span class="fl">3.1</span>          <span class="fl">1.5</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g6-8"><a href="#g6-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>            <span class="dv">5</span>         <span class="fl">3.6</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g6-9"><a href="#g6-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>          <span class="fl">5.4</span>         <span class="fl">3.9</span>          <span class="fl">1.7</span>         <span class="fl">0.4</span>  setosa</span></code></pre></div>
+<span id="g6-3"><a href="#g6-3" aria-hidden="true" tabindex="-1"></a>         id        dob gender employ  income haspartner</span>
+<span id="g6-4"><a href="#g6-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="dv">368509515</span> <span class="dv">1993-06-14</span>      M      E <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="g6-5"><a href="#g6-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="dv">187844355</span> <span class="dv">1961-10-08</span>      X      U      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="g6-6"><a href="#g6-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="dv">273040044</span> <span class="dv">1982-06-17</span>      F      E  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="g6-7"><a href="#g6-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="dv">963831798</span> <span class="dv">1965-02-15</span>      M      E  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="g6-8"><a href="#g6-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="dv">854856378</span> <span class="dv">1990-01-30</span>      F      E  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="g6-9"><a href="#g6-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>  <span class="dv">20072760</span> <span class="dv">1961-08-18</span>      F      E <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span></code></pre></div>
 <p>It is also possible to import the data directly from the Data Package
 object by specifying the resource for which the data needs to be
 imported.</p>
-<div class="sourceCode" id="g7"><pre class="sourceCode R"><code class="sourceCode r"><span id="g7-1"><a href="#g7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_get_data</span>(dp, <span class="st">&quot;iris&quot;</span>)</span></code></pre></div>
-<p>The <code>dp_get_data</code> method only supports a limited set of
+<div class="sourceCode" id="g7"><pre class="sourceCode R"><code class="sourceCode r"><span id="g7-1"><a href="#g7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_get_data</span>(dp, <span class="st">&quot;employment&quot;</span>)</span></code></pre></div>
+<p>The <code>dp_get_data()</code> method only supports a limited set of
 data formats. It is possible to also provide a custum function to read
 the data using the <code>reader</code> argument of
-<code>dp_get_data</code>. However, it is also possible to import the
+<code>dp_get_data()</code>. However, it is also possible to import the
 data ‘manually’ using the information in the Data Package. The path of
-the file in a Data Resource can be obtained using the <code>path</code>
-method:</p>
-<div class="sourceCode" id="g8"><pre class="sourceCode R"><code class="sourceCode r"><span id="g8-1"><a href="#g8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(iris)</span>
-<span id="g8-2"><a href="#g8-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;iris.csv&quot;</span></span></code></pre></div>
+the file in a Data Resource can be obtained using the
+<code>dp_path()</code> method:</p>
+<div class="sourceCode" id="g8"><pre class="sourceCode R"><code class="sourceCode r"><span id="g8-1"><a href="#g8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ)</span>
+<span id="g8-2"><a href="#g8-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;employ.csv&quot;</span></span></code></pre></div>
 <p>By default this will return the path as defined in the Data Package.
 This either a path relative to the directory in which the Data Package
 is located or a URL. To open a file inside the Data Package one also
-needs the location of the Data Package. This is stored in the
-<code>path</code> attribute of the Data Package and Resource:</p>
-<div class="sourceCode" id="g9"><pre class="sourceCode R"><code class="sourceCode r"><span id="g9-1"><a href="#g9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">attr</span>(dp, <span class="st">&quot;path&quot;</span>)</span>
-<span id="g9-2"><a href="#g9-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpHF8q87/Rinst1ea3d1bdd030/datapackage/examples/iris&quot;</span></span>
-<span id="g9-3"><a href="#g9-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">attr</span>(iris, <span class="st">&quot;path&quot;</span>)</span>
-<span id="g9-4"><a href="#g9-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpHF8q87/Rinst1ea3d1bdd030/datapackage/examples/iris&quot;</span></span></code></pre></div>
-<p>Using the <code>full_path = TRUE</code> argument, <code>path</code>
-will return the full path to the file:</p>
-<div class="sourceCode" id="g10"><pre class="sourceCode R"><code class="sourceCode r"><span id="g10-1"><a href="#g10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> fn <span class="ot">&lt;-</span> <span class="fu">dp_path</span>(iris, <span class="at">full_path =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+needs the location of the Data Package. Using the
+<code>full_path = TRUE</code> argument, <code>dp_path()</code> will
+return the full path to the file:</p>
+<div class="sourceCode" id="g10"><pre class="sourceCode R"><code class="sourceCode r"><span id="g10-1"><a href="#g10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> fn <span class="ot">&lt;-</span> <span class="fu">dp_path</span>(employ, <span class="at">full_path =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>This path can be used to open the file manually:</p>
-<div class="sourceCode" id="g11"><pre class="sourceCode R"><code class="sourceCode r"><span id="g11-1"><a href="#g11-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(fn)</span>
+<div class="sourceCode" id="g11"><pre class="sourceCode R"><code class="sourceCode r"><span id="g11-1"><a href="#g11-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(fn)</span>
 <span id="g11-2"><a href="#g11-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">head</span>(dta)</span>
-<span id="g11-3"><a href="#g11-3" aria-hidden="true" tabindex="-1"></a>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
-<span id="g11-4"><a href="#g11-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>          <span class="fl">5.1</span>         <span class="fl">3.5</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g11-5"><a href="#g11-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>          <span class="fl">4.9</span>         <span class="fl">3.0</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g11-6"><a href="#g11-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>          <span class="fl">4.7</span>         <span class="fl">3.2</span>          <span class="fl">1.3</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g11-7"><a href="#g11-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>          <span class="fl">4.6</span>         <span class="fl">3.1</span>          <span class="fl">1.5</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g11-8"><a href="#g11-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>          <span class="fl">5.0</span>         <span class="fl">3.6</span>          <span class="fl">1.4</span>         <span class="fl">0.2</span>  setosa</span>
-<span id="g11-9"><a href="#g11-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>          <span class="fl">5.4</span>         <span class="fl">3.9</span>          <span class="fl">1.7</span>         <span class="fl">0.4</span>  setosa</span></code></pre></div>
-<p>Note that the <code>path</code> property of a Data Resource can be a
-vector of paths in case a single data set is stored in a set of files.
-It is assumed then that the files have the same format. Therefore,
-<code>rbind</code> should work on these files.</p>
+<span id="g11-3"><a href="#g11-3" aria-hidden="true" tabindex="-1"></a>         id        dob gender employ   income haspartner</span>
+<span id="g11-4"><a href="#g11-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="dv">368509515</span> <span class="dv">1993-06-14</span>      M      E €<span class="dv">2</span> <span class="dv">691</span>,<span class="dv">8</span>          N</span>
+<span id="g11-5"><a href="#g11-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="dv">187844355</span> <span class="dv">1961-10-08</span>      X      U     <span class="sc">&lt;</span><span class="cn">NA</span><span class="sc">&gt;</span>          N</span>
+<span id="g11-6"><a href="#g11-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="dv">273040044</span> <span class="dv">1982-06-17</span>      F      E  €<span class="dv">533</span>,<span class="dv">65</span>          N</span>
+<span id="g11-7"><a href="#g11-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="dv">963831798</span> <span class="dv">1965-02-15</span>      M      E  €<span class="dv">790</span>,<span class="dv">13</span>          N</span>
+<span id="g11-8"><a href="#g11-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="dv">854856378</span> <span class="dv">1990-01-30</span>      F      E  €<span class="dv">716</span>,<span class="dv">79</span>          Y</span>
+<span id="g11-9"><a href="#g11-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>  <span class="dv">20072760</span> <span class="dv">1961-08-18</span>      F      E €<span class="dv">1</span> <span class="dv">651</span>,<span class="dv">6</span>          N</span></code></pre></div>
+<p>First, note that we had to ‘know’ that we had to use
+<code>read.csv2</code> since the file uses the ‘<code>;</code>’ as field
+separator. Information like this is stored in the ‘dialect’ property of
+a data resource:</p>
+<div class="sourceCode" id="dialect"><pre class="sourceCode R"><code class="sourceCode r"><span id="dialect-1"><a href="#dialect-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_property</span>(employ, <span class="st">&quot;dialect&quot;</span>)</span>
+<span id="dialect-2"><a href="#dialect-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>decimalChar</span>
+<span id="dialect-3"><a href="#dialect-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;,&quot;</span></span>
+<span id="dialect-4"><a href="#dialect-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="dialect-5"><a href="#dialect-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>delimiter</span>
+<span id="dialect-6"><a href="#dialect-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;;&quot;</span></span>
+<span id="dialect-7"><a href="#dialect-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="dialect-8"><a href="#dialect-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>nullSequence</span>
+<span id="dialect-9"><a href="#dialect-9" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;NA&quot;</span></span></code></pre></div>
+<p>Second, note that the field ‘income’ is not converted to numeric as
+this field contains euro symbols and used a space as thousands
+separator. Information like this is stored in the field descriptor:</p>
+<div class="sourceCode" id="income"><pre class="sourceCode R"><code class="sourceCode r"><span id="income-1"><a href="#income-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_field</span>(employ, <span class="st">&quot;income&quot;</span>)</span>
+<span id="income-2"><a href="#income-2" aria-hidden="true" tabindex="-1"></a>Field Descriptor<span class="sc">:</span></span>
+<span id="income-3"><a href="#income-3" aria-hidden="true" tabindex="-1"></a>name       <span class="sc">:</span><span class="st">&quot;income&quot;</span></span>
+<span id="income-4"><a href="#income-4" aria-hidden="true" tabindex="-1"></a>title      <span class="sc">:</span><span class="st">&quot;Net income&quot;</span></span>
+<span id="income-5"><a href="#income-5" aria-hidden="true" tabindex="-1"></a>type       <span class="sc">:</span><span class="st">&quot;number&quot;</span></span>
+<span id="income-6"><a href="#income-6" aria-hidden="true" tabindex="-1"></a>bareNumber <span class="sc">:</span><span class="cn">FALSE</span></span>
+<span id="income-7"><a href="#income-7" aria-hidden="true" tabindex="-1"></a>decimalChar<span class="sc">:</span><span class="st">&quot;,&quot;</span></span>
+<span id="income-8"><a href="#income-8" aria-hidden="true" tabindex="-1"></a>groupChar  <span class="sc">:</span><span class="st">&quot; &quot;</span></span></code></pre></div>
+<p><code>dp_get_data()</code> uses the information from the field
+descriptors and dialect to automatically convert variables as much a
+possible to their most fitting R types. This is done using the
+<code>dp_apply_schema()</code> function:</p>
+<div class="sourceCode" id="dpapplyschema"><pre class="sourceCode R"><code class="sourceCode r"><span id="dpapplyschema-1"><a href="#dpapplyschema-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_apply_schema</span>(dta, employ)</span>
+<span id="dpapplyschema-2"><a href="#dpapplyschema-2" aria-hidden="true" tabindex="-1"></a>          id        dob gender employ  income haspartner</span>
+<span id="dpapplyschema-3"><a href="#dpapplyschema-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">368509515</span> <span class="dv">1993-06-14</span>      M      E <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-4"><a href="#dpapplyschema-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">187844355</span> <span class="dv">1961-10-08</span>      X      U      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-5"><a href="#dpapplyschema-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">273040044</span> <span class="dv">1982-06-17</span>      F      E  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-6"><a href="#dpapplyschema-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>  <span class="dv">963831798</span> <span class="dv">1965-02-15</span>      M      E  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-7"><a href="#dpapplyschema-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>  <span class="dv">854856378</span> <span class="dv">1990-01-30</span>      F      E  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="dpapplyschema-8"><a href="#dpapplyschema-8" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">20072760</span> <span class="dv">1961-08-18</span>      F      E <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-9"><a href="#dpapplyschema-9" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span>  <span class="dv">429782078</span> <span class="dv">2019-09-23</span>      M      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-10"><a href="#dpapplyschema-10" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span>  <span class="dv">711292034</span> <span class="dv">1994-02-16</span>      M      E  <span class="fl">455.98</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-11"><a href="#dpapplyschema-11" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>  <span class="dv">949458305</span> <span class="dv">2005-06-16</span>      F      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-12"><a href="#dpapplyschema-12" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">911459071</span> <span class="dv">2007-02-27</span>      F      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-13"><a href="#dpapplyschema-13" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="dv">921370403</span> <span class="dv">1981-09-14</span>      F      E <span class="fl">1461.36</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-14"><a href="#dpapplyschema-14" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>  <span class="dv">26901869</span> <span class="dv">1981-03-08</span>      F      E <span class="fl">1153.02</span>       <span class="cn">TRUE</span></span>
+<span id="dpapplyschema-15"><a href="#dpapplyschema-15" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> <span class="dv">640668848</span> <span class="dv">1993-08-30</span>      M      E  <span class="fl">708.98</span>       <span class="cn">TRUE</span></span>
+<span id="dpapplyschema-16"><a href="#dpapplyschema-16" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="dv">996464509</span> <span class="dv">1960-12-10</span>      M      E <span class="fl">1088.99</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-17"><a href="#dpapplyschema-17" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span>  <span class="dv">58820512</span> <span class="dv">1962-10-13</span>      M      E <span class="fl">2243.10</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-18"><a href="#dpapplyschema-18" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="dv">288242988</span> <span class="dv">2013-06-11</span>      M      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-19"><a href="#dpapplyschema-19" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="dv">549758863</span> <span class="dv">1990-06-09</span>      M      E  <span class="fl">719.69</span>       <span class="cn">TRUE</span></span>
+<span id="dpapplyschema-20"><a href="#dpapplyschema-20" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="dv">998045846</span> <span class="dv">1973-01-25</span>      F      E <span class="fl">1312.45</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-21"><a href="#dpapplyschema-21" aria-hidden="true" tabindex="-1"></a><span class="dv">19</span> <span class="dv">902078272</span> <span class="dv">1962-05-29</span>      F      E  <span class="fl">618.27</span>      <span class="cn">FALSE</span></span>
+<span id="dpapplyschema-22"><a href="#dpapplyschema-22" aria-hidden="true" tabindex="-1"></a><span class="dv">20</span> <span class="dv">594477489</span> <span class="dv">1952-08-31</span>      <span class="sc">-</span>      N      <span class="cn">NA</span>       <span class="cn">TRUE</span></span></code></pre></div>
+<p>Finally, note that the <code>path</code> property of a Data Resource
+can be a vector of paths in case a single data set is stored in a set of
+files. It is assumed then that the files have the same format.
+Therefore, <code>rbind</code> should work on these files.</p>
 <p>Below is an alternative way of importing the data belonging to a Data
 Resource. Here we use the pipe operator to chain the various commands to
-import the ‘inline’ data set. In this example data set the data is
-stored inside the Data Package.</p>
-<div class="sourceCode" id="g12"><pre class="sourceCode R"><code class="sourceCode r"><span id="g12-1"><a href="#g12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;inline&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_get_data</span>()</span>
+import the data set.</p>
+<div class="sourceCode" id="g12"><pre class="sourceCode R"><code class="sourceCode r"><span id="g12-1"><a href="#g12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;employment&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_get_data</span>()</span>
 <span id="g12-2"><a href="#g12-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">head</span>(dta)</span>
-<span id="g12-3"><a href="#g12-3" aria-hidden="true" tabindex="-1"></a>  field1 field2</span>
-<span id="g12-4"><a href="#g12-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">10</span>     <span class="dv">20</span></span>
-<span id="g12-5"><a href="#g12-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">20</span>     <span class="dv">21</span></span>
-<span id="g12-6"><a href="#g12-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">30</span>     <span class="dv">22</span></span></code></pre></div>
+<span id="g12-3"><a href="#g12-3" aria-hidden="true" tabindex="-1"></a>         id        dob gender employ  income haspartner</span>
+<span id="g12-4"><a href="#g12-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="dv">368509515</span> <span class="dv">1993-06-14</span>      M      E <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="g12-5"><a href="#g12-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="dv">187844355</span> <span class="dv">1961-10-08</span>      X      U      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="g12-6"><a href="#g12-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="dv">273040044</span> <span class="dv">1982-06-17</span>      F      E  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="g12-7"><a href="#g12-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="dv">963831798</span> <span class="dv">1965-02-15</span>      M      E  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="g12-8"><a href="#g12-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="dv">854856378</span> <span class="dv">1990-01-30</span>      F      E  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="g12-9"><a href="#g12-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>  <span class="dv">20072760</span> <span class="dv">1961-08-18</span>      F      E <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span></code></pre></div>
 <h2 id="reading-properties-from-data-packages-and-data-resources">Reading
 properties from Data Packages and Data Resources</h2>
 <p>For many of the standard fields of a Data Packages, methods are
 defined to obtain the values of these fields:</p>
 <div class="sourceCode" id="r1"><pre class="sourceCode R"><code class="sourceCode r"><span id="r1-1"><a href="#r1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_name</span>(dp)</span>
-<span id="r1-2"><a href="#r1-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;iris-example&quot;</span></span>
+<span id="r1-2"><a href="#r1-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;example&quot;</span></span>
 <span id="r1-3"><a href="#r1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_description</span>(dp)</span>
-<span id="r1-4"><a href="#r1-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;A description</span><span class="sc">\n\n</span><span class="st">The second paragraph of the description&quot;</span></span>
+<span id="r1-4"><a href="#r1-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;This is an example data set to show how the datapackage package can be used to import data into R.</span><span class="sc">\n\n</span><span class="st">Its main data resource is the `employ` resource which contains fictional data about individuals. The other data resources are supporting data sets.&quot;</span></span>
 <span id="r1-5"><a href="#r1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_description</span>(dp, <span class="at">first_paragraph =</span> <span class="cn">TRUE</span>)</span>
-<span id="r1-6"><a href="#r1-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;A description&quot;</span></span>
+<span id="r1-6"><a href="#r1-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;This is an example data set to show how the datapackage package can be used to import data into R.&quot;</span></span>
 <span id="r1-7"><a href="#r1-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_title</span>(dp)</span>
-<span id="r1-8"><a href="#r1-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;An example data package with the iris data set&quot;</span></span></code></pre></div>
+<span id="r1-8"><a href="#r1-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;Example data set for the datapackage package&quot;</span></span></code></pre></div>
 <p>The same holds for Data Resources:</p>
-<div class="sourceCode" id="r2"><pre class="sourceCode R"><code class="sourceCode r"><span id="r2-1"><a href="#r2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_title</span>(iris)</span>
-<span id="r2-2"><a href="#r2-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;The iris data set&quot;</span></span>
-<span id="r2-3"><a href="#r2-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;inline&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_title</span>()</span>
-<span id="r2-4"><a href="#r2-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;An inline data set&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="r2"><pre class="sourceCode R"><code class="sourceCode r"><span id="r2-1"><a href="#r2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_title</span>(employ)</span>
+<span id="r2-2"><a href="#r2-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;Employment status&quot;</span></span>
+<span id="r2-3"><a href="#r2-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;codelist-employ&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_title</span>()</span>
+<span id="r2-4"><a href="#r2-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;Code list for employment status&quot;</span></span></code></pre></div>
 <p>For <code>datapackage</code> objects there are currently defined the
 following methods: (this list can be obtained using
-<code>?properties_datapackage</code>)</p>
+<code>?PropertiesDatapackage</code>)</p>
 <ul>
-<li><code>dp_name</code></li>
-<li><code>dp_title</code></li>
-<li><code>dp_description</code></li>
-<li><code>dp_keywords</code></li>
-<li><code>dp_created</code></li>
-<li><code>dp_id</code></li>
-<li><code>dp_contributors</code></li>
+<li><code>dp_contributors()</code></li>
+<li><code>dp_created()</code></li>
+<li><code>dp_description()</code></li>
+<li><code>dp_id()</code></li>
+<li><code>dp_keywords()</code></li>
+<li><code>dp_name()</code></li>
+<li><code>dp_title()</code></li>
 </ul>
 <p>For <code>dataresource</code> objects there are currently defined the
 following methods (this list can be obtained using
 <code>?properties_dataresource</code>)</p>
 <ul>
-<li><code>dp_name</code></li>
-<li><code>dp_title</code></li>
-<li><code>dp_description</code></li>
-<li><code>dp_path</code></li>
-<li><code>dp_format</code></li>
-<li><code>dp_mediatype</code></li>
-<li><code>dp_encoding</code></li>
-<li><code>dp_bytes</code></li>
-<li><code>dp_hash</code></li>
+<li><code>dp_bytes()</code></li>
+<li><code>dp_encoding()</code></li>
+<li><code>dp_description()</code></li>
+<li><code>dp_format()</code></li>
+<li><code>dp_hash()</code></li>
+<li><code>dp_name()</code></li>
+<li><code>dp_mediatype()</code></li>
+<li><code>dp_path()</code></li>
+<li><code>dp_schema()</code></li>
+<li><code>dp_title()</code></li>
 </ul>
-<p>The <code>dp_path</code> method has a <code>full_path</code> argument
-that, when used, returns the full path to the Data Resources data and
-not just the path relative to the Data Package. The full path is needed
-when one wants to use the path to read the data.</p>
-<div class="sourceCode" id="r3"><pre class="sourceCode R"><code class="sourceCode r"><span id="r3-1"><a href="#r3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(iris)</span>
-<span id="r3-2"><a href="#r3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;iris.csv&quot;</span></span>
-<span id="r3-3"><a href="#r3-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(iris, <span class="at">full_path =</span> <span class="cn">TRUE</span>)</span>
-<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpHF8q87/Rinst1ea3d1bdd030/datapackage/examples/iris/iris.csv&quot;</span></span></code></pre></div>
+<p>The <code>dp_path()</code> method has a <code>full_path</code>
+argument that, when used, returns the full path to the Data Resources
+data and not just the path relative to the Data Package. The full path
+is needed when one wants to use the path to read the data.</p>
+<div class="sourceCode" id="r3"><pre class="sourceCode R"><code class="sourceCode r"><span id="r3-1"><a href="#r3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ)</span>
+<span id="r3-2"><a href="#r3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;employ.csv&quot;</span></span>
+<span id="r3-3"><a href="#r3-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ, <span class="at">full_path =</span> <span class="cn">TRUE</span>)</span>
+<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpFfmozZ/Rinst21a2dc82aa5e1/datapackage/examples/employ/employ.csv&quot;</span></span></code></pre></div>
 <p>It is also possible to get other properties than the ones explicitly
-mentioned above using the <code>dp_property</code> method:</p>
-<div class="sourceCode" id="r4"><pre class="sourceCode R"><code class="sourceCode r"><span id="r4-1"><a href="#r4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_property</span>(iris, <span class="st">&quot;encoding&quot;</span>)</span>
+mentioned above using the <code>dp_property()</code> method:</p>
+<div class="sourceCode" id="r4"><pre class="sourceCode R"><code class="sourceCode r"><span id="r4-1"><a href="#r4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_property</span>(employ, <span class="st">&quot;encoding&quot;</span>)</span>
 <span id="r4-2"><a href="#r4-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;utf-8&quot;</span></span></code></pre></div>
 <h2 id="working-with-categories">Working with categories</h2>
 <p>It is possible for fields to have a list of <a href="https://datapackage.org/standard/table-schema/#categories">categories
@@ -540,69 +713,130 @@ associated with them</a>. Categories are usually stored inside the Field
 Descriptor. However, the <code>datapackage</code> package also supports
 lists of categories stored in a seperate Data Resource (this is not part
 of the datapackage standard).</p>
-<p>In the ‘complex’ example resource, there is a column ‘factor1’:</p>
-<div class="sourceCode" id="c1"><pre class="sourceCode R"><code class="sourceCode r"><span id="c1-1"><a href="#c1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> complex <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;complex&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_get_data</span>()</span>
-<span id="c1-2"><a href="#c1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(complex)</span>
-<span id="c1-3"><a href="#c1-3" aria-hidden="true" tabindex="-1"></a>  string1 integer1 boolean1  number1    number2 boolean2      date1 factor1</span>
-<span id="c1-4"><a href="#c1-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>       a        <span class="dv">1</span>     <span class="cn">TRUE</span>  <span class="fl">1.2e+00</span>      <span class="fl">1.200</span>     <span class="cn">TRUE</span> <span class="dv">2020-01-01</span>       <span class="dv">1</span></span>
-<span id="c1-5"><a href="#c1-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>       b     <span class="sc">-</span><span class="dv">100</span>    <span class="cn">FALSE</span> <span class="sc">-</span><span class="fl">1.0e-04</span>     <span class="sc">-</span><span class="fl">0.001</span>    <span class="cn">FALSE</span> <span class="dv">2022-01-12</span>       <span class="dv">2</span></span>
-<span id="c1-6"><a href="#c1-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>       c       <span class="cn">NA</span>     <span class="cn">TRUE</span>      <span class="cn">Inf</span>   <span class="fl">1100.000</span>     <span class="cn">TRUE</span>       <span class="sc">&lt;</span><span class="cn">NA</span><span class="sc">&gt;</span>       <span class="dv">1</span></span>
-<span id="c1-7"><a href="#c1-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>              <span class="dv">100</span>     <span class="cn">TRUE</span>  <span class="fl">1.0e+04</span> <span class="sc">-</span><span class="fl">11000.400</span>       <span class="cn">NA</span> <span class="dv">1950-10-10</span>       <span class="dv">3</span></span>
-<span id="c1-8"><a href="#c1-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>       f        <span class="dv">0</span>       <span class="cn">NA</span>      <span class="cn">NaN</span>         <span class="cn">NA</span>    <span class="cn">FALSE</span> <span class="dv">1920-12-10</span>      <span class="cn">NA</span></span>
-<span id="c1-9"><a href="#c1-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>       g        <span class="dv">0</span>    <span class="cn">FALSE</span>       <span class="cn">NA</span>      <span class="fl">0.000</span>     <span class="cn">TRUE</span> <span class="dv">2002-02-20</span>       <span class="dv">3</span></span>
-<span id="c1-10"><a href="#c1-10" aria-hidden="true" tabindex="-1"></a>  factor2</span>
-<span id="c1-11"><a href="#c1-11" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">101</span></span>
-<span id="c1-12"><a href="#c1-12" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">102</span></span>
-<span id="c1-13"><a href="#c1-13" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">101</span></span>
-<span id="c1-14"><a href="#c1-14" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>     <span class="dv">103</span></span>
-<span id="c1-15"><a href="#c1-15" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>     <span class="dv">102</span></span>
-<span id="c1-16"><a href="#c1-16" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>    <span class="sc">&lt;</span><span class="cn">NA</span><span class="sc">&gt;</span></span></code></pre></div>
-<p>This is an integer column but it has an ‘categories’ property set
-which points to a Data Resource in the Data Package. It is possible te
-get this list of categories</p>
-<div class="sourceCode" id="c2"><pre class="sourceCode R"><code class="sourceCode r"><span id="c2-1"><a href="#c2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_categorieslist</span>(complex<span class="sc">$</span>factor1)</span>
-<span id="c2-2"><a href="#c2-2" aria-hidden="true" tabindex="-1"></a>  code     label</span>
-<span id="c2-3"><a href="#c2-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>    <span class="dv">1</span>    Purple</span>
-<span id="c2-4"><a href="#c2-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>    <span class="dv">2</span>       Red</span>
-<span id="c2-5"><a href="#c2-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>    <span class="dv">3</span>     Other</span>
-<span id="c2-6"><a href="#c2-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>    <span class="dv">0</span> Not given</span></code></pre></div>
+<p>In the example resource, there is are ‘gender’ and ‘employ’ that have
+categories associated with them:</p>
+<div class="sourceCode" id="c1"><pre class="sourceCode R"><code class="sourceCode r"><span id="c1-1"><a href="#c1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;employment&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_get_data</span>()</span>
+<span id="c1-2"><a href="#c1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta</span>
+<span id="c1-3"><a href="#c1-3" aria-hidden="true" tabindex="-1"></a>          id        dob gender employ  income haspartner</span>
+<span id="c1-4"><a href="#c1-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">368509515</span> <span class="dv">1993-06-14</span>      M      E <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="c1-5"><a href="#c1-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">187844355</span> <span class="dv">1961-10-08</span>      X      U      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c1-6"><a href="#c1-6" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">273040044</span> <span class="dv">1982-06-17</span>      F      E  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="c1-7"><a href="#c1-7" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>  <span class="dv">963831798</span> <span class="dv">1965-02-15</span>      M      E  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="c1-8"><a href="#c1-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>  <span class="dv">854856378</span> <span class="dv">1990-01-30</span>      F      E  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="c1-9"><a href="#c1-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">20072760</span> <span class="dv">1961-08-18</span>      F      E <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span>
+<span id="c1-10"><a href="#c1-10" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span>  <span class="dv">429782078</span> <span class="dv">2019-09-23</span>      M      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c1-11"><a href="#c1-11" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span>  <span class="dv">711292034</span> <span class="dv">1994-02-16</span>      M      E  <span class="fl">455.98</span>      <span class="cn">FALSE</span></span>
+<span id="c1-12"><a href="#c1-12" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>  <span class="dv">949458305</span> <span class="dv">2005-06-16</span>      F      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c1-13"><a href="#c1-13" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">911459071</span> <span class="dv">2007-02-27</span>      F      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c1-14"><a href="#c1-14" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="dv">921370403</span> <span class="dv">1981-09-14</span>      F      E <span class="fl">1461.36</span>      <span class="cn">FALSE</span></span>
+<span id="c1-15"><a href="#c1-15" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>  <span class="dv">26901869</span> <span class="dv">1981-03-08</span>      F      E <span class="fl">1153.02</span>       <span class="cn">TRUE</span></span>
+<span id="c1-16"><a href="#c1-16" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> <span class="dv">640668848</span> <span class="dv">1993-08-30</span>      M      E  <span class="fl">708.98</span>       <span class="cn">TRUE</span></span>
+<span id="c1-17"><a href="#c1-17" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="dv">996464509</span> <span class="dv">1960-12-10</span>      M      E <span class="fl">1088.99</span>      <span class="cn">FALSE</span></span>
+<span id="c1-18"><a href="#c1-18" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span>  <span class="dv">58820512</span> <span class="dv">1962-10-13</span>      M      E <span class="fl">2243.10</span>      <span class="cn">FALSE</span></span>
+<span id="c1-19"><a href="#c1-19" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="dv">288242988</span> <span class="dv">2013-06-11</span>      M      N      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c1-20"><a href="#c1-20" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="dv">549758863</span> <span class="dv">1990-06-09</span>      M      E  <span class="fl">719.69</span>       <span class="cn">TRUE</span></span>
+<span id="c1-21"><a href="#c1-21" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="dv">998045846</span> <span class="dv">1973-01-25</span>      F      E <span class="fl">1312.45</span>      <span class="cn">FALSE</span></span>
+<span id="c1-22"><a href="#c1-22" aria-hidden="true" tabindex="-1"></a><span class="dv">19</span> <span class="dv">902078272</span> <span class="dv">1962-05-29</span>      F      E  <span class="fl">618.27</span>      <span class="cn">FALSE</span></span>
+<span id="c1-23"><a href="#c1-23" aria-hidden="true" tabindex="-1"></a><span class="dv">20</span> <span class="dv">594477489</span> <span class="dv">1952-08-31</span>      <span class="sc">-</span>      N      <span class="cn">NA</span>       <span class="cn">TRUE</span></span></code></pre></div>
+<p>This is string column but it has an ‘categories’ property set which
+points to a Data Resource in the Data Package. It is possible te get
+this list of</p>
+<p>categories</p>
+<div class="sourceCode" id="c2"><pre class="sourceCode R"><code class="sourceCode r"><span id="c2-1"><a href="#c2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_categorieslist</span>(dta<span class="sc">$</span>employ)</span>
+<span id="c2-2"><a href="#c2-2" aria-hidden="true" tabindex="-1"></a>  code                  label missing</span>
+<span id="c2-3"><a href="#c2-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>    E               Employed   <span class="cn">FALSE</span></span>
+<span id="c2-4"><a href="#c2-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>    U             Unemployed   <span class="cn">FALSE</span></span>
+<span id="c2-5"><a href="#c2-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>    N Non<span class="sc">-</span>working<span class="sc">-</span>population   <span class="cn">FALSE</span></span>
+<span id="c2-6"><a href="#c2-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>    X                Unknown    <span class="cn">TRUE</span></span></code></pre></div>
 <p>This list of categories can also be used to convert the field to
 factor:</p>
-<div class="sourceCode" id="c3"><pre class="sourceCode R"><code class="sourceCode r"><span id="c3-1"><a href="#c3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_to_factor</span>(complex<span class="sc">$</span>factor1)</span>
-<span id="c3-2"><a href="#c3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] Purple Red    Purple Other  <span class="sc">&lt;</span><span class="cn">NA</span><span class="sc">&gt;</span>   Other </span>
-<span id="c3-3"><a href="#c3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">&quot;fielddescriptor&quot;</span>)</span>
-<span id="c3-4"><a href="#c3-4" aria-hidden="true" tabindex="-1"></a>Field Descriptor<span class="sc">:</span></span>
-<span id="c3-5"><a href="#c3-5" aria-hidden="true" tabindex="-1"></a>name      <span class="sc">:</span><span class="st">&quot;factor1&quot;</span></span>
-<span id="c3-6"><a href="#c3-6" aria-hidden="true" tabindex="-1"></a>type      <span class="sc">:</span><span class="st">&quot;integer&quot;</span></span>
-<span id="c3-7"><a href="#c3-7" aria-hidden="true" tabindex="-1"></a>categories<span class="sc">:</span>List of <span class="dv">1</span></span>
-<span id="c3-8"><a href="#c3-8" aria-hidden="true" tabindex="-1"></a>Levels<span class="sc">:</span> Purple Red Other Not given</span></code></pre></div>
+<div class="sourceCode" id="c3"><pre class="sourceCode R"><code class="sourceCode r"><span id="c3-1"><a href="#c3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_to_factor</span>(dta<span class="sc">$</span>employ)</span>
+<span id="c3-2"><a href="#c3-2" aria-hidden="true" tabindex="-1"></a> [<span class="dv">1</span>] Employed               Unemployed             Employed              </span>
+<span id="c3-3"><a href="#c3-3" aria-hidden="true" tabindex="-1"></a> [<span class="dv">4</span>] Employed               Employed               Employed              </span>
+<span id="c3-4"><a href="#c3-4" aria-hidden="true" tabindex="-1"></a> [<span class="dv">7</span>] Non<span class="sc">-</span>working<span class="sc">-</span>population Employed               Non<span class="sc">-</span>working<span class="sc">-</span>population</span>
+<span id="c3-5"><a href="#c3-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">10</span>] Non<span class="sc">-</span>working<span class="sc">-</span>population Employed               Employed              </span>
+<span id="c3-6"><a href="#c3-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">13</span>] Employed               Employed               Employed              </span>
+<span id="c3-7"><a href="#c3-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">16</span>] Non<span class="sc">-</span>working<span class="sc">-</span>population Employed               Employed              </span>
+<span id="c3-8"><a href="#c3-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">19</span>] Employed               Non<span class="sc">-</span>working<span class="sc">-</span>population</span>
+<span id="c3-9"><a href="#c3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">&quot;fielddescriptor&quot;</span>)</span>
+<span id="c3-10"><a href="#c3-10" aria-hidden="true" tabindex="-1"></a>Field Descriptor<span class="sc">:</span></span>
+<span id="c3-11"><a href="#c3-11" aria-hidden="true" tabindex="-1"></a>name      <span class="sc">:</span><span class="st">&quot;employ&quot;</span></span>
+<span id="c3-12"><a href="#c3-12" aria-hidden="true" tabindex="-1"></a>title     <span class="sc">:</span><span class="st">&quot;Employment status&quot;</span></span>
+<span id="c3-13"><a href="#c3-13" aria-hidden="true" tabindex="-1"></a>type      <span class="sc">:</span><span class="st">&quot;string&quot;</span></span>
+<span id="c3-14"><a href="#c3-14" aria-hidden="true" tabindex="-1"></a>categories<span class="sc">:</span>List of <span class="dv">1</span></span>
+<span id="c3-15"><a href="#c3-15" aria-hidden="true" tabindex="-1"></a>Levels<span class="sc">:</span> Employed Unemployed Non<span class="sc">-</span>working<span class="sc">-</span>population Unknown</span></code></pre></div>
 <p>Using the <code>convert_categories = &quot;to_factor&quot;</code> argument of
-the <code>csv_reader</code> it is also possible to convert all fields
+<code>dp_apply_schema()</code> (which is called by
+<code>dp_get_data()</code>) it is also possible to convert all fields
 which have an associated ‘categories’ field to factor:</p>
-<div class="sourceCode" id="c4"><pre class="sourceCode R"><code class="sourceCode r"><span id="c4-1"><a href="#c4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> complex <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;complex&quot;</span>) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode" id="c4"><pre class="sourceCode R"><code class="sourceCode r"><span id="c4-1"><a href="#c4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;employment&quot;</span>) <span class="sc">|&gt;</span> </span>
 <span id="c4-2"><a href="#c4-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">dp_get_data</span>(<span class="at">convert_categories =</span> <span class="st">&quot;to_factor&quot;</span>)</span>
-<span id="c4-3"><a href="#c4-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(complex)</span>
-<span id="c4-4"><a href="#c4-4" aria-hidden="true" tabindex="-1"></a>  string1 integer1 boolean1  number1    number2 boolean2      date1 factor1</span>
-<span id="c4-5"><a href="#c4-5" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>       a        <span class="dv">1</span>     <span class="cn">TRUE</span>  <span class="fl">1.2e+00</span>      <span class="fl">1.200</span>     <span class="cn">TRUE</span> <span class="dv">2020-01-01</span>  Purple</span>
-<span id="c4-6"><a href="#c4-6" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>       b     <span class="sc">-</span><span class="dv">100</span>    <span class="cn">FALSE</span> <span class="sc">-</span><span class="fl">1.0e-04</span>     <span class="sc">-</span><span class="fl">0.001</span>    <span class="cn">FALSE</span> <span class="dv">2022-01-12</span>     Red</span>
-<span id="c4-7"><a href="#c4-7" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>       c       <span class="cn">NA</span>     <span class="cn">TRUE</span>      <span class="cn">Inf</span>   <span class="fl">1100.000</span>     <span class="cn">TRUE</span>       <span class="sc">&lt;</span><span class="cn">NA</span><span class="sc">&gt;</span>  Purple</span>
-<span id="c4-8"><a href="#c4-8" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>              <span class="dv">100</span>     <span class="cn">TRUE</span>  <span class="fl">1.0e+04</span> <span class="sc">-</span><span class="fl">11000.400</span>       <span class="cn">NA</span> <span class="dv">1950-10-10</span>   Other</span>
-<span id="c4-9"><a href="#c4-9" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>       f        <span class="dv">0</span>       <span class="cn">NA</span>      <span class="cn">NaN</span>         <span class="cn">NA</span>    <span class="cn">FALSE</span> <span class="dv">1920-12-10</span>    <span class="sc">&lt;</span><span class="cn">NA</span><span class="sc">&gt;</span></span>
-<span id="c4-10"><a href="#c4-10" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>       g        <span class="dv">0</span>    <span class="cn">FALSE</span>       <span class="cn">NA</span>      <span class="fl">0.000</span>     <span class="cn">TRUE</span> <span class="dv">2002-02-20</span>   Other</span>
-<span id="c4-11"><a href="#c4-11" aria-hidden="true" tabindex="-1"></a>   factor2</span>
-<span id="c4-12"><a href="#c4-12" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>   circle</span>
-<span id="c4-13"><a href="#c4-13" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>   square</span>
-<span id="c4-14"><a href="#c4-14" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>   circle</span>
-<span id="c4-15"><a href="#c4-15" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> triangle</span>
-<span id="c4-16"><a href="#c4-16" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>   square</span>
-<span id="c4-17"><a href="#c4-17" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>     <span class="sc">&lt;</span><span class="cn">NA</span><span class="sc">&gt;</span></span></code></pre></div>
+<span id="c4-3"><a href="#c4-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta</span>
+<span id="c4-4"><a href="#c4-4" aria-hidden="true" tabindex="-1"></a>          id        dob  gender                 employ  income haspartner</span>
+<span id="c4-5"><a href="#c4-5" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">368509515</span> <span class="dv">1993-06-14</span>    Male               Employed <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="c4-6"><a href="#c4-6" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">187844355</span> <span class="dv">1961-10-08</span>   Other             Unemployed      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-7"><a href="#c4-7" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">273040044</span> <span class="dv">1982-06-17</span>  Female               Employed  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="c4-8"><a href="#c4-8" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>  <span class="dv">963831798</span> <span class="dv">1965-02-15</span>    Male               Employed  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="c4-9"><a href="#c4-9" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>  <span class="dv">854856378</span> <span class="dv">1990-01-30</span>  Female               Employed  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="c4-10"><a href="#c4-10" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">20072760</span> <span class="dv">1961-08-18</span>  Female               Employed <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span>
+<span id="c4-11"><a href="#c4-11" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span>  <span class="dv">429782078</span> <span class="dv">2019-09-23</span>    Male Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-12"><a href="#c4-12" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span>  <span class="dv">711292034</span> <span class="dv">1994-02-16</span>    Male               Employed  <span class="fl">455.98</span>      <span class="cn">FALSE</span></span>
+<span id="c4-13"><a href="#c4-13" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>  <span class="dv">949458305</span> <span class="dv">2005-06-16</span>  Female Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-14"><a href="#c4-14" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">911459071</span> <span class="dv">2007-02-27</span>  Female Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-15"><a href="#c4-15" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="dv">921370403</span> <span class="dv">1981-09-14</span>  Female               Employed <span class="fl">1461.36</span>      <span class="cn">FALSE</span></span>
+<span id="c4-16"><a href="#c4-16" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>  <span class="dv">26901869</span> <span class="dv">1981-03-08</span>  Female               Employed <span class="fl">1153.02</span>       <span class="cn">TRUE</span></span>
+<span id="c4-17"><a href="#c4-17" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> <span class="dv">640668848</span> <span class="dv">1993-08-30</span>    Male               Employed  <span class="fl">708.98</span>       <span class="cn">TRUE</span></span>
+<span id="c4-18"><a href="#c4-18" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="dv">996464509</span> <span class="dv">1960-12-10</span>    Male               Employed <span class="fl">1088.99</span>      <span class="cn">FALSE</span></span>
+<span id="c4-19"><a href="#c4-19" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span>  <span class="dv">58820512</span> <span class="dv">1962-10-13</span>    Male               Employed <span class="fl">2243.10</span>      <span class="cn">FALSE</span></span>
+<span id="c4-20"><a href="#c4-20" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="dv">288242988</span> <span class="dv">2013-06-11</span>    Male Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-21"><a href="#c4-21" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="dv">549758863</span> <span class="dv">1990-06-09</span>    Male               Employed  <span class="fl">719.69</span>       <span class="cn">TRUE</span></span>
+<span id="c4-22"><a href="#c4-22" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="dv">998045846</span> <span class="dv">1973-01-25</span>  Female               Employed <span class="fl">1312.45</span>      <span class="cn">FALSE</span></span>
+<span id="c4-23"><a href="#c4-23" aria-hidden="true" tabindex="-1"></a><span class="dv">19</span> <span class="dv">902078272</span> <span class="dv">1962-05-29</span>  Female               Employed  <span class="fl">618.27</span>      <span class="cn">FALSE</span></span>
+<span id="c4-24"><a href="#c4-24" aria-hidden="true" tabindex="-1"></a><span class="dv">20</span> <span class="dv">594477489</span> <span class="dv">1952-08-31</span> Unknown Non<span class="sc">-</span>working<span class="sc">-</span>population      <span class="cn">NA</span>       <span class="cn">TRUE</span></span></code></pre></div>
+<p>When the <a href="https://cran.r-project.org/package=codelist"><code>codelist</code>
+package</a> is installed, it is also possible to convert the column to a
+<code>code</code> vector:</p>
+<div class="sourceCode" id="c4"><pre class="sourceCode R"><code class="sourceCode r"><span id="c4-1"><a href="#c4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta <span class="ot">&lt;-</span> <span class="fu">dp_resource</span>(dp, <span class="st">&quot;employment&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="c4-2"><a href="#c4-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">dp_get_data</span>(<span class="at">convert_categories =</span> <span class="st">&quot;to_code&quot;</span>)</span>
+<span id="c4-3"><a href="#c4-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta</span>
+<span id="c4-4"><a href="#c4-4" aria-hidden="true" tabindex="-1"></a>          id        dob     gender      employ  income haspartner</span>
+<span id="c4-5"><a href="#c4-5" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">368509515</span> <span class="dv">1993-06-14</span> M[Male]    E[Employed] <span class="fl">2691.80</span>      <span class="cn">FALSE</span></span>
+<span id="c4-6"><a href="#c4-6" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">187844355</span> <span class="dv">1961-10-08</span> X[Other]   U[Unemplo…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-7"><a href="#c4-7" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">273040044</span> <span class="dv">1982-06-17</span> F[Female]  E[Employed]  <span class="fl">533.65</span>      <span class="cn">FALSE</span></span>
+<span id="c4-8"><a href="#c4-8" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>  <span class="dv">963831798</span> <span class="dv">1965-02-15</span> M[Male]    E[Employed]  <span class="fl">790.13</span>      <span class="cn">FALSE</span></span>
+<span id="c4-9"><a href="#c4-9" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>  <span class="dv">854856378</span> <span class="dv">1990-01-30</span> F[Female]  E[Employed]  <span class="fl">716.79</span>       <span class="cn">TRUE</span></span>
+<span id="c4-10"><a href="#c4-10" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">20072760</span> <span class="dv">1961-08-18</span> F[Female]  E[Employed] <span class="fl">1651.60</span>      <span class="cn">FALSE</span></span>
+<span id="c4-11"><a href="#c4-11" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span>  <span class="dv">429782078</span> <span class="dv">2019-09-23</span> M[Male]    N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-12"><a href="#c4-12" aria-hidden="true" tabindex="-1"></a><span class="dv">8</span>  <span class="dv">711292034</span> <span class="dv">1994-02-16</span> M[Male]    E[Employed]  <span class="fl">455.98</span>      <span class="cn">FALSE</span></span>
+<span id="c4-13"><a href="#c4-13" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>  <span class="dv">949458305</span> <span class="dv">2005-06-16</span> F[Female]  N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-14"><a href="#c4-14" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">911459071</span> <span class="dv">2007-02-27</span> F[Female]  N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-15"><a href="#c4-15" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="dv">921370403</span> <span class="dv">1981-09-14</span> F[Female]  E[Employed] <span class="fl">1461.36</span>      <span class="cn">FALSE</span></span>
+<span id="c4-16"><a href="#c4-16" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>  <span class="dv">26901869</span> <span class="dv">1981-03-08</span> F[Female]  E[Employed] <span class="fl">1153.02</span>       <span class="cn">TRUE</span></span>
+<span id="c4-17"><a href="#c4-17" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> <span class="dv">640668848</span> <span class="dv">1993-08-30</span> M[Male]    E[Employed]  <span class="fl">708.98</span>       <span class="cn">TRUE</span></span>
+<span id="c4-18"><a href="#c4-18" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="dv">996464509</span> <span class="dv">1960-12-10</span> M[Male]    E[Employed] <span class="fl">1088.99</span>      <span class="cn">FALSE</span></span>
+<span id="c4-19"><a href="#c4-19" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span>  <span class="dv">58820512</span> <span class="dv">1962-10-13</span> M[Male]    E[Employed] <span class="fl">2243.10</span>      <span class="cn">FALSE</span></span>
+<span id="c4-20"><a href="#c4-20" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span> <span class="dv">288242988</span> <span class="dv">2013-06-11</span> M[Male]    N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="c4-21"><a href="#c4-21" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="dv">549758863</span> <span class="dv">1990-06-09</span> M[Male]    E[Employed]  <span class="fl">719.69</span>       <span class="cn">TRUE</span></span>
+<span id="c4-22"><a href="#c4-22" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="dv">998045846</span> <span class="dv">1973-01-25</span> F[Female]  E[Employed] <span class="fl">1312.45</span>      <span class="cn">FALSE</span></span>
+<span id="c4-23"><a href="#c4-23" aria-hidden="true" tabindex="-1"></a><span class="dv">19</span> <span class="dv">902078272</span> <span class="dv">1962-05-29</span> F[Female]  E[Employed]  <span class="fl">618.27</span>      <span class="cn">FALSE</span></span>
+<span id="c4-24"><a href="#c4-24" aria-hidden="true" tabindex="-1"></a><span class="dv">20</span> <span class="dv">594477489</span> <span class="dv">1952-08-31</span> <span class="sc">-</span>[Unknown] N[Non<span class="sc">-</span>wor…]      <span class="cn">NA</span>       <span class="cn">TRUE</span></span></code></pre></div>
+<p>This has the advantage that both the values/codes and the labels are
+kept together and it is possible to use both when coding which can make
+code safer and more readable:</p>
+<div class="sourceCode" id="codedemo"><pre class="sourceCode R"><code class="sourceCode r"><span id="codedemo-1"><a href="#codedemo-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(codelist)</span>
+<span id="codedemo-2"><a href="#codedemo-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta[dta<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&quot;X&quot;</span>, ]</span>
+<span id="codedemo-3"><a href="#codedemo-3" aria-hidden="true" tabindex="-1"></a>         id        dob   gender      employ income haspartner</span>
+<span id="codedemo-4"><a href="#codedemo-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="dv">187844355</span> <span class="dv">1961-10-08</span> X[Other] U[Unemplo…]     <span class="cn">NA</span>      <span class="cn">FALSE</span></span>
+<span id="codedemo-5"><a href="#codedemo-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dta[dta<span class="sc">$</span>gender <span class="sc">==</span> <span class="fu">as.label</span>(<span class="st">&quot;Other&quot;</span>), ]</span>
+<span id="codedemo-6"><a href="#codedemo-6" aria-hidden="true" tabindex="-1"></a>         id        dob   gender      employ income haspartner</span>
+<span id="codedemo-7"><a href="#codedemo-7" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="dv">187844355</span> <span class="dv">1961-10-08</span> X[Other] U[Unemplo…]     <span class="cn">NA</span>      <span class="cn">FALSE</span></span></code></pre></div>
 <h2 id="creating-a-data-package">Creating a Data Package</h2>
 <p>This is shown in a seperate vignette
 <code>Creating a Data Package</code></p>
 <h2 id="quickly-saving-to-and-reading-from-a-data-package">Quickly
 saving to and reading from a Data Package</h2>
 <p>A quick way to create a Data Package from a given dataset is with the
-<code>dp_save_as_datapackage</code> function:</p>
+<code>dp_save_as_datapackage()</code> function:</p>
 <div class="sourceCode" id="q1"><pre class="sourceCode R"><code class="sourceCode r"><span id="q1-1"><a href="#q1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dir <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
 <span id="q1-2"><a href="#q1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">data</span>(iris)</span>
 <span id="q1-3"><a href="#q1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_save_as_datapackage</span>(iris, dir)</span></code></pre></div>
@@ -618,7 +852,7 @@ saving to and reading from a Data Package</h2>
 <p>This will either load the Data Resource with the same name as the
 Data Package or the first resource in the Data Package. It is also
 possible to specify the name of the Data Resource that should be read.
-Additional arguments are passed on to <code>dp_get_data</code>:</p>
+Additional arguments are passed on to <code>dp_get_data())</code>:</p>
 <div class="sourceCode" id="q2"><pre class="sourceCode R"><code class="sourceCode r"><span id="q2-1"><a href="#q2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_load_from_datapackage</span>(dir, <span class="st">&quot;iris&quot;</span>, <span class="at">convert_categories =</span> <span class="st">&quot;to_factor&quot;</span>, </span>
 <span id="q2-2"><a href="#q2-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">use_fread =</span> <span class="cn">TRUE</span>)</span>
 <span id="q2-3"><a href="#q2-3" aria-hidden="true" tabindex="-1"></a>Loading required namespace<span class="sc">:</span> data.table</span>

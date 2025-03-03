@@ -45,7 +45,7 @@
             "title": "Net income",
             "type": "number",
             "bareNumber": false,
-            "decimalSeparator": ",",
+            "decimalChar": ",",
             "groupChar": " "
           }, {
             "name": "haspartner",
