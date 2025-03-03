@@ -299,16 +299,16 @@ padding: 0.2rem;
 -->
 <p>This vignette will show how to create and edit Data Packages.</p>
 <h2 id="creating-a-data-package">Creating a Data Package</h2>
-<p>The <code>new_datapackage</code> function creates a new Data
+<p>The <code>new_datapackage()</code> function creates a new Data
 Package</p>
 <div class="sourceCode" id="n1"><pre class="sourceCode R"><code class="sourceCode r"><span id="n1-1"><a href="#n1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(datapackage)</span>
 <span id="n1-2"><a href="#n1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dir <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
 <span id="n1-3"><a href="#n1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp <span class="ot">&lt;-</span> <span class="fu">new_datapackage</span>(dir, <span class="at">name =</span> <span class="st">&quot;example&quot;</span>, </span>
 <span id="n1-4"><a href="#n1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">title =</span> <span class="st">&quot;An Example Data Package&quot;</span>)</span>
-<span id="n1-5"><a href="#n1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(dp)</span>
+<span id="n1-5"><a href="#n1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp</span>
 <span id="n1-6"><a href="#n1-6" aria-hidden="true" tabindex="-1"></a>[example] An Example Data Package</span>
 <span id="n1-7"><a href="#n1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="n1-8"><a href="#n1-8" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>Rtmpy88Lw5<span class="sc">/</span>file21a337c55ba14<span class="sc">&gt;</span></span>
+<span id="n1-8"><a href="#n1-8" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpLtCsbP<span class="sc">/</span>file2217ec1cbf4fd9<span class="sc">&gt;</span></span>
 <span id="n1-9"><a href="#n1-9" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>NO RESOURCES<span class="sc">&gt;</span></span></code></pre></div>
 <p>This will return an <code>editabledatapackage</code>. This means that
 any changes to the Data Package are immediately saved to the
@@ -318,12 +318,12 @@ are read from the file. It is, therefore, possible to manually edit the
 Package.</p>
 <div class="sourceCode" id="n2"><pre class="sourceCode R"><code class="sourceCode r"><span id="n2-1"><a href="#n2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">list.files</span>(dir)</span>
 <span id="n2-2"><a href="#n2-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;datapackage.json&quot;</span></span></code></pre></div>
-<p>Using methods such as <code>dp_title</code> and
-<code>dp_description</code> the properties of the Data Package can be
+<p>Using methods such as <code>dp_title()</code> and
+<code>dp_description()</code> the properties of the Data Package can be
 modified.</p>
 <div class="sourceCode" id="n3"><pre class="sourceCode R"><code class="sourceCode r"><span id="n3-1"><a href="#n3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_description</span>(dp) <span class="ot">&lt;-</span> <span class="st">&quot;This is a description of the Data Package&quot;</span></span></code></pre></div>
-<p>The <code>description&lt;-</code> also accepts a character vector of
-length &gt; 1. This makes it easy to read the contents of the
+<p>The <code>description&lt;-()</code> method also accepts a character
+vector of length &gt; 1. This makes it easy to read the contents of the
 description from file as it can be difficult to write long descriptions
 directly from R-code. It is possible to use markdown in the
 description.</p>
@@ -331,20 +331,20 @@ description.</p>
 <p>The following methods a currently (when writing the vignette)
 supported:</p>
 <ul>
-<li><code>dp_title&lt;-</code></li>
-<li><code>dp_contributors&lt;-</code> and
-<code>dp_add_contributor&lt;-</code></li>
-<li><code>dp_description&lt;-</code></li>
-<li><code>dp_id&lt;-</code></li>
-<li><code>dp_name&lt;-</code></li>
-<li><code>dp_created&lt;-</code></li>
-<li><code>dp_keywords&lt;-</code></li>
-<li><code>dp_property&lt;-</code>: this function also allow custom
+<li><code>dp_title&lt;-()</code></li>
+<li><code>dp_contributors&lt;-()</code> and
+<code>dp_add_contributor&lt;-()</code></li>
+<li><code>dp_description&lt;-()</code></li>
+<li><code>dp_id&lt;-()</code></li>
+<li><code>dp_name&lt;-()</code></li>
+<li><code>dp_created&lt;-()</code></li>
+<li><code>dp_keywords&lt;-()</code></li>
+<li><code>dp_property&lt;-()</code>: this function also allow custom
 properties.</li>
 </ul>
 <p>For an up to data list run the following:</p>
-<p><code>[.R #n5} methods(class = &quot;datapackage&quot;) |&gt; (\(x) x[grep(&quot;&lt;-&quot;, x)])()</code>
-Below an example of adding a contributor to the package</p>
+<p><code>[.R #n5} methods(class = &quot;datapackage&quot;) |&gt; (\(x) x[grep(&quot;&lt;-&quot;, x)])()</code></p>
+<p>Below an example of adding a contributor to the package</p>
 <div class="sourceCode" id="n6"><pre class="sourceCode R"><code class="sourceCode r"><span id="n6-1"><a href="#n6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_add_contributor</span>(dp) <span class="ot">&lt;-</span> <span class="fu">new_contributor</span>(<span class="st">&quot;Jane Doe&quot;</span>, <span class="at">role =</span> <span class="st">&quot;author&quot;</span>,</span>
 <span id="n6-2"><a href="#n6-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">email =</span> <span class="st">&quot;j.doe@organisation.org&quot;</span>)</span></code></pre></div>
 <h2 id="adding-a-dataset-to-the-datapackage">Adding a dataset to the
@@ -362,27 +362,27 @@ datapackage.</p>
 <span id="a1-9"><a href="#a1-9" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>          <span class="fl">5.4</span>         <span class="fl">3.9</span>          <span class="fl">1.7</span>         <span class="fl">0.4</span>  setosa</span></code></pre></div>
 <p>In order to store a new dataset in a Data Package we need to do two
 things. First, we need to create a new Data Resource in the package.
-Second, using the specifation of the Data Resource we need to save the
+Second, using the specification of the Data Resource we need to save the
 actual dataset at the location specified in the Data Resource.</p>
 <p>It is possible to edit the <code>datapackage.json</code> file to
 create the new Data Resource. The package also has a function
-<code>dp_generate_dataresource</code> to generate a skeleton Data
+<code>dp_generate_dataresource()</code> to generate a skeleton Data
 Resource for a given dataset:</p>
 <div class="sourceCode" id="a10"><pre class="sourceCode R"><code class="sourceCode r"><span id="a10-1"><a href="#a10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> res <span class="ot">&lt;-</span> <span class="fu">dp_generate_dataresource</span>(iris, <span class="st">&quot;iris&quot;</span>) </span></code></pre></div>
 <p>Again these can be further modified using methods such as
-<code>dp_title</code> and <code>dp_property</code>:</p>
+<code>dp_title()</code> and <code>dp_property()</code>:</p>
 <div class="sourceCode" id="a30"><pre class="sourceCode R"><code class="sourceCode r"><span id="a30-1"><a href="#a30-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_title</span>(res) <span class="ot">&lt;-</span> <span class="st">&quot;The Iris dataset&quot;</span></span></code></pre></div>
-<p>Let’s add the resources to the datapackage.</p>
+<p>Let’s add the resources to the Data Package.</p>
 <div class="sourceCode" id="a40"><pre class="sourceCode R"><code class="sourceCode r"><span id="a40-1"><a href="#a40-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resources</span>(dp) <span class="ot">&lt;-</span> res</span></code></pre></div>
-<p>In this case the datapackage does not yet contain dataresources.
-Should the datapackage contain dataresources with the same name, these
-will be overwritten by the new dataresources.</p>
+<p>In this case the Data Package does not yet contain Data Resources.
+Should the Data Package contain Data Resources with the same name, these
+will be overwritten by the new Data Resource.</p>
 <p>We are now ready to write the dataset. For this we can use the
-<code>dp_write_data</code> method:</p>
+<code>dp_write_data()</code> method:</p>
 <div class="sourceCode" id="a50"><pre class="sourceCode R"><code class="sourceCode r"><span id="a50-1"><a href="#a50-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(dp, <span class="at">resource_name =</span> <span class="st">&quot;iris&quot;</span>, <span class="at">data =</span> iris)</span></code></pre></div>
 <p>When some of the field in the Data Resource have categories that are
 stored in a separate Data Resource, this function will by default also
-write any codelists associated with the dataresource.</p>
+write any categories lists associated with the Data Resource.</p>
 <div class="sourceCode" id="a60"><pre class="sourceCode R"><code class="sourceCode r"><span id="a60-1"><a href="#a60-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">readLines</span>(<span class="fu">file.path</span>(dir, <span class="st">&quot;iris.csv&quot;</span>), <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span>
 <span id="a60-2"><a href="#a60-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Sepal.Length&quot;</span>,<span class="st">&quot;Sepal.Width&quot;</span>,<span class="st">&quot;Petal.Length&quot;</span>,<span class="st">&quot;Petal.Width&quot;</span>,<span class="st">&quot;Species&quot;</span></span>
 <span id="a60-3"><a href="#a60-3" aria-hidden="true" tabindex="-1"></a><span class="fl">5.1</span>,<span class="fl">3.5</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
@@ -394,14 +394,14 @@ write any codelists associated with the dataresource.</p>
 <span id="a60-9"><a href="#a60-9" aria-hidden="true" tabindex="-1"></a><span class="fl">4.6</span>,<span class="fl">3.4</span>,<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">1</span></span>
 <span id="a60-10"><a href="#a60-10" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>,<span class="fl">3.4</span>,<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span>
 <span id="a60-11"><a href="#a60-11" aria-hidden="true" tabindex="-1"></a><span class="fl">4.4</span>,<span class="fl">2.9</span>,<span class="fl">1.4</span>,<span class="fl">0.2</span>,<span class="dv">1</span></span></code></pre></div>
-<p>And of course we can open the datapackage and read the data back
+<p>And of course we can open the Data Package and read the data back
 in:</p>
 <div class="sourceCode" id="a70"><pre class="sourceCode R"><code class="sourceCode r"><span id="a70-1"><a href="#a70-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp2 <span class="ot">&lt;-</span> <span class="fu">open_datapackage</span>(dir)</span>
 <span id="a70-2"><a href="#a70-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> iris2 <span class="ot">&lt;-</span> dp2 <span class="sc">|&gt;</span> <span class="fu">dp_resource</span>(<span class="st">&quot;iris&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">dp_get_data</span>(<span class="at">convert_categories =</span> <span class="st">&quot;to_factor&quot;</span>)</span>
 <span id="a70-3"><a href="#a70-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">all.equal</span>(iris, iris2, <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
 <span id="a70-4"><a href="#a70-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">TRUE</span></span></code></pre></div>
 <h2 id="more-on-categories">More on categories</h2>
-<p>By default <code>dp_generate_dataresource</code> will generate
+<p>By default <code>dp_generate_dataresource()</code> will generate
 <code>categories</code> properties for factor fields:</p>
 <div class="sourceCode" id="c00"><pre class="sourceCode R"><code class="sourceCode r"><span id="c00-1"><a href="#c00-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">data</span>(chickwts)</span>
 <span id="c00-2"><a href="#c00-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> res <span class="ot">&lt;-</span> <span class="fu">dp_generate_dataresource</span>(chickwts, <span class="st">&quot;chickwts&quot;</span>) </span>
@@ -465,7 +465,7 @@ of categories in a Data Resource</p>
 <span id="c01-6"><a href="#c01-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>resource</span>
 <span id="c01-7"><a href="#c01-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;feed-categories&quot;</span></span></code></pre></div>
 <p>Here the <code>categories</code> property points to Data Resource.
-<code>dp_write_data</code> will automatically create this resource by
+<code>dp_write_data()</code> will automatically create this resource by
 default when writing the data:</p>
 <div class="sourceCode" id="c02"><pre class="sourceCode R"><code class="sourceCode r"><span id="c02-1"><a href="#c02-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(<span class="fu">dp_resource</span>(dp, <span class="st">&quot;chickwts&quot;</span>), <span class="at">data =</span> chickwts, <span class="at">write_categories =</span> <span class="cn">TRUE</span>)</span>
 <span id="c02-2"><a href="#c02-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">list.files</span>(dir)</span>
@@ -533,7 +533,8 @@ long as we don’t overwrite it. Therefore, the
 <h2 id="editing-an-existing-data-package">Editing an existing Data
 Package</h2>
 <p>Editing of existing Data Packages is also possible. Use the
-<code>readonly = TRUE</code> argument when opening the Data Package:</p>
+<code>readonly = FALSE</code> argument when opening the Data
+Package:</p>
 <div class="sourceCode" id="e00"><pre class="sourceCode R"><code class="sourceCode r"><span id="e00-1"><a href="#e00-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> edit <span class="ot">&lt;-</span> <span class="fu">open_datapackage</span>(dir, <span class="at">readonly =</span> <span class="cn">FALSE</span>)</span>
 <span id="e00-2"><a href="#e00-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_id</span>(edit) <span class="ot">&lt;-</span> <span class="st">&quot;iris_chkwts&quot;</span></span>
 <span id="e00-3"><a href="#e00-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_created</span>(edit) <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="sc">|&gt;</span> <span class="fu">as.Date</span>()</span></code></pre></div>

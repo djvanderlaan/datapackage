@@ -4,7 +4,7 @@ library(datapackage)
 dir <- tempfile()
 dp <- new_datapackage(dir, name = "example", 
   title = "An Example Data Package")
-print(dp)
+dp
 
 # n2
 list.files(dir)
