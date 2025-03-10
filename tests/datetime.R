@@ -118,17 +118,19 @@ expect_equal(res, "character")
 # =============================================================================
 # csv_format
 
-res <- datapackage:::csv_format_datetime(as.POSIXct("2020-01-01 12:30", tz = "CET"))
-expect_equal(res, "2020-01-01T12:30:00+01:00")
+if ("CET" %in% OlsonNames()) {
+  res <- datapackage:::csv_format_datetime(as.POSIXct("2020-01-01 12:30:00", tz = "CET"))
+  expect_equal(res, "2020-01-01T12:30:00+01:00")
+}
 
-res <- datapackage:::csv_format_datetime(as.POSIXct("2020-01-01 12:30", tz = "GMT"))
+res <- datapackage:::csv_format_datetime(as.POSIXct("2020-01-01 12:30:00", tz = "GMT"))
 expect_equal(res, "2020-01-01T12:30:00Z")
 
 fielddescriptor <- list(
     type = "datetime",
     format = "default"
   )
-res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30", NA), tz = "GMT"), 
+res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30:00", NA), tz = "GMT"), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c("2020-01-01T12:30:00Z", NA))
 
@@ -136,7 +138,7 @@ fielddescriptor <- list(
     type = "datetime",
     format = "any"
   )
-res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30", NA), tz = "GMT"), 
+res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30:00", NA), tz = "GMT"), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c("2020-01-01T12:30:00Z", NA))
 
@@ -144,7 +146,7 @@ fielddescriptor <- list(
     type = "datetime",
     format = "%Y %M"
   )
-res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30", NA), tz = "GMT"), 
+res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30:00", NA), tz = "GMT"), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c("2020 30", NA))
 
@@ -153,7 +155,7 @@ fielddescriptor <- list(
     format = "default",
     missingValues = ""
   )
-res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30", NA), tz = "GMT"), 
+res <- datapackage:::csv_format(as.POSIXct(c("2020-01-01 12:30:00", NA), tz = "GMT"), 
   fielddescriptor = fielddescriptor)
 expect_equal(res, c("2020-01-01T12:30:00Z", ""))
 

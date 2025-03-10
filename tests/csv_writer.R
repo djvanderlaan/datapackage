@@ -300,6 +300,7 @@ expect_equal(res$col2, data$col2, attributes = FALSE)
 
 
 # === DATETIME
+if ("CET" %in% OlsonNames()) {
 data <- data.frame(
   col1 = as.POSIXct(c("2025-01-01 14:15:16", "2024-12-31 13:12:11"), tz = "CET"),
   col2 = as.POSIXct(c("2000-06-10 00:01:02", NA), tz = "CET")
@@ -331,8 +332,12 @@ expect_equal(res, expected)
 
 res <- dp_get_data(datapackage, "test")
 expect_equal(res$col1, data$col1, attributes = FALSE)
-expect_equal(res$col2, data$col2, attributes = FALSE)
-
+# When a format is used without time zone; the local time zone is used; therefore
+# leave time zone away in as.POSIXct as this will also result in a time in local 
+# time
+col2 <- as.POSIXct(c("2000-06-10 00:01:02", NA))
+expect_equal(res$col2, col2, attributes = FALSE)
+}
 
 
 

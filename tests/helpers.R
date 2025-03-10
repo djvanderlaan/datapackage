@@ -5,7 +5,17 @@ expect_equal <- function(x, y, attributes = TRUE) {
     return(expect_equal_factor(x, y, attributes))
   if (!attributes) attributes(x) <- NULL
   if (!attributes) attributes(y) <- NULL
-  stopifnot(isTRUE(all.equal(x, y)))
+  #stopifnot(isTRUE(all.equal(x, y)))
+  if (!isTRUE(all.equal(x, y))) {
+    n <- 5
+    fx <- paste0("'", utils::head(x, n), "'", collapse = ",")
+    if (length(x) > n) fx <- paste0(fx, ",...")
+    fx <- paste0("[", fx, "]")
+    fy <- paste0("'", utils::head(y, n), "'", collapse = ",")
+    if (length(y) > n) fy <- paste0(fy, ",...")
+    fy <- paste0("[", fy, "]")
+    stop("x and y are not equal: ", fx, " != ", fy)
+  }
 }
 
 expect_equal_factor <- function(x, y, attributes = TRUE) {
