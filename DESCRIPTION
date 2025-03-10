@@ -1,7 +1,7 @@
 Package: datapackage
 Type: Package
 Title: Creating and Reading Data Packages
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = "Jan",
            family = "van der Laan",
