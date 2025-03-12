@@ -1,9 +1,14 @@
 
-CHANGES IN VERSION 0.1.1
+CHANGES IN VERSION 0.1.2
 
 NEW FEATURES
   
-  - [New feature]
+  - `dp_generate_fielddescriptor` now generates correct meta data for objects
+    of type `code` from the `codelist` package.
+
+  - `dp_categorieslist` returns the code list from a `code` object from the
+    `codelist` package.
+
 
 BUG FIXES
 
