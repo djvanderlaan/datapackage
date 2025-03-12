@@ -9,6 +9,7 @@
 \alias{dp_generate_fielddescriptor.Date}
 \alias{dp_generate_fielddescriptor.character}
 \alias{dp_generate_fielddescriptor.factor}
+\alias{dp_generate_fielddescriptor.code}
 \title{Generate a fielddescriptor for a given variable in a dataset}
 \usage{
 dp_generate_fielddescriptor(x, name, ...)
@@ -61,6 +62,15 @@ dp_generate_fielddescriptor(x, name, ...)
 )
 
 \method{dp_generate_fielddescriptor}{factor}(
+  x,
+  name,
+  use_existing = TRUE,
+  use_categories = TRUE,
+  categories_type = c("regular", "resource"),
+  ...
+)
+
+\method{dp_generate_fielddescriptor}{code}(
   x,
   name,
   use_existing = TRUE,

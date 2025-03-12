@@ -193,3 +193,64 @@ expect_equal(dp_property(tmp, "name"), "sw")
 expect_equal(dp_property(tmp, "type"), "number")
 expect_equal(dp_property(tmp, "categories"), NULL)
 
+
+
+# ==================================================================
+# CODE OBJECT
+library(codelist)
+
+cl <- codelist(c("a", "b", "c"), c("A", "B", "C"))
+x <- code(c("a", "c", "c"), cl)
+
+res <- dp_categorieslist(x)
+expect_equal(names(res), c("value", "label"))
+expect_equal(res$value, cl$code)
+expect_equal(res$label, cl$label)
+
+res <- dp_generate_fielddescriptor(x, "foo")
+expect_equal(dp_name(res), "foo")
+expect_equal(dp_property(res, "type"), "string")
+expect_equal(dp_property(res, "categories"), list(
+      list(value = "a", label = "A"),
+      list(value = "b", label = "B"),
+      list(value = "c", label = "C")
+    ))
+
+res <- dp_generate_fielddescriptor(x, "foo", use_categories = FALSE)
+expect_equal(dp_name(res), "foo")
+expect_equal(dp_property(res, "type"), "string")
+expect_equal(dp_property(res, "categories"), list(
+      list(value = "a", label = "A"),
+      list(value = "b", label = "B"),
+      list(value = "c", label = "C")
+    ))
+
+res <- dp_generate_fielddescriptor(x, "foo", categories_type = "resource")
+expect_equal(dp_name(res), "foo")
+expect_equal(dp_property(res, "type"), "string")
+expect_equal(dp_property(res, "categories"), list(
+      resource = "foo-categories"
+    ))
+
+res <- dp_generate_fielddescriptor(x, "foo")
+res$test <- 22
+attr(x, "fielddescriptor") <- res
+res <- dp_generate_fielddescriptor(x, "bar")
+expect_equal(dp_name(res), "bar")
+expect_equal(dp_property(res, "type"), "string")
+expect_equal(dp_property(res, "test"), 22)
+expect_equal(dp_property(res, "categories"), list(
+      list(value = "a", label = "A"),
+      list(value = "b", label = "B"),
+      list(value = "c", label = "C")
+    ))
+
+
+cl <- codelist(c(11, 22, 33), c("A", "B", "C"))
+x <- code(c(11, 22, 33), cl)
+res <- dp_categorieslist(x)
+expect_equal(names(res), c("value", "label"))
+expect_equal(res$value, cl$code)
+expect_equal(res$label, cl$label)
+
+

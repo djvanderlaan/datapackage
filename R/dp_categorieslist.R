@@ -26,6 +26,11 @@ dp_categorieslist.default <- function(x, fielddescriptor = attr(x, "fielddescrip
     datapackage = dp_get_datapackage(fielddescriptor), ...) {
   res <- NULL
   if (!is.null(fielddescriptor)) res <- dp_categorieslist(fielddescriptor, ...)
+  if (is.null(res) && methods::is(x, "code")) {
+    stopifnot(requireNamespace("codelist"))
+    res <- codelist::cl(x)
+    names(res)[names(res) == "code"] <- "value"
+  }
   if (is.null(res) && is.factor(x)) {
     res <- data.frame(
       value = seq_len(nlevels(x)),

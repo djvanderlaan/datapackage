@@ -156,6 +156,25 @@ dp_generate_fielddescriptor.factor <- function(x, name, use_existing = TRUE,
 }
 
 
+#' @rdname dp_generate_fielddescriptor
+#' @export
+dp_generate_fielddescriptor.code <- function(x, name, use_existing = TRUE,
+    use_categories = TRUE, categories_type = c("regular", "resource"), ...) {
+  fielddescriptor <- attr(x, "fielddescriptor")
+  hasfielddescriptor <- !is.null(fielddescriptor)
+  # Generate base fielddescriptor
+  oldclass <- class(x)
+  class(x) <- setdiff(class(x), c("code", "factor"))
+  fielddescriptor <- dp_generate_fielddescriptor(x, name, 
+    use_existing = use_existing, use_categories = FALSE)
+  class(x) <- oldclass
+  # Handle categories
+  fielddescriptor <- dp_generate_fielddescriptor_handle_categories(x, 
+    fielddescriptor, use_existing & hasfielddescriptor, use_categories, categories_type)
+  class(fielddescriptor) <- "fielddescriptor"
+  fielddescriptor
+}
+
 dp_generate_fielddescriptor_handle_categories <- function(x, fielddescriptor, use_existing, 
     use_categories, categories_type = c("regular", "resource")) {
   if (use_existing) return(fielddescriptor)
@@ -166,7 +185,7 @@ dp_generate_fielddescriptor_handle_categories <- function(x, fielddescriptor, us
       value = seq_len(nlevels(x)),
       label = levels(x))
   } 
-  if ((use_categories || is.factor(x)) && !is.null(categorieslist)) {
+  if ((use_categories || is.factor(x) || methods::is(x, "code")) && !is.null(categorieslist)) {
     if (categories_type == "resource") {
       fielddescriptor$categories <- list(resource = 
         paste0(tolower(fielddescriptor$name), "-categories"))
