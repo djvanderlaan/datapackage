@@ -37,6 +37,7 @@
 \alias{dp_title<-.fielddescriptor}
 \alias{dp_description.fielddescriptor}
 \alias{dp_format<-.fielddescriptor}
+\alias{dp_type<-.fielddescriptor}
 \alias{dp_schema}
 \alias{dp_schema.dataresource}
 \title{Getting and setting properties of Data Resources}
@@ -108,6 +109,8 @@ dp_hash(x) <- value
 \method{dp_description}{fielddescriptor}(x, ..., first_paragraph = FALSE, dots = FALSE)
 
 \method{dp_format}{fielddescriptor}(x) <- value
+
+\method{dp_type}{fielddescriptor}(x) <- value
 
 dp_schema(x)
 

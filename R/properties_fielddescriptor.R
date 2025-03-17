@@ -29,7 +29,7 @@ dp_name.fielddescriptor <- function(x) {
   res <- dp_property(x, "name")
   # Name is required for data resource
   if (is.null(res))
-    stop("Required attribute 'name' is missing from Data Resource.")
+    stop("Required attribute 'name' is missing from Field Descriptor.")
   res
 }
 
@@ -115,4 +115,48 @@ dp_format.fielddescriptor <- function(x, ...) {
   x
 }
 
+
+# ==============================================================================
+# TYPE
+# Required; string; onl lower case alnum and _/-/.
+
+#' @export
+#' @rdname properties_fielddescriptor
+dp_type <- function(x) {
+  UseMethod("dp_type")
+}
+
+#' @export
+#' @rdname properties_fielddescriptor
+`dp_type<-` <- function(x, value) {
+  UseMethod("dp_type<-")
+}
+
+#' @export
+#' @name PropertiesFielddescriptor
+#' @rdname properties_fielddescriptor
+dp_type.fielddescriptor <- function(x) {
+  res <- dp_property(x, "type")
+  # Name is required for field descriptor
+  if (is.null(res))
+    stop("Required attribute 'type' is missing from Field Descriptor.")
+  res
+}
+
+#' @export
+#' @rdname properties_dataresource
+`dp_type<-.fielddescriptor` <- function(x, value) {
+  value <- paste0(value)
+  supported <- c("boolean", "date", "datetime", "integer", "number", 
+    "string", "time", "year", "yearmonth")
+  official <- c(supported, "object", "array", "list", "duration", "geopoint",
+    "geojson", "any")
+  if (!(value %in% official)) {
+    stop("'", value, "' is not an officially supported field type.")
+  } else if (!(value %in% supported)) {
+    warning("'", value, "' is not supported by the datapackage R-package.")
+  }
+  dp_property(x, "type") <- value
+  x
+}
 

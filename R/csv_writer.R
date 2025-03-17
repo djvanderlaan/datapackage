@@ -125,7 +125,7 @@ decimalchars <- function(x) {
   decimalChars <- sapply(dp_field_names(x), \(fn) {
     char <- dp_field(x, fn) |> dp_property("decimalChar")
     if (is.null(char)) {
-      type <- dp_field(x, fn) |> dp_property("type")
+      type <- dp_field(x, fn) |> dp_type()
       if (type == "number") NA_character_ else '.'
     } else {
       char

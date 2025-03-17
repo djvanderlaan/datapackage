@@ -331,8 +331,8 @@ CSV reader and writer.
       <td class="complete"><code>dp_name<-()</code></td>
     </tr><tr>
       <td><code>type</code></td>
-      <td class="partial">Used by <code>dp_get_data()</code>.</td>
-      <td class="incomplete"></td>
+      <td class="complete"><code>dp_type()</code>; also used by <code>dp_get_data()</code>.</td>
+      <td class="complete"><code>dp_type<-()</code></td>
     </tr><tr>
       <td><code>format</code></td>
       <td class="complete"><code>dp_format()</code></td>

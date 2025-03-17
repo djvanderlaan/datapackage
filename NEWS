@@ -9,6 +9,8 @@ NEW FEATURES
   - `dp_categorieslist` returns the code list from a `code` object from the
     `codelist` package.
 
+  - `dp_type()` and `dp_type<-()` added for Field Descriptor to get and set 
+    the field type.
 
 BUG FIXES
 

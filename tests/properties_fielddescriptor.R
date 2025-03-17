@@ -3,9 +3,11 @@ library(datapackage)
 source("helpers.R")
 
 f <- structure(list(
-    name = "foo", title = "Foo", description = "Foo Bar\n\nFoo", 
-    format = "bar"), class = "fielddescriptor")
+    name = "foo", type="integer", title = "Foo", 
+    description = "Foo Bar\n\nFoo", format = "bar"), 
+  class = "fielddescriptor")
 expect_equal(dp_name(f), "foo")
+expect_equal(dp_type(f), "integer")
 expect_equal(dp_title(f), "Foo")
 expect_equal(dp_description(f), "Foo Bar\n\nFoo")
 expect_equal(dp_description(f, first_paragraph = TRUE), "Foo Bar")
@@ -14,6 +16,7 @@ expect_equal(dp_format(f), "bar")
 # No properties set
 f <- structure(list(), class = "fielddescriptor")
 expect_error(dp_name(f))
+expect_error(dp_type(f))
 expect_equal(dp_title(f), NULL)
 expect_equal(dp_description(f), NULL)
 expect_equal(dp_description(f, first_paragraph = TRUE), NULL)
@@ -44,4 +47,12 @@ dp_format(f) <- "bar"
 expect_equal(dp_format(f), "bar")
 dp_format(f) <- NULL
 expect_equal(dp_format(f), NULL)
+
+# TYPE
+dp_type(f) <- "number"
+expect_equal(dp_type(f), "number")
+expect_error(dp_type(f) <- "foo")
+expect_warning(dp_type(f) <- "object")
+expect_error(dp_type(f) <- NULL)
+expect_error(dp_type(f) <- NA_character_)
 

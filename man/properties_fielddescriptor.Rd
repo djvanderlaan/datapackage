@@ -6,6 +6,9 @@
 \alias{dp_title.fielddescriptor}
 \alias{dp_description<-.fielddescriptor}
 \alias{dp_format.fielddescriptor}
+\alias{dp_type}
+\alias{dp_type<-}
+\alias{dp_type.fielddescriptor}
 \title{Getting and setting properties of Data Resources}
 \usage{
 \method{dp_name}{fielddescriptor}(x)
@@ -15,6 +18,12 @@
 \method{dp_description}{fielddescriptor}(x) <- value
 
 \method{dp_format}{fielddescriptor}(x, ...)
+
+dp_type(x)
+
+dp_type(x) <- value
+
+\method{dp_type}{fielddescriptor}(x)
 }
 \arguments{
 \item{x}{a \code{fielddescriptor} object.}
