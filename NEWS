@@ -12,7 +12,10 @@ NEW FEATURES
   - `dp_type()` and `dp_type<-()` added for Field Descriptor to get and set 
     the field type.
 
+  - Added checking of constraints for fields of type 'datetime'.
+
 BUG FIXES
 
-  - [Bug fix]
+  - Checking 'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum' 
+    constraints on non numeric fields failed.
 

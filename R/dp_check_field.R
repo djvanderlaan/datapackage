@@ -200,3 +200,32 @@ check_date <- function(x, fielddescriptor, constraints = TRUE)  {
   TRUE
 }
 
+check_datetime <- function(x, fielddescriptor, constraints = TRUE)  {
+  name <- fielddescriptor$name
+  if (!is.null(dp_property.fielddescriptor(fielddescriptor, "type")) && 
+      dp_property.fielddescriptor(fielddescriptor, "type") != "datetime") {
+    return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
+  }
+  # We expect time
+  is_datetime <- methods::is(x, "POSIXt")
+  # handle the case of all NA; which by default gets converted to logical by R
+  all_na <- is.logical(x) && all(is.na(x))
+  # check if x correct type
+  if (!is_datetime && !all_na) 
+    return(paste0("field '", name, "' is of wrong type."))
+  if (constraints) {
+    res <- list(
+      check_constraint_unique(x, fielddescriptor),
+      check_constraint_required(x, fielddescriptor),
+      check_constraint_minimum(x, fielddescriptor),
+      check_constraint_maximum(x, fielddescriptor),
+      check_constraint_exclusiveminimum(x, fielddescriptor),
+      check_constraint_exclusivemaximum(x, fielddescriptor),
+      check_constraint_enum(x, fielddescriptor)
+    )
+    fail <- sapply(res, \(x) !isTRUE(x)) 
+    if (any(fail)) return(unlist(res[fail]))
+  }
+  TRUE
+}
+
