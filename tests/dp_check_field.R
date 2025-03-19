@@ -406,6 +406,81 @@ expect_equal(is.character(y), TRUE)
 expect_equal(length(y), 2)
 
 # =============================================================================
+# YEAR: Basic without constraints
+fd <- list(name = "foo", type = "year")
+expect_istrue( datapackage:::check_year(c(1,3,2,NA), fd))
+expect_istrue( datapackage:::check_year(NA, fd))
+expect_istrue( datapackage:::check_year(numeric(0), fd))
+expect_nistrue(datapackage:::check_year(1.3, fd))
+expect_nistrue(datapackage:::check_year(0.7, fd))
+expect_istrue(datapackage:::check_year(1.3, fd, tolerance = 0.31))
+expect_istrue(datapackage:::check_year(0.7, fd, tolerance = 0.31))
+expect_nistrue(datapackage:::check_year("3", fd))
+expect_istrue( datapackage:::check_year(logical(0), fd))
+expect_nistrue(datapackage:::check_year(TRUE, fd))
+
+# Check for correct type in fielddescriptor
+fd <- list(name = "foo", type = "number")
+expect_nistrue(datapackage:::check_year(1:3, fd))
+
+# NUMBER: Constraints
+fd <- list(name="foo", type="year", constraints = list(minimum = 2))
+x <- c(1,3,1,NA)
+expect_nistrue(datapackage:::check_year(x, fd))
+expect_istrue(datapackage:::check_year(x, fd, constraints = FALSE))
+x <- c(2,3,2,NA)
+expect_istrue(datapackage:::check_year(x, fd))
+
+fd <- list(name="foo", type="year", constraints = list(maximum = 2))
+x <- c(1,3,1,NA)
+expect_nistrue(datapackage:::check_year(x, fd))
+expect_istrue(datapackage:::check_year(x, fd, constraints = FALSE))
+x <- c(1,2,1,NA)
+expect_istrue(datapackage:::check_year(x, fd))
+
+fd <- list(name="foo", type="year", constraints = list(unique = TRUE))
+x <- c(1,NA,3,1,NA)
+expect_nistrue(datapackage:::check_year(x, fd))
+expect_istrue(datapackage:::check_year(x, fd, constraints = FALSE))
+x <- c(1,3,2,NA)
+expect_istrue(datapackage:::check_year(x, fd))
+
+fd <- list(name="foo", type="year", constraints = list(required = TRUE))
+x <- c(1,NA,3,1,NA)
+expect_nistrue(datapackage:::check_year(x, fd))
+expect_istrue(datapackage:::check_year(x, fd, constraints = FALSE))
+x <- c(1,3,1,4)
+expect_istrue(datapackage:::check_year(x, fd))
+
+fd <- list(name="foo", type="year", constraints = list(exclusiveMaximum = 3))
+x <- c(1,NA,3,1,NA)
+expect_nistrue(datapackage:::check_year(x, fd))
+expect_istrue(datapackage:::check_year(x, fd, constraints = FALSE))
+x <- c(1,NA,2,1,NA)
+expect_istrue(datapackage:::check_year(x, fd))
+
+fd <- list(name="foo", type="year", constraints = list(exclusiveMinimum = 1))
+x <- c(1,NA,3,1,NA)
+expect_nistrue(datapackage:::check_year(x, fd))
+expect_istrue(datapackage:::check_year(x, fd, constraints = FALSE))
+x <- c(2,NA,3,2,NA)
+expect_istrue(datapackage:::check_year(x, fd))
+
+fd <- list(name="foo", type="year", constraints = list(enum = c(2,3)))
+x <- c(1,NA,3,1,NA)
+expect_nistrue(datapackage:::check_year(x, fd))
+expect_istrue(datapackage:::check_year(x, fd, constraints = FALSE))
+x <- c(2,NA,3,2,NA)
+expect_istrue(datapackage:::check_year(x, fd))
+
+x <- c(1,3,1,NA)
+fd <- list(name="foo", type="year", constraints = list(minimum = 2, maximum = 2))
+y <- datapackage:::check_year(x, fd)
+expect_equal(is.character(y), TRUE)
+expect_equal(length(y), 2)
+
+
+# =============================================================================
 # GENERAL dp_check_field
 # Most tests will be covered by the tests above; here check for each type a 
 # couple of cases to see if all arguments are passed on the datapackage:::check_<type> 
@@ -443,6 +518,21 @@ expect_istrue(dp_check_field(x, list(name = "foo", type = "string")))
 expect_nistrue(dp_check_field(as.integer(x), list(name = "foo", type = "string")))
 expect_nistrue(dp_check_field(x, list(name = "foo", type = "string", 
     constraints = list(required = TRUE))))
+
+x <- as.POSIXct(c("2024-01-02 12:13:14","2024-03-23 00:03:03","2024-01-02 12:13:14",NA))
+expect_istrue(dp_check_field(x, list(name = "foo", type = "datetime")))
+expect_nistrue(dp_check_field(as.character(x), list(name = "foo", type = "datetime")))
+expect_nistrue(dp_check_field(x, list(name = "foo", type = "datetime", 
+    constraints = list(unique = TRUE))))
+
+x <- c(1, 3, 1, NA)
+expect_istrue(dp_check_field(x, list(name = "foo", type = "year")))
+expect_nistrue(dp_check_field(as.character(x), list(name = "foo", type = "year")))
+expect_nistrue(dp_check_field(x, list(name = "foo", type = "year", 
+    constraints = list(minimum = 2))))
+expect_nistrue(dp_check_field(x+0.1, list(name = "foo", type = "year")))
+expect_istrue(dp_check_field(x+0.1, list(name = "foo", type = "year"), 
+  tolerance = 0.3))
 
 # Unknown type
 expect_warning(ut <- dp_check_field(x, list(name = "foo", type = "foobar")))

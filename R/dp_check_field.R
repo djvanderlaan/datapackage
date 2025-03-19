@@ -31,6 +31,10 @@ dp_check_field <- function(x, fielddescriptor, constraints = TRUE, tolerance = s
     check_number(x, fielddescriptor, constraints)
   } else if (type == "string") {
     check_string(x, fielddescriptor, constraints)
+  } else if (type == "datetime") {
+    check_datetime(x, fielddescriptor, constraints)
+  } else if (type == "year") {
+    check_year(x, fielddescriptor, constraints, tolerance = tolerance)
   } else {
     warning("Field '", name, "' has a type that cannot be checked.")
     TRUE
@@ -213,6 +217,37 @@ check_datetime <- function(x, fielddescriptor, constraints = TRUE)  {
   # check if x correct type
   if (!is_datetime && !all_na) 
     return(paste0("field '", name, "' is of wrong type."))
+  if (constraints) {
+    res <- list(
+      check_constraint_unique(x, fielddescriptor),
+      check_constraint_required(x, fielddescriptor),
+      check_constraint_minimum(x, fielddescriptor),
+      check_constraint_maximum(x, fielddescriptor),
+      check_constraint_exclusiveminimum(x, fielddescriptor),
+      check_constraint_exclusivemaximum(x, fielddescriptor),
+      check_constraint_enum(x, fielddescriptor)
+    )
+    fail <- sapply(res, \(x) !isTRUE(x)) 
+    if (any(fail)) return(unlist(res[fail]))
+  }
+  TRUE
+}
+
+check_year <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(.Machine$double.eps))  {
+  name <- fielddescriptor$name
+  if (!is.null(dp_property.fielddescriptor(fielddescriptor, "type")) && 
+      dp_property.fielddescriptor(fielddescriptor, "type") != "year") {
+    return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
+  }
+  # We expect numeric
+  is_numeric <- is.numeric(x)
+  # handle the case of all NA; which by default gets converted to logical by R
+  all_na <- is.logical(x) && all(is.na(x))
+  # check if x correct type
+  if (!is_numeric && !all_na) 
+    return(paste0("field '", name, "' is of wrong type."))
+  if (is_numeric && !is.integer(x) && any( abs(x - round(x)) > tolerance, na.rm = TRUE) )
+    return(paste0("field '", name, "' has non integer values."))
   if (constraints) {
     res <- list(
       check_constraint_unique(x, fielddescriptor),
