@@ -12,7 +12,8 @@ NEW FEATURES
   - `dp_type()` and `dp_type<-()` added for Field Descriptor to get and set 
     the field type.
 
-  - Added checking of constraints for fields of type 'datetime', 'year'.
+  - Added checking of constraints for fields of type 'datetime', 'year', 
+    `yearmonth`.
 
 BUG FIXES
 

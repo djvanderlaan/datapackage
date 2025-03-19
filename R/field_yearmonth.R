@@ -39,7 +39,10 @@ dp_to_yearmonth.integer <- function(x, fielddescriptor = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 202001 -> convert to character and 
   # convert
-  dp_to_yearmonth(sprintf("%06d", x))
+  na <- is.na(x)
+  x <- sprintf("%06d", x)
+  x[na] <- NA
+  dp_to_yearmonth(x)
 }
 
 #' @export
@@ -47,7 +50,10 @@ dp_to_yearmonth.numeric <- function(x, fielddescriptor = list(), ...) {
   # When we get an integer or numeric; assume date was accidentally read as 
   # numeric, e.g. when date = 202001 -> convert to character and 
   # convert
-  dp_to_yearmonth(sprintf("%06d", x))
+  na <- is.na(x)
+  x <- sprintf("%06d", x)
+  x[na] <- NA
+  dp_to_yearmonth(x)
 }
 
 #' @export

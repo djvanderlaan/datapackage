@@ -264,3 +264,52 @@ check_year <- function(x, fielddescriptor, constraints = TRUE, tolerance = sqrt(
   TRUE
 }
 
+check_yearmonth <- function(x, fielddescriptor, constraints = TRUE, tolerance = 0.1)  {
+  name <- fielddescriptor$name
+  if (!is.null(dp_property.fielddescriptor(fielddescriptor, "type")) && 
+      dp_property.fielddescriptor(fielddescriptor, "type") != "yearmonth") {
+    return(paste0("Invalid type in fielddescriptor for field '", name, "'."))
+  }
+  # We expect Date
+  is_date <- methods::is(x, "Date") 
+  # handle the case of all NA; which by default gets converted to logical by R
+  all_na <- is.logical(x) && all(is.na(x))
+  if (all_na) x <- as.Date(as.integer(x))
+  # check if x correct type
+  if (!is_date && !all_na) 
+    return(paste0("field '", name, "' is of wrong type."))
+  # check if we have months
+  y <- dp_to_yearmonth(x)
+  if (any(abs(x - y) > tolerance, na.rm = TRUE)) 
+    return(paste0("field '", name, "' has values unequal to first of month."))
+  if (constraints && utils::hasName(fielddescriptor, "constraints")) {
+    # Make sure we have first of month even when tolerance > 1
+    x <- y
+    # we also need to convert maximum and minimum etc to months
+    cons <- fielddescriptor$constraints
+    if (utils::hasName(cons, "maximum")) 
+      cons$maximum <- dp_to_yearmonth(cons$maximum)
+    if (utils::hasName(cons, "minimum")) 
+      cons$minimum <- dp_to_yearmonth(cons$minimum)
+    if (utils::hasName(cons, "exclusiveMaximum")) 
+      cons$exclusiveMaximum <- dp_to_yearmonth(cons$exclusiveMaximum)
+    if (utils::hasName(cons, "exclusiveMinimum")) 
+      cons$exclusiveMinimum <- dp_to_yearmonth(cons$exclusiveMinimum)
+    if (utils::hasName(cons, "enum")) 
+      cons$enum <- dp_to_yearmonth(cons$enum)
+    fielddescriptor$constraints <- cons
+    res <- list(
+      check_constraint_unique(x, fielddescriptor),
+      check_constraint_required(x, fielddescriptor),
+      check_constraint_minimum(x, fielddescriptor),
+      check_constraint_maximum(x, fielddescriptor),
+      check_constraint_exclusiveminimum(x, fielddescriptor),
+      check_constraint_exclusivemaximum(x, fielddescriptor),
+      check_constraint_enum(x, fielddescriptor)
+    )
+    fail <- sapply(res, \(x) !isTRUE(x)) 
+    if (any(fail)) return(unlist(res[fail]))
+  }
+  TRUE
+}
+

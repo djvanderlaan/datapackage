@@ -479,6 +479,116 @@ y <- datapackage:::check_year(x, fd)
 expect_equal(is.character(y), TRUE)
 expect_equal(length(y), 2)
 
+# =============================================================================
+# YEARMONTH: Basic without constraints
+fd <- list(name = "foo", type = "yearmonth")
+expect_istrue( datapackage:::check_yearmonth(as.Date(c("2024-01-01", "2024-03-01", "2024-02-01", NA)), fd))
+expect_istrue( datapackage:::check_yearmonth(NA, fd))
+expect_istrue( datapackage:::check_yearmonth(as.Date(character(0)), fd))
+expect_nistrue(datapackage:::check_yearmonth(as.POSIXct("2024-01-01 00:00"), fd))
+expect_nistrue(datapackage:::check_yearmonth("3", fd))
+expect_istrue( datapackage:::check_yearmonth(logical(0), fd))
+expect_nistrue(datapackage:::check_yearmonth(TRUE, fd))
+expect_nistrue( datapackage:::check_yearmonth(as.Date(c("2024-01-05", "2024-03-01", "2024-02-01", NA)), fd))
+expect_istrue( datapackage:::check_yearmonth(as.Date(c("2024-01-05", "2024-03-01", "2024-02-01", NA)), fd, 
+    tolerance = 5))
+
+# Check for correct type in fielddescriptor
+fd <- list(name = "foo", type = "integer")
+expect_nistrue(datapackage:::check_yearmonth(1:3, fd))
+
+# DATE: Constraints
+fd <- list(name="foo", type="yearmonth", constraints = list(minimum = as.Date("2024-02-01")))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-02-01","2024-03-01","2024-02-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(minimum = as.Date("2024-02-05")))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-02-01","2024-03-01","2024-02-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(maximum = as.Date("2024-02-01")))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-01-01","2024-02-01","2024-01-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(maximum = as.Date("2024-02-01")))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-01-01","2024-02-01","2024-01-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(unique = TRUE))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-02-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(required = TRUE))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01"))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(exclusiveMaximum = as.Date("2024-03-01")))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-01-01","2024-02-01","2024-01-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(exclusiveMaximum = as.Date("2024-03-05")))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-01-01","2024-02-01","2024-01-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(exclusiveMinimum = as.Date("2024-01-01")))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-02-01","2024-03-01","2024-02-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(exclusiveMinimum = as.Date("2024-01-05")))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-02-01","2024-03-01","2024-02-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(enum = as.Date(c("2024-02-01", "2024-01-01"))))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-01-01","2024-02-01","2024-01-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+fd <- list(name="foo", type="yearmonth", constraints = list(enum = as.Date(c("2024-02-05", "2024-01-05"))))
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+expect_nistrue(datapackage:::check_yearmonth(x, fd))
+expect_istrue(datapackage:::check_yearmonth(x, fd, constraints = FALSE))
+x <- as.Date(c("2024-01-01","2024-02-01","2024-01-01",NA))
+expect_istrue(datapackage:::check_yearmonth(x, fd))
+
+
+x <- as.Date(c("2024-01-01","2024-03-01","2024-01-01",NA))
+fd <- list(name="foo", type="yearmonth", constraints = list(required = TRUE, unique = TRUE))
+y <- datapackage:::check_yearmonth(x, fd)
+expect_equal(is.character(y), TRUE)
+expect_equal(length(y), 2)
+
 
 # =============================================================================
 # GENERAL dp_check_field
