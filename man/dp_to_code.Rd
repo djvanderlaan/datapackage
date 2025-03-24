@@ -27,6 +27,12 @@ Recode a variable to \code{code} using the associated categories
 Uses the \code{\link[codelist]{code}} method from the  'codelist' package.
 This package therefore needs to be installed. See the documentation of that
 package for how to work with 'code' objects.
+
+By setting the option 'DP_TRIM_CODE' to \code{TRUE} white space at the
+beginning and end of character values will be removes from the category
+values and from \code{x}.  Also multiple hyphens at the beginning character
+values will be removed This can be disabled by setting the option
+'DP_TRIM_HYPHEN' to \code{FALSE}.
 }
 \examples{
 fn <- system.file("examples/iris", package = "datapackage")

@@ -1,9 +1,15 @@
 
-CHANGES IN VERSION 0.1.2
+CHANGES IN VERSION 0.2.0
 
 NEW FEATURES
+
+  - `dp_to_code` will remove white space at the beginning and end of character
+    values from category values and the field and multiple hypens at the
+    beginning of values when the option `DP_TRIM_CODES` is set to `TRUE`
+    (default value is `FALSE`). Ignoring multiple hyphens can be disabled by
+    setting `DP_TRIM_HYPHEN` to `FALSE`. 
   
-  - `dp_to_code` will ignore white space at the beginning and end of character
+  - `dp_to_factor` will ignore white space at the beginning and end of character
     values and multiple hypens at the beginning of values when the option
     `DP_TRIM_CODES` is set to `TRUE` (default value is `FALSE`). Ignoring
     multiple hyphens can be disabled by setting `DP_TRIM_HYPHEN` to `FALSE`. 

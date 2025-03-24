@@ -15,6 +15,13 @@
 #' This package therefore needs to be installed. See the documentation of that
 #' package for how to work with 'code' objects.
 #'
+#' By setting the option 'DP_TRIM_CODE' to \code{TRUE} white space at the
+#' beginning and end of character values will be removes from the category
+#' values and from \code{x}.  Also multiple hyphens at the beginning character
+#' values will be removed This can be disabled by setting the option
+#' 'DP_TRIM_HYPHEN' to \code{FALSE}.
+#'
+#'
 #' @return
 #' Returns a '\link[codelist]{code}' object or \code{x} when no categories
 #' could be found (\code{categorieslist = NULL}).
@@ -48,8 +55,20 @@ dp_to_code <- function(x, categorieslist = dp_categorieslist(x), ...,
   # Determine which columns from the categorieslist contain the 
   # codes and labels
   fields <- getfieldsofcategorieslist(categorieslist)
+  categorieslist[[fields$value]] <- trimcodes(categorieslist[[fields$value]])
   codelist <- codelist::as.codelist(categorieslist, code = fields$value, 
     label = fields$label, ...)
-  res <- codelist::code(x, codelist = codelist)
+  res <- codelist::code(trimcodes(x), codelist = codelist)
   structure(res, fielddescriptor = attr(x, "fielddescriptor"))
 }
+
+
+trimcodes <- function(x, trim = getOption("DP_TRIM_CODES", FALSE), 
+    trim_hyphen = getOption("DP_TRIM_HYPHEN", TRUE)) {
+  if (trim && is.character(x)) {
+    x <- trimws(x)
+    if (trim_hyphen) x <- gsub("^[-][-]+", "", x)
+  } 
+  x
+}
+
