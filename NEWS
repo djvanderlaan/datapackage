@@ -3,6 +3,11 @@ CHANGES IN VERSION 0.1.2
 
 NEW FEATURES
   
+  - `dp_to_code` will ignore white space at the beginning and end of character
+    values and multiple hypens at the beginning of values when the option
+    `DP_TRIM_CODES` is set to `TRUE` (default value is `FALSE`). Ignoring
+    multiple hyphens can be disabled by setting `DP_TRIM_HYPHEN` to `FALSE`. 
+
   - `dp_generate_fielddescriptor` now generates correct meta data for objects
     of type `code` from the `codelist` package.
 

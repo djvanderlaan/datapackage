@@ -21,6 +21,13 @@ Returns a factor vector or \code{x} when no categories could be found
 \description{
 Recode a variable to factor using the associated categories
 }
+\details{
+By setting the option 'DP_TRIM_CODE' to \code{TRUE} white space at the
+beginning and end of character values will be ignored when comparing \code{x}
+and the category values. Also multiple hyphens at the beginning character
+values will be ignored. This can be disabled by setting the option
+'DP_TRIM_HYPHEN' to \code{FALSE}.
+}
 \examples{
 fn <- system.file("examples/iris", package = "datapackage")
 dp <- open_datapackage(fn)

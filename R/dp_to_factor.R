@@ -7,6 +7,13 @@
 #'
 #' @param warn give a warning when there is no code list. 
 #'
+#' @details
+#' By setting the option 'DP_TRIM_CODE' to \code{TRUE} white space at the
+#' beginning and end of character values will be ignored when comparing \code{x}
+#' and the category values. Also multiple hyphens at the beginning character
+#' values will be ignored. This can be disabled by setting the option
+#' 'DP_TRIM_HYPHEN' to \code{FALSE}.
+#'
 #' @return
 #' Returns a factor vector or \code{x} when no categories could be found
 #' (\code{categorieslist = NULL}).
@@ -41,7 +48,8 @@ dp_to_factor <- function(x, categorieslist = dp_categorieslist(x), warn = TRUE) 
   if (is.character(x) & !("" %in% codes)) 
     x[!is.na(x) & (x == "")] <- NA_character_
   # check if codes are valid
-  ok <- x %in% codes | is.na(x) | (is.character(x) & x == "")
+  m <- match_codes(x, codes)
+  ok <- !is.na(m) | is.na(x) | (is.character(x) & x == "")
   if (!all(ok)) {
     wrong <- unique(x[!ok])
     wrong <- paste0("'", wrong, "'")
@@ -49,7 +57,7 @@ dp_to_factor <- function(x, categorieslist = dp_categorieslist(x), warn = TRUE) 
       wrong <- c(utils::head(wrong, 5), "...")
     stop("Invalid values found in x: ", paste0(wrong, collapse = ","))
   }
-  structure(factor(x, levels = codes, labels = labels), 
+  structure(factor(codes[m], levels = codes, labels = labels), 
     fielddescriptor = attr(x, "fielddescriptor"))
 }
 
@@ -79,5 +87,28 @@ getfieldsofcategorieslist <- function(categorieslist) {
     labels <- values
   # Return what we have found
   list(value = values, label = labels)
+}
+
+match_codes <- function(x, codes, trim_codes = getOption("DP_TRIM_CODES", FALSE),
+    trim_hyphen = getOption("DP_TRIM_HYPHEN", TRUE)) {
+  na <- is.na(x) | (is.character(x) & x == "")
+  # Function for trimming the codes; we remove whitepase before and after the
+  # codes; and we remove multiple -- at the beging of the code
+  trimcodes <- function(x) {
+    x <- trimws(x)
+    if (trim_hyphen) x <- gsub("^[-][-]+", "", x)
+    x
+  }
+  # First match using regular match if that works we don't need to trim the 
+  # codes
+  m <- match(x, codes)
+  unmatched <- is.na(m) & !na
+  # We couldn't match all codes; try again with trimming the codes
+  if (any(unmatched) && trim_codes && is.character(x)) {
+    x <- trimcodes(x)
+    codes <- trimcodes(codes)
+    m <- match(x, codes)
+  }
+  m
 }
 
