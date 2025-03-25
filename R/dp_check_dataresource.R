@@ -38,24 +38,11 @@ dp_check_dataresource <- function(x, dataresource = attr(x, "resource"), constra
   # check fieldnames
   fieldnames  <- dp_field_names(dataresource)
   names       <- names(x)
-  fieldsMatch <- dp_property(dataresource, "fieldsMatch")
-  if (is.null(fieldsMatch)) fieldsMatch <- "exact"
-  if (fieldsMatch == "exact") {
-    if (!isTRUE(all.equal(as.character(names), as.character(fieldnames)))) 
-      return ("Fieldnames do not match the names of the dataset x.")
-  } else if (fieldsMatch == "equal") {
-    if (!all(names %in% fieldnames) || !all(fieldnames %in% names))
-      return ("Fieldnames do not match the names of the dataset x.")
-  } else if (fieldsMatch == "subset") {
-    if (!all(names %in% fieldnames))
-      return ("Fieldnames do not match the names of the dataset x.")
-  } else if (fieldsMatch == "superset") {
-    if (!all(fieldnames %in% names))
-      return ("Fieldnames do not match the names of the dataset x.")
-  } else if (fieldsMatch == "partial") {
-    if (!any(names %in% fieldnames) || !any(fieldnames %in% names))
-      return ("Fieldnames do not match the names of the dataset x.")
-  }
+  fieldsMatch <- NULL
+  if (!is.null(schema <- dp_schema(dataresource)))
+    fieldsMatch <- dp_property(schema, "fieldsMatch")
+  res <- check_fields(names, fieldnames, fieldsMatch)
+  if (!isTRUE(res)) return(res)
   # We will only check the fields that are in both the dataset and the 
   # schema; above we checked to what extent these two have to overlap
   fieldnames <- intersect(fieldnames, names)
@@ -74,4 +61,24 @@ dp_check_dataresource <- function(x, dataresource = attr(x, "resource"), constra
 }
 
 
+check_fields <- function(names, fieldnames, fieldsMatch = "exact") {
+  if (is.null(fieldsMatch)) fieldsMatch <- "exact"
+  if (fieldsMatch == "exact") {
+    if (!isTRUE(all.equal(as.character(names), as.character(fieldnames)))) 
+      return ("Fieldnames do not match the names of the dataset.")
+  } else if (fieldsMatch == "equal") {
+    if (!all(names %in% fieldnames) || !all(fieldnames %in% names))
+      return ("Fieldnames do not match the names of the dataset.")
+  } else if (fieldsMatch == "subset") {
+    if (!all(fieldnames %in% names))
+      return ("Fieldnames do not match the names of the dataset.")
+  } else if (fieldsMatch == "superset") {
+    if (!all(names %in% fieldnames))
+      return ("Fieldnames do not match the names of the dataset.")
+  } else if (fieldsMatch == "partial") {
+    if (!any(names %in% fieldnames) || !any(fieldnames %in% names))
+      return ("Fieldnames do not match the names of the dataset.")
+  }
+  TRUE
+}
 

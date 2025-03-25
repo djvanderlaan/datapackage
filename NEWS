@@ -1,4 +1,19 @@
 
+
+CHANGES IN VERSION 0.2.1
+
+BUG FIXES
+
+  - `dp_apply_schema()` now handles the `fieldsMatch` property of the schema
+    correctly. Previously only `'exact'` was handled: the columns in the data
+    set should match the fields in the schema exactly. 
+
+  - `dp_check_dataresource()` was looking for the the `fieldsMatch` property in
+    the wrong location in the schema (it expected this property to be directly
+    in the Data Resource). This property should be in the `schema` property of
+    the Data Resource. 
+
+
 CHANGES IN VERSION 0.2.0
 
 NEW FEATURES

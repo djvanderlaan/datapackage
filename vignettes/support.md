@@ -297,7 +297,8 @@ CSV reader and writer.
       <td class="incomplete"></td>
     </tr><tr>
       <td><code>fieldsMatch</code></td>
-      <td class="incomplete"></td>
+      <td class="partial">Used and checked by <code>dp_apply_schema()<code> and
+      <code>dp_check_dataresource()</code>.</td>
       <td class="incomplete"></td>
     </tr><tr>
       <td><code>missingValues</code></td>

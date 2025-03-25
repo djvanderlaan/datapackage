@@ -29,8 +29,8 @@ expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "exact",
     schema = list(
+      fieldsMatch = "exact",
       fields = list(
           list(name = "a", type = "integer"),
           list(name = "b", type = "string")
@@ -42,8 +42,8 @@ expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "exact",
     schema = list(
+      fieldsMatch = "exact",
       fields = list(
           list(name = "b", type = "string"),
           list(name = "a", type = "integer")
@@ -55,8 +55,8 @@ expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "equal",
     schema = list(
+      fieldsMatch = "equal",
       fields = list(
           list(name = "b", type = "string"),
           list(name = "a", type = "integer")
@@ -68,8 +68,8 @@ expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "equal",
     schema = list(
+      fieldsMatch = "equal",
       fields = list(
           list(name = "a", type = "integer"),
           list(name = "b", type = "string")
@@ -81,8 +81,8 @@ expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "subset",
     schema = list(
+      fieldsMatch = "superset",
       fields = list(
           list(name = "a", type = "integer"),
           list(name = "b", type = "string")
@@ -94,8 +94,8 @@ expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "equal",
     schema = list(
+      fieldsMatch = "equal",
       fields = list(
           list(name = "a", type = "integer"),
           list(name = "b", type = "string")
@@ -107,8 +107,8 @@ expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "superset",
     schema = list(
+      fieldsMatch = "subset",
       fields = list(
           list(name = "a", type = "integer"),
           list(name = "b", type = "string")
@@ -121,8 +121,8 @@ expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "superset",
     schema = list(
+      fieldsMatch = "subset",
       fields = list(
           list(name = "a", type = "integer"),
           list(name = "b", type = "string")
@@ -134,8 +134,8 @@ expect_nistrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "partial",
     schema = list(
+      fieldsMatch = "partial",
       fields = list(
           list(name = "a", type = "integer"),
           list(name = "b", type = "string")
@@ -147,8 +147,8 @@ expect_istrue(dp_check_dataresource(dta, dr))
 
 dr <- list(
     name = "test",
-    fieldsMatch = "partial",
     schema = list(
+      fieldsMatch = "partial",
       fields = list(
           list(name = "a", type = "integer"),
           list(name = "b", type = "string")

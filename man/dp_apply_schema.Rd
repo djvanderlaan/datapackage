@@ -8,6 +8,7 @@ dp_apply_schema(
   dta,
   resource,
   convert_categories = c("no", "to_factor", "to_code"),
+  reorder = TRUE,
   ...
 )
 }
@@ -26,12 +27,17 @@ other cased the function is called with the column as its first parameter and
 \code{warn = FALSE} as its second argument. The result of this function call
 is added to the resulting data set.}
 
+\item{reorder}{put the columns in the same order as the fields in the data
+resource.}
+
 \item{...}{additional arguments are passed on to the \code{dp_to_<fieldtype>}
 functions (e.g. \code{\link{dp_to_number}}).}
 }
 \value{
 Returns a copy of the input data.frame with columns modified to match the
-types given in de table schema.
+types given in de table schema. When \code{reorder = TRUE} columns are put in the 
+same order as in the data resource with fields not in the data resource put
+at the back of the data.frame.
 }
 \description{
 Convert columns of data.frame to their correct types using table schema

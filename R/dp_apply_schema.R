@@ -14,6 +14,9 @@
 #' \code{warn = FALSE} as its second argument. The result of this function call
 #' is added to the resulting data set.
 #'
+#' @param reorder put the columns in the same order as the fields in the data
+#' resource.
+#'
 #' @param ... additional arguments are passed on to the \code{dp_to_<fieldtype>}
 #' functions (e.g. \code{\link{dp_to_number}}). 
 #'
@@ -27,7 +30,9 @@
 #'
 #' @return
 #' Returns a copy of the input data.frame with columns modified to match the
-#' types given in de table schema.
+#' types given in de table schema. When \code{reorder = TRUE} columns are put in the 
+#' same order as in the data resource with fields not in the data resource put
+#' at the back of the data.frame.
 #'
 #' @seealso
 #' This function calls conversion functions for each of the columns, see 
@@ -37,13 +42,23 @@
 #'
 #'@export
 dp_apply_schema <- function(dta, resource, 
-    convert_categories = c("no", "to_factor", "to_code"), ...) {
+    convert_categories = c("no", "to_factor", "to_code"), 
+    reorder = TRUE, ...) {
   # Check columnnames
   fieldnames <- dp_field_names(resource)
-  if (!all(names(dta) == fieldnames)) 
-    stop("Column names of dta do not match those in the table schema")
-  catconvfun <- get_convert_categories(convert_categories)
+  fieldsMatch <- NULL
+  if (!is.null(schema <- dp_schema(resource)))
+    fieldsMatch <- dp_property(schema, "fieldsMatch")
+  res <- check_fields(names(dta), fieldnames, fieldsMatch)
+  if (!isTRUE(res)) stop(res)
+  # We will only check the fields that are in both the dataset and the 
+  # schema; above we checked to what extent these two have to overlap
+  fieldnames <- intersect(fieldnames, names(dta))
+  # Put fields in order of schema
+  namesremain <- setdiff(names(dta), fieldnames)
+  dta <- subset(dta, select = c(fieldnames, namesremain))
   # Convert columns to correct type
+  catconvfun <- get_convert_categories(convert_categories)
   is_data_table <- methods::is(dta, "data.table")
   for (field in fieldnames) {
     fielddescriptor <- dp_field(resource, field)

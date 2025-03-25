@@ -113,7 +113,6 @@ expected <- c("\"string1\",\"integer1\",\"boolean1\",\"number1\",\"number2\",\"b
   "\"f\",0,,,,FALSE,\"1920-12-10\",,\"102\"", 
   "\"g\",0,FALSE,,\"0\",TRUE,\"2002-02-20\",3,")
 expect_equal(csv, expected)
-csv == expected
 
 
 # When we read the data back in again from the new datapackage we should get the
