@@ -13,6 +13,10 @@ BUG FIXES
     in the Data Resource). This property should be in the `schema` property of
     the Data Resource. 
 
+  - `csv_reader()` now handles the `fieldsMatch` property of the schema
+    correctly. Previously the the code assumed `exact` for the `fieldsMatch`
+    property. In general this would result in an error when reading a file. 
+
 
 CHANGES IN VERSION 0.2.0
 

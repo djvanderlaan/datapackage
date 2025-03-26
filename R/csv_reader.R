@@ -33,8 +33,8 @@ csv_reader <- function(path, resource, use_fread = FALSE,
     if (is.null(dialect)) dialect <- list()
     dec <- if (!is.null(dialect$decimalChar)) dialect$decimalChar else
       determine_decimalchar(schema$fields)
-    colclasses <- sapply(schema$fields, csv_colclass, decimalChar = dec)
-    # TODO: missing values/na.strings
+    colclasses <- determine_colclasses(path, resource, dialect = dialect, 
+      use_fread = use_fread, decimalChar = dec)
     dta <- csv_read_base(path, decimalChar = dec, colClasses = colclasses, 
       use_fread = use_fread, csv_dialect = dialect, ...)
     dta <- dp_apply_schema(dta, resource, convert_categories = convert_categories, 
@@ -132,5 +132,30 @@ csv_read_base <- function(filename,
     #}
     #dta
   }
+}
+
+
+determine_colclasses <- function(path, resource, dialect = list(), 
+    use_fread = FALSE, decimalChar = ".") {
+  # Read part of the file to get the column names and the order of the columns;
+  # read everything as character as we don't now the types yet
+  tmp <- csv_read_base(path, colClasses = character(), 
+    use_fread = use_fread, csv_dialect = dialect, nrows = 5)
+  names <- names(tmp)
+  # Check if the column names match with those from the data resource
+  fieldnames <- dp_field_names(resource)
+  fieldsMatch <- NULL
+  schema <- dp_schema(resource)
+  fieldsMatch <- dp_property(schema, "fieldsMatch")
+  res <- check_fields(names, fieldnames, fieldsMatch)
+  if (!isTRUE(res)) stop(res)
+  # Get the colclasses based on the data resource 
+  colclasses <- sapply(schema$fields, csv_colclass, decimalChar = decimalChar)
+  # Match those to those of the dataset; when we can't match we read as
+  # character
+  m <- match(names, fieldnames)
+  colclasses <- colclasses[m]
+  colclasses[is.na(colclasses)] <- "character"
+  colclasses
 }
 
