@@ -18,6 +18,10 @@ BUG FIXES
     property. In general this would result in an error when reading a file. 
 
 
+  - `dp_apply_schema()` gives clearer error messages: reports the column in
+    which the error occured.
+
+
 CHANGES IN VERSION 0.2.0
 
 NEW FEATURES

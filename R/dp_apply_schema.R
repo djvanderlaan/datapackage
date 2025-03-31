@@ -69,7 +69,14 @@ dp_apply_schema <- function(dta, resource,
         structure(x, fielddescriptor = fielddescriptor)
       }
     } else fun <- get(fun)
-    res <- fun(dta[[field]], fielddescriptor, ...)
+    # Convert the field
+    tryCatch({
+      res <- fun(dta[[field]], fielddescriptor, ...)
+    }, error = function(e) {
+      stop("Conversion of '", field, "' failed: ", e$message, ".")
+    }, warning = function(w) {
+      warning("Conversion of '", field, "' gave a warning: ", w$message, ".")
+    })
     if (!isFALSE(catconvfun)) res <- catconvfun(res, warn = FALSE)
     if (is_data_table) {
       data.table::set(dta, j = field, value = res)
