@@ -21,6 +21,8 @@ BUG FIXES
   - `dp_apply_schema()` gives clearer error messages: reports the column in
     which the error occured.
 
+  - Small changes to print functions.
+
 
 CHANGES IN VERSION 0.2.0
 
