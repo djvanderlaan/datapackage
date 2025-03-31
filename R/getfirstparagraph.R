@@ -8,7 +8,7 @@ getfirstparagraph <- function(x, dots = FALSE) {
     x <- x[seq(1, first_empty_line-1)]
     if (dots) x <- c(x, "...")
   }
-  paste0(x, collapse = "\n")
+  paste0(x, collapse = " ")
 }
 
 
