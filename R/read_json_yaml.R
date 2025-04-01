@@ -17,7 +17,12 @@ read_json_yaml <- function(filename, type = c("detect", "json", "yaml")) {
     jsonlite::read_json(filename, simplifyVector = TRUE, 
       simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
   } else if (type == "yaml") {
-    yaml::read_yaml(filename)
+    yaml::read_yaml(filename, handlers = list(
+        int = function(x) {
+          x <- as.numeric(x)
+          if (x <= .Machine$integer.max & x > -.Machine$integer.max) as.integer(x) else x
+        }
+      ))
   }
 }
 
