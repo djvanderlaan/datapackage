@@ -52,6 +52,41 @@ res <- dp_get_data(datapackage, "test")
 expect_equal(res$col1, data$col1, attributes = FALSE)
 expect_equal(res$col2, data$col2, attributes = FALSE)
 
+# === SUBDIRECTORY
+data <- data.frame(
+  col1 = c(1L, 2L),
+  col2 = c("A", "B")
+)
+resource <- list(
+    name = "test",
+    path = "data/test.csv",
+    schema = list(
+        fields = list(
+            list(name = "col1", type = "integer"),
+            list(name = "col2", type = "string")
+          )
+      ),
+    dialect = list( 
+        delimiter = ";",
+        decimalChar = ","
+      )
+  )
+expected <- c('"col1";"col2"', '1;"A"', '2;"B"')
+resource <- structure(resource, class = "dataresource")
+datapackage$resources[[1]] <- resource
+csv_writer(data, "test", datapackage)
+res <- readLines(file.path(fn, "data/test.csv")) 
+expect_equal(res, expected)
+csv_writer(data, "test", datapackage, use_fwrite = TRUE)
+res <- readLines(file.path(fn, "data/test.csv")) 
+expect_equal(res, expected)
+res <- dp_get_data(datapackage, "test")
+expect_equal(res$col1, data$col1, attributes = FALSE)
+expect_equal(res$col2, data$col2, attributes = FALSE)
+files <- list.files(file.path(fn, "data"), full.names = TRUE)
+ignore <- file.remove(files)
+
+
 
 # === DECIMALCHAR IN FIELD
 data <- data.frame(

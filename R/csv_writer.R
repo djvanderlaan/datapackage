@@ -49,6 +49,8 @@ csv_writer <- function(x, resource_name, datapackage,
   path <- dp_path(dataresource, full_path = TRUE)
   if (is.null(path)) stop("Path is missing in dataresource.")
   if (isurl(path)) stop("Path is an URL; writing to a URL is not supported.")
+  # If create directories in datapackage
+  dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
   # Write
   csv_write_base(x, path, encoding = encoding, decimalChar = decimalChar, 
     csv_dialect = csvdialect, quote = quote)

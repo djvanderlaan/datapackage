@@ -1,5 +1,4 @@
 
-
 CHANGES IN VERSION 0.2.1
 
 BUG FIXES
@@ -25,6 +24,10 @@ BUG FIXES
 
   - Fix issue with large integer when using a yaml file. These are now 
     converted to numeric.
+
+  - `dp_write_data()` gave error when data is stored in a subdirectory of the
+    data package and this directory does not yet exist. These directories are
+    now automatically created. 
 
 
 CHANGES IN VERSION 0.2.0
