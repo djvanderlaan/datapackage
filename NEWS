@@ -1,6 +1,10 @@
 
 CHANGES IN VERSION 0.2.1
 
+NEW FEATURES
+
+  - Colorised output in print methods.
+
 BUG FIXES
 
   - `dp_apply_schema()` now handles the `fieldsMatch` property of the schema
