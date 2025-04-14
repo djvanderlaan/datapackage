@@ -1,3 +1,6 @@
+# setup
+opar <- options("ANSI_OUTPUT"=FALSE)
+
 # tldropen
 library(datapackage, warn.conflicts = FALSE)
 dir <- system.file("examples/employ", package = "datapackage")
@@ -130,4 +133,7 @@ dp_load_from_datapackage(dir, "iris", convert_categories = "to_factor",
 file.remove(file.path(dir, "datapackage.json"))
 file.remove(file.path(dir, "iris.csv"))
 file.remove(dir)
+
+# setup
+options(opar)
 

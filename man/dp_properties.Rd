@@ -6,6 +6,7 @@
 \alias{dp_properties.editabledatapackage}
 \alias{dp_properties.dataresource}
 \alias{dp_properties.tableschema}
+\alias{dp_properties.fielddescriptor}
 \title{Get a list of properties defined for the object}
 \usage{
 dp_properties(x)
@@ -17,6 +18,8 @@ dp_properties(x)
 \method{dp_properties}{dataresource}(x)
 
 \method{dp_properties}{tableschema}(x)
+
+\method{dp_properties}{fielddescriptor}(x)
 }
 \arguments{
 \item{x}{the object for which to obtain the properties}

@@ -9,6 +9,10 @@ author: Jan van der Laan
 css: "style.css"
 ---
 
+```{.R #setup echo=FALSE results=FALSE}
+opar <- options("ANSI_OUTPUT"=FALSE)
+```
+
 A [Data Package](https://datapackage.org) is collection of files and consists
 of both data, which can be any type of information such as images and CSV
 files, and meta data. These files are usually stored in one directory (possibly
@@ -392,3 +396,8 @@ file.remove(file.path(dir, "datapackage.json"))
 file.remove(file.path(dir, "iris.csv"))
 file.remove(dir)
 ```
+
+```{.R #setup echo=FALSE results=FALSE}
+options(opar)
+```
+

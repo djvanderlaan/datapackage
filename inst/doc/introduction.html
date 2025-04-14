@@ -7,77 +7,85 @@
   <meta name="author" content="Jan van der Laan" />
   <title>Introduction to working with Data Packages</title>
   <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-  </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
   <style type="text/css">
 
 html {
@@ -358,11 +366,11 @@ the data package has three data resources.</p>
 <span id="tldropen-4"><a href="#tldropen-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp</span>
 <span id="tldropen-5"><a href="#tldropen-5" aria-hidden="true" tabindex="-1"></a>[example] Example data set <span class="cf">for</span> the datapackage package</span>
 <span id="tldropen-6"><a href="#tldropen-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="tldropen-7"><a href="#tldropen-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R.</span>
-<span id="tldropen-8"><a href="#tldropen-8" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="tldropen-9"><a href="#tldropen-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="tldropen-10"><a href="#tldropen-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpmhcQwK<span class="sc">/</span>Rinst71da17db59e<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
-<span id="tldropen-11"><a href="#tldropen-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
+<span id="tldropen-7"><a href="#tldropen-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R. [...]</span>
+<span id="tldropen-8"><a href="#tldropen-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="tldropen-9"><a href="#tldropen-9" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpzN3I1L<span class="sc">/</span>Rinste8461fc1df23<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
+<span id="tldropen-10"><a href="#tldropen-10" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
+<span id="tldropen-11"><a href="#tldropen-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="tldropen-12"><a href="#tldropen-12" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="tldropen-13"><a href="#tldropen-13" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>gender] Code list <span class="cf">for</span> gender of person</span>
 <span id="tldropen-14"><a href="#tldropen-14" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>employ] Code list <span class="cf">for</span> employment status</span></code></pre></div>
@@ -483,11 +491,11 @@ package:</p>
 <span id="g1-4"><a href="#g1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp</span>
 <span id="g1-5"><a href="#g1-5" aria-hidden="true" tabindex="-1"></a>[example] Example data set <span class="cf">for</span> the datapackage package</span>
 <span id="g1-6"><a href="#g1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g1-7"><a href="#g1-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R.</span>
-<span id="g1-8"><a href="#g1-8" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="g1-9"><a href="#g1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpmhcQwK<span class="sc">/</span>Rinst71da17db59e<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
-<span id="g1-11"><a href="#g1-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
+<span id="g1-7"><a href="#g1-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R. [...]</span>
+<span id="g1-8"><a href="#g1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="g1-9"><a href="#g1-9" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpzN3I1L<span class="sc">/</span>Rinste8461fc1df23<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
+<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
+<span id="g1-11"><a href="#g1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="g1-12"><a href="#g1-12" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="g1-13"><a href="#g1-13" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>gender] Code list <span class="cf">for</span> gender of person</span>
 <span id="g1-14"><a href="#g1-14" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>employ] Code list <span class="cf">for</span> employment status</span></code></pre></div>
@@ -506,16 +514,15 @@ obtain the Data Resource</p>
 <span id="g4-2"><a href="#g4-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> employ</span>
 <span id="g4-3"><a href="#g4-3" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="g4-4"><a href="#g4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g4-5"><a href="#g4-5" aria-hidden="true" tabindex="-1"></a>Employment status, income and background properties of sample of persons.</span>
-<span id="g4-6"><a href="#g4-6" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="g4-7"><a href="#g4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g4-8"><a href="#g4-8" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
-<span id="g4-9"><a href="#g4-9" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
-<span id="g4-10"><a href="#g4-10" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
-<span id="g4-11"><a href="#g4-11" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
-<span id="g4-12"><a href="#g4-12" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
-<span id="g4-13"><a href="#g4-13" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span>
-<span id="g4-14"><a href="#g4-14" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">6</span>] <span class="st">&quot;id&quot;</span> <span class="st">&quot;dob&quot;</span> <span class="st">&quot;gender&quot;</span> <span class="st">&quot;employ&quot;</span> <span class="st">&quot;income&quot;</span> <span class="st">&quot;haspartner&quot;</span></span></code></pre></div>
+<span id="g4-5"><a href="#g4-5" aria-hidden="true" tabindex="-1"></a>Employment status, income and background properties of sample of persons. [...]</span>
+<span id="g4-6"><a href="#g4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="g4-7"><a href="#g4-7" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
+<span id="g4-8"><a href="#g4-8" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
+<span id="g4-9"><a href="#g4-9" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
+<span id="g4-10"><a href="#g4-10" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
+<span id="g4-11"><a href="#g4-11" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="g4-12"><a href="#g4-12" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span>
+<span id="g4-13"><a href="#g4-13" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">6</span>] <span class="st">&quot;id&quot;</span> <span class="st">&quot;dob&quot;</span> <span class="st">&quot;gender&quot;</span> <span class="st">&quot;employ&quot;</span> <span class="st">&quot;income&quot;</span> <span class="st">&quot;haspartner&quot;</span></span></code></pre></div>
 <p>The <code>print</code> statement again shows the name, title and
 description. It also shows that the data is in a CSV-file anmes
 <code>employ.csv</code>. Standard the <code>print</code> shows only a
@@ -523,16 +530,15 @@ few properties of the Data Resource. To show all properties:</p>
 <div class="sourceCode" id="g5"><pre class="sourceCode R"><code class="sourceCode r"><span id="g5-1"><a href="#g5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">print</span>(employ, <span class="at">properties =</span> <span class="cn">NA</span>)</span>
 <span id="g5-2"><a href="#g5-2" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="g5-3"><a href="#g5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g5-4"><a href="#g5-4" aria-hidden="true" tabindex="-1"></a>Employment status, income and background properties of sample of persons.</span>
-<span id="g5-5"><a href="#g5-5" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="g5-6"><a href="#g5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g5-7"><a href="#g5-7" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
-<span id="g5-8"><a href="#g5-8" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
-<span id="g5-9"><a href="#g5-9" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
-<span id="g5-10"><a href="#g5-10" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
-<span id="g5-11"><a href="#g5-11" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
-<span id="g5-12"><a href="#g5-12" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span>
-<span id="g5-13"><a href="#g5-13" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">6</span>] <span class="st">&quot;id&quot;</span> <span class="st">&quot;dob&quot;</span> <span class="st">&quot;gender&quot;</span> <span class="st">&quot;employ&quot;</span> <span class="st">&quot;income&quot;</span> <span class="st">&quot;haspartner&quot;</span></span></code></pre></div>
+<span id="g5-4"><a href="#g5-4" aria-hidden="true" tabindex="-1"></a>Employment status, income and background properties of sample of persons. [...]</span>
+<span id="g5-5"><a href="#g5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="g5-6"><a href="#g5-6" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
+<span id="g5-7"><a href="#g5-7" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
+<span id="g5-8"><a href="#g5-8" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
+<span id="g5-9"><a href="#g5-9" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
+<span id="g5-10"><a href="#g5-10" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="g5-11"><a href="#g5-11" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span>
+<span id="g5-12"><a href="#g5-12" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">6</span>] <span class="st">&quot;id&quot;</span> <span class="st">&quot;dob&quot;</span> <span class="st">&quot;gender&quot;</span> <span class="st">&quot;employ&quot;</span> <span class="st">&quot;income&quot;</span> <span class="st">&quot;haspartner&quot;</span></span></code></pre></div>
 <p>Using this information it should be possible to open the dataset. The
 data can be opened in R using the <code>dp_get_data()</code> method.
 Based on the information in the Data Resource this function will try to
@@ -594,13 +600,12 @@ a data resource:</p>
 this field contains euro symbols and used a space as thousands
 separator. Information like this is stored in the field descriptor:</p>
 <div class="sourceCode" id="income"><pre class="sourceCode R"><code class="sourceCode r"><span id="income-1"><a href="#income-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_field</span>(employ, <span class="st">&quot;income&quot;</span>)</span>
-<span id="income-2"><a href="#income-2" aria-hidden="true" tabindex="-1"></a>Field Descriptor<span class="sc">:</span></span>
-<span id="income-3"><a href="#income-3" aria-hidden="true" tabindex="-1"></a>name       <span class="sc">:</span><span class="st">&quot;income&quot;</span></span>
-<span id="income-4"><a href="#income-4" aria-hidden="true" tabindex="-1"></a>title      <span class="sc">:</span><span class="st">&quot;Net income&quot;</span></span>
-<span id="income-5"><a href="#income-5" aria-hidden="true" tabindex="-1"></a>type       <span class="sc">:</span><span class="st">&quot;number&quot;</span></span>
-<span id="income-6"><a href="#income-6" aria-hidden="true" tabindex="-1"></a>bareNumber <span class="sc">:</span><span class="cn">FALSE</span></span>
-<span id="income-7"><a href="#income-7" aria-hidden="true" tabindex="-1"></a>decimalChar<span class="sc">:</span><span class="st">&quot;,&quot;</span></span>
-<span id="income-8"><a href="#income-8" aria-hidden="true" tabindex="-1"></a>groupChar  <span class="sc">:</span><span class="st">&quot; &quot;</span></span></code></pre></div>
+<span id="income-2"><a href="#income-2" aria-hidden="true" tabindex="-1"></a>[income] <span class="sc">&lt;</span>number<span class="sc">&gt;</span> Net income</span>
+<span id="income-3"><a href="#income-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="income-4"><a href="#income-4" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
+<span id="income-5"><a href="#income-5" aria-hidden="true" tabindex="-1"></a>bareNumber <span class="sc">:</span><span class="cn">FALSE</span></span>
+<span id="income-6"><a href="#income-6" aria-hidden="true" tabindex="-1"></a>decimalChar<span class="sc">:</span><span class="st">&quot;,&quot;</span></span>
+<span id="income-7"><a href="#income-7" aria-hidden="true" tabindex="-1"></a>groupChar  <span class="sc">:</span><span class="st">&quot; &quot;</span></span></code></pre></div>
 <p><code>dp_get_data()</code> uses the information from the field
 descriptors and dialect to automatically convert variables as much a
 possible to their most fitting R types. This is done using the
@@ -694,7 +699,7 @@ is needed when one wants to use the path to read the data.</p>
 <div class="sourceCode" id="r3"><pre class="sourceCode R"><code class="sourceCode r"><span id="r3-1"><a href="#r3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ)</span>
 <span id="r3-2"><a href="#r3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;employ.csv&quot;</span></span>
 <span id="r3-3"><a href="#r3-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ, <span class="at">full_path =</span> <span class="cn">TRUE</span>)</span>
-<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpmhcQwK/Rinst71da17db59e/datapackage/examples/employ/employ.csv&quot;</span></span></code></pre></div>
+<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpzN3I1L/Rinste8461fc1df23/datapackage/examples/employ/employ.csv&quot;</span></span></code></pre></div>
 <p>It is also possible to get other properties than the ones explicitly
 mentioned above using the <code>dp_property()</code> method:</p>
 <div class="sourceCode" id="r4"><pre class="sourceCode R"><code class="sourceCode r"><span id="r4-1"><a href="#r4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_property</span>(employ, <span class="st">&quot;encoding&quot;</span>)</span>
@@ -751,12 +756,15 @@ factor:</p>
 <span id="c3-7"><a href="#c3-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">16</span>] Non<span class="sc">-</span>working<span class="sc">-</span>population Employed               Employed              </span>
 <span id="c3-8"><a href="#c3-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">19</span>] Employed               Non<span class="sc">-</span>working<span class="sc">-</span>population</span>
 <span id="c3-9"><a href="#c3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">&quot;fielddescriptor&quot;</span>)</span>
-<span id="c3-10"><a href="#c3-10" aria-hidden="true" tabindex="-1"></a>Field Descriptor<span class="sc">:</span></span>
-<span id="c3-11"><a href="#c3-11" aria-hidden="true" tabindex="-1"></a>name      <span class="sc">:</span><span class="st">&quot;employ&quot;</span></span>
-<span id="c3-12"><a href="#c3-12" aria-hidden="true" tabindex="-1"></a>title     <span class="sc">:</span><span class="st">&quot;Employment status&quot;</span></span>
-<span id="c3-13"><a href="#c3-13" aria-hidden="true" tabindex="-1"></a>type      <span class="sc">:</span><span class="st">&quot;string&quot;</span></span>
-<span id="c3-14"><a href="#c3-14" aria-hidden="true" tabindex="-1"></a>categories<span class="sc">:</span>List of <span class="dv">1</span></span>
-<span id="c3-15"><a href="#c3-15" aria-hidden="true" tabindex="-1"></a>Levels<span class="sc">:</span> Employed Unemployed Non<span class="sc">-</span>working<span class="sc">-</span>population Unknown</span></code></pre></div>
+<span id="c3-10"><a href="#c3-10" aria-hidden="true" tabindex="-1"></a>[employ] <span class="sc">&lt;</span>string<span class="sc">&gt;</span> Employment status</span>
+<span id="c3-11"><a href="#c3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c3-12"><a href="#c3-12" aria-hidden="true" tabindex="-1"></a>Categories<span class="sc">:</span></span>
+<span id="c3-13"><a href="#c3-13" aria-hidden="true" tabindex="-1"></a> code                  label</span>
+<span id="c3-14"><a href="#c3-14" aria-hidden="true" tabindex="-1"></a>    E               Employed</span>
+<span id="c3-15"><a href="#c3-15" aria-hidden="true" tabindex="-1"></a>    U             Unemployed</span>
+<span id="c3-16"><a href="#c3-16" aria-hidden="true" tabindex="-1"></a>    N Non<span class="sc">-</span>working<span class="sc">-</span>population</span>
+<span id="c3-17"><a href="#c3-17" aria-hidden="true" tabindex="-1"></a>    X                Unknown</span>
+<span id="c3-18"><a href="#c3-18" aria-hidden="true" tabindex="-1"></a>Levels<span class="sc">:</span> Employed Unemployed Non<span class="sc">-</span>working<span class="sc">-</span>population Unknown</span></code></pre></div>
 <p>Using the <code>convert_categories = &quot;to_factor&quot;</code> argument of
 <code>dp_apply_schema()</code> (which is called by
 <code>dp_get_data()</code>) it is also possible to convert all fields

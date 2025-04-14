@@ -9,11 +9,16 @@ author: Jan van der Laan
 css: "style.css"
 ---
 
+```{.R #setup echo=FALSE results=FALSE}
+opar <- options("ANSI_OUTPUT"=FALSE)
+```
+
 This vignette will show how to create and edit Data Packages.
 
 ## Creating a Data Package
 
 The `new_datapackage()` function creates a new Data Package
+
 
 ```{.R #n1}
 library(datapackage)
@@ -235,5 +240,9 @@ readLines(file.path(dir, "datapackage.json")) |> writeLines()
 ```{.R #cleanup echo=FALSE results=FALSE}
 file.remove(list.files(dir, full.names = TRUE)) 
 file.remove(dir)
+```
+
+```{.R #setup echo=FALSE results=FALSE}
+options(opar)
 ```
 

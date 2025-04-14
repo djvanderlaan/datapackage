@@ -1,3 +1,6 @@
+# setup
+opar <- options("ANSI_OUTPUT"=FALSE)
+
 # n1
 library(datapackage)
 
@@ -100,4 +103,7 @@ readLines(file.path(dir, "datapackage.json")) |> writeLines()
 # cleanup
 file.remove(list.files(dir, full.names = TRUE)) 
 file.remove(dir)
+
+# setup
+options(opar)
 
