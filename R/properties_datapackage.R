@@ -220,7 +220,7 @@ dp_id.datapackage <- function(x, ...) {
 #' @export
 #' @rdname properties_datapackage
 `dp_id<-.datapackage` <- function(x, value) {
-  if (!is.null(value) && !(isname(value)))
+  if (!is.null(value) && !(is.character(value) && length(value)==1))
     stop("value should be a character vector of length 1.")
   dp_property(x, "id") <- value
   x

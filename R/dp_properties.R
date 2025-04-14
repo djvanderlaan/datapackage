@@ -42,3 +42,9 @@ dp_properties.tableschema <- function(x) {
   names(x)
 }
 
+#' @export
+#' @rdname dp_properties
+dp_properties.fielddescriptor <- function(x) {
+  names(x)
+}
+
