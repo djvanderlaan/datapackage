@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -368,9 +368,9 @@ the data package has three data resources.</p>
 <span id="tldropen-6"><a href="#tldropen-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="tldropen-7"><a href="#tldropen-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R. [...]</span>
 <span id="tldropen-8"><a href="#tldropen-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="tldropen-9"><a href="#tldropen-9" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpzN3I1L<span class="sc">/</span>Rinste8461fc1df23<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
-<span id="tldropen-10"><a href="#tldropen-10" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
-<span id="tldropen-11"><a href="#tldropen-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="tldropen-9"><a href="#tldropen-9" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>Rtmp8VcIwS<span class="sc">/</span>Rinstbfc55fa4c87c<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
+<span id="tldropen-10"><a href="#tldropen-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="tldropen-11"><a href="#tldropen-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
 <span id="tldropen-12"><a href="#tldropen-12" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="tldropen-13"><a href="#tldropen-13" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>gender] Code list <span class="cf">for</span> gender of person</span>
 <span id="tldropen-14"><a href="#tldropen-14" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>employ] Code list <span class="cf">for</span> employment status</span></code></pre></div>
@@ -493,9 +493,9 @@ package:</p>
 <span id="g1-6"><a href="#g1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="g1-7"><a href="#g1-7" aria-hidden="true" tabindex="-1"></a>This is an example data set to show how the datapackage package can be used to import data into R. [...]</span>
 <span id="g1-8"><a href="#g1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g1-9"><a href="#g1-9" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpzN3I1L<span class="sc">/</span>Rinste8461fc1df23<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
-<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
-<span id="g1-11"><a href="#g1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="g1-9"><a href="#g1-9" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>Rtmp8VcIwS<span class="sc">/</span>Rinstbfc55fa4c87c<span class="sc">/</span>datapackage<span class="sc">/</span>examples<span class="sc">/</span>employ<span class="sc">&gt;</span></span>
+<span id="g1-10"><a href="#g1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="g1-11"><a href="#g1-11" aria-hidden="true" tabindex="-1"></a>Resources<span class="sc">:</span></span>
 <span id="g1-12"><a href="#g1-12" aria-hidden="true" tabindex="-1"></a>[employment] Employment status</span>
 <span id="g1-13"><a href="#g1-13" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>gender] Code list <span class="cf">for</span> gender of person</span>
 <span id="g1-14"><a href="#g1-14" aria-hidden="true" tabindex="-1"></a>[codelist<span class="sc">-</span>employ] Code list <span class="cf">for</span> employment status</span></code></pre></div>
@@ -516,13 +516,20 @@ obtain the Data Resource</p>
 <span id="g4-4"><a href="#g4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="g4-5"><a href="#g4-5" aria-hidden="true" tabindex="-1"></a>Employment status, income and background properties of sample of persons. [...]</span>
 <span id="g4-6"><a href="#g4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g4-7"><a href="#g4-7" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
-<span id="g4-8"><a href="#g4-8" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
-<span id="g4-9"><a href="#g4-9" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
-<span id="g4-10"><a href="#g4-10" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
-<span id="g4-11"><a href="#g4-11" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
-<span id="g4-12"><a href="#g4-12" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span>
-<span id="g4-13"><a href="#g4-13" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">6</span>] <span class="st">&quot;id&quot;</span> <span class="st">&quot;dob&quot;</span> <span class="st">&quot;gender&quot;</span> <span class="st">&quot;employ&quot;</span> <span class="st">&quot;income&quot;</span> <span class="st">&quot;haspartner&quot;</span></span></code></pre></div>
+<span id="g4-7"><a href="#g4-7" aria-hidden="true" tabindex="-1"></a>Fields<span class="sc">:</span></span>
+<span id="g4-8"><a href="#g4-8" aria-hidden="true" tabindex="-1"></a>[id] <span class="sc">&lt;</span>integer<span class="sc">&gt;</span> Random personal identifier</span>
+<span id="g4-9"><a href="#g4-9" aria-hidden="true" tabindex="-1"></a>[dob] <span class="sc">&lt;</span>date<span class="sc">&gt;</span> Date of Birth</span>
+<span id="g4-10"><a href="#g4-10" aria-hidden="true" tabindex="-1"></a>[gender] <span class="sc">&lt;</span>string<span class="sc">/</span>categories<span class="sc">&gt;</span> Gender</span>
+<span id="g4-11"><a href="#g4-11" aria-hidden="true" tabindex="-1"></a>[employ] <span class="sc">&lt;</span>string<span class="sc">/</span>categories<span class="sc">&gt;</span> Employment status</span>
+<span id="g4-12"><a href="#g4-12" aria-hidden="true" tabindex="-1"></a>[income] <span class="sc">&lt;</span>number<span class="sc">&gt;</span> Net income</span>
+<span id="g4-13"><a href="#g4-13" aria-hidden="true" tabindex="-1"></a>[haspartner] <span class="sc">&lt;</span>boolean<span class="sc">&gt;</span> Does person have a partner?</span>
+<span id="g4-14"><a href="#g4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="g4-15"><a href="#g4-15" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
+<span id="g4-16"><a href="#g4-16" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
+<span id="g4-17"><a href="#g4-17" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
+<span id="g4-18"><a href="#g4-18" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
+<span id="g4-19"><a href="#g4-19" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="g4-20"><a href="#g4-20" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span></code></pre></div>
 <p>The <code>print</code> statement again shows the name, title and
 description. It also shows that the data is in a CSV-file anmes
 <code>employ.csv</code>. Standard the <code>print</code> shows only a
@@ -532,13 +539,20 @@ few properties of the Data Resource. To show all properties:</p>
 <span id="g5-3"><a href="#g5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="g5-4"><a href="#g5-4" aria-hidden="true" tabindex="-1"></a>Employment status, income and background properties of sample of persons. [...]</span>
 <span id="g5-5"><a href="#g5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="g5-6"><a href="#g5-6" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
-<span id="g5-7"><a href="#g5-7" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
-<span id="g5-8"><a href="#g5-8" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
-<span id="g5-9"><a href="#g5-9" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
-<span id="g5-10"><a href="#g5-10" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
-<span id="g5-11"><a href="#g5-11" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span>
-<span id="g5-12"><a href="#g5-12" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">6</span>] <span class="st">&quot;id&quot;</span> <span class="st">&quot;dob&quot;</span> <span class="st">&quot;gender&quot;</span> <span class="st">&quot;employ&quot;</span> <span class="st">&quot;income&quot;</span> <span class="st">&quot;haspartner&quot;</span></span></code></pre></div>
+<span id="g5-6"><a href="#g5-6" aria-hidden="true" tabindex="-1"></a>Fields<span class="sc">:</span></span>
+<span id="g5-7"><a href="#g5-7" aria-hidden="true" tabindex="-1"></a>[id] <span class="sc">&lt;</span>integer<span class="sc">&gt;</span> Random personal identifier</span>
+<span id="g5-8"><a href="#g5-8" aria-hidden="true" tabindex="-1"></a>[dob] <span class="sc">&lt;</span>date<span class="sc">&gt;</span> Date of Birth</span>
+<span id="g5-9"><a href="#g5-9" aria-hidden="true" tabindex="-1"></a>[gender] <span class="sc">&lt;</span>string<span class="sc">/</span>categories<span class="sc">&gt;</span> Gender</span>
+<span id="g5-10"><a href="#g5-10" aria-hidden="true" tabindex="-1"></a>[employ] <span class="sc">&lt;</span>string<span class="sc">/</span>categories<span class="sc">&gt;</span> Employment status</span>
+<span id="g5-11"><a href="#g5-11" aria-hidden="true" tabindex="-1"></a>[income] <span class="sc">&lt;</span>number<span class="sc">&gt;</span> Net income</span>
+<span id="g5-12"><a href="#g5-12" aria-hidden="true" tabindex="-1"></a>[haspartner] <span class="sc">&lt;</span>boolean<span class="sc">&gt;</span> Does person have a partner?</span>
+<span id="g5-13"><a href="#g5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="g5-14"><a href="#g5-14" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
+<span id="g5-15"><a href="#g5-15" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;employ.csv&quot;</span></span>
+<span id="g5-16"><a href="#g5-16" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
+<span id="g5-17"><a href="#g5-17" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
+<span id="g5-18"><a href="#g5-18" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="g5-19"><a href="#g5-19" aria-hidden="true" tabindex="-1"></a>dialect  <span class="sc">:</span>List of <span class="dv">3</span></span></code></pre></div>
 <p>Using this information it should be possible to open the dataset. The
 data can be opened in R using the <code>dp_get_data()</code> method.
 Based on the information in the Data Resource this function will try to
@@ -699,7 +713,7 @@ is needed when one wants to use the path to read the data.</p>
 <div class="sourceCode" id="r3"><pre class="sourceCode R"><code class="sourceCode r"><span id="r3-1"><a href="#r3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ)</span>
 <span id="r3-2"><a href="#r3-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;employ.csv&quot;</span></span>
 <span id="r3-3"><a href="#r3-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_path</span>(employ, <span class="at">full_path =</span> <span class="cn">TRUE</span>)</span>
-<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/RtmpzN3I1L/Rinste8461fc1df23/datapackage/examples/employ/employ.csv&quot;</span></span></code></pre></div>
+<span id="r3-4"><a href="#r3-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;/tmp/Rtmp8VcIwS/Rinstbfc55fa4c87c/datapackage/examples/employ/employ.csv&quot;</span></span></code></pre></div>
 <p>It is also possible to get other properties than the ones explicitly
 mentioned above using the <code>dp_property()</code> method:</p>
 <div class="sourceCode" id="r4"><pre class="sourceCode R"><code class="sourceCode r"><span id="r4-1"><a href="#r4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_property</span>(employ, <span class="st">&quot;encoding&quot;</span>)</span>
@@ -756,7 +770,7 @@ factor:</p>
 <span id="c3-7"><a href="#c3-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">16</span>] Non<span class="sc">-</span>working<span class="sc">-</span>population Employed               Employed              </span>
 <span id="c3-8"><a href="#c3-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">19</span>] Employed               Non<span class="sc">-</span>working<span class="sc">-</span>population</span>
 <span id="c3-9"><a href="#c3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">&quot;fielddescriptor&quot;</span>)</span>
-<span id="c3-10"><a href="#c3-10" aria-hidden="true" tabindex="-1"></a>[employ] <span class="sc">&lt;</span>string<span class="sc">&gt;</span> Employment status</span>
+<span id="c3-10"><a href="#c3-10" aria-hidden="true" tabindex="-1"></a>[employ] <span class="sc">&lt;</span>string<span class="sc">/</span>categories<span class="sc">&gt;</span> Employment status</span>
 <span id="c3-11"><a href="#c3-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="c3-12"><a href="#c3-12" aria-hidden="true" tabindex="-1"></a>Categories<span class="sc">:</span></span>
 <span id="c3-13"><a href="#c3-13" aria-hidden="true" tabindex="-1"></a> code                  label</span>

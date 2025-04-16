@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -308,7 +308,7 @@ Package</p>
 <span id="n1-5"><a href="#n1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> dp</span>
 <span id="n1-6"><a href="#n1-6" aria-hidden="true" tabindex="-1"></a>[example] An Example Data Package</span>
 <span id="n1-7"><a href="#n1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="n1-8"><a href="#n1-8" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpOg1IHA<span class="sc">/</span>fileeb86513e2cee<span class="sc">&gt;</span></span>
+<span id="n1-8"><a href="#n1-8" aria-hidden="true" tabindex="-1"></a>Location<span class="sc">:</span> <span class="er">&lt;/</span>tmp<span class="sc">/</span>RtmpESPgd9<span class="sc">/</span>filec0032e08354e<span class="sc">&gt;</span></span>
 <span id="n1-9"><a href="#n1-9" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>NO RESOURCES<span class="sc">&gt;</span></span></code></pre></div>
 <p>This will return an <code>editabledatapackage</code>. This means that
 any changes to the Data Package are immediately saved to the
@@ -496,15 +496,18 @@ the CSV using other methods (e.g. manual editing):</p>
 <span id="c10-7"><a href="#c10-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> res</span>
 <span id="c10-8"><a href="#c10-8" aria-hidden="true" tabindex="-1"></a>[feed<span class="sc">-</span>categories] </span>
 <span id="c10-9"><a href="#c10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="c10-10"><a href="#c10-10" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
-<span id="c10-11"><a href="#c10-11" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;feed-categories.csv&quot;</span></span>
-<span id="c10-12"><a href="#c10-12" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
-<span id="c10-13"><a href="#c10-13" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
-<span id="c10-14"><a href="#c10-14" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
-<span id="c10-15"><a href="#c10-15" aria-hidden="true" tabindex="-1"></a>schema   <span class="sc">:</span>Table Schema [<span class="dv">2</span>] <span class="st">&quot;value&quot;</span> <span class="st">&quot;label&quot;</span></span>
-<span id="c10-16"><a href="#c10-16" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resources</span>(dp) <span class="ot">&lt;-</span> res</span>
-<span id="c10-17"><a href="#c10-17" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> codelistres <span class="ot">&lt;-</span> dp <span class="sc">|&gt;</span> <span class="fu">dp_resource</span>(<span class="st">&quot;feed-categories&quot;</span>)</span>
-<span id="c10-18"><a href="#c10-18" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(codelistres, <span class="at">data =</span> codelist, <span class="at">write_categories =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="c10-10"><a href="#c10-10" aria-hidden="true" tabindex="-1"></a>Fields<span class="sc">:</span></span>
+<span id="c10-11"><a href="#c10-11" aria-hidden="true" tabindex="-1"></a>[value] <span class="sc">&lt;</span>number<span class="sc">&gt;</span> </span>
+<span id="c10-12"><a href="#c10-12" aria-hidden="true" tabindex="-1"></a>[label] <span class="sc">&lt;</span>string<span class="sc">&gt;</span> </span>
+<span id="c10-13"><a href="#c10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="c10-14"><a href="#c10-14" aria-hidden="true" tabindex="-1"></a>Selected properties<span class="sc">:</span></span>
+<span id="c10-15"><a href="#c10-15" aria-hidden="true" tabindex="-1"></a>path     <span class="sc">:</span><span class="st">&quot;feed-categories.csv&quot;</span></span>
+<span id="c10-16"><a href="#c10-16" aria-hidden="true" tabindex="-1"></a>format   <span class="sc">:</span><span class="st">&quot;csv&quot;</span></span>
+<span id="c10-17"><a href="#c10-17" aria-hidden="true" tabindex="-1"></a>mediatype<span class="sc">:</span><span class="st">&quot;text/csv&quot;</span></span>
+<span id="c10-18"><a href="#c10-18" aria-hidden="true" tabindex="-1"></a>encoding <span class="sc">:</span><span class="st">&quot;utf-8&quot;</span></span>
+<span id="c10-19"><a href="#c10-19" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_resources</span>(dp) <span class="ot">&lt;-</span> res</span>
+<span id="c10-20"><a href="#c10-20" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> codelistres <span class="ot">&lt;-</span> dp <span class="sc">|&gt;</span> <span class="fu">dp_resource</span>(<span class="st">&quot;feed-categories&quot;</span>)</span>
+<span id="c10-21"><a href="#c10-21" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">dp_write_data</span>(codelistres, <span class="at">data =</span> codelist, <span class="at">write_categories =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>This creates the correct CSV-files:</p>
 <div class="sourceCode" id="c20"><pre class="sourceCode R"><code class="sourceCode r"><span id="c20-1"><a href="#c20-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">readLines</span>(<span class="fu">file.path</span>(dir, <span class="st">&quot;feed-categories.csv&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span>
 <span id="c20-2"><a href="#c20-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;value&quot;</span>,<span class="st">&quot;label&quot;</span></span>
@@ -642,7 +645,7 @@ the edits in this vignette:</p>
 <span id="e10-100"><a href="#e10-100" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="e10-101"><a href="#e10-101" aria-hidden="true" tabindex="-1"></a>  ],</span>
 <span id="e10-102"><a href="#e10-102" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;id&quot;</span><span class="sc">:</span> <span class="st">&quot;iris_chkwts&quot;</span>,</span>
-<span id="e10-103"><a href="#e10-103" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;created&quot;</span><span class="sc">:</span> <span class="st">&quot;2025-04-14&quot;</span></span>
+<span id="e10-103"><a href="#e10-103" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;created&quot;</span><span class="sc">:</span> <span class="st">&quot;2025-04-16&quot;</span></span>
 <span id="e10-104"><a href="#e10-104" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </body>
 </html>
