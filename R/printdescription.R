@@ -8,8 +8,10 @@ printdescription <- function(x, description = TRUE, all = FALSE, ...) {
   }
   if (methods::is(x, "fielddescriptor")) {
     type <- dp_type(x)
-    if (!is.null(name)) {
-      cat("<", c2(type), "> ", sep = "")
+    categories <- if (!is.null(dp_categorieslist(x))) 
+      c2("/categories") else ""
+    if (!is.null(type)) {
+      cat("<", c2(type), categories, "> ", sep = "")
     } else {
       cat("<", c2("TYPE MISSING"), "> ", sep = "")
     }

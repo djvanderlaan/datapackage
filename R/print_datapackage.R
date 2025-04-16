@@ -4,10 +4,10 @@ print.datapackage <- function(x, properties = NA, ...) {
   printdescription(x)
   cat("\n", c2("Location"), ": <", attr(x, "path"), ">", sep="")
   if (dp_nresources(x) > 0) {
-    cat("\n", c2("Resources"), ":\n\n", sep = "")
+    cat("\n\n", c2("Resources"), ":\n", sep = "")
     resources <- dp_resource_names(x)
     for (resource in resources) {
-      printdescription(dp_resource(x, resource), description = FALSE)
+      print(dp_resource(x, resource), tiny = TRUE)
     }
   } else {
     cat(bd(c1("\n<NO RESOURCES>\n")))
