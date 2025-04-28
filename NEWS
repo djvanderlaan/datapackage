@@ -6,6 +6,10 @@ BUG FIXES
   - Under windows incorrect line endings were written: '\r\r\n' instead of
     '\r\n' (issue #25). Fixed.
 
+  - The `use_fwrite` argument of `csv_writer` was not passed on to lower 
+    functions. Therefore, `fwrite` was not used when this argument was set
+    to `TRUE` (issue #26). Fixed.
+
 
 
 CHANGES IN VERSION 0.2.1

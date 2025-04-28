@@ -53,7 +53,7 @@ csv_writer <- function(x, resource_name, datapackage,
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
   # Write
   csv_write_base(x, path, encoding = encoding, decimalChar = decimalChar, 
-    csv_dialect = csvdialect, quote = quote)
+    csv_dialect = csvdialect, quote = quote, use_fwrite = use_fwrite, ...)
 }
 
 
