@@ -376,6 +376,53 @@ expect_equal(res$col2, col2, attributes = FALSE)
 
 
 
+# === LINE ENDINGS
+data <- data.frame(
+  col1 = c(1L, 2L),
+  col2 = c("A", "B")
+)
+resource <- list(
+    name = "test",
+    path = "test.csv",
+    schema = list(
+        fields = list(
+            list(name = "col1", type = "integer"),
+            list(name = "col2", type = "string")
+          )
+      ),
+    dialect = list( 
+        delimiter = ";",
+        decimalChar = ",",
+        lineTerminator = "\r\n"
+      )
+  )
+expected <- c('"col1";"col2"', '1;"A"', '2;"B"', '')
+expected <- paste0(expected, collapse = "\r\n")
+resource <- structure(resource, class = "dataresource")
+datapackage$resources[[1]] <- resource
+csv_writer(data, "test", datapackage)
+res <- readBin(file.path(fn, "test.csv"), what="raw", n = 1000)
+expect_equal(rawToChar(res), expected)
+
+# \n line ending
+resource$dialect$lineTerminator <- "\n"
+datapackage$resources[[1]] <- resource
+expected <- c('"col1";"col2"', '1;"A"', '2;"B"', '')
+expected <- paste0(expected, collapse = "\n")
+csv_writer(data, "test", datapackage)
+res <- readBin(file.path(fn, "test.csv"), what="raw", n = 1000)
+expect_equal(rawToChar(res), expected)
+
+# default line ending
+resource$dialect$lineTerminator <- NULL
+datapackage$resources[[1]] <- resource
+expected <- c('"col1";"col2"', '1;"A"', '2;"B"', '')
+expected <- paste0(expected, collapse = "\r\n")
+csv_writer(data, "test", datapackage)
+res <- readBin(file.path(fn, "test.csv"), what="raw", n = 1000)
+expect_equal(rawToChar(res), expected)
+
+
 # === CLEANUP
 
 files <- list.files(fn, full.names = TRUE)

@@ -115,7 +115,11 @@ csv_write_base <- function(x, filename,
       eol = lineTerminator, na = nullSequence, dec = decimalChar, 
       row.names = FALSE, col.names = header, qmethod = "double")
   } else {
-    utils::write.table(x, filename, quote = quote, sep = delimiter, 
+    # We open a binary connection otherwise the oel will not be handled
+    # correctly; e.g. \n will result in \r\n on windows.
+    con <- file(filename, "wb")
+    on.exit(close(con))
+    utils::write.table(x, con, quote = quote, sep = delimiter, 
       eol = lineTerminator, na = nullSequence, dec = decimalChar, 
       row.names = FALSE, col.names = header, qmethod = "double", 
       fileEncoding = encoding)

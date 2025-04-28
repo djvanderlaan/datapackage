@@ -1,4 +1,13 @@
 
+CHANGES IN VERSION 0.2.2
+
+BUG FIXES
+
+  - Under windows incorrect line endings were written: '\r\r\n' instead of
+    '\r\n' (issue #25). Fixed.
+
+
+
 CHANGES IN VERSION 0.2.1
 
 NEW FEATURES
