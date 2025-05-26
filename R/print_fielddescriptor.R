@@ -22,9 +22,9 @@ print.fielddescriptor <- function(x, properties = NA, tiny = FALSE, ...) {
 
 
 print_categories <- function(x) {
-  if (!is.null(categories <- dp_categorieslist(x))) {
+  if (!is.null(categories <- dp_categorieslist(x, normalised = TRUE))) {
     cat("\n", c2("Categories"), ":\n", sep = "")
-    cols <- c("code", "label")
+    cols <- c("value", "label")
     if (nrow(categories) > 17) {
       categories <- format(categories[seq_len(16), cols, drop = FALSE])
       categories <- rbind(categories, c("\u22ee", "\u22ee"))
