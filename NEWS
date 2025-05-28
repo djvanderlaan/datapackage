@@ -1,5 +1,5 @@
 
-CHANGES IN VERSION 0.2.2
+CHANGES IN VERSION 0.2.3
 
 BUG FIXES
 
@@ -14,6 +14,11 @@ BUG FIXES
     defined, when those categories do not use the default names 'value'
     and 'label'. This has been fixed.
 
+  - When saving a `datapackage.json` file all length 1 vectors were written
+    as scalar values. However, some properties should be written as length 1
+    vectors according to the data package specification. For these fields 
+    this is now the case. For custom fields vectors of length 1 are still 
+    'unboxed'.
 
 
 CHANGES IN VERSION 0.2.1

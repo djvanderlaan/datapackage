@@ -5,8 +5,24 @@ writedatapackage <- function(datapackage, path = attr(datapackage, "path"),
   #tmp <- unclass(datapackage)
   attr(tmp, "filename") <- NULL
   attr(tmp, "path") <- NULL
-  jsonlite::write_json(tmp, file.path(path, filename), 
-    pretty = TRUE, auto_unbox = TRUE)
+  as_array <- c("contributors/roles",
+    "keywords",
+    "resources/dialect/headerRows",
+    "resources/dialect/commentRows",
+    "resources/dialect/itemKeys",
+    "resources/schema/fields/missingValues",
+    "resources/schema/fields/categories",
+    "resources/schema/fields/missingValues",
+    "resources/schema/fields/constraints/enum",
+    "resources/schema/fields/trueValues",
+    "resources/schema/fields/falseValues",
+    "resources/schema/primaryKe",
+    "resources/schema/uniqueKeys",
+    "resources/schema/missingValues")
+  json <- to_json(tmp, pretty = TRUE, as_array = as_array)
+  writeLines(json, file.path(path, filename))
+  #jsonlite::write_json(tmp, file.path(path, filename), 
+    #pretty = TRUE, auto_unbox = TRUE)
 }
 
 removeclasses <- function(x) {
