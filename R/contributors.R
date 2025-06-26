@@ -1,15 +1,20 @@
 #' Creating and Adding Contributors to a Data Package
 #' 
-#' @param title A length 1 character vector with the full nam of the
+#' @param title A length 1 character vector with the full name of the
 #' contributor.
 #'
-#' @param role The role of the contributor
-#' 
-#' @param path A URL to e.g. a home page of the contributor
-#' 
-#' @param email The email address of the contributor
+#' @param roles A character vector of roles for the contributor. Recommended
+#' roles include e.g. "creator", "contact", "rightsHolder", "dataCurator". 
 #'
-#' @param organisation The orgination the contributor belongs to.
+#' @param givenName A string containing the given name of the contributor (if a person).
+#'
+#' @param familyName A string containing the family name of the contributor (if a person).
+#'
+#' @param path A URL to e.g. a home page of the contributor.
+#' 
+#' @param email The email address of the contributor.
+#'
+#' @param organization The organization the contributor belongs to.
 #'
 #' @param x The Data Package to which the contributor has to be added.
 #'
@@ -19,40 +24,69 @@
 #'
 #' @return
 #' \code{new_contributor} returns a list with the given properties. This function
-#' is meant to assist in creating valid contributors. 
+#' is meant to assist in creating valid contributors.
 #'
 #' @examples
 #' dp <- open_datapackage(system.file(package = "datapackage", "examples/iris")) 
 #' dp_contributors(dp)
 #' dp_contributors(dp) <- list(
 #'   new_contributor("John Doe", email = "j.doe@somewhere.org"),
-#'   list(title = "Jane Doe", role = "maintainer")
+#'   list(title = "Jane Doe", roles = "maintainer")
 #' )
 #' dp_add_contributor(dp) <- new_contributor("Janet Doe")
 #'
 #' @export
 #' @rdname contributor
-new_contributor <- function(title, 
-    role = c("contributor", "author", "publisher", "maintainer", "wrangler"), 
-    path = NULL, email = NULL, organisation = NULL) {
-  stopifnot(isstring(title))
+new_contributor <- function(title = NULL,
+                            roles = NULL,
+                            givenName = NULL,
+                            familyName = NULL,
+                            path = NULL,
+                            email = NULL,
+                            organization = NULL) {
+  
+  stopifnot(is.null(title) || (is.character(title) && length(title) == 1))
+  stopifnot(is.null(givenName) || (is.character(givenName) && length(givenName) == 1))
+  stopifnot(is.null(familyName) || (is.character(familyName) && length(familyName) == 1))
   stopifnot(is.null(path) || isurl(path))
-  stopifnot(is.null(email) || isstring(email))
-  role <- match.arg(role)
-  stopifnot(is.null(organisation) || isstring(organisation))
-  res <- list(title = title, role = role)
-  if (!missing(title) && !is.null(title)) res$title <- title
-  if (!missing(path) && !is.null(path)) res$path <- path
-  if (!missing(email) && !is.null(email)) res$email <- email
-  if (!missing(organisation) && !is.null(organisation)) res$organisation <- organisation
+  stopifnot(is.null(email) || (is.character(email) && length(email) == 1))
+  stopifnot(is.null(roles) || (is.character(roles) && length(roles) >= 1))
+  stopifnot(is.null(organization) || (is.character(organization) && length(organization) == 1))
+  
+  res <- list()
+  if (!is.null(title)) res$title <- title
+  if (!is.null(givenName)) res$givenName <- givenName
+  if (!is.null(familyName)) res$familyName <- familyName
+  if (!is.null(path)) res$path <- path
+  if (!is.null(email)) res$email <- email
+  if (!is.null(roles)) res$roles <- unique(roles)
+  if (!is.null(organization)) res$organization <- organization
+  
+  if (length(res) == 0) {
+    stop("Contributor must have at least one property.")
+  }
+  
   res
 }
 
 is_contributor <- function(x) {
-  is.list(x) && exists("title", x) && isstring(x$title) &&
+  is.list(x) &&
+    (
+      exists("title", x) ||
+        exists("givenName", x) ||
+        exists("familyName", x) ||
+        exists("path", x) ||
+        exists("email", x) ||
+        exists("roles", x) ||
+        exists("organization", x)
+    ) &&
+    (!exists("title", x) || isstring(x$title)) &&
+    (!exists("givenName", x) || isstring(x$givenName)) &&
+    (!exists("familyName", x) || isstring(x$familyName)) &&
     (!exists("path", x) || isurl(x$path)) &&
     (!exists("email", x) || isstring(x$email)) &&
-    (!exists("organisation", x) || isstring(x$organisation))
+    (!exists("organization", x) || isstring(x$organization)) &&
+    (!exists("roles", x) || (is.character(x$roles) && length(x$roles) >= 1))
 }
 
 #' @export
