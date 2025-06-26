@@ -14,7 +14,7 @@
 #' 
 #' @param email The email address of the contributor.
 #'
-#' @param organisation The organisation the contributor belongs to.
+#' @param organization The organization the contributor belongs to.
 #'
 #' @param x The Data Package to which the contributor has to be added.
 #'
@@ -43,7 +43,7 @@ new_contributor <- function(title = NULL,
                             familyName = NULL,
                             path = NULL,
                             email = NULL,
-                            organisation = NULL) {
+                            organization = NULL) {
   
   stopifnot(is.null(title) || (is.character(title) && length(title) == 1))
   stopifnot(is.null(givenName) || (is.character(givenName) && length(givenName) == 1))
@@ -51,7 +51,7 @@ new_contributor <- function(title = NULL,
   stopifnot(is.null(path) || isurl(path))
   stopifnot(is.null(email) || (is.character(email) && length(email) == 1))
   stopifnot(is.null(roles) || (is.character(roles) && length(roles) >= 1))
-  stopifnot(is.null(organisation) || (is.character(organisation) && length(organisation) == 1))
+  stopifnot(is.null(organization) || (is.character(organization) && length(organization) == 1))
   
   res <- list()
   if (!is.null(title)) res$title <- title
@@ -60,7 +60,7 @@ new_contributor <- function(title = NULL,
   if (!is.null(path)) res$path <- path
   if (!is.null(email)) res$email <- email
   if (!is.null(roles)) res$roles <- unique(roles)
-  if (!is.null(organisation)) res$organisation <- organisation
+  if (!is.null(organization)) res$organization <- organization
   
   if (length(res) == 0) {
     stop("Contributor must have at least one property.")
@@ -73,7 +73,7 @@ is_contributor <- function(x) {
   is.list(x) && exists("title", x) && isstring(x$title) &&
     (!exists("path", x) || isurl(x$path)) &&
     (!exists("email", x) || isstring(x$email)) &&
-    (!exists("organisation", x) || isstring(x$organisation))
+    (!exists("organization", x) || isstring(x$organization))
 }
 
 #' @export
