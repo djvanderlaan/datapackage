@@ -188,9 +188,20 @@ dp_created.datapackage <- function(x, ...) {
 
 #' @export
 #' @rdname properties_datapackage
+#' @export
+#' @rdname properties_datapackage
 `dp_created<-.datapackage` <- function(x, value) {
-  if (!is.null(value) && !(methods::is(value, "Date") && length(value) == 1) )
-    stop("value should be a Date vector of length 1.")
+  if (!is.null(value)) {
+    if (inherits(value, "POSIXct") || inherits(value, "POSIXlt")) {
+      value <- format(value, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+    } else if (inherits(value, "Date")) {
+      value <- format(as.POSIXct(value), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+    } else if (!(is.character(value) && length(value) == 1 &&
+                 grepl("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$", value))) {
+      stop("value should be a datetime string in RFC 3339 format, or a Date/POSIXt object.")
+    }
+  }
+  
   dp_property(x, "created") <- value
   x
 }
