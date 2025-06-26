@@ -70,10 +70,23 @@ new_contributor <- function(title = NULL,
 }
 
 is_contributor <- function(x) {
-  is.list(x) && exists("title", x) && isstring(x$title) &&
+  is.list(x) &&
+    (
+      exists("title", x) ||
+        exists("givenName", x) ||
+        exists("familyName", x) ||
+        exists("path", x) ||
+        exists("email", x) ||
+        exists("roles", x) ||
+        exists("organization", x)
+    ) &&
+    (!exists("title", x) || isstring(x$title)) &&
+    (!exists("givenName", x) || isstring(x$givenName)) &&
+    (!exists("familyName", x) || isstring(x$familyName)) &&
     (!exists("path", x) || isurl(x$path)) &&
     (!exists("email", x) || isstring(x$email)) &&
-    (!exists("organization", x) || isstring(x$organization))
+    (!exists("organization", x) || isstring(x$organization)) &&
+    (!exists("roles", x) || (is.character(x$roles) && length(x$roles) >= 1))
 }
 
 #' @export
